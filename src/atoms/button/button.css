@@ -1,0 +1,103 @@
+button {
+    border: none;
+    outline: none;
+    text-align: center;
+    display: inline-block;
+    margin: 4px;
+    transition: 0.2s;
+}
+
+.button__text {
+    font-family: Rubik, sans-serif;
+    font-style: normal;
+    font-size: 14px;
+    letter-spacing: 0.03em;
+    color: var(--text-main-color);
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+.button_small {
+    padding: var(--button-padding-small);
+    min-width: var(--buttons-minimal-width);
+    border-radius: var(--radius-size-small);
+}
+
+.button_medium {
+    padding: var(--button-padding-medium);
+    min-width: var(--buttons-minimal-width);
+    border-radius: var(--radius-size-medium);
+}
+
+.button_large {
+    padding: var(--button-padding-large);
+    min-width: var(--buttons-minimal-width);
+    border-radius: var(--radius-size-large);
+}
+
+.button_radius-small {
+    border-radius: var(--radius-size-small);
+}
+
+.button_radius-medium {
+    border-radius: var(--radius-size-medium);
+}
+
+.button_radius-large {
+    border-radius: var(--radius-size-large);
+}
+
+.button__icon {
+    max-width: 24px;
+    max-height: 24px;
+}
+
+/*button primary color*/
+.button_primary-color {
+    background: var(--button-primary-default-color);
+}
+
+.button_primary-color:hover {
+    background: var(--button-primary-hover-color);
+    cursor: pointer;
+}
+
+.button_primary-color:focus {
+    background: var(--button-primary-focus-color);
+}
+
+.button_primary-color:active {
+    outline: none;
+    background: var(--button-primary-active-color);
+    box-shadow: 0 0 0 4px var(--button-primary-focus-color);
+}
+
+.button_primary-color:disabled {
+    background: var(--button-primary-disabled-color);
+    cursor: auto;
+}
+
+/*button secondary color*/
+.button_secondary-color {
+    background: var(--button-secondary-default-color);
+}
+
+.button_secondary-color:hover {
+    background: var(--button-secondary-hover-color);
+    cursor: pointer;
+}
+
+.button_secondary-color:focus {
+    background: var(--button-secondary-focus-color);
+}
+
+.button_secondary-color:active {
+    outline: none;
+    background: var(--button-secondary-active-color);
+    box-shadow: 0 0 0 4px var(--button-secondary-focus-color);
+}
+
+.button_secondary-color:disabled {
+    background: var(--button-secondary-disabled-color);
+    cursor: auto;
+}
