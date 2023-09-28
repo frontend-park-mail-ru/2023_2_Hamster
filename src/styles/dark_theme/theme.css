@@ -1,15 +1,14 @@
 :root {
-    /*text color*/
-    --text-main-color: #F4F6F9;
-    --text-muted-color: #B1B3B6;
-    --text-halftoned-color: #858689;
-
     /*background color*/
     --background-main-color: #16161A;
     --background-secondary-color: #222226;
     --background-tertiary-color: #333437;
 
-    /*brand color*/
+    /*brand colors*/
+    --accent-color: #F4F6F9;
+    --accent-70-color: #B1B3B6;
+    --accent-50-color: #858689;
+
     --primary-color: #274292;
     --primary-color-lighter: #3d559d;
     --primary-color-darker: #233b83;
@@ -19,6 +18,26 @@
     --secondary-color-lighter: #24202e;
     --secondary-color-darker: #0a0612;
     --secondary-color-muted: #423e4b;
+
+    /*informational colors*/
+    --succes-color: #3E8914;
+    --warning-color: #FCBA04;
+    --error-color: #BB2E2E;
+    --info-color: #016FB9;
+
+    /*text color*/
+    --text-main-color: var(--accent-color);
+    --text-muted-color: var(--accent-70-color);
+    --text-halftoned-color: var(--accent-50-color);
+
+    --text-label-color: var(--accent-70-color);                         /* <- from this, till the nex comment is for input*/
+    --text-input-color: #626465;
+    --text-helper-color: #767879;
+
+    --text-label-disabled-color: var(--background-tertiary-color);
+    --text-input-disabled-color: #565758;
+    --text-helper-disabled-color: #363738;                              /* end of input texts*/
+
 
     /*buttons*/
     --button-primary-default-color: var(--primary-color);
@@ -32,12 +51,6 @@
     --button-secondary-focus-color: var(--secondary-color-darker);
     --button-secondary-active-color: var(--secondary-color-lighter);
     --button-secondary-disabled-color: var(--secondary-color-muted);
-
-    /*informational colors*/
-    --succes-color: #3E8914;
-    --warning-color: #FCBA04;
-    --error-color: #BB2E2E;
-    --info-color: #016FB9;
 
 
     /*border radius*/
