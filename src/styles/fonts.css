@@ -42,3 +42,12 @@
   letter-spacing: 0.03em;
   color: var(--text-muted-color);
 }
+
+.font-helper {
+  font-family: Rubik, sans-serif;
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  color: var(--text-muted-color);
+}
