@@ -1,2 +1,4 @@
 @import "styles/dark_theme/theme.css";
 @import "atoms/button/button.css";
+@import "styles/fonts.css";
+@import "pages/login/login.css";

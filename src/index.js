@@ -1,5 +1,5 @@
 import {Button} from './atoms/button/button.js';
-
+import {LoginOrSignUp} from './pages/login/login.js'
 //template of using template ;D
 const buttonData = {
     buttonText: 'Click',
@@ -7,6 +7,11 @@ const buttonData = {
     buttonImageLeft: ''
 };
 
-const buttonContainer = document.getElementById('root');
-const button = new Button(buttonContainer, buttonData);
-button.renderTemplate();
+const buttonElement = new Button(null, buttonData);
+
+const isLogin = false;
+const Form = {}; // replace in real form
+
+const LoginPage = document.getElementById('root');
+const login = new LoginOrSignUp(LoginPage, Form, isLogin, buttonElement);
+login.renderTemplate();

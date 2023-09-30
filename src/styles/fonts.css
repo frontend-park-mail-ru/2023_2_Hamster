@@ -43,6 +43,7 @@
   color: var(--text-muted-color);
 }
 
+<<<<<<< HEAD
 .font-helper {
   font-family: Rubik, sans-serif;
   font-style: normal;
@@ -50,4 +51,14 @@
   font-weight: 400;
   letter-spacing: 0.03em;
   color: var(--text-muted-color);
+=======
+.font-link {
+color: var(--Text-dark-50, #858689);
+font-family: Inter;
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+text-decoration-line: underline;
+>>>>>>> 2ebd66e (feature pages LoginOrSignUp)
 }
