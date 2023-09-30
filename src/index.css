@@ -1,6 +1,12 @@
 @import "styles/dark_theme/theme.css";
-@import "atoms/button/button.css";
 @import "styles/fonts.css";
-@import "pages/login/login.css";
-@import "atoms/input/input.css"
+@import "components/components.css";
 
+.grid {
+    padding: 20px 80px;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-gap: 20px;
+    grid-auto-flow: row dense;
+}

@@ -1,35 +1,30 @@
-import {Button} from './atoms/button/button.js';
-import {LoginOrSignUp} from './pages/login/login.js'
-import { InputComponent } from './atoms/input/input.js';
+import {Card} from "./components/molecules/card/card.js";
+import {List} from "./components/atoms/list/list.js";
 
-//template of using template ;D
-const buttonData = {
-    buttonText: 'Click',
-    buttonColor: 'button_secondary-color',
-    buttonImageLeft: ''
+const listItems = {
+    listItems: [
+        {
+            listItemTitle: 'text1',
+            listItemValue: '2',
+            valueUnits: 'Р',
+        },
+        {
+            listItemTitle: 'text2',
+            listItemValue: '2',
+            valueUnits: 'Р',
+        }
+    ]
 };
 
-const buttonElement = new Button(null, buttonData);
+const list = new List(listItems);
 
-const isLogin = false;
-const Form = {}; // replace in real form
-
-const LoginPage = document.getElementById('root');
-const login = new LoginOrSignUp(LoginPage, Form, isLogin, buttonElement);
-login.renderTemplate();
-const buttonContainer = document.getElementById('root');
-const button = new Button(buttonContainer, buttonData);
-button.renderTemplate();
-
-const inputData = {
-    inputSize: 'input_large',
-    inputImageRight: 'assets/icons/Search.svg',
-    typeOfInput: 'text',
-    inputPlaceholder: 'Search...',
-    inputLabelText: 'Label',
-    inputHelperText: 'helper'
-};
-
-const inputContainer = document.getElementById('root');
-const input = new InputComponent(inputContainer, inputData);
-input.renderTemplate();
+const parentElement = document.getElementById('root');
+const card = new Card({
+    cardSize: 'card-small',
+    cardHeadline: 'Example',
+    cardSubhead: 'Subhead',
+    cardStatus: 'card__status_bad',
+    list: list.render(),
+}, () => {
+}, parentElement);
+card.renderTemplateToParent();

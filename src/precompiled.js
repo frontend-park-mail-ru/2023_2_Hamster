@@ -8,7 +8,7 @@ templates['button.hbs'] = template({"1":function(container,depth0,helpers,partia
         return undefined
     };
 
-  return "            <img class=\"button__icon\" src=\""
+  return "        <img class=\"button__icon\" src=\""
     + container.escapeExpression(container.lambda((depth0 != null ? lookupProperty(depth0,"buttonImageLeft") : depth0), depth0))
     + "\" alt=\"leftIcon\">\n";
 },"3":function(container,depth0,helpers,partials,data) {
@@ -19,7 +19,7 @@ templates['button.hbs'] = template({"1":function(container,depth0,helpers,partia
         return undefined
     };
 
-  return "            <span class=\"button__text\">"
+  return "        <span class=\"button__text\">"
     + container.escapeExpression(container.lambda((depth0 != null ? lookupProperty(depth0,"buttonText") : depth0), depth0))
     + "</span>\n";
 },"5":function(container,depth0,helpers,partials,data) {
@@ -30,7 +30,7 @@ templates['button.hbs'] = template({"1":function(container,depth0,helpers,partia
         return undefined
     };
 
-  return "            <img class=\"button__icon\" src=\""
+  return "        <img class=\"button__icon\" src=\""
     + container.escapeExpression(container.lambda((depth0 != null ? lookupProperty(depth0,"buttonImageRight") : depth0), depth0))
     + "\" alt=\"rightIcon\">\n";
 },"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
@@ -41,7 +41,7 @@ templates['button.hbs'] = template({"1":function(container,depth0,helpers,partia
         return undefined
     };
 
-  return " <button class=\""
+  return "<button class=\""
     + alias2(alias1((depth0 != null ? lookupProperty(depth0,"buttonColor") : depth0), depth0))
     + " "
     + alias2(alias1((depth0 != null ? lookupProperty(depth0,"buttonSize") : depth0), depth0))
@@ -50,12 +50,59 @@ templates['button.hbs'] = template({"1":function(container,depth0,helpers,partia
     + "\" type=\""
     + alias2(alias1((depth0 != null ? lookupProperty(depth0,"buttonType") : depth0), depth0))
     + "\">\n"
+<<<<<<< HEAD
     + ((stack1 = lookupProperty(helpers,"if").call(alias3,(depth0 != null ? lookupProperty(depth0,"buttonImageLeft") : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":2,"column":8},"end":{"line":4,"column":15}}})) != null ? stack1 : "")
     + ((stack1 = lookupProperty(helpers,"if").call(alias3,(depth0 != null ? lookupProperty(depth0,"buttonText") : depth0),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":5,"column":8},"end":{"line":7,"column":15}}})) != null ? stack1 : "")
     + ((stack1 = lookupProperty(helpers,"if").call(alias3,(depth0 != null ? lookupProperty(depth0,"buttonImageRight") : depth0),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":8,"column":8},"end":{"line":10,"column":15}}})) != null ? stack1 : "")
     + "</button>\n";
 },"useData":true});
 templates['input.hbs'] = template({"1":function(container,depth0,helpers,partials,data) {
+=======
+    + ((stack1 = lookupProperty(helpers,"if").call(alias3,(depth0 != null ? lookupProperty(depth0,"buttonImageLeft") : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":2,"column":4},"end":{"line":4,"column":11}}})) != null ? stack1 : "")
+    + ((stack1 = lookupProperty(helpers,"if").call(alias3,(depth0 != null ? lookupProperty(depth0,"buttonText") : depth0),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":5,"column":4},"end":{"line":7,"column":11}}})) != null ? stack1 : "")
+    + ((stack1 = lookupProperty(helpers,"if").call(alias3,(depth0 != null ? lookupProperty(depth0,"buttonImageRight") : depth0),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":8,"column":4},"end":{"line":10,"column":11}}})) != null ? stack1 : "")
+    + "</button>\n";
+},"useData":true});
+templates['list.hbs'] = template({"1":function(container,depth0,helpers,partials,data) {
+    var alias1=container.lambda, alias2=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "    <li class=\"list__item\">\n        <div class=\"list__item-container\">\n            <span class=\"list__item-title font-caption\">"
+    + alias2(alias1((depth0 != null ? lookupProperty(depth0,"listItemTitle") : depth0), depth0))
+    + "</span>\n            <span class=\"list__item-additional font-caption\">"
+    + alias2(alias1((depth0 != null ? lookupProperty(depth0,"listItemValue") : depth0), depth0))
+    + " "
+    + alias2(alias1((depth0 != null ? lookupProperty(depth0,"valueUnits") : depth0), depth0))
+    + "</span>\n        </div>\n    </li>\n";
+},"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return ((stack1 = lookupProperty(helpers,"each").call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? lookupProperty(depth0,"listItems") : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":1,"column":0},"end":{"line":8,"column":9}}})) != null ? stack1 : "");
+},"useData":true});
+templates['card.hbs'] = template({"1":function(container,depth0,helpers,partials,data) {
+    var alias1=container.lambda, alias2=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "                <span class=\"card__headline-text font-base-text\">"
+    + alias2(alias1((depth0 != null ? lookupProperty(depth0,"cardHeadline") : depth0), depth0))
+    + " "
+    + alias2(alias1((depth0 != null ? lookupProperty(depth0,"units") : depth0), depth0))
+    + "</span>\n";
+},"3":function(container,depth0,helpers,partials,data) {
+>>>>>>> 3c4847d (Feature: add card and list components)
     var lookupProperty = container.lookupProperty || function(parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
           return parent[propertyName];
@@ -63,11 +110,17 @@ templates['input.hbs'] = template({"1":function(container,depth0,helpers,partial
         return undefined
     };
 
+<<<<<<< HEAD
   return "    <div class=\"input__label font-caption\">"
     + container.escapeExpression(container.lambda((depth0 != null ? lookupProperty(depth0,"inputLabelText") : depth0), depth0))
     + "</div>\n";
 },"3":function(container,depth0,helpers,partials,data) {
     return "                input-error\n            ";
+=======
+  return "                <span class=\"card__headline-text font-base-text\">"
+    + container.escapeExpression(container.lambda((depth0 != null ? lookupProperty(depth0,"cardHeadline") : depth0), depth0))
+    + "</span>\n";
+>>>>>>> 3c4847d (Feature: add card and list components)
 },"5":function(container,depth0,helpers,partials,data) {
     var lookupProperty = container.lookupProperty || function(parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -76,6 +129,7 @@ templates['input.hbs'] = template({"1":function(container,depth0,helpers,partial
         return undefined
     };
 
+<<<<<<< HEAD
   return "        <img \n            class=\"input__icon input__icon-left\" \n            src=\""
     + container.escapeExpression(container.lambda((depth0 != null ? lookupProperty(depth0,"inputImageLeft") : depth0), depth0))
     + "\"\n        > \n";
@@ -95,6 +149,12 @@ templates['input.hbs'] = template({"1":function(container,depth0,helpers,partial
 
   return ((stack1 = lookupProperty(helpers,"unless").call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? lookupProperty(depth0,"inputImageLeft") : depth0),{"name":"unless","hash":{},"fn":container.program(14, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":35,"column":8},"end":{"line":40,"column":19}}})) != null ? stack1 : "");
 },"14":function(container,depth0,helpers,partials,data) {
+=======
+  return "                <span class=\"card__subhead-text font-caption\">"
+    + container.escapeExpression(container.lambda((depth0 != null ? lookupProperty(depth0,"cardSubhead") : depth0), depth0))
+    + "</span>\n";
+},"7":function(container,depth0,helpers,partials,data) {
+>>>>>>> 3c4847d (Feature: add card and list components)
     var lookupProperty = container.lookupProperty || function(parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
           return parent[propertyName];
@@ -102,6 +162,7 @@ templates['input.hbs'] = template({"1":function(container,depth0,helpers,partial
         return undefined
     };
 
+<<<<<<< HEAD
   return "            <img \n                class=\"input__icon input__icon-right\" \n                src=\""
     + container.escapeExpression(container.lambda((depth0 != null ? lookupProperty(depth0,"inputImageRight") : depth0), depth0))
     + "\"\n            > \n";
@@ -118,12 +179,20 @@ templates['input.hbs'] = template({"1":function(container,depth0,helpers,partial
     + "\n    </div>\n";
 },"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.lambda, alias3=container.escapeExpression, alias4=container.hooks.helperMissing, alias5="function", lookupProperty = container.lookupProperty || function(parent, propertyName) {
+=======
+  return "            <div class=\"card__status "
+    + container.escapeExpression(container.lambda((depth0 != null ? lookupProperty(depth0,"cardStatus") : depth0), depth0))
+    + "\"></div>\n";
+},"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), lookupProperty = container.lookupProperty || function(parent, propertyName) {
+>>>>>>> 3c4847d (Feature: add card and list components)
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
           return parent[propertyName];
         }
         return undefined
     };
 
+<<<<<<< HEAD
   return "\n"
     + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"inputLabelText") : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":2,"column":0},"end":{"line":4,"column":7}}})) != null ? stack1 : "")
     + "\n<div class=\"input-container \n            "
@@ -148,6 +217,18 @@ templates['input.hbs'] = template({"1":function(container,depth0,helpers,partial
     + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"inputImageRight") : depth0),{"name":"if","hash":{},"fn":container.program(13, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":34,"column":4},"end":{"line":41,"column":11}}})) != null ? stack1 : "")
     + "\n</div>\n\n"
     + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"inputHelperText") : depth0),{"name":"if","hash":{},"fn":container.program(16, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":45,"column":0},"end":{"line":49,"column":7}}})) != null ? stack1 : "");
+=======
+  return "<div class=\"card "
+    + container.escapeExpression(container.lambda((depth0 != null ? lookupProperty(depth0,"cardSize") : depth0), depth0))
+    + "\">\n    <div class=\"card__heading\">\n        <div class=\"card__heading-text-container\">\n"
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"units") : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(3, data, 0),"data":data,"loc":{"start":{"line":4,"column":12},"end":{"line":8,"column":19}}})) != null ? stack1 : "")
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"cardSubhead") : depth0),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":9,"column":12},"end":{"line":11,"column":19}}})) != null ? stack1 : "")
+    + "        </div>\n"
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"cardStatus") : depth0),{"name":"if","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":13,"column":8},"end":{"line":15,"column":15}}})) != null ? stack1 : "")
+    + "    </div>\n    <ul class=\"list\">\n        "
+    + ((stack1 = ((helper = (helper = lookupProperty(helpers,"list") || (depth0 != null ? lookupProperty(depth0,"list") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(alias1,{"name":"list","hash":{},"data":data,"loc":{"start":{"line":18,"column":8},"end":{"line":18,"column":18}}}) : helper))) != null ? stack1 : "")
+    + "\n    </ul>\n</div>\n";
+>>>>>>> 3c4847d (Feature: add card and list components)
 },"useData":true});
 templates['login.hbs'] = template({"1":function(container,depth0,helpers,partials,data) {
     var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {

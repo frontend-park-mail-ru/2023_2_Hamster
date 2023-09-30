@@ -76,9 +76,21 @@
     --button-padding-large: 21px 20px;
     --buttons-minimal-width: 128px;
 
+<<<<<<< HEAD
     /*input size*/
     --input-padding-small: 13px 16px;
     --input-padding-medium: 17px 16px;
     --input-padding-large: 21px 20px;
     --inputs-minimal-width: 128px
+=======
+    /*card sizes*/
+    --card-status-height: 16px;
+    --card-status-width: 16px;
+    --card-padding: 24px;
+
+    /*list sizes*/
+    --list-divider-margin: 12px;
+    --list-divider-height: 2px;
+    --list-margin-top: 24px;
+>>>>>>> 3c4847d (Feature: add card and list components)
 }
