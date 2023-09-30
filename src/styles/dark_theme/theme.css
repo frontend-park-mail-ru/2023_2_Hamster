@@ -30,13 +30,13 @@
     --text-muted-color: var(--accent-70-color);
     --text-halftoned-color: var(--accent-50-color);
 
-    --text-label-color: var(--accent-70-color);                         /* <- from this, till the nex comment is for input*/
+    --text-label-color: var(--accent-70-color); /* <- from this, till the nex comment is for input*/
     --text-input-color: #626465;
     --text-helper-color: #767879;
 
     --text-label-disabled-color: var(--background-tertiary-color);
     --text-input-disabled-color: #565758;
-    --text-helper-disabled-color: #363738;                              /* end of input texts*/
+    --text-helper-disabled-color: #363738; /* end of input texts*/
 
 
     /*buttons*/
@@ -58,13 +58,6 @@
     --input-border-error-color: var(--error-color);
     --input-focus-color: #687BB3;
 
-    /*informational colors*/
-    --succes-color: #3E8914;
-    --warning-color: #FCBA04;
-    --error-color: #BB2E2E;
-    --info-color: #016FB9;
-
-
     /*border radius*/
     --radius-size-small: 12px;
     --radius-size-medium: 16px;
@@ -76,13 +69,12 @@
     --button-padding-large: 21px 20px;
     --buttons-minimal-width: 128px;
 
-<<<<<<< HEAD
     /*input size*/
     --input-padding-small: 13px 16px;
     --input-padding-medium: 17px 16px;
     --input-padding-large: 21px 20px;
-    --inputs-minimal-width: 128px
-=======
+    --inputs-minimal-width: 128px;
+
     /*card sizes*/
     --card-status-height: 16px;
     --card-status-width: 16px;
@@ -92,5 +84,4 @@
     --list-divider-margin: 12px;
     --list-divider-height: 2px;
     --list-margin-top: 24px;
->>>>>>> 3c4847d (Feature: add card and list components)
 }
