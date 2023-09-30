@@ -52,6 +52,18 @@
     --button-secondary-active-color: var(--secondary-color-lighter);
     --button-secondary-disabled-color: var(--secondary-color-muted);
 
+    /*input*/
+    --input-primary-color: var(--background-main-color);
+    --input-border-color: var(--background-tertiary-color);
+    --input-border-error-color: var(--error-color);
+    --input-focus-color: #687BB3;
+
+    /*informational colors*/
+    --succes-color: #3E8914;
+    --warning-color: #FCBA04;
+    --error-color: #BB2E2E;
+    --info-color: #016FB9;
+
 
     /*border radius*/
     --radius-size-small: 12px;
@@ -62,5 +74,11 @@
     --button-padding-small: 13px 16px;
     --button-padding-medium: 17px 16px;
     --button-padding-large: 21px 20px;
-    --buttons-minimal-width: 128px
+    --buttons-minimal-width: 128px;
+
+    /*input size*/
+    --input-padding-small: 13px 16px;
+    --input-padding-medium: 17px 16px;
+    --input-padding-large: 21px 20px;
+    --inputs-minimal-width: 128px
 }

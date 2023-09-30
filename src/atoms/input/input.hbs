@@ -1,0 +1,49 @@
+
+{{#if this.inputLabelText}}
+    <div class="input__label font-caption">{{this.inputLabelText}}</div>
+{{/if}}
+
+<div class="input-container 
+            {{this.inputSize}}
+            {{this.inputRadiusSize}}
+            {{#if this.isError}}
+                input-error
+            {{/if}}">
+    {{#if this.inputImageLeft}} 
+        <img 
+            class="input__icon input__icon-left" 
+            src="{{this.inputImageLeft}}"
+        > 
+    {{/if}}
+
+    <input type="{{typeOfInput}}"
+        {{#if autocompleteOff}}
+            autocomplete="off"
+        {{/if}}
+
+        name="{{nameOfField}}"
+        placeholder="{{this.inputPlaceholder}}"
+        class="input input__text 
+            {{#if this.inputImageLeft}} 
+                input__text-left 
+            {{else}} 
+                input__text-right
+            {{/if}}"
+    >
+
+    {{#if this.inputImageRight}} 
+        {{#unless this.inputImageLeft}}
+            <img 
+                class="input__icon input__icon-right" 
+                src="{{this.inputImageRight}}"
+            > 
+        {{/unless}}
+    {{/if}}
+
+</div>
+
+{{#if this.inputHelperText}}
+    <div class="input-helper">
+        {{this.inputHelperText}}
+    </div>
+{{/if}}

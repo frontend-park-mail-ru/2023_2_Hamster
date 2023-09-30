@@ -2,3 +2,5 @@
 @import "atoms/button/button.css";
 @import "styles/fonts.css";
 @import "pages/login/login.css";
+@import "atoms/input/input.css"
+
