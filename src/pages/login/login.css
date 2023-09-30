@@ -3,7 +3,7 @@ body {
     overflow: hidden;
     margin: 0;
     padding: 0;
-    font-family: Arial;
+    font-family: sans-serif;
 }
 
 .login-sign-up-layout__form-container {
@@ -27,7 +27,7 @@ body {
 
 .login-sign-up-layout__background-image {
     flex: 6;
-    background-image: url('../../images/imageLogin.svg');
+    background-image: url('../../assets/images/imageLogin.svg');
     background-size: cover;
     background-position: center;
     display: flex;
@@ -43,9 +43,7 @@ body {
 }
 
 .image-overlay-text {    
-    text-align: 75%;
-    transform: translateX(-20%);
-    transform: translateY(-160%);
+    transform: translateX(-20%) translateY(-160%);
 
 }
 

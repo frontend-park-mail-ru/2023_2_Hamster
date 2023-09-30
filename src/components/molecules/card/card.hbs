@@ -1,0 +1,20 @@
+<div class="card {{this.cardSize}}">
+    <div class="card__heading">
+        <div class="card__heading-text-container">
+            {{#if this.units}}
+                <span class="card__headline-text font-base-text">{{this.cardHeadline}} {{this.units}}</span>
+            {{else}}
+                <span class="card__headline-text font-base-text">{{this.cardHeadline}}</span>
+            {{/if}}
+            {{#if this.cardSubhead}}
+                <span class="card__subhead-text font-caption">{{this.cardSubhead}}</span>
+            {{/if}}
+        </div>
+        {{#if this.cardStatus}}
+            <div class="card__status {{this.cardStatus}}"></div>
+        {{/if}}
+    </div>
+    <ul class="list">
+        {{{list}}}
+    </ul>
+</div>
