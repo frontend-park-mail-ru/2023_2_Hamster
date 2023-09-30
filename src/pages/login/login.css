@@ -1,0 +1,86 @@
+body {
+    background-color: var(--background-main-color);
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    font-family: Arial;
+}
+
+.login-sign-up-layout__form-container {
+    display: flex;
+    flex-direction: row-reverse;
+    height: 100vh;
+}
+
+.login-sign-up-layout__form {
+    flex: 4;
+    align-items: center;
+    text-align: left;
+    max-height: 50%;
+    margin: auto 0;
+}
+
+.login-sign-up-layout__form form {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.login-sign-up-layout__background-image {
+    flex: 6;
+    background-image: url('../../images/imageLogin.svg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-sign-up-layout__background-image img {
+    width: 50%;
+    object-fit: contain;
+    position: absolute;
+    top: 25%;
+}
+
+.image-overlay-text {    
+    text-align: 75%;
+    transform: translateX(-20%);
+    transform: translateY(-160%);
+
+}
+
+.image-overlay-text h1 {
+    font-size: 6vmin;
+}
+
+.image-overlay-text p {
+    padding-left: 2px;
+    font-size: 2vmin;
+}
+
+
+
+.login-sign-up-layout__link-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 40%;
+    text-align: center;
+    box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.login-sign-up-layout__link-container p,
+.login-sign-up-layout__link-container a {
+    display: inline-block;
+    vertical-align: middle;
+    text-decoration: none;
+    color: var(--text-halftoned-color);
+}
+
+.login-sign-up-layout__link-container p {
+    margin-right: 20%;
+}
+
+.login-sign-up-layout__link-container a:hover {
+    text-decoration: underline;
+}

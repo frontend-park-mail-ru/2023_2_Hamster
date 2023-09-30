@@ -1,0 +1,32 @@
+<div class="login-sign-up-layout__form-container">
+    <div class="login-sign-up-layout__background-image">
+        <div class="image-overlay-text">
+            <h1 class="font-h1-medium">
+                {{#if isLogin}} 
+                    {{state.ImageTextLoginH1}} 
+                {{else}}
+                    {{state.ImageTextRegistrH1}}
+                {{/if}} </h1>
+            <p class="font-base-text">
+                {{#if isLogin}} 
+                    {{state.ImageTextLoginP1}} 
+                {{else}}
+                    {{state.ImageTextRegistrP1}}
+                {{/if}}
+            </p>
+        </div>
+        <img src="{{state.ImagePeople}}" alt="Your Image">
+    </div>
+    <div class="login-sign-up-layout__form">
+        
+    </div>
+    
+    <div class="login-sign-up-layout__link-container">
+        {{#if isLogin}}
+            <p class="font-caption"> {{state.LinkLogin}} </p> {{{ button }}}
+        {{else}}
+            <p class="font-caption"> {{state.LinkRegister}} </p> {{{ button }}}
+        {{/if}}
+    </div>
+
+</div>

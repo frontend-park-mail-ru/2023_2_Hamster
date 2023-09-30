@@ -6,6 +6,7 @@
   "dependencies": {
     "express": "^4.18.2",
     "globstar": "^1.0.0",
+    "handlebar": "^1.0.0",
     "handlebars": "^4.7.8"
   }
 }
