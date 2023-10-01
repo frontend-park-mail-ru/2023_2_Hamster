@@ -1,36 +1,23 @@
 'use strict';
 
+import {BaseComponent} from "../../baseComponent.js";
+
+const DEFAULT_INPUT = {
+    Error: '',
+    inputLabelText: '',
+    inputSize: 'input_small',
+    inputImageLeft: '',
+    inputImageRight: '',
+    typeOfInput: 'text',
+    inputPlaceholder: 'Enter text...',
+    inputHelperText: ''
+};
+
 /**
  * Represents an Input Component.
  * @class
  */
-export class InputComponent {
-    /**
-     * The parent element where the input will be rendered.
-     * @type {HTMLElement}
-     */
-    #parent;
-
-    /**
-     * The state of the input component.
-     * @type {Object}
-     * @property {string} inputValue - The current value of the input.
-     * @property {string} inputImageLeft - The path to the image file for the left icon.
-     * @property {string} inputImageRight - The path to the image file for the right icon
-     * @property {string} inputType - The type attribute of the input element (e.g., text, email, password).
-     * @property {string} inputPlaceholder - The placeholder text for the input.
-     */
-    #state = {
-        Error: '',
-        inputLabelText: '',
-        inputSize: 'input_small',
-        inputImageLeft: '',
-        inputImageRight: '',
-        typeOfInput: 'text',
-        inputPlaceholder: 'Enter text...',
-        inputHelperText: ''
-    };
-
+export class InputComponent extends BaseComponent {
     /**
      * The function that will handle the input change event.
      * @type {Function}
@@ -42,46 +29,55 @@ export class InputComponent {
      * @constructor
      * @param {HTMLElement} parent - The parent element where the input will be rendered.
      * @param {Object} [state=this.#state] - The initial state of the input component. (optional)
+     * @param {string} state.inputValue - The current value of the input.
+     * @param {string} state.inputImageLeft - The path to the image file for the left icon.
+     * @param {string} state.inputImageRight - The path to the image file for the right icon
+     * @param {string} state.inputType - The type attribute of the input element (e.g., text, email, password).
+     * @param {string} state.inputPlaceholder - The placeholder text for the input.
      * @param {Function} [changeHandler=this.#changeHandler] - The function that will handle the input change event. (optional)
      */
-    constructor(parent, state = this.#state, changeHandler = this.#changeHandler) {
-        this.#parent = parent;
-        this.#state = { ...this.#state, ...state };
-        this.#changeHandler = changeHandler;
+    constructor(parent, state = DEFAULT_INPUT, changeHandler) {
+        super(state, parent)
+        if (typeof changeHandler === 'function') {
+            this.#changeHandler = changeHandler;
+        }
+    }
+
+    /**
+     * Renders the input component and inserts into parent.
+     * @returns {string} - The rendered HTML template of the input.
+     */
+    renderTemplateToParent() {
+        const templatesToStateMap = {
+            'input.hbs': this.getState(),
+        };
+
+        return super.renderTemplateToParent(templatesToStateMap);
     }
 
     /**
      * Renders the input component.
      * @returns {string} - The rendered HTML template of the input.
      */
-    renderTemplate() {
-        const template = Handlebars.templates['input.hbs'];
-        const renderedTemplate = template(this.#state);
+    render() {
+        const templatesToStateMap = {
+            'input.hbs': this.getState(),
+        }
+        
+        return super.render(templatesToStateMap);
+    }
 
-        if (this.#parent) {
-            this.#parent.innerHTML = renderedTemplate;
-            //const inputElement = this.#parent.querySelector('input');
-            //inputElement.addEventListener('click', this.handleInputChange.bind(this))
+    /**
+     * Setup handlers after rendering template.
+     */
+    setHandlers() {
+        if (!this.parent) {
+            console.log(`can't set handlers for {this} because no parent`);
+            return;
         }
 
-        return renderedTemplate;
-    }
-
-    /**
-     * Updates the state of the input component.
-     * @param {Object} newState - The new state object containing the changed props.
-     */
-    setState(newState) {
-        this.#state = { ...this.#state, ...newState };
-        this.renderTemplate(); // Re-render the input with updated state.
-    }
-
-    /**
-     * Retrieves the current state of the input component.
-     * @returns {Object} - The current state object.
-     */
-    getState() {
-        return this.#state;
+        const inputElement = this.parent.querySelector('input');
+        inputElement.addEventListener('change', this.handleInputChange.bind(this))
     }
 
     /**

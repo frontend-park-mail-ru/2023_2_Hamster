@@ -1,37 +1,22 @@
 'use strict';
 
+import {BaseComponent} from "../../baseComponent.js";
+
+const DEFAULT_BUTTON = {
+    buttonText: 'Button',
+    buttonColor: 'button_primary-color',
+    buttonSize: 'button_small',
+    buttonRadiusSize: 'button_radius-small',
+    buttonImageLeft: '',
+    buttonImageRight: '',
+    buttonType: 'button'
+};
+
 /**
  * Represents a Button component.
  * @class
  */
-export class Button {
-    /**
-     * The parent element where the button will be rendered.
-     * @type {HTMLElement}
-     */
-    #parent
-
-    /**
-     * The state of the button component.
-     * @type {Object}
-     * @property {string} buttonText - The text content of the button.
-     * @property {string} buttonColor - The CSS class for the button color.
-     * @property {string} buttonSize - The CSS class for the button size.
-     * @property {string} buttonRadiusSize - The CSS class for the button radius size.
-     * @property {string} buttonImageLeft - The path to the image file for the left icon.
-     * @property {string} buttonImageRight - The path to the image file for the right icon.
-     * @property {string} buttonType - The type attribute of the button element.
-     */
-    #state = {
-        buttonText: 'Button',
-        buttonColor: 'button_primary-color',
-        buttonSize: 'button_small',
-        buttonRadiusSize: 'button_radius-small',
-        buttonImageLeft: '',
-        buttonImageRight: '',
-        buttonType: 'button'
-    };
-
+export class Button extends BaseComponent {
     /**
      * The function that will handle the click event of the button element.
      * @type {Function}
@@ -43,45 +28,57 @@ export class Button {
      * @constructor
      * @param {HTMLElement} parent - The parent element where the button will be rendered.
      * @param {Object} [state=this.#state] - The initial state of the button component. (optional)
+     * @param {string} state.buttonText - The text content of the button.
+     * @param {string} state.buttonColor - The CSS class for the button color.
+     * @param {string} state.buttonSize - The CSS class for the button size.
+     * @param {string} state.buttonRadiusSize - The CSS class for the button radius size.
+     * @param {string} state.buttonImageLeft - The path to the image file for the left icon.
+     * @param {string} state.buttonImageRight - The path to the image file for the right icon.
+     * @param {string} state.buttonType - The type attribute of the button element.
      * @param {Function} [clickHandler = this.#clickHandler] - The function that will handle the click event of the button element. (optional)
      */
-    constructor(parent, state = this.#state, clickHandler = this.#clickHandler) {
-        this.#parent = parent;
-        this.#state = {...this.#state, ...state};
-        this.#clickHandler = clickHandler;
+    constructor(parent, state = DEFAULT_BUTTON, clickHandler) {
+        super(state, parent)
+        if (typeof clickHandler === 'function') {
+            this.#clickHandler = clickHandler;
+        }
+    }
+
+    /**
+     * Renders the button component and inserts into parent.
+     * @returns {string} - The rendered HTML template of the button.
+     */
+    renderTemplateToParent() {
+        const templatesToStateMap = {
+            'button.hbs': this.getState(),
+        }
+        
+        return super.renderTemplateToParent(templatesToStateMap);
     }
 
     /**
      * Renders the button component.
      * @returns {string} - The rendered HTML template of the button.
      */
-    renderTemplate() {
-        const template = Handlebars.templates['button.hbs'];
-        const renderedTemplate = template(this.#state);
-
-        if (this.#parent) {
-            this.#parent.innerHTML = renderedTemplate;
-            const buttonElement = this.#parent.querySelector('button');
-            buttonElement.addEventListener('click', this.handleClick.bind(this));
+    render() {
+        const templatesToStateMap = {
+            'button.hbs': this.getState(),
         }
-
-        return renderedTemplate;
+        
+        return super.render(templatesToStateMap);
     }
 
     /**
-     * Updates the state of the button component.
-     * @param {Object} newState - The new state object containing the changed props.
+     * Setup handlers after rendering template.
      */
-    setState(newState) {
-        this.#state = {...this.#state, ...newState};
-    }
-
-    /**
-     * Retrieves the current state of the button component.
-     * @returns {Object} - The current state object.
-     */
-    getState() {
-        return this.#state;
+    setHandlers() {
+        if (!this.parent) {
+            console.log(`can't set handlers for {this} because no parent`);
+            return;
+        }
+        
+        const buttonElement = this.parent.querySelector('button');
+        buttonElement.addEventListener('click', this.handleClick.bind(this));
     }
 
     /**
