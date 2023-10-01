@@ -84,4 +84,29 @@
     --list-divider-margin: 12px;
     --list-divider-height: 2px;
     --list-margin-top: 24px;
+
+    /*sidebar sizes*/
+    --sidebar-width: 260px;
+
+    --sidebar-header-height: 100px;
+    --sidebar-header-padding: 16px;
+    --sidebar-header-logo-size: 40px;
+    --sidebar-header-logo-margin: 4px;
+
+    --sidebar-container-padding: 8px 0;
+    --sidebar-menu-header-padding: 8px 24px;
+    --sidebar-menu-header-list-padding: 4px 16px;
+
+    --sidebar-footer-height: 230px;
+    --sidebar-footer-reminder-margin: 16px;
+    --sidebar-footer-profile-container-padding: 40px 16px;;
+    --sidebar-footer-profile-size: 64px;
+    --sidebar-footer-profile-margin: 12px;
+    --sidebar-footer-profile-radius: 100%;
+
+    /*menu sizes*/
+    --menu-item-padding: 8px 16px;
+    --menu-item-margin: 4px;
+    --menu-icon-size: 32px;
+    --menu-icon-margin: 10px;
 }

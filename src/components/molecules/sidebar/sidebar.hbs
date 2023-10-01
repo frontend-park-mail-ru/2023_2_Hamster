@@ -1,0 +1,42 @@
+<aside class="sidebar">
+    <div class="sidebar__header">
+        <div class="sidebar__header-container">
+            {{#if this.siteLogo}}
+                <img
+                    class="sidebar__header-logo"
+                    src="{{this.siteLogo}}"
+                    alt="Site logo"
+                >
+            {{/if}}
+            <span class="sidebar__header-text font-h1-bold">
+                Hammy wallet
+            </span>
+        </div>
+    </div>
+
+    <div class="sidebar__container">
+        <nav class="menu">
+            {{{menu}}}
+        </nav>
+    </div>
+
+    <div class="sidebar__footer">
+        <div class="sidebar__footer-reminder">
+            {{{reminder}}}
+        </div>
+        <div class="sidebar__footer-profile-container">
+            {{#if this.profilePic}}
+                <img
+                    class="sidebar__footer-profile-img"
+                    src="{{this.profilePic}}"
+                    alt="Profile image"
+                >
+            {{/if}}
+            {{#if this.profileName}}
+                <span class="sidebar__footer-profile-name font-base-text">
+                    {{this.profileName}}
+                </span>
+            {{/if}}
+        </div>
+    </div>
+</aside>

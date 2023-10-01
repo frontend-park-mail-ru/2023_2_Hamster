@@ -1,7 +1,25 @@
+/**
+ * Represents a base component.
+ */
 export class BaseComponent {
+    /**
+     * The parent HTML element where the BaseComponent will be rendered.
+     * @type {HTMLElement}
+     */
     parent
+
+    /**
+     * The state of the BaseComponent.
+     * @type {Object}
+     * @private
+     */
     #state
 
+    /**
+     * Create a BaseComponent.
+     * @param {Object} [state=this.#state] - The initial state of the BaseComponent.
+     * @param {HTMLElement} parent - The parent HTML element where the BaseComponent will be rendered.
+     */
     constructor(state = this.#state, parent) {
         if (parent){
             this.parent = parent;
@@ -10,6 +28,11 @@ export class BaseComponent {
         this.setState(state);
     }
 
+    /**
+     * Render the BaseComponent's template to the parent element.
+     * @param {Object} templatesToStateMap - A map of templates to their corresponding states.
+     * @returns {string} - The HTML string of the rendered template.
+     */
     renderTemplateToParent(templatesToStateMap) {
         const htmlString = this.render(templatesToStateMap)
 
@@ -21,6 +44,11 @@ export class BaseComponent {
         return htmlString;
     }
 
+    /**
+     * Render the BaseComponent's template.
+     * @param {Object} templatesToStateMap - A map of templates to their corresponding states.
+     * @returns {string} - The HTML string of the rendered template.
+     */
     render(templatesToStateMap){
         return Object
             .entries(templatesToStateMap)
@@ -33,6 +61,9 @@ export class BaseComponent {
             );
     }
 
+    /**
+     * Set event handlers for the BaseComponent. To be implemented by subclasses.
+     */
     setHandlers(){};
 
     /**
