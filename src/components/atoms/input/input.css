@@ -83,7 +83,7 @@
 }
 
 .input-error {  
-    border: 1px solid var(--input-primary-error-color);
+    border: 1px solid var(--error-color);
 }
 
 /* Search Icon */
