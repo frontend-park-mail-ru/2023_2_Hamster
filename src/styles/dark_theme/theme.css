@@ -54,6 +54,7 @@
 
     /*input*/
     --input-primary-color: var(--background-main-color);
+    --input-primary-error-color: var(--error-color);
     --input-border-color: var(--background-tertiary-color);
     --input-border-error-color: var(--error-color);
     --input-focus-color: #687BB3;
@@ -74,7 +75,7 @@
     --input-padding-medium: 17px 16px;
     --input-padding-large: 21px 20px;
     --inputs-minimal-width: 128px;
-
+    
     /*card sizes*/
     --card-status-height: 16px;
     --card-status-width: 16px;

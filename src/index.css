@@ -2,6 +2,7 @@
 @import "styles/fonts.css";
 @import "components/components.css";
 @import "pages/pages.css";
+@import "pages/login/loginSignUp.css";
 
 body {
     background-color: var(--background-main-color);

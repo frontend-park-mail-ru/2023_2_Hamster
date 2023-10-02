@@ -1,0 +1,6 @@
+.login-form form {
+    display: flex;
+    flex-direction: column;
+    row-gap: 12px;
+    color: var(--text-main-color);
+}

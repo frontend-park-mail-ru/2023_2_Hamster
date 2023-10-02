@@ -53,18 +53,21 @@
 }
 
 .input_small {
+    width: auto;
     padding: var(--input-padding-small);
     min-width: var(--inputs-minimal-width);
     border-radius: var(--radius-size-small);
 }
 
 .input_medium {
+    width: auto;
     padding: var(--input-padding-medium);
     min-width: var(--inputs-minimal-width);
     border-radius: var(--radius-size-medium);
 }
 
 .input_large {
+    width: auto;
     padding: var(--input-padding-large);
     min-width: var(--inputs-minimal-width);
     border-radius: var(--radius-size-large);
@@ -109,4 +112,6 @@
     color: var(--text-muted-color)
 }
 
-
+.input-helper_error {
+    color: var(--error-color)
+}
