@@ -11,7 +11,11 @@ import {Sidebar} from "../../components/molecules/sidebar/sidebar.js";
  * @property {string} layout - The layout of the Layout.
  */
 const DEFAULT_STATE = {
-    sidebar: "",
+    sidebar: {
+        siteLogo: "",
+        profilePic: "",
+        profileName: "Profile name",
+    },
     layout: "",
 };
 
@@ -38,7 +42,7 @@ export class Layout extends BaseComponent {
          * @type {Menu}
          * @private
          */
-        this.#menuElement = new Menu();
+        this.#menuElement = new Menu(undefined);
 
         /**
          * The Sidebar element associated with the Layout.
@@ -60,7 +64,7 @@ export class Layout extends BaseComponent {
 
         const templatesToStateMap = {
             'sidebar.hbs': {
-                ...this.getState(),
+                ...DEFAULT_STATE.sidebar,
                 menu: menuHTML,
             },
             'layout.hbs': {},

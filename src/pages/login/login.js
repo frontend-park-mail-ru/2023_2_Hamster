@@ -61,16 +61,16 @@ export class LoginOrSignUp  {
      * @constructor
      * @param {HTMLElement} parent - The parent element where the login form will be rendered.
      * @param {Object} form - The form template.
-     * @param {boolean} islogin - The boolean parameter indicating if it's a login form.
+     * @param {boolean} isLogin - The boolean parameter indicating if it's a login form.
      * @param {Object} buttonElement - The button element.
      * @param {Object} [state={}] - The initial state of the login form. (optional)
      */
-    constructor(parent, form, islogin, buttonElement, state = {}) {
+    constructor(parent, form, isLogin, buttonElement, state = {}) {
         this.#parent = parent;
         this.#buttonElement = buttonElement;
         this.#state = {...this.#state, ...state};
         this.#form = form;
-        this.#isLogin = islogin ? true : false; 
+        this.#isLogin = isLogin;
     }
 
     /**

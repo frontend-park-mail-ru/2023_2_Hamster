@@ -11,7 +11,7 @@ const DEFAULT_LIST = {
                     menuItemIcon: "",
                     menuItemAlt: "",
                     menuItemText: "Menu button",
-                    menuItemId: "",
+                    menuItemID: "",
                 }
             ]
         }
