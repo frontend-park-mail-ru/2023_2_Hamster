@@ -42,7 +42,7 @@ body {
     top: 25%;
 }
 
-.image-overlay-text {    
+.image-overlay-text {
     transform: translateX(-20%) translateY(-160%);
 
 }
@@ -55,7 +55,6 @@ body {
     padding-left: 2px;
     font-size: 2vmin;
 }
-
 
 
 .login-sign-up-layout__link-container {

@@ -42,7 +42,7 @@ export class Layout extends BaseComponent {
          * @type {Menu}
          * @private
          */
-        this.#menuElement = new Menu(undefined);
+        this.#menuElement = new Menu(this.getState().sidebar.menu);
 
         /**
          * The Sidebar element associated with the Layout.
@@ -64,12 +64,12 @@ export class Layout extends BaseComponent {
 
         const templatesToStateMap = {
             'sidebar.hbs': {
-                ...DEFAULT_STATE.sidebar,
+                ...this.getState().sidebar,
                 menu: menuHTML,
             },
             'layout.hbs': {},
         };
 
-        super.renderTemplateToParent(templatesToStateMap);
+        return super.renderTemplateToParent(templatesToStateMap);
     }
 }
