@@ -1,41 +1,41 @@
 .font-h1-bold {
-  font-family: Inter, sans-serif;
-  font-size: 48px;
-  font-weight: 700;
-  letter-spacing: 0.03em;
+    font-family: Inter, sans-serif;
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
 }
 
 .font-h1-medium {
-  font-family: Inter, sans-serif;
-  font-size: 48px;
-  font-weight: 500;
-  letter-spacing: 0.03em;
+    font-family: Inter, sans-serif;
+    font-size: 48px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
 }
 
 .font-h1-regular {
-  font-family: Inter, sans-serif;
-  font-size: 48px;
-  font-weight: 400;
-  letter-spacing: 0.03em;
+    font-family: Inter, sans-serif;
+    font-size: 48px;
+    font-weight: 400;
+    letter-spacing: 0.03em;
 }
 
 .font-base-text {
-  font-family: Rubik, sans-serif;
-  font-size: 20px;
-  font-weight: 400;
-  letter-spacing: 0.03em;
+    font-family: Rubik, sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 0.03em;
 }
 
 .font-caption {
-  font-family: Rubik, sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-  letter-spacing: 0.03em;
+    font-family: Rubik, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0.03em;
 }
 
 .font-helper {
-  font-family: Rubik, sans-serif;
-  font-size: 12px;
-  font-weight: 400;
-  letter-spacing: 0.03em;
+    font-family: Rubik, sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.03em;
 }

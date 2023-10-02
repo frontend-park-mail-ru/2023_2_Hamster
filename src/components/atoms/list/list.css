@@ -4,7 +4,7 @@
     margin: var(--list-margin-top) 0 0;
 }
 
-.list__item-container{
+.list__item-container {
     display: flex;
     justify-content: space-between;         /*li*/
     align-items: center;

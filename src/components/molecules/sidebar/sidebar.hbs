@@ -3,9 +3,9 @@
         <div class="sidebar__header-container">
             {{#if this.siteLogo}}
                 <img
-                    class="sidebar__header-logo"
-                    src="{{this.siteLogo}}"
-                    alt="Site logo"
+                        class="sidebar__header-logo"
+                        src="{{this.siteLogo}}"
+                        alt="Site logo"
                 >
             {{/if}}
             <span class="sidebar__header-text font-h1-bold">
@@ -21,15 +21,17 @@
     </div>
 
     <div class="sidebar__footer">
-        <div class="sidebar__footer-reminder">
-            {{{reminder}}}
-        </div>
+        {{#if reminder}}
+            <div class="sidebar__footer-reminder">
+                {{{reminder}}}
+            </div>
+        {{/if}}
         <div class="sidebar__footer-profile-container">
             {{#if this.profilePic}}
                 <img
-                    class="sidebar__footer-profile-img"
-                    src="{{this.profilePic}}"
-                    alt="Profile image"
+                        class="sidebar__footer-profile-img"
+                        src="{{this.profilePic}}"
+                        alt="Profile image"
                 >
             {{/if}}
             {{#if this.profileName}}
