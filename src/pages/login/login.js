@@ -79,8 +79,7 @@ export class LoginOrSignUp  {
      */
     renderTemplate() {
         const template = Handlebars.templates['login.hbs'];
-        console.log(this.#isLogin)
-        const buttonHTML = this.#buttonElement.renderTemplate()
+        const buttonHTML = this.#buttonElement.render()
         const renderedTemplate = template({
             state: this.#state,
             isLogin: this.#isLogin,
