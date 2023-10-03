@@ -27,6 +27,8 @@ export class Layout extends BaseComponent {
 
     #menuElement
 
+    #contentElement
+
     #sidebar
 
     /**
@@ -34,7 +36,7 @@ export class Layout extends BaseComponent {
      * @param {HTMLElement} parent - The parent HTML element where the Layout will be rendered.
      * @param {Object} [state=DEFAULT_STATE] - The initial state of the Layout component. (optional)
      */
-    constructor(parent, state = DEFAULT_STATE) {
+    constructor(parent, state = DEFAULT_STATE, contentElemenet) {
         super(state, parent);
 
         /**
@@ -43,6 +45,8 @@ export class Layout extends BaseComponent {
          * @private
          */
         this.#menuElement = new Menu(this.getState().sidebar.menu);
+
+        this.#contentElement = contentElemenet;
 
         /**
          * The Sidebar element associated with the Layout.
@@ -56,6 +60,8 @@ export class Layout extends BaseComponent {
      * Render the Layout component's template to the parent element.
      */
     renderTemplateToParent() {
+        const contentHTML = this.#contentElement.render();
+
         /**
          * HTML representation of the Menu element.
          * @type {string}
@@ -67,7 +73,9 @@ export class Layout extends BaseComponent {
                 ...this.getState().sidebar,
                 menu: menuHTML,
             },
-            'layout.hbs': {},
+            'layout.hbs': {
+                content: contentHTML,
+            },
         };
 
         return super.renderTemplateToParent(templatesToStateMap);

@@ -9,7 +9,8 @@ body {
 .login-sign-up-layout__form-container {
     display: flex;
     flex-direction: row-reverse;
-    height: 100vh;
+    height: 100%;
+    width: 100%;
 }
 
 .login-sign-up-layout__form {
@@ -48,15 +49,16 @@ body {
     top: 10%;
     left: 20%;
     z-index: 5;
+    color: var(--text-main-color);
 }
 
 .image-overlay-text h1 {
-    font-size: 6vmin;
+    font-size: 3vmax;
 }
 
 .image-overlay-text p {
     padding-left: 2px;
-    font-size: 2vmin;
+    font-size: 2vmax;
 }
 
 
