@@ -33,18 +33,21 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 .login-sign-up-layout__background-image img {
-    width: 50%;
+    width: 70%;
     object-fit: contain;
     position: absolute;
-    top: 25%;
+    top: 35%;
 }
 
 .image-overlay-text {
-    transform: translateX(-20%) translateY(-160%);
-
+    position: absolute;
+    top: 10%;
+    left: 20%;
+    z-index: 5;
 }
 
 .image-overlay-text h1 {

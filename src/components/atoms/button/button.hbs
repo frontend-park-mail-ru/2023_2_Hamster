@@ -1,10 +1,17 @@
-<button class="{{this.buttonColor}} {{this.buttonSize}} {{this.buttonRadiusSize}}" type="{{this.buttonType}}">
+<button {{#if id}} id="{{id}}" {{/if}}
+    class="{{this.buttonColor}} 
+    {{this.buttonSize}} 
+    {{this.buttonRadiusSize}}" 
+    type="{{this.buttonType}}"
+>
     {{#if this.buttonImageLeft}}
         <img class="button__icon" src="{{this.buttonImageLeft}}" alt="leftIcon">
     {{/if}}
+
     {{#if this.buttonText}}
         <span class="button__text">{{this.buttonText}}</span>
     {{/if}}
+
     {{#if this.buttonImageRight}}
         <img class="button__icon" src="{{this.buttonImageRight}}" alt="rightIcon">
     {{/if}}

@@ -15,8 +15,7 @@
             src="{{this.inputImageLeft}}"
         > 
     {{/if}}
-
-    <input type="{{typeOfInput}}"
+    <input {{#if id}} id="{{id}}" {{/if}} type="{{typeOfInput}}"
         {{#if autocompleteOff}}
             autocomplete="off"
         {{/if}}
@@ -43,7 +42,10 @@
 </div>
 
 {{#if this.inputHelperText}}
-    <div class="input-helper">
+    <div class="input-helper
+            {{#if this.isError}}
+                input-helper_error
+            {{/if}}">
         {{this.inputHelperText}}
     </div>
 {{/if}}
