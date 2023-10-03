@@ -206,6 +206,57 @@ templates['list.hbs'] = template({"1":function(container,depth0,helpers,partials
 
   return ((stack1 = lookupProperty(helpers,"each").call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? lookupProperty(depth0,"listItems") : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":1,"column":0},"end":{"line":8,"column":9}}})) != null ? stack1 : "");
 },"useData":true});
+templates['menu.hbs'] = template({"1":function(container,depth0,helpers,partials,data) {
+    var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "    <span class=\"menu__header font-caption\">\n        "
+    + container.escapeExpression(container.lambda((depth0 != null ? lookupProperty(depth0,"menuSectionHeading") : depth0), depth0))
+    + "\n    </span>\n    <ul class=\"menu__list font-caption\">\n"
+    + ((stack1 = lookupProperty(helpers,"each").call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? lookupProperty(depth0,"menuItems") : depth0),{"name":"each","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":6,"column":8},"end":{"line":15,"column":17}}})) != null ? stack1 : "")
+    + "    </ul>\n";
+},"2":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=container.lambda, alias2=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "            <li class=\"menu__item menu__item_color\" id=\""
+    + alias2(alias1((depth0 != null ? lookupProperty(depth0,"menuItemID") : depth0), depth0))
+    + "\">\n"
+    + ((stack1 = lookupProperty(helpers,"if").call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? lookupProperty(depth0,"menuItemIcon") : depth0),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":8,"column":16},"end":{"line":10,"column":23}}})) != null ? stack1 : "")
+    + "                <span class=\"menu__item-text\">\n                    "
+    + alias2(alias1((depth0 != null ? lookupProperty(depth0,"menuItemText") : depth0), depth0))
+    + "\n                </span>\n            </li>\n";
+},"3":function(container,depth0,helpers,partials,data) {
+    var alias1=container.lambda, alias2=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "                    <img class=\"menu__item-icon\" src=\""
+    + alias2(alias1((depth0 != null ? lookupProperty(depth0,"menuItemIcon") : depth0), depth0))
+    + "\" alt=\""
+    + alias2(alias1((depth0 != null ? lookupProperty(depth0,"menuItemAlt") : depth0), depth0))
+    + "\">\n";
+},"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return ((stack1 = lookupProperty(helpers,"each").call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? lookupProperty(depth0,"menuSections") : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":1,"column":0},"end":{"line":17,"column":9}}})) != null ? stack1 : "");
+},"useData":true});
 templates['card.hbs'] = template({"1":function(container,depth0,helpers,partials,data) {
     var alias1=container.lambda, alias2=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -303,6 +354,94 @@ templates['loginSignupForm.hbs'] = template({"1":function(container,depth0,helpe
     + "        "
     + ((stack1 = ((helper = (helper = lookupProperty(helpers,"loginButton") || (depth0 != null ? lookupProperty(depth0,"loginButton") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"loginButton","hash":{},"data":data,"loc":{"start":{"line":10,"column":8},"end":{"line":10,"column":25}}}) : helper))) != null ? stack1 : "")
     + "\n    </form>\n</div>\n";
+},"useData":true});
+templates['sidebar.hbs'] = template({"1":function(container,depth0,helpers,partials,data) {
+    var lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "                <img\n                        class=\"sidebar__header-logo\"\n                        src=\""
+    + container.escapeExpression(container.lambda((depth0 != null ? lookupProperty(depth0,"siteLogo") : depth0), depth0))
+    + "\"\n                        alt=\"Site logo\"\n                >\n";
+},"3":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "            <div class=\"sidebar__footer-reminder\">\n                "
+    + ((stack1 = ((helper = (helper = lookupProperty(helpers,"reminder") || (depth0 != null ? lookupProperty(depth0,"reminder") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"reminder","hash":{},"data":data,"loc":{"start":{"line":26,"column":16},"end":{"line":26,"column":30}}}) : helper))) != null ? stack1 : "")
+    + "\n            </div>\n";
+},"5":function(container,depth0,helpers,partials,data) {
+    var lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "                <img\n                        class=\"sidebar__footer-profile-img\"\n                        src=\""
+    + container.escapeExpression(container.lambda((depth0 != null ? lookupProperty(depth0,"profilePic") : depth0), depth0))
+    + "\"\n                        alt=\"Profile image\"\n                >\n";
+},"7":function(container,depth0,helpers,partials,data) {
+    var lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "                <span class=\"sidebar__footer-profile-name font-base-text\">\n                    "
+    + container.escapeExpression(container.lambda((depth0 != null ? lookupProperty(depth0,"profileName") : depth0), depth0))
+    + "\n                </span>\n";
+},"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "<aside class=\"sidebar\">\n    <div class=\"sidebar__header\">\n        <div class=\"sidebar__header-container\">\n"
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"siteLogo") : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":4,"column":12},"end":{"line":10,"column":19}}})) != null ? stack1 : "")
+    + "            <span class=\"sidebar__header-text font-h1-bold\">\n                Hammy wallet\n            </span>\n        </div>\n    </div>\n\n    <div class=\"sidebar__container\">\n        <nav class=\"menu\">\n            "
+    + ((stack1 = ((helper = (helper = lookupProperty(helpers,"menu") || (depth0 != null ? lookupProperty(depth0,"menu") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(alias1,{"name":"menu","hash":{},"data":data,"loc":{"start":{"line":19,"column":12},"end":{"line":19,"column":22}}}) : helper))) != null ? stack1 : "")
+    + "\n        </nav>\n    </div>\n\n    <div class=\"sidebar__footer\">\n"
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"reminder") : depth0),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":24,"column":8},"end":{"line":28,"column":15}}})) != null ? stack1 : "")
+    + "        <div class=\"sidebar__footer-profile-container\">\n"
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"profilePic") : depth0),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":30,"column":12},"end":{"line":36,"column":19}}})) != null ? stack1 : "")
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"profileName") : depth0),{"name":"if","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":37,"column":12},"end":{"line":41,"column":19}}})) != null ? stack1 : "")
+    + "        </div>\n    </div>\n</aside>\n";
+},"useData":true});
+templates['dashboard.hbs'] = template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return ((stack1 = ((helper = (helper = lookupProperty(helpers,"balance") || (depth0 != null ? lookupProperty(depth0,"balance") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"balance","hash":{},"data":data,"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":13}}}) : helper))) != null ? stack1 : "")
+    + "\n"
+    + ((stack1 = ((helper = (helper = lookupProperty(helpers,"budget") || (depth0 != null ? lookupProperty(depth0,"budget") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"budget","hash":{},"data":data,"loc":{"start":{"line":2,"column":0},"end":{"line":2,"column":12}}}) : helper))) != null ? stack1 : "")
+    + "\n";
+},"useData":true});
+templates['layout.hbs'] = template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "<div class=\"layout\">\n    <div class=\"grid\">\n        "
+    + ((stack1 = ((helper = (helper = lookupProperty(helpers,"content") || (depth0 != null ? lookupProperty(depth0,"content") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"content","hash":{},"data":data,"loc":{"start":{"line":3,"column":8},"end":{"line":3,"column":21}}}) : helper))) != null ? stack1 : "")
+    + "\n    </div>\n</div>\n";
 },"useData":true});
 templates['loginSignUp.hbs'] = template({"1":function(container,depth0,helpers,partials,data) {
     var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {

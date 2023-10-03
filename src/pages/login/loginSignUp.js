@@ -1,8 +1,10 @@
 'use strict';
 
-import { Button } from "../../components/atoms/button/button.js";
-import { BaseComponent } from "../../components/baseComponent.js";
-import { LoginSignUpForm } from "../../components/molecules/loginSignupForm/loginSignupForm.js"
+import {Button} from "../../components/atoms/button/button.js";
+import {BaseComponent} from "../../components/baseComponent.js";
+import {LoginSignUpForm} from "../../components/molecules/loginSignupForm/loginSignupForm.js"
+import {router} from "../../modules/router.js";
+import {CONSTANTS} from "../../constants.js";
 
 const IMAGE_URL = "../../assets/images/peopleLoginReg.svg";
 
@@ -23,7 +25,8 @@ const LOGIN_BUTTON_TEXT = 'Login';
 const DEFAULT_BUTTON_STATE = {
     id: 'switch_login_signup_button',
     buttonText: LOGIN_BUTTON_TEXT,
-    buttonColor: 'button_secondary-color',
+    buttonSize: 'button_small',
+    buttonColor: 'button_primary-color',
 };
 
 /**
@@ -73,7 +76,7 @@ export class LoginOrSignUp extends BaseComponent {
     }
 
     renderTemplateToParent() {
-        const buttonHTML = this.#buttonElement.renderTemplate()
+        const buttonHTML = this.#buttonElement.render()
 
         const templatesToStateMap = {
             'loginSignUp.hbs': {
@@ -91,10 +94,16 @@ export class LoginOrSignUp extends BaseComponent {
         this.#form.renderTemplateToParent();
     }
 
+    cleanUp() {
+        const button = document.querySelector('#switch_login_signup_button');
+        if (button){
+            button.removeEventListener('click', this.#buttonElement.getHandler());
+        }
+    }
+
     switchLoginSignup = () => {
-        this.#isLogin = !this.#isLogin;
-        this.#form.setLogin(this.#isLogin);
-        this.renderTemplateToParent();
+        this.#form.clearErrorState();
+        router.navigateTo(this.#isLogin ? CONSTANTS.REGISTRATION_ROUTE : CONSTANTS.LOGIN_ROUTE) ;
     }
 
     setHandlers() {

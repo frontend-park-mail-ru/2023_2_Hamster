@@ -75,4 +75,22 @@ export class Dashboard extends BaseComponent {
 
         super.renderTemplateToParent(templatesToStateMap);
     }
+
+    render() {
+        const cardBalanceListHTML = this.#cardBalanceList.render();
+        this.#cardBalance.setState({list: cardBalanceListHTML});
+
+        const cardBalanceHTML = this.#cardBalance.render();
+
+        const cardBudgetHTML = this.#cardBudget.render();
+
+        const templatesToStateMap = {
+            'dashboard.hbs': {
+                balance: cardBalanceHTML,
+                budget: cardBudgetHTML,
+            },
+        }
+
+        return super.render(templatesToStateMap);
+    }
 }

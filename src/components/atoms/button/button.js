@@ -73,7 +73,7 @@ export class Button extends BaseComponent {
      */
     setHandlers() {
         if (!this.parent) {
-            console.log(`can't set handlers for {this} because no parent`);
+            console.error(`can't set handlers for ${this} because no parent`);
             return;
         }
         

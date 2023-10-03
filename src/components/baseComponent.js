@@ -21,7 +21,7 @@ export class BaseComponent {
      * @param {HTMLElement} parent - The parent HTML element where the BaseComponent will be rendered.
      */
     constructor(state = this.#state, parent) {
-        if (parent){
+        if (parent) {
             this.parent = parent;
         }
 
@@ -34,6 +34,8 @@ export class BaseComponent {
      * @returns {string} - The HTML string of the rendered template.
      */
     renderTemplateToParent(templatesToStateMap) {
+        this.cleanUp();
+
         const htmlString = this.render(templatesToStateMap)
 
         if (this.parent) {
@@ -44,12 +46,14 @@ export class BaseComponent {
         return htmlString;
     }
 
+    cleanUp() {};
+
     /**
      * Render the BaseComponent's template.
      * @param {Object} templatesToStateMap - A map of templates to their corresponding states.
      * @returns {string} - The HTML string of the rendered template.
      */
-    render(templatesToStateMap){
+    render(templatesToStateMap) {
         return Object
             .entries(templatesToStateMap)
             .reduce(
@@ -64,7 +68,7 @@ export class BaseComponent {
     /**
      * Set event handlers for the BaseComponent. To be implemented by subclasses.
      */
-    setHandlers(){};
+    setHandlers() {};
 
     /**
      * Updates the state of the component.

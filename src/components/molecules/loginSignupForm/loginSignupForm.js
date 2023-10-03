@@ -5,7 +5,7 @@ import { Button } from "../../atoms/button/button.js"
 const PASSWORD_MIN_LENGTH = 8;
 const PASSWORD_MAX_LENGTH = 64;
 const USERNAME_MIN_LENGTH = 2;
-const USERNAME_MAX_LENGTH = 20;
+const USERNAME_MAX_LENGTH = 32;
 
 const USERNAME_REGEX = /[\w а-яА-Я]+/
 
@@ -36,7 +36,8 @@ const PASSWORD_REPEAT_INPUT_STATE = {
 const BUTTON_STATE = {
     id: "login_button",
     buttonText: 'Submit',
-    buttonColor: 'button_secondary-color',
+    buttonSize: 'button_small',
+    buttonColor: 'button_primary-color',
 }
 
 const LOGIN_HEADER = "Login";
@@ -99,14 +100,14 @@ export class LoginSignUpForm extends BaseComponent {
         this.#inputUsername = new InputComponent(null, USERNAME_INPUT_STATE);
         this.#inputPassword = new InputComponent(null, PASSWORD_INPUT_STATE);
         this.#button = new Button(null, BUTTON_STATE, isLogin ? this.onLogin : this.onRegistration);
-        this.#inputPasswordRepeat = isLogin ? null : new InputComponent(null, PASSWORD_REPEAT_INPUT_STATE)
+        this.#inputPasswordRepeat = new InputComponent(null, PASSWORD_REPEAT_INPUT_STATE)
     }
 
     renderTemplateToParent() {
-        const buttonHTML = this.#button.renderTemplate();
-        const inputUsernameHTML = this.#inputUsername.renderTemplate();
-        const inputPasswordHTML = this.#inputPassword.renderTemplate();
-        const inputPasswordRepeatHTML = this.#isLogin ? '' : this.#inputPasswordRepeat.renderTemplate();
+        const buttonHTML = this.#button.render();
+        const inputUsernameHTML = this.#inputUsername.render();
+        const inputPasswordHTML = this.#inputPassword.render();
+        const inputPasswordRepeatHTML = this.#isLogin ? '' : this.#inputPasswordRepeat.render();
         const templatesToStateMap = {
             'loginSignupForm.hbs': {
                 isSignup: !this.#isLogin,
@@ -163,7 +164,7 @@ export class LoginSignUpForm extends BaseComponent {
         let anyInputInvalid = false;
 
         if (!this.#isValidUsername(username)) {  
-            console.log(`set invalid username`)
+            console.error(`set invalid username`)
             this.#inputUsername.setState({
                 isError: 'error',
                 inputHelperText: 'Invalid username'
@@ -172,9 +173,9 @@ export class LoginSignUpForm extends BaseComponent {
         }
         
         const password = document.querySelector('#password_input').value;
-        console.log(`p=${this.#isValidPassword(password)}`)
+        console.error(`p=${this.#isValidPassword(password)}`)
         if (!this.#isValidPassword(password)) {
-            console.log(`set invalid password`)
+            console.error(`set invalid password`)
             this.#inputPassword.setState({
                 isError: 'error',
                 inputHelperText: 'Invalid password'
@@ -198,6 +199,7 @@ export class LoginSignUpForm extends BaseComponent {
     }
 
     setLogin(isLogin) {
+        this.clearErrorState()
         this.#isLogin = isLogin;
         this.setState({header: isLogin ? LOGIN_HEADER : SIGNUP_HEADER});
         this.#button.setHandler(isLogin ? this.onLogin : this.onRegistration);
