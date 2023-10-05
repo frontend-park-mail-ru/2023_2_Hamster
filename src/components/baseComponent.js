@@ -25,7 +25,7 @@ export class BaseComponent {
             this.parent = parent;
         }
 
-        this.setState(state);
+        this.#state = {...this.#state, ...state};
     }
 
     /**
@@ -33,7 +33,7 @@ export class BaseComponent {
      * @param {Object} templatesToStateMap - A map of templates to their corresponding states.
      * @returns {string} - The HTML string of the rendered template.
      */
-    renderTemplateToParent(templatesToStateMap) {
+    async renderTemplateToParent(templatesToStateMap) {
         this.cleanUp();
 
         const htmlString = this.render(templatesToStateMap)

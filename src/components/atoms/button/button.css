@@ -18,19 +18,16 @@ button {
 
 .button_small {
     padding: var(--button-padding-small);
-    min-width: var(--buttons-minimal-width);
     border-radius: var(--radius-size-small);
 }
 
 .button_medium {
     padding: var(--button-padding-medium);
-    min-width: var(--buttons-minimal-width);
     border-radius: var(--radius-size-medium);
 }
 
 .button_large {
     padding: var(--button-padding-large);
-    min-width: var(--buttons-minimal-width);
     border-radius: var(--radius-size-large);
 }
 

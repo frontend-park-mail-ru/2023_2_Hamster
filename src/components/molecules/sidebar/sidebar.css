@@ -79,6 +79,7 @@
 }
 
 .menu__item-text {
+    letter-spacing: 0.03em;
 }
 
 .menu__item_color {
@@ -142,4 +143,5 @@
     color: var(--text-halftoned-color);
     overflow: hidden;
     text-overflow: ellipsis;
+    margin-right: 40px;
 }

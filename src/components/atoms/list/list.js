@@ -5,7 +5,7 @@ import {BaseComponent} from "../../baseComponent.js";
 const DEFAULT_LIST = {
     listItems: [
         {
-            listItemTitle: 'text',
+            listItemTitle: '',
             listItemValue: '',
             valueUnits: '',
         }

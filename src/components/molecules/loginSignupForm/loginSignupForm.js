@@ -1,10 +1,13 @@
-import { BaseComponent } from "../../baseComponent.js";
-import { InputComponent } from "../../atoms/input/input.js";
-import { Button } from "../../atoms/button/button.js"
+import {BaseComponent} from "../../baseComponent.js";
+import {InputComponent} from "../../atoms/input/input.js";
+import {Button} from "../../atoms/button/button.js"
+import {signIn, signUp} from "../../../modules/ajax.js";
+import {router} from "../../../modules/router.js";
+import {ROUTE_CONSTANTS} from "../../../constants.js";
 
-const PASSWORD_MIN_LENGTH = 8;
+const PASSWORD_MIN_LENGTH = 4;
 const PASSWORD_MAX_LENGTH = 64;
-const USERNAME_MIN_LENGTH = 2;
+const USERNAME_MIN_LENGTH = 4;
 const USERNAME_MAX_LENGTH = 32;
 
 const USERNAME_REGEX = /[\w а-яА-Я]+/
@@ -14,7 +17,7 @@ const USERNAME_INPUT_STATE = {
     id: 'username_input',
     inputSize: 'input_small',
     typeOfInput: 'text',
-    inputPlaceholder: 'Username',
+    inputPlaceholder: 'Имя пользователя',
 }
 
 const PASSWORD_INPUT_STATE = {
@@ -22,7 +25,7 @@ const PASSWORD_INPUT_STATE = {
     id: 'password_input',
     inputSize: 'input_small',
     typeOfInput: 'password',
-    inputPlaceholder: 'Password',
+    inputPlaceholder: 'Пароль',
 }
 
 const PASSWORD_REPEAT_INPUT_STATE = {
@@ -30,18 +33,18 @@ const PASSWORD_REPEAT_INPUT_STATE = {
     id: 'password_repeat_input',
     inputSize: 'input_small',
     typeOfInput: 'password',
-    inputPlaceholder: 'Repeat Password',
+    inputPlaceholder: 'Повторить пароль',
 }
 
 const BUTTON_STATE = {
     id: "login_button",
-    buttonText: 'Submit',
+    buttonText: 'Подтвердить',
     buttonSize: 'button_small',
     buttonColor: 'button_primary-color',
 }
 
-const LOGIN_HEADER = "Login";
-const SIGNUP_HEADER = "Signup";
+const LOGIN_HEADER = "Вход";
+const SIGNUP_HEADER = "Регистрация";
 
 const DEFAULT_FORM_STATE = {
     header: LOGIN_HEADER,
@@ -64,19 +67,19 @@ export class LoginSignUpForm extends BaseComponent {
      * @type {InputComponent}
      */
     #inputUsername
-    
+
     /**
      * Input field for password.
      * @type {InputComponent}
      */
     #inputPassword
-    
+
     /**
      * Input field for password repeat in case it is signup form.
      * @type {InputComponent}
      */
     #inputPasswordRepeat
-    
+
     /**
      * is it login or signup form.
      * @type {Boolean}
@@ -93,7 +96,7 @@ export class LoginSignUpForm extends BaseComponent {
      * @param {string} state.helperText Helper text under the header.
      */
     constructor(parent, isLogin = true, state = DEFAULT_FORM_STATE) {
-        state.header = isLogin ? state.header : "Registration"
+        state.header = isLogin ? state.header : "Регистрация"
         super(state, parent);
 
         this.#isLogin = isLogin
@@ -136,9 +139,9 @@ export class LoginSignUpForm extends BaseComponent {
         const username = document.querySelector('#username_input').value;
         const password = document.querySelector('#password_input').value;
         const passwordRepeat = this.#isLogin ? '' : document.querySelector('#password_repeat_input').value;
-        
+
         this.renderTemplateToParent();
-        
+
         document.querySelector('#username_input').value = username;
         document.querySelector('#password_input').value = password;
         if (!this.#isLogin) {
@@ -147,54 +150,60 @@ export class LoginSignUpForm extends BaseComponent {
     }
 
     #isValidUsername = (username) => username.length >= USERNAME_MIN_LENGTH &&
-                                     username.length <= USERNAME_MAX_LENGTH && 
-                                     USERNAME_REGEX.test(username);
+        username.length <= USERNAME_MAX_LENGTH &&
+        USERNAME_REGEX.test(username);
 
     #isValidPassword = (password) => password.length >= PASSWORD_MIN_LENGTH &&
-                                     password.length <= PASSWORD_MAX_LENGTH;
+        password.length <= PASSWORD_MAX_LENGTH;
     #isValidPasswordRepeat = (password, passwordRepeat) => password === passwordRepeat;
 
     /**
      * Handles click on submit button if form is signup
      */
-    onRegistration = () => {
+    onRegistration = async () => {
         this.clearErrorState()
 
         const username = document.querySelector('#username_input').value;
         let anyInputInvalid = false;
 
-        if (!this.#isValidUsername(username)) {  
+        if (!this.#isValidUsername(username)) {
             console.error(`set invalid username`)
             this.#inputUsername.setState({
                 isError: 'error',
-                inputHelperText: 'Invalid username'
+                inputHelperText: 'Неверное имя пользователя'
             });
             anyInputInvalid = true;
         }
-        
+
         const password = document.querySelector('#password_input').value;
-        console.error(`p=${this.#isValidPassword(password)}`)
         if (!this.#isValidPassword(password)) {
             console.error(`set invalid password`)
             this.#inputPassword.setState({
                 isError: 'error',
-                inputHelperText: 'Invalid password'
+                inputHelperText: 'Неверный пароль'
             });
             anyInputInvalid = true;
         }
-        
+
         const passwordRepeat = document.querySelector('#password_repeat_input').value;
         if (!this.#isValidPasswordRepeat(password, passwordRepeat)) {
             this.#inputPasswordRepeat.setState({
                 isError: 'error',
-                inputHelperText: 'Passwords are not the same'
+                inputHelperText: 'Пароли не совпдаают'
             });
             anyInputInvalid = true;
         }
-        
+
         // TODO: сделать так, чтобы текст исчезал только в неправильном поле, а не во всех сразу
         if (anyInputInvalid) {
             this.renderTemplateToParent();
+        } else {
+            try {
+                const response = await signUp({username: username, password: password});
+                router.navigateTo(ROUTE_CONSTANTS.DASHBOARD_ROUTE);
+            } catch (error) {
+                console.log('Error: ', error);
+            }
         }
     }
 
@@ -204,24 +213,24 @@ export class LoginSignUpForm extends BaseComponent {
         this.setState({header: isLogin ? LOGIN_HEADER : SIGNUP_HEADER});
         this.#button.setHandler(isLogin ? this.onLogin : this.onRegistration);
     }
-    
+
     getLogin() {
         return this.#isLogin;
     }
-    
+
     /**
      * Handles click on submit button if form is login
      */
-    onLogin = () => {
+    onLogin = async () => {
         this.clearErrorState()
-        
+
         const username = document.querySelector('#username_input').value;
         let anyInputInvalid = false;
-        
+
         if (!this.#isValidUsername(username)) {  // TODO: more checks for username?
             this.#inputUsername.setState({
                 isError: 'error',
-                inputHelperText: 'Invalid username'
+                inputHelperText: 'Неверное имя пользователя'
             });
             anyInputInvalid = true;
         }
@@ -230,7 +239,7 @@ export class LoginSignUpForm extends BaseComponent {
         if (!this.#isValidPassword(password)) {
             this.#inputPassword.setState({
                 isError: 'error',
-                inputHelperText: 'Invalid password'
+                inputHelperText: 'Неверное имя пользователя'
             });
             anyInputInvalid = true;
         }
@@ -238,6 +247,13 @@ export class LoginSignUpForm extends BaseComponent {
         // TODO: сделать так, чтобы текст исчезал только в неправильном поле, а не во всех сразу
         if (anyInputInvalid) {
             this.renderTemplateToParent();
+        } else {
+            try {
+                const response = await signIn({username: username, password: password});
+                router.navigateTo(ROUTE_CONSTANTS.DASHBOARD_ROUTE);
+            } catch (error) {
+                console.error('Error: ', error);
+            }
         }
     }
 
