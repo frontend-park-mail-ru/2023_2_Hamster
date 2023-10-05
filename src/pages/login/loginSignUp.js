@@ -4,7 +4,7 @@ import {Button} from "../../components/atoms/button/button.js";
 import {BaseComponent} from "../../components/baseComponent.js";
 import {LoginSignUpForm} from "../../components/molecules/loginSignupForm/loginSignupForm.js"
 import {router} from "../../modules/router.js";
-import {CONSTANTS} from "../../constants.js";
+import {ROUTE_CONSTANTS} from "../../constants.js";
 
 const IMAGE_URL = "../../assets/images/peopleLoginReg.svg";
 
@@ -19,8 +19,8 @@ const DEFAULT_STATE = {
     LinkRegister: "У вас уже есть аккаунт?"
 };
 
-const REGISTER_BUTTON_TEXT = 'Register';
-const LOGIN_BUTTON_TEXT = 'Login';
+const REGISTER_BUTTON_TEXT = 'Регистрация';
+const LOGIN_BUTTON_TEXT = 'Вход';
 
 const DEFAULT_BUTTON_STATE = {
     id: 'switch_login_signup_button',
@@ -88,22 +88,21 @@ export class LoginOrSignUp extends BaseComponent {
 
         super.renderTemplateToParent(templatesToStateMap);
 
-        const formContainer = document.querySelector('.login-sign-up-layout__form');
-        this.#form.parent = formContainer
+        this.#form.parent = document.querySelector('.login-sign-up-layout__form')
 
         this.#form.renderTemplateToParent();
     }
 
     cleanUp() {
         const button = document.querySelector('#switch_login_signup_button');
-        if (button){
+        if (button) {
             button.removeEventListener('click', this.#buttonElement.getHandler());
         }
     }
 
     switchLoginSignup = () => {
         this.#form.clearErrorState();
-        router.navigateTo(this.#isLogin ? CONSTANTS.REGISTRATION_ROUTE : CONSTANTS.LOGIN_ROUTE) ;
+        router.navigateTo(this.#isLogin ? ROUTE_CONSTANTS.REGISTRATION_ROUTE : ROUTE_CONSTANTS.LOGIN_ROUTE);
     }
 
     setHandlers() {

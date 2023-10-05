@@ -1,6 +1,8 @@
 'use strict';
 
 import {BaseComponent} from "../../baseComponent.js";
+import {Button} from "../../atoms/button/button.js";
+import {logOut} from "../../../modules/ajax.js";
 
 /**
  * The default state for the Sidebar component.
@@ -15,11 +17,24 @@ const DEFAULT_STATE = {
     profileName: "Profile name",
 };
 
+const BUTTON_STATE = {
+    id: "logout_button",
+    buttonText: 'Выйти',
+    buttonSize: 'button_small',
+    buttonColor: 'button_secondary-color',
+}
+
 /**
  * Represents a Sidebar component that is a subclass of the BaseComponent.
  * @extends BaseComponent
  */
 export class Sidebar extends BaseComponent {
+
+    /**
+     * Logout button.
+     * @type {Button}
+     */
+    #button
 
     #menuElement
 
@@ -38,6 +53,8 @@ export class Sidebar extends BaseComponent {
          * @private
          */
         this.#menuElement = menuElement;
+
+        this.#button = new Button(null, BUTTON_STATE, this.onLogout);
     }
 
     /**
@@ -49,14 +66,25 @@ export class Sidebar extends BaseComponent {
          * @type {string}
          */
         const menuHTML = this.#menuElement.render();
+        const logoutButtonHTML = this.#button.render();
 
         const templatesToStateMap = {
             'sidebar.hbs': {
                 ...this.getState(),
                 menu: menuHTML,
+                logoutButton: logoutButtonHTML,
             },
         };
 
         super.renderTemplateToParent(templatesToStateMap);
+    }
+
+    onLogout() {
+        return logOut();
+    }
+
+    setHandlers() {
+        const button = document.querySelector('#logout_button');
+        button.addEventListener('click', this.#button.getHandler());
     }
 }
