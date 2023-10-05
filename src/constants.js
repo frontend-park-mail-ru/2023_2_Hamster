@@ -14,8 +14,6 @@ export const API_CONSTANTS = {
     ACCOUNTS_TAIL: '/account/all',
     ACTUAL_BUDGET_TAIL: '/actualBudget',
     PLANNED_BUDGET_TAIL: '/plannedBudget',
-}
+};
 
-export const getBaseURL = (id) => {
-    return '/api/user/' + id;
-}
+export const getBaseURL = (id) => `/api/user/${id}`;

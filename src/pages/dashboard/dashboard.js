@@ -1,8 +1,6 @@
-'use strict';
-
-import {BaseComponent} from "../../components/baseComponent.js";
-import {Card} from "../../components/molecules/card/card.js";
-import {List} from "../../components/atoms/list/list.js";
+import { BaseComponent } from '../../components/baseComponent.js';
+import { Card } from '../../components/molecules/card/card.js';
+import { List } from '../../components/atoms/list/list.js';
 
 /**
  * Default state for the Dashboard component.
@@ -36,17 +34,17 @@ export class Dashboard extends BaseComponent {
      * @private
      * @type {Card}
      */
-    #cardBalance
+    #cardBalance;
 
     /**
      * @private
      * @type {Card}
      */
-    #cardPlannedBudget
+    #cardPlannedBudget;
 
-    #cardActualBudget
+    #cardActualBudget;
 
-    #cardBalanceList
+    #cardBalanceList;
 
     /**
      * Creates a new Dashboard instance.
@@ -57,7 +55,7 @@ export class Dashboard extends BaseComponent {
         super(state, parent);
 
         this.#cardBalance = new Card(this.getState().cardBalance);
-        this.#cardBalanceList = new List(this.getState().cardBalance.cardList)
+        this.#cardBalanceList = new List(this.getState().cardBalance.cardList);
 
         this.#cardPlannedBudget = new Card(this.getState().cardPlannedBudget);
         this.#cardActualBudget = new Card(this.getState().cardActualBudget);
@@ -70,7 +68,7 @@ export class Dashboard extends BaseComponent {
      */
     renderTemplateToParent = () => {
         const cardBalanceListHTML = this.#cardBalanceList.render();
-        this.#cardBalance.setState({list: cardBalanceListHTML});
+        this.#cardBalance.setState({ list: cardBalanceListHTML });
 
         const cardBalanceHTML = this.#cardBalance.render();
 
@@ -86,7 +84,7 @@ export class Dashboard extends BaseComponent {
         };
 
         super.renderTemplateToParent(templatesToStateMap);
-    }
+    };
 
     /**
      * Renders the Dashboard template and returns the rendered HTML.
@@ -94,7 +92,7 @@ export class Dashboard extends BaseComponent {
      */
     render = () => {
         const cardBalanceListHTML = this.#cardBalanceList.render();
-        this.#cardBalance.setState({list: cardBalanceListHTML});
+        this.#cardBalance.setState({ list: cardBalanceListHTML });
 
         const cardBalanceHTML = this.#cardBalance.render();
 
@@ -107,10 +105,10 @@ export class Dashboard extends BaseComponent {
                 plannedBudget: cardPlannedBudgetHTML,
                 actualBudget: cardActualBudgetHTML,
             },
-        }
+        };
 
         return super.render(templatesToStateMap);
-    }
+    };
 
     /**
      * Updates the state of the Dashboard component.
@@ -121,7 +119,7 @@ export class Dashboard extends BaseComponent {
 
         if (newState) {
             this.#cardBalance.setState(newState.cardBalance);
-            this.#cardBalanceList.setState(newState.cardBalance.cardList)
+            this.#cardBalanceList.setState(newState.cardBalance.cardList);
 
             this.#cardPlannedBudget.setState(newState.cardPlannedBudget);
             this.#cardActualBudget.setState(newState.cardActualBudget);

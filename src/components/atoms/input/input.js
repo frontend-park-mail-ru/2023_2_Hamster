@@ -1,6 +1,4 @@
-'use strict';
-
-import {BaseComponent} from "../../baseComponent.js";
+import { BaseComponent } from '../../baseComponent.js';
 
 const DEFAULT_INPUT = {
     Error: '',
@@ -37,7 +35,7 @@ export class InputComponent extends BaseComponent {
      * @param {Function} [changeHandler=this.#changeHandler] - The function that will handle the input change event. (optional)
      */
     constructor(parent, state = DEFAULT_INPUT, changeHandler) {
-        super(state, parent)
+        super(state, parent);
         if (typeof changeHandler === 'function') {
             this.#changeHandler = changeHandler;
         }
@@ -62,8 +60,8 @@ export class InputComponent extends BaseComponent {
     render() {
         const templatesToStateMap = {
             'input.hbs': this.getState(),
-        }
-        
+        };
+
         return super.render(templatesToStateMap);
     }
 
@@ -77,7 +75,7 @@ export class InputComponent extends BaseComponent {
         }
 
         const inputElement = this.parent.querySelector('input');
-        inputElement.addEventListener('change', this.handleInputChange.bind(this))
+        inputElement.addEventListener('change', this.handleInputChange.bind(this));
     }
 
     /**

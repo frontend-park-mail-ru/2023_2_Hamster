@@ -1,6 +1,4 @@
-'use strict';
-
-import {BaseComponent} from "../../baseComponent.js";
+import { BaseComponent } from '../../baseComponent.js';
 
 const DEFAULT_LIST = {
     listItems: [
@@ -10,7 +8,7 @@ const DEFAULT_LIST = {
             valueUnits: '',
         }
     ]
-}
+};
 
 /**
  * Represents a List component.
@@ -57,7 +55,7 @@ export class List extends BaseComponent {
         return super.render(templatesToStateMap);
     }
 
-    setHandlers(){
+    setHandlers() {
         const cardElement = this.parent.querySelector('.card');
         cardElement.addEventListener('click', this.handleClick.bind(this));
     }
