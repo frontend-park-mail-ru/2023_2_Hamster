@@ -1,22 +1,20 @@
-'use strict';
-
-import {BaseComponent} from "../../baseComponent.js";
+import { BaseComponent } from '../../baseComponent.js';
 
 const DEFAULT_LIST = {
     menuSections: [
         {
-            menuSectionHeading: "Heading",
+            menuSectionHeading: 'Heading',
             menuItems: [
                 {
-                    menuItemIcon: "",
-                    menuItemAlt: "",
-                    menuItemText: "Menu button",
-                    menuItemID: "",
+                    menuItemIcon: '',
+                    menuItemAlt: '',
+                    menuItemText: 'Menu button',
+                    menuItemID: '',
                 }
             ]
         }
     ]
-}
+};
 
 /**
  * Class representing a Menu component.

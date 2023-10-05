@@ -1,8 +1,6 @@
-'use strict';
-
-import {BaseComponent} from "../../baseComponent.js";
-import {Button} from "../../atoms/button/button.js";
-import {logOut} from "../../../modules/ajax.js";
+import { BaseComponent } from '../../baseComponent.js';
+import { Button } from '../../atoms/button/button.js';
+import { logOut } from '../../../modules/ajax.js';
 
 /**
  * The default state for the Sidebar component.
@@ -12,17 +10,17 @@ import {logOut} from "../../../modules/ajax.js";
  * @property {string} profileName - The profile name.
  */
 const DEFAULT_STATE = {
-    siteLogo: "",
-    profilePic: "",
-    profileName: "Profile name",
+    siteLogo: '',
+    profilePic: '',
+    profileName: 'Profile name',
 };
 
 const BUTTON_STATE = {
-    id: "logout_button",
+    id: 'logout_button',
     buttonText: 'Выйти',
     buttonSize: 'button_small',
     buttonColor: 'button_secondary-color',
-}
+};
 
 /**
  * Represents a Sidebar component that is a subclass of the BaseComponent.
@@ -34,9 +32,9 @@ export class Sidebar extends BaseComponent {
      * Logout button.
      * @type {Button}
      */
-    #button
+    #button;
 
-    #menuElement
+    #menuElement;
 
     /**
      * Create a Sidebar component.

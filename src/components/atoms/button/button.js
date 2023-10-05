@@ -1,6 +1,4 @@
-'use strict';
-
-import {BaseComponent} from "../../baseComponent.js";
+import { BaseComponent } from '../../baseComponent.js';
 
 const DEFAULT_BUTTON = {
     buttonText: 'Button',
@@ -38,7 +36,7 @@ export class Button extends BaseComponent {
      * @param {Function} [clickHandler = this.#clickHandler] - The function that will handle the click event of the button element. (optional)
      */
     constructor(parent, state = DEFAULT_BUTTON, clickHandler) {
-        super(state, parent)
+        super(state, parent);
         if (typeof clickHandler === 'function') {
             this.#clickHandler = clickHandler;
         }
@@ -51,8 +49,8 @@ export class Button extends BaseComponent {
     renderTemplateToParent() {
         const templatesToStateMap = {
             'button.hbs': this.getState(),
-        }
-        
+        };
+
         return super.renderTemplateToParent(templatesToStateMap);
     }
 
@@ -63,8 +61,8 @@ export class Button extends BaseComponent {
     render() {
         const templatesToStateMap = {
             'button.hbs': this.getState(),
-        }
-        
+        };
+
         return super.render(templatesToStateMap);
     }
 
@@ -76,7 +74,7 @@ export class Button extends BaseComponent {
             console.error(`can't set handlers for ${this} because no parent`);
             return;
         }
-        
+
         const buttonElement = this.parent.querySelector('button');
         buttonElement.addEventListener('click', this.handleClick.bind(this));
     }

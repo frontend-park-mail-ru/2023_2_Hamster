@@ -8,15 +8,14 @@ import {ROUTE_CONSTANTS} from "../../constants.js";
 
 const IMAGE_URL = "../../assets/images/peopleLoginReg.svg";
 
-
 const DEFAULT_STATE = {
     ImagePeople: IMAGE_URL,
-    ImageTextLoginH1: "Добрый день! HammyWallet",
-    ImageTextLoginP1: "Рады видеть вас здесь снова",
-    ImageTextRegistrH1: "Привет, это HammyWallet",
-    ImageTextRegistrP1: "Будем рады помочь вам с финансами!",
-    LinkLogin: "У вас нет учетной записи?",
-    LinkRegister: "У вас уже есть аккаунт?"
+    ImageTextLoginH1: 'Добрый день! HammyWallet',
+    ImageTextLoginP1: 'Рады видеть вас здесь снова',
+    ImageTextRegistrH1: 'Привет, это HammyWallet',
+    ImageTextRegistrP1: 'Будем рады помочь вам с финансами!',
+    LinkLogin: 'У вас нет учетной записи?',
+    LinkRegister: 'У вас уже есть аккаунт?'
 };
 
 const REGISTER_BUTTON_TEXT = 'Регистрация';
@@ -64,15 +63,15 @@ export class LoginOrSignUp extends BaseComponent {
      * @param {Button} [button = new Button(null, DEFAULT_BUTTON_STATE)] button of this LoginSignUp.
      */
     constructor(parent, isLogin, state = DEFAULT_STATE,
-                form = new LoginSignUpForm(null, isLogin),
-                button = new Button(null, DEFAULT_BUTTON_STATE)) {
+        form = new LoginSignUpForm(null, isLogin),
+        button = new Button(null, DEFAULT_BUTTON_STATE)) {
         super(state, parent);
         this.#isLogin = isLogin;
         this.#buttonElement = button;
         this.#form = form;
 
         this.#buttonElement.setHandler(this.switchLoginSignup);
-        this.#buttonElement.setState({buttonText: isLogin ? REGISTER_BUTTON_TEXT : LOGIN_BUTTON_TEXT});
+        this.#buttonElement.setState({ buttonText: isLogin ? REGISTER_BUTTON_TEXT : LOGIN_BUTTON_TEXT });
     }
 
     renderTemplateToParent() {

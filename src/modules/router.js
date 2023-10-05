@@ -1,12 +1,8 @@
-import {API_CONSTANTS, ROUTE_CONSTANTS} from "../constants.js";
+import { API_CONSTANTS, ROUTE_CONSTANTS } from '../constants.js';
 
-const isAuthenticated = () => {
-    return getId();
-}
+const isAuthenticated = () => getId();
 
-const getId = () => {
-    return localStorage.getItem('id');
-}
+const getId = () => localStorage.getItem('id');
 
 /**
  * Class representing a router.
@@ -17,7 +13,7 @@ class Router {
      * Object storing routes
      * @type {Object}
      */
-    routes = {}
+    routes = {};
 
     /**
      * Adds a route to the routes object.
@@ -26,14 +22,14 @@ class Router {
      */
     addRoute = (routeName, template) => {
         this.routes[routeName] = template;
-    }
+    };
 
     /**
      * Navigates to a specified route.
      * @param {string} route - The name of the route to navigate to.
      */
     navigateTo = (route) => {
-        let routeTrimmed = route.at(-1) === '/'
+        const routeTrimmed = route.at(-1) === '/'
             ? route.slice(0, -1)
             : route;
 
@@ -49,7 +45,6 @@ class Router {
                 : routeResult = routeTrimmed;
         }
 
-
         const routeInfo = this.routes[routeResult];
 
         if (!routeInfo) {
@@ -60,7 +55,7 @@ class Router {
         history.pushState({}, null, window.location.origin + routeResult);
 
         routeInfo.template.renderTemplateToParent();
-    }
+    };
 }
 
 export const router = new Router();

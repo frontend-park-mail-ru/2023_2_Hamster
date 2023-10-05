@@ -1,6 +1,4 @@
-'use strict';
-
-import {API_CONSTANTS, getBaseURL} from "../constants.js";
+import { API_CONSTANTS, getBaseURL } from '../constants.js';
 
 /**
  * Executes a GET request to the provided URL and returns the data in JSON format.
@@ -11,7 +9,7 @@ import {API_CONSTANTS, getBaseURL} from "../constants.js";
  * @throws {Error} - If an error occurs during the request, an error object is thrown.
  */
 export const get = async (url) => {
-    const response = await fetch(url, {credentials: "include"});
+    const response = await fetch(url, { credentials: 'include' });
 
     if (!response.ok) {
         const errorData = await response.json();
@@ -19,7 +17,7 @@ export const get = async (url) => {
     }
 
     return await response.json();
-}
+};
 
 /**
  * Executes a POST request to the provided URL with the provided data and returns the data in JSON format.
@@ -37,7 +35,7 @@ export const post = async (url, data) => {
             'Content-type': 'application/json; charset=UTF-8',
         },
         body: JSON.stringify(data),
-        credentials: "include",
+        credentials: 'include',
     });
 
     if (!response.ok) {
@@ -45,9 +43,8 @@ export const post = async (url, data) => {
         throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message}`);
     }
 
-
     return await response.json();
-}
+};
 
 /**
  * Executes a PATCH request to the provided URL with the provided data and returns the data in JSON format.
@@ -65,7 +62,7 @@ export const patch = async (url, data) => {
             'Content-type': 'application/json; charset=UTF-8',
         },
         body: JSON.stringify(data),
-        credentials: "include",
+        credentials: 'include',
     });
 
     if (!response.ok) {
@@ -74,7 +71,7 @@ export const patch = async (url, data) => {
     }
 
     return await response.json();
-}
+};
 
 /**
  * Executes a DELETE request to the provided URL and returns the data in JSON format.
@@ -87,7 +84,7 @@ export const patch = async (url, data) => {
 export const deleteRequest = async (url) => {
     const response = await fetch(url, {
         method: 'DELETE',
-        credentials: "include",
+        credentials: 'include',
     });
 
     if (!response.ok) {
@@ -95,7 +92,7 @@ export const deleteRequest = async (url) => {
     }
 
     return await response.json();
-}
+};
 
 /**
  * Executes a PUT request to the provided URL with the provided data and returns the data in JSON format.
@@ -113,7 +110,7 @@ export const put = async (url, data) => {
             'Content-type': 'application/json; charset=UTF-8',
         },
         body: JSON.stringify(data),
-        credentials: "include",
+        credentials: 'include',
     });
 
     if (!response.ok) {
@@ -122,7 +119,7 @@ export const put = async (url, data) => {
     }
 
     return await response.json();
-}
+};
 
 /**
  * Makes a POST request to the sign in endpoint with the user's input.
@@ -138,7 +135,7 @@ export const put = async (url, data) => {
 export const signIn = (userInput) => {
     const url = API_CONSTANTS.SIGN_IN;
     return post(url, userInput);
-}
+};
 
 /**
  * Makes a POST request to the sign up endpoint with the user's information.
@@ -154,7 +151,7 @@ export const signIn = (userInput) => {
 export const signUp = (userInput) => {
     const url = API_CONSTANTS.SIGN_UP;
     return post(url, userInput);
-}
+};
 
 /**
  * Makes a POST request to the log out endpoint.
@@ -167,7 +164,7 @@ export const signUp = (userInput) => {
 export const logOut = () => {
     const url = API_CONSTANTS.LOG_OUT;
     return post(url, {});
-}
+};
 
 /**
  * Makes a POST request to the check auth endpoint.
@@ -180,7 +177,7 @@ export const logOut = () => {
 export const checkAuth = () => {
     const url = API_CONSTANTS.CHECK_AUTH;
     return post(url, null);
-}
+};
 
 /**
  * Retrieves the balance for a specified id.
@@ -194,7 +191,7 @@ export const checkAuth = () => {
 export const getBalance = (id) => {
     const url = getBaseURL(id) + API_CONSTANTS.BALANCE_TAIL;
     return get(url);
-}
+};
 
 /**
  * Retrieves the accounts for a specified id.
@@ -208,7 +205,7 @@ export const getBalance = (id) => {
 export const getAccounts = (id) => {
     const url = getBaseURL(id) + API_CONSTANTS.ACCOUNTS_TAIL;
     return get(url);
-}
+};
 
 /**
  * Retrieves the actual budget for a specified id.
@@ -222,7 +219,7 @@ export const getAccounts = (id) => {
 export const getActualBudget = (id) => {
     const url = getBaseURL(id) + API_CONSTANTS.ACTUAL_BUDGET_TAIL;
     return get(url);
-}
+};
 
 /**
  * Retrieves the planned budget for a specified id.
@@ -236,4 +233,4 @@ export const getActualBudget = (id) => {
 export const getPlannedBudget = (id) => {
     const url = getBaseURL(id) + API_CONSTANTS.PLANNED_BUDGET_TAIL;
     return get(url);
-}
+};

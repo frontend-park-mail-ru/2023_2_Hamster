@@ -6,14 +6,14 @@ export class BaseComponent {
      * The parent HTML element where the BaseComponent will be rendered.
      * @type {HTMLElement}
      */
-    parent
+    parent;
 
     /**
      * The state of the BaseComponent.
      * @type {Object}
      * @private
      */
-    #state
+    #state;
 
     /**
      * Create a BaseComponent.
@@ -25,7 +25,7 @@ export class BaseComponent {
             this.parent = parent;
         }
 
-        this.#state = {...this.#state, ...state};
+        this.#state = { ...this.#state, ...state };
     }
 
     /**
@@ -36,7 +36,7 @@ export class BaseComponent {
     async renderTemplateToParent(templatesToStateMap) {
         this.cleanUp();
 
-        const htmlString = this.render(templatesToStateMap)
+        const htmlString = this.render(templatesToStateMap);
 
         if (this.parent) {
             this.parent.innerHTML = htmlString;
@@ -46,7 +46,7 @@ export class BaseComponent {
         return htmlString;
     }
 
-    cleanUp() {};
+    cleanUp() {}
 
     /**
      * Render the BaseComponent's template.
@@ -61,21 +61,21 @@ export class BaseComponent {
                     const template = Handlebars.templates[templateName];
                     const renderedTemplate = template(state);
                     return acc + renderedTemplate;
-                }, "",
+                }, '',
             );
     }
 
     /**
      * Set event handlers for the BaseComponent. To be implemented by subclasses.
      */
-    setHandlers() {};
+    setHandlers() {}
 
     /**
      * Updates the state of the component.
      * @param {Object} newState - The new state object containing the changed properties.
      */
     setState(newState) {
-        this.#state = {...this.#state, ...newState};
+        this.#state = { ...this.#state, ...newState };
     }
 
     /**

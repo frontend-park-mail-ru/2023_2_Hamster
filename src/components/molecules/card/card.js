@@ -1,6 +1,4 @@
-'use strict';
-
-import {BaseComponent} from "../../baseComponent.js";
+import { BaseComponent } from '../../baseComponent.js';
 
 const DEFAULT_STATE = {
     cardSize: 'card-small',
@@ -41,7 +39,6 @@ export class Card extends BaseComponent {
         }
     }
 
-
     /**
      * Renders the Card template to the parent element.
      */
@@ -68,7 +65,7 @@ export class Card extends BaseComponent {
     /**
      * Sets the click event handler for the card element.
      */
-    setHandlers(){
+    setHandlers() {
         const cardElement = this.parent.querySelector('.card');
         cardElement.addEventListener('click', this.handleClick.bind(this));
     }
