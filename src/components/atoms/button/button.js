@@ -25,7 +25,7 @@ export class Button extends BaseComponent {
      * Creates an instance of Button.
      * @constructor
      * @param {HTMLElement} parent - The parent element where the button will be rendered.
-     * @param {Object} [state=this.#state] - The initial state of the button component. (optional)
+     * @param {{buttonText: string, buttonColor: string, id: string, buttonSize: string}} [state=this.#state] - The initial state of the button component. (optional)
      * @param {string} state.buttonText - The text content of the button.
      * @param {string} state.buttonColor - The CSS class for the button color.
      * @param {string} state.buttonSize - The CSS class for the button size.
