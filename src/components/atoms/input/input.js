@@ -26,7 +26,7 @@ export class InputComponent extends BaseComponent {
      * Creates an instance of InputComponent.
      * @constructor
      * @param {HTMLElement} parent - The parent element where the input will be rendered.
-     * @param {Object} [state=this.#state] - The initial state of the input component. (optional)
+     * @param {{inputHelperText: string, inputLabelText: string, inputSize: string, typeOfInput: string, Error: string}} [state=this.#state] - The initial state of the input component. (optional)
      * @param {string} state.inputValue - The current value of the input.
      * @param {string} state.inputImageLeft - The path to the image file for the left icon.
      * @param {string} state.inputImageRight - The path to the image file for the right icon
