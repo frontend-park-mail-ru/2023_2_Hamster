@@ -1,12 +1,10 @@
-'use strict';
-
-import {BaseComponent} from "../../components/baseComponent.js";
-import {Menu} from "../../components/atoms/menu/menu.js";
-import {Sidebar} from "../../components/molecules/sidebar/sidebar.js";
-import {Button} from "../../components/atoms/button/button.js";
-import {checkAuth, getAccounts, getActualBudget, getBalance, getPlannedBudget, logOut} from "../../modules/ajax.js";
-import {router} from "../../modules/router.js";
-import {ROUTE_CONSTANTS} from "../../constants.js";
+import { BaseComponent } from '../../components/baseComponent.js';
+import { Menu } from '../../components/atoms/menu/menu.js';
+import { Sidebar } from '../../components/molecules/sidebar/sidebar.js';
+import { Button } from '../../components/atoms/button/button.js';
+import { getAccounts, getActualBudget, getBalance, getPlannedBudget, logOut } from '../../modules/ajax.js';
+import { router } from '../../modules/router.js';
+import { ROUTE_CONSTANTS } from '../../constants.js';
 
 /**
  * The default state for the Layout component.
@@ -16,19 +14,19 @@ import {ROUTE_CONSTANTS} from "../../constants.js";
  */
 const DEFAULT_STATE = {
     sidebar: {
-        siteLogo: "",
-        profilePic: "",
-        profileName: "Имя профиля",
+        siteLogo: '',
+        profilePic: '',
+        profileName: 'Имя профиля',
     },
-    layout: "",
+    layout: '',
 };
 
 const BUTTON_STATE = {
-    id: "logout_button",
+    id: 'logout_button',
     buttonSize: 'button_small',
     buttonColor: 'button_secondary-color',
     buttonImageLeft: '../../assets/icons/logout.svg',
-}
+};
 
 /**
  * Represents a Layout component that combines a Sidebar and content.
@@ -48,35 +46,35 @@ export class Layout extends BaseComponent {
      * @private
      * @type {string}
      */
-    #userId
+    #userId;
 
     /**
      * Logout button.
      * @private
      * @type {Button}
      */
-    #button
+    #button;
 
     /**
      * The Menu element associated with the Layout.
      * @private
      * @type {Menu}
      */
-    #menuElement
+    #menuElement;
 
     /**
      * The content element associated with the Layout.
      * @private
      * @type {HTMLElement}
      */
-    #contentElement
+    #contentElement;
 
     /**
      * The Sidebar element associated with the Layout.
      * @private
      * @type {Sidebar}
      */
-    #sidebar
+    #sidebar;
 
     /**
      * Create a Layout component.
@@ -112,7 +110,7 @@ export class Layout extends BaseComponent {
      * @async
      */
     async renderTemplateToParent() {
-        this.setState({sidebar: {profileName: router.username}});
+        this.setState({ sidebar: { profileName: router.username } });
         this.#userId = router.id;
 
         if (!this.data) {
@@ -147,11 +145,11 @@ export class Layout extends BaseComponent {
             await logOut();
             router.isAuthorised = false;
             router.navigateTo(ROUTE_CONSTANTS.LOGIN_ROUTE);
-        } catch (e){
+        } catch (e) {
             router.isAuthorised = false;
             console.log('Error: ', e);
         }
-    }
+    };
 
     /**
      * Set event handlers for the Layout component.
@@ -179,14 +177,12 @@ export class Layout extends BaseComponent {
                     cardHeadline: balance.balance,
                     cardSubhead: 'Баланс',
                     cardList: {
-                        listItems: accounts.Account.map(account => {
-                            return {
-                                listItemTitle: account.mean_payment,
-                                listItemValue: account.balance,
-                                valueUnits: 'Р',
-                            }
-                        })
-                    }
+                        listItems: accounts.Account.map((account) => ({
+                            listItemTitle: account.mean_payment,
+                            listItemValue: account.balance,
+                            valueUnits: 'Р',
+                        })),
+                    },
                 },
                 cardPlannedBudget: {
                     cardSize: 'card_small',
@@ -198,9 +194,9 @@ export class Layout extends BaseComponent {
                     cardHeadline: actualBudget.actual_balance,
                     cardSubhead: 'Актуальный бюджет',
                 },
-            }
+            };
         }
 
         return null;
-    }
+    };
 }

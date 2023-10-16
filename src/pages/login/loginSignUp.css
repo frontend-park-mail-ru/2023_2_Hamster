@@ -1,88 +1,64 @@
-body {
-    background-color: var(--background-main-color);
-    overflow: hidden;
-    margin: 0;
-    padding: 0;
-    font-family: sans-serif;
+.login-sign-up-layout {
+    display: flex;
+    height: 100%;
+    width: 100%;
 }
 
 .login-sign-up-layout__form-container {
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: column;
+    flex: 4;
+    justify-content: center;
+    padding: 0 10vmax;
     height: 100%;
     width: 100%;
 }
 
 .login-sign-up-layout__form {
-    flex: 4;
-    align-items: center;
     text-align: left;
-    max-height: 50%;
-    margin: auto 0;
+    margin-top: auto;
+    margin-bottom: auto;
 }
-
-.login-sign-up-layout__form form {
-    max-width: 400px;
-    margin: 0 auto;
-}
-
-.login-sign-up-layout__background-image {
-    flex: 6;
-    background-image: url('../../assets/images/imageLogin.svg');
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-}
-
-.login-sign-up-layout__background-image img {
-    width: 70%;
-    object-fit: contain;
-    position: absolute;
-    top: 35%;
-}
-
-.image-overlay-text {
-    position: absolute;
-    top: 10%;
-    left: 20%;
-    z-index: 5;
-    color: var(--text-main-color);
-}
-
-.image-overlay-text h1 {
-    font-size: 3vmax;
-}
-
-.image-overlay-text p {
-    padding-left: 2px;
-    font-size: 2vmax;
-}
-
 
 .login-sign-up-layout__link-container {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 40%;
-    text-align: center;
-    box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.1);
-}
-
-.login-sign-up-layout__link-container p,
-.login-sign-up-layout__link-container a {
-    display: inline-block;
-    vertical-align: middle;
-    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    margin: 32px 0;
     color: var(--text-halftoned-color);
 }
 
-.login-sign-up-layout__link-container p {
-    margin-right: 20%;
+.login-sign-up-layout__link{
+    margin-right: auto;
 }
 
-.login-sign-up-layout__link-container a:hover {
-    text-decoration: underline;
+.login-sign-up-layout__greeting-container {
+    display: flex;
+    flex: 8;
+    flex-direction: column;
+    background-image: url('../../assets/images/imageLogin.svg');
+    background-size: cover;
+    background-position: center;
+    height: 100%;
+}
+
+.login-sign-up-layout__greeting-text {
+    margin: 0 5vmax;
+    color: var(--text-main-color);
+}
+
+.login-sign-up-layout__greeting-text-h1 {
+    font-size: 5vmax;
+    font-weight: bolder;
+    margin-bottom: 5px;
+}
+
+.login-sign-up-layout__greeting-text-base {
+    font-size: 2vmax;
+    margin: 0 10px;
+}
+
+.login-sign-up-layout__greeting-image{
+    margin-top: auto;
+    align-self: center;
+    overflow: hidden;
 }

@@ -12,17 +12,18 @@
         "linebreak-style": "off",
         "indent": ["warn", 4],
         "max-len": ["warn", {"code": 120, "comments": 200}],
-        "function-paren-newline": "off",  // https://eslint.org/docs/latest/rules/function-paren-newline#rule-details
-        "import/prefer-default-export": "off",  // можно не использовать export default
-        "comma-dangle": ["error", "only-multiline"],  // https://eslint.org/docs/latest/rules/comma-dangle#rule-details
-        "import/extensions": "off",  // можно .js расширение в импортах
-        "padded-blocks": "off",  // https://eslint.org/docs/latest/rules/padded-blocks#rule-details
-        "no-return-await": "off",  // можно писать return await ...
-        "no-console": "off",  // можно использовать объект console
-        "class-methods-use-this": "off",  // можно не использовать this в методах класса
-        "no-param-reassign": "off",  // можно присваивать параметрам функции значение
-        "default-param-last": "off",  // дефолтными параметрами могут быть не только последние параметры
-        "no-unused-vars": ["warn", { "vars": "local", "args": "none" }]  // ругается на неиспользуемые локальные переменные, на глобальные и параметры функций - нет
+        "function-paren-newline": "off",
+        "import/prefer-default-export": "off",
+        "comma-dangle": ["error", "only-multiline"],
+        "import/extensions": "off",
+        "padded-blocks": "off",
+        "no-return-await": "off",
+        "no-console": "off",
+        "class-methods-use-this": "off",
+        "no-param-reassign": "off",
+        "default-param-last": "off",
+        "no-unused-vars": ["warn", { "vars": "local", "args": "none" }],
+        "quotes": ["error", "single"]
     },
     "globals": {
         "Handlebars": "readonly"

@@ -3,17 +3,17 @@
     <div class="input__label font-caption">{{this.inputLabelText}}</div>
 {{/if}}
 
-<div class="input-container 
+<div class="input-container
             {{this.inputSize}}
             {{this.inputRadiusSize}}
             {{#if this.isError}}
                 input-error
             {{/if}}">
-    {{#if this.inputImageLeft}} 
-        <img 
-            class="input__icon input__icon-left" 
+    {{#if this.inputImageLeft}}
+        <img
+            class="input__icon input__icon-left"
             src="{{this.inputImageLeft}}"
-        > 
+         alt="left icon">
     {{/if}}
     <input {{#if id}} id="{{id}}" {{/if}} type="{{typeOfInput}}"
         {{#if autocompleteOff}}
@@ -22,20 +22,20 @@
 
         name="{{nameOfField}}"
         placeholder="{{this.inputPlaceholder}}"
-        class="input input__text 
-            {{#if this.inputImageLeft}} 
-                input__text-left 
-            {{else}} 
+        class="input input__text
+            {{#if this.inputImageLeft}}
+                input__text-left
+            {{else}}
                 input__text-right
             {{/if}}"
     >
 
-    {{#if this.inputImageRight}} 
+    {{#if this.inputImageRight}}
         {{#unless this.inputImageLeft}}
-            <img 
-                class="input__icon input__icon-right" 
+            <img
+                class="input__icon input__icon-right"
                 src="{{this.inputImageRight}}"
-            > 
+            >
         {{/unless}}
     {{/if}}
 

@@ -5,11 +5,11 @@ const path = require('path');
 
 const app = express();
 
-const routes = ['/login', '/registration', '/dashboard', '/']
+const routes = ['/login', '/registration', '/dashboard', '/'];
 
 routes.forEach((route) => {
-    app.use(route, express.static(path.resolve(__dirname, '../src')));
     app.use(route, express.static(path.resolve(__dirname, '../node_modules')));
+    app.use(route, express.static(path.resolve(__dirname, '../src')));
 });
 
 const port = process.env.PORT || 8000;
