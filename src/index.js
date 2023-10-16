@@ -1,25 +1,25 @@
-import {LoginOrSignUp} from "./pages/login/loginSignUp.js";
-import {Dashboard} from "./pages/dashboard/dashboard.js";
-import {router} from "./modules/router.js";
-import {ROUTE_CONSTANTS} from "./constants.js";
-import {Layout} from "./pages/layout/layout.js";
-import {checkAuth} from "./modules/ajax.js";
+import { LoginOrSignUp } from './pages/login/loginSignUp.js';
+import { Dashboard } from './pages/dashboard/dashboard.js';
+import { router } from './modules/router.js';
+import { ROUTE_CONSTANTS } from './constants.js';
+import { Layout } from './pages/layout/layout.js';
+import { checkAuth } from './modules/ajax.js';
 
 const layoutState = {
     sidebar: {
-        profileName: "Тестовое имя",
+        profileName: 'Тестовое имя',
         menu: {
             menuSections: [
                 {
-                    menuSectionHeading: "Главное",
+                    menuSectionHeading: 'Главное',
                     menuItems: [
                         {
-                            menuItemText: "Доска",
-                        }
-                    ]
-                }
-            ]
-        }
+                            menuItemText: 'Доска',
+                        },
+                    ],
+                },
+            ],
+        },
     },
 };
 
@@ -40,13 +40,17 @@ const routes = {
     },
 };
 
-Object.entries(routes).forEach(([key, value]) => {
-    router.addRoute(key, value);
-});
+Object.entries(routes)
+    .forEach(([key, value]) => {
+        router.addRoute(key, value);
+    });
 
 (async () => {
     try {
-        const {username, id} = await checkAuth();
+        const {
+            username,
+            id,
+        } = await checkAuth();
         router.isAuthorised = true;
         router.username = username;
         router.id = id;

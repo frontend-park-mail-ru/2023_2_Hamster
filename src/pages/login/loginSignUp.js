@@ -1,12 +1,10 @@
-'use strict';
+import { Button } from '../../components/atoms/button/button.js';
+import { BaseComponent } from '../../components/baseComponent.js';
+import { LoginSignUpForm } from '../../components/molecules/loginSignupForm/loginSignupForm.js';
+import { router } from '../../modules/router.js';
+import { ROUTE_CONSTANTS } from '../../constants.js';
 
-import {Button} from "../../components/atoms/button/button.js";
-import {BaseComponent} from "../../components/baseComponent.js";
-import {LoginSignUpForm} from "../../components/molecules/loginSignupForm/loginSignupForm.js"
-import {router} from "../../modules/router.js";
-import {ROUTE_CONSTANTS} from "../../constants.js";
-
-const IMAGE_URL = "../../assets/images/peopleLoginReg.svg";
+const IMAGE_URL = '../../assets/images/peopleLoginReg.svg';
 
 const DEFAULT_STATE = {
     ImagePeople: IMAGE_URL,
@@ -75,7 +73,7 @@ export class LoginOrSignUp extends BaseComponent {
     }
 
     renderTemplateToParent() {
-        const buttonHTML = this.#buttonElement.render()
+        const buttonHTML = this.#buttonElement.render();
 
         const templatesToStateMap = {
             'loginSignUp.hbs': {
@@ -87,7 +85,7 @@ export class LoginOrSignUp extends BaseComponent {
 
         super.renderTemplateToParent(templatesToStateMap);
 
-        this.#form.parent = document.querySelector('.login-sign-up-layout__form')
+        this.#form.parent = document.querySelector('.login-sign-up-layout__form');
 
         this.#form.renderTemplateToParent();
     }
@@ -102,7 +100,7 @@ export class LoginOrSignUp extends BaseComponent {
     switchLoginSignup = () => {
         this.#form.clearErrorState();
         router.navigateTo(this.#isLogin ? ROUTE_CONSTANTS.REGISTRATION_ROUTE : ROUTE_CONSTANTS.LOGIN_ROUTE);
-    }
+    };
 
     setHandlers() {
         const button = document.querySelector('#switch_login_signup_button');

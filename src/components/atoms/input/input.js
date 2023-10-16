@@ -92,7 +92,7 @@ export class InputComponent extends BaseComponent {
      * Sets the change event handler for the input.
      * @param {Function} changeHandler - The function to handle the input change event.
      */
-    setChangeHandler(changeHandler) {
+    setHandler(changeHandler) {
         this.#changeHandler = changeHandler;
     }
 
@@ -100,7 +100,7 @@ export class InputComponent extends BaseComponent {
      * Gets the current change event handler for the input.
      * @returns {Function} - The current change event handler.
      */
-    getChangeHandler() {
+    getHandler() {
         return this.#changeHandler;
     }
 }

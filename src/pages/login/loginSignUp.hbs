@@ -1,32 +1,38 @@
-<div class="login-sign-up-layout__form-container">
-    <div class="login-sign-up-layout__background-image">
-        <div class="image-overlay-text">
-            <h1 class="font-h1-medium">
-                {{#if isLogin}} 
-                    {{ImageTextLoginH1}} 
+<div class="login-sign-up-layout">
+    <div class="login-sign-up-layout__form-container">
+        <div class="login-sign-up-layout__form">
+
+        </div>
+
+        <div class="login-sign-up-layout__link-container">
+            {{#if isLogin}}
+                <p class="login-sign-up-layout__link font-caption"> {{LinkLogin}} </p>
+                {{{ button }}}
+            {{else}}
+                <p class="login-sign-up-layout__link font-caption"> {{LinkRegister}} </p>
+                {{{ button }}}
+            {{/if}}
+        </div>
+    </div>
+
+    <div class="login-sign-up-layout__greeting-container">
+        <div class="login-sign-up-layout__greeting-text">
+            <h1 class="login-sign-up-layout__greeting-text-h1 font-h1-medium">
+                {{#if isLogin}}
+                    {{ImageTextLoginH1}}
                 {{else}}
                     {{ImageTextRegistrH1}}
                 {{/if}} </h1>
-            <p class="font-base-text">
-                {{#if isLogin}} 
-                    {{ImageTextLoginP1}} 
+            <p class="login-sign-up-layout__greeting-text-base font-base-text">
+                {{#if isLogin}}
+                    {{ImageTextLoginP1}}
                 {{else}}
                     {{ImageTextRegistrP1}}
                 {{/if}}
             </p>
         </div>
-        <img src="{{ImagePeople}}" alt="People image">
+        <div class="login-sign-up-layout__greeting-image">
+            <img src="{{ImagePeople}}" alt="People image">
+        </div>
     </div>
-    <div class="login-sign-up-layout__form">
-        
-    </div>
-    
-    <div class="login-sign-up-layout__link-container">
-        {{#if isLogin}}
-            <p class="font-caption"> {{LinkLogin}} </p> {{{ button }}}
-        {{else}}
-            <p class="font-caption"> {{LinkRegister}} </p> {{{ button }}}
-        {{/if}}
-    </div>
-
 </div>
