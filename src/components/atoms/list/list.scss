@@ -1,0 +1,37 @@
+.list {
+  list-style-type: none;
+  padding: 0;
+  margin: var(--list-margin-top) 0 0;
+
+  &__item-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  &__item-title {
+    flex-grow: 1;
+    text-align: left;
+    color: var(--text-halftoned-color);
+  }
+
+  &__item-additional {
+    text-align: right;
+    color: var(--text-halftoned-color);
+  }
+
+  &__item {
+    &:not(:last-child) {
+      &::after {
+        content: "";
+        display: block;
+        height: var(--list-divider-height);
+        width: 100%;
+        background-color: var(--background-tertiary-color);
+        margin-top: var(--list-divider-margin);
+        margin-bottom: var(--list-divider-margin);
+      }
+    }
+  }
+}

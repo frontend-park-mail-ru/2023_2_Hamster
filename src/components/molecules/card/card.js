@@ -1,4 +1,6 @@
-import { BaseComponent } from '../../baseComponent.js';
+import { BaseComponent } from '@components';
+
+import template from './card.hbs';
 
 const DEFAULT_STATE = {
     cardSize: 'card-small',
@@ -43,11 +45,7 @@ export class Card extends BaseComponent {
      * Renders the Card template to the parent element.
      */
     renderTemplateToParent() {
-        const templatesToStateMap = {
-            'card.hbs': this.getState(),
-        };
-
-        super.renderTemplateToParent(templatesToStateMap);
+        super.renderTemplateToParent([template(this.getState())]);
     }
 
     /**
@@ -55,11 +53,7 @@ export class Card extends BaseComponent {
      * @returns {string} The resulting HTML string.
      */
     render() {
-        const templatesToStateMap = {
-            'card.hbs': this.getState(),
-        };
-
-        return super.render(templatesToStateMap);
+        return super.render([template(this.getState())]);
     }
 
     /**

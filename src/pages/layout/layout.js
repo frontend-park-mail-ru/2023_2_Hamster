@@ -1,10 +1,15 @@
-import { BaseComponent } from '../../components/baseComponent.js';
-import { Menu } from '../../components/atoms/menu/menu.js';
-import { Sidebar } from '../../components/molecules/sidebar/sidebar.js';
-import { Button } from '../../components/atoms/button/button.js';
-import { getAccounts, getActualBudget, getBalance, getPlannedBudget, logOut } from '../../modules/ajax.js';
-import { router } from '../../modules/router.js';
-import { ROUTE_CONSTANTS } from '../../constants.js';
+import { BaseComponent } from '@components/baseComponent.js';
+import { Menu } from '@atoms/menu/menu.js';
+import { Sidebar } from '@molecules/sidebar/sidebar.js';
+import { Button } from '@atoms/button/button.js';
+import { getAccounts, getActualBudget, getBalance, getPlannedBudget, logOut } from '@ajax';
+import { router } from '@router';
+import { ROUTE_CONSTANTS } from '@constants';
+
+import layoutTemplate from './layout.hbs';
+import sidebarTemplate from '@molecules/sidebar/sidebar.hbs';
+
+import LOG_OUT_IMAGE from '@icons/logout.svg';
 
 /**
  * The default state for the Layout component.
@@ -14,18 +19,27 @@ import { ROUTE_CONSTANTS } from '../../constants.js';
  */
 const DEFAULT_STATE = {
     sidebar: {
-        siteLogo: '',
-        profilePic: '',
         profileName: 'Имя профиля',
+        menu: {
+            menuSections: [
+                {
+                    menuSectionHeading: 'Главное',
+                    menuItems: [
+                        {
+                            menuItemText: 'Доска',
+                        },
+                    ],
+                },
+            ],
+        },
     },
-    layout: '',
 };
 
 const BUTTON_STATE = {
     id: 'logout_button',
     buttonSize: 'button_small',
     buttonColor: 'button_secondary-color',
-    buttonImageLeft: '../../assets/icons/logout.svg',
+    buttonImageLeft: LOG_OUT_IMAGE,
 };
 
 /**
@@ -65,7 +79,7 @@ export class Layout extends BaseComponent {
     /**
      * The content element associated with the Layout.
      * @private
-     * @type {HTMLElement}
+     * @type {Object}
      */
     #contentElement;
 
@@ -80,28 +94,18 @@ export class Layout extends BaseComponent {
      * Create a Layout component.
      * @param {HTMLElement} parent - The parent HTML element where the Layout will be rendered.
      * @param {Object} [state=DEFAULT_STATE] - The initial state of the Layout component. (optional)
-     * @param {HTMLElement} contentElement - The content element associated with the Layout.
+     * @param {Object} contentElement - The content element associated with the Layout.
      */
     constructor(parent, state = DEFAULT_STATE, contentElement) {
         super(state, parent);
 
-        /**
-         * The Menu element associated with the Layout.
-         * @type {Menu}
-         * @private
-         */
         this.#menuElement = new Menu(this.getState().sidebar.menu);
 
         this.#button = new Button(null, BUTTON_STATE, this.onLogout);
 
         this.#contentElement = contentElement;
 
-        /**
-         * The Sidebar element associated with the Layout.
-         * @type {Sidebar}
-         * @private
-         */
-        this.#sidebar = new Sidebar(parent, this.#menuElement);
+        this.#sidebar = new Sidebar(parent, this.getState().sidebar);
 
     }
 
@@ -110,7 +114,7 @@ export class Layout extends BaseComponent {
      * @async
      */
     async renderTemplateToParent() {
-        this.setState({ sidebar: { profileName: router.username } });
+        this.setState({ sidebar: { profileName: router.username ? router.username : 'Имя профиля' } });
         this.#userId = router.id;
 
         if (!this.data) {
@@ -123,16 +127,16 @@ export class Layout extends BaseComponent {
 
         const logoutButtonHTML = this.#button.render();
 
-        const templatesToStateMap = {
-            'sidebar.hbs': {
+        const templatesToStateMap = [
+            sidebarTemplate({
                 ...this.getState().sidebar,
                 menu: menuHTML,
                 logoutButton: logoutButtonHTML,
-            },
-            'layout.hbs': {
+            }),
+            layoutTemplate({
                 content: contentHTML,
-            },
-        };
+            }),
+        ];
 
         return super.renderTemplateToParent(templatesToStateMap);
     }
@@ -165,38 +169,42 @@ export class Layout extends BaseComponent {
      */
     getData = async () => {
         const id = this.#userId;
-        const balance = await getBalance(id);
-        const accounts = await getAccounts(id);
-        const plannedBudget = await getPlannedBudget(id);
-        const actualBudget = await getActualBudget(id);
+        try {
+            const balance = await getBalance(id);
+            const accounts = await getAccounts(id);
+            const plannedBudget = await getPlannedBudget(id);
+            const actualBudget = await getActualBudget(id);
 
-        if (accounts.Account) {
-            return {
-                cardBalance: {
-                    cardSize: 'card_small',
-                    cardHeadline: balance.balance,
-                    cardSubhead: 'Баланс',
-                    cardList: {
-                        listItems: accounts.Account.map((account) => ({
-                            listItemTitle: account.mean_payment,
-                            listItemValue: account.balance,
-                            valueUnits: 'Р',
-                        })),
+            if (accounts != null) {
+                return {
+                    cardBalance: {
+                        cardSize: 'card_small',
+                        cardHeadline: balance.balance,
+                        cardSubhead: 'Баланс',
+                        cardList: {
+                            listItems: accounts.Account.map((account) => ({
+                                listItemTitle: account.mean_payment,
+                                listItemValue: account.balance,
+                                valueUnits: '₽',
+                            })),
+                        },
                     },
-                },
-                cardPlannedBudget: {
-                    cardSize: 'card_small',
-                    cardHeadline: plannedBudget.planned_balance,
-                    cardSubhead: 'Запланнированный бюджет',
-                },
-                cardActualBudget: {
-                    cardSize: 'card_small',
-                    cardHeadline: actualBudget.actual_balance,
-                    cardSubhead: 'Актуальный бюджет',
-                },
-            };
-        }
+                    cardPlannedBudget: {
+                        cardSize: 'card_small',
+                        cardHeadline: plannedBudget.planned_balance,
+                        cardSubhead: 'Запланнированный бюджет',
+                    },
+                    cardActualBudget: {
+                        cardSize: 'card_small',
+                        cardHeadline: actualBudget.actual_balance,
+                        cardSubhead: 'Актуальный бюджет',
+                    },
+                };
+            }
 
-        return null;
+            return null;
+        } catch (e) {
+            console.error('some error occurred while connecting to server');
+        }
     };
 }

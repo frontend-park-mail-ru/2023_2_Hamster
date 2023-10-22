@@ -1,10 +1,12 @@
-import { Button } from '../../components/atoms/button/button.js';
-import { BaseComponent } from '../../components/baseComponent.js';
-import { LoginSignUpForm } from '../../components/molecules/loginSignupForm/loginSignupForm.js';
-import { router } from '../../modules/router.js';
-import { ROUTE_CONSTANTS } from '../../constants.js';
+import { Button } from '@atoms';
+import { BaseComponent } from '@components';
+import { LoginSignUpForm } from '@molecules';
+import { router } from '@router';
+import { ROUTE_CONSTANTS } from '@constants';
 
-const IMAGE_URL = '../../assets/images/peopleLoginReg.svg';
+import template from './loginSignUp.hbs';
+
+import IMAGE_URL from '@images/peopleLoginReg.svg';
 
 const DEFAULT_STATE = {
     ImagePeople: IMAGE_URL,
@@ -13,7 +15,7 @@ const DEFAULT_STATE = {
     ImageTextRegistrH1: 'Привет, это HammyWallet',
     ImageTextRegistrP1: 'Будем рады помочь вам с финансами!',
     LinkLogin: 'У вас нет учетной записи?',
-    LinkRegister: 'У вас уже есть аккаунт?'
+    LinkRegister: 'У вас уже есть аккаунт?',
 };
 
 const REGISTER_BUTTON_TEXT = 'Регистрация';
@@ -75,15 +77,15 @@ export class LoginOrSignUp extends BaseComponent {
     renderTemplateToParent() {
         const buttonHTML = this.#buttonElement.render();
 
-        const templatesToStateMap = {
-            'loginSignUp.hbs': {
+        const templates = [
+            template({
                 ...this.getState(),
                 isLogin: this.#isLogin,
                 button: buttonHTML,
-            },
-        };
+            }),
+        ];
 
-        super.renderTemplateToParent(templatesToStateMap);
+        super.renderTemplateToParent(templates);
 
         this.#form.parent = document.querySelector('.login-sign-up-layout__form');
 

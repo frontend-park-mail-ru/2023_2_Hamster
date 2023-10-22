@@ -1,0 +1,110 @@
+@mixin input-size($padding, $min-width, $border-radius) {
+  width: auto;
+  padding: $padding;
+  min-width: $min-width;
+  border-radius: $border-radius;
+}
+
+.input-container {
+  position: relative;
+  display: inline-block;
+  height: auto;
+  width: 70%;
+  background-color: var(--input-primary-color);
+  border: 1px solid var(--input-border-color);
+  transition: border-color 0.3s ease;
+
+  &:focus-within {
+    border: 1px solid var(--input-focus-color);
+  }
+}
+
+.input {
+  background: transparent;
+  border: 0;
+  height: 100%;
+  width: 100%;
+
+  &__text {
+    font-style: normal;
+    font-size: 16px;
+    letter-spacing: 0.03em;
+    color: var(--text-main-color);
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+
+  &_small {
+    @include input-size(var(--input-padding-small), var(--inputs-minimal-width), var(--radius-size-small));
+  }
+
+  &_medium {
+    @include input-size(var(--input-padding-medium), var(--inputs-minimal-width), var(--radius-size-medium));
+  }
+
+  &_large {
+    @include input-size(var(--input-padding-large), var(--inputs-minimal-width), var(--radius-size-large));
+  }
+
+  &__text-padding-right {
+    padding-left: 10px;
+  }
+
+  &__text-padding-left {
+    padding-left: 30px;
+  }
+
+  &_radius-small {
+    border-radius: var(--radius-size-small);
+  }
+
+  &_radius-medium {
+    border-radius: var(--radius-size-medium);
+  }
+
+  &_radius-large {
+    border-radius: var(--radius-size-large);
+  }
+
+  &_error {
+    border: 1px solid var(--error-color);
+  }
+
+  &__icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2em;
+    height: 2em;
+  }
+
+  &__icon-right {
+    right: 10px;
+  }
+
+  &__icon-left {
+    left: 10px;
+  }
+
+  &__label {
+    top: 8px;
+    color: var(--text-muted-color)
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &::placeholder {
+    color: var(--text-muted-color);
+  }
+}
+
+.input-helper{
+  font-style: normal;
+  font-size: 16px;
+
+  &_error {
+    color: var(--error-color)
+  }
+}

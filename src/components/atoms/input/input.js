@@ -1,4 +1,6 @@
-import { BaseComponent } from '../../baseComponent.js';
+import { BaseComponent } from '@components/baseComponent.js';
+
+import template from './input.hbs';
 
 const DEFAULT_INPUT = {
     Error: '',
@@ -15,7 +17,7 @@ const DEFAULT_INPUT = {
  * Represents an Input Component.
  * @class
  */
-export class InputComponent extends BaseComponent {
+export class Input extends BaseComponent {
     /**
      * The function that will handle the input change event.
      * @type {Function}
@@ -46,11 +48,7 @@ export class InputComponent extends BaseComponent {
      * @returns {string} - The rendered HTML template of the input.
      */
     renderTemplateToParent() {
-        const templatesToStateMap = {
-            'input.hbs': this.getState(),
-        };
-
-        return super.renderTemplateToParent(templatesToStateMap);
+        return super.renderTemplateToParent([template(this.getState())]);
     }
 
     /**
@@ -58,11 +56,7 @@ export class InputComponent extends BaseComponent {
      * @returns {string} - The rendered HTML template of the input.
      */
     render() {
-        const templatesToStateMap = {
-            'input.hbs': this.getState(),
-        };
-
-        return super.render(templatesToStateMap);
+        return super.render([template(this.getState())]);
     }
 
     /**

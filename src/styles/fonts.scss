@@ -1,0 +1,26 @@
+@mixin font-style($font-family, $font-size, $font-weight) {
+  font-family: #{$font-family};
+  font-size: $font-size;
+  font-weight: $font-weight;
+  letter-spacing: 0.03em;
+}
+
+.font-h1-bold {
+  @include font-style('Inter, sans-serif', 48px, 700);
+}
+
+.font-h1-medium {
+  @include font-style('Inter, sans-serif', 48px, 500);
+}
+
+.font-h1-regular {
+  @include font-style('Inter, sans-serif', 48px, 400);
+}
+
+.font-base-text {
+  @include font-style('Rubik, sans-serif', 20px, 400);
+}
+
+.font-caption {
+  @include font-style('Rubik, sans-serif', 16px, 400);
+}

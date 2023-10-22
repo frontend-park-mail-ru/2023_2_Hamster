@@ -1,4 +1,4 @@
-import { ROUTE_CONSTANTS } from '../constants.js';
+import { ROUTE_CONSTANTS } from '@constants';
 
 /**
  * Class representing a router.
@@ -17,13 +17,8 @@ class Router {
 
     id;
 
-    /**
-     * Adds a route to the routes object.
-     * @param {string} routeName - The name of the route.
-     * @param {Object} template - The template of the route.
-     */
-    addRoute = (routeName, template) => {
-        this.routes[routeName] = template;
+    addRoute = (routeName, view) => {
+        this.routes[routeName] = view;
     };
 
     /**
@@ -56,7 +51,7 @@ class Router {
 
         history.pushState({}, null, window.location.origin + routeResult);
 
-        routeInfo.template.renderTemplateToParent();
+        routeInfo.view.renderTemplateToParent();
     };
 }
 

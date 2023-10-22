@@ -1,6 +1,8 @@
-import { BaseComponent } from '../../components/baseComponent.js';
-import { Card } from '../../components/molecules/card/card.js';
-import { List } from '../../components/atoms/list/list.js';
+import { BaseComponent } from '@components/baseComponent.js';
+import { Card } from '@molecules/card/card.js';
+import { List } from '@atoms/list/list.js';
+
+import template from './dashboard.hbs';
 
 /**
  * Default state for the Dashboard component.
@@ -11,6 +13,15 @@ const DEFAULT_DASHBOARD_STATE = {
         cardSize: 'card_small',
         cardHeadline: 'У вас еще нет счетов',
         cardSubhead: '',
+        cardList: {
+            listItems: [
+                {
+                    listItemTitle: 'title',
+                    listItemValue: 'value',
+                    valueUnits: '₽',
+                },
+            ],
+        },
     },
     cardPlannedBudget: {
         cardSize: 'card_small',
@@ -30,16 +41,8 @@ const DEFAULT_DASHBOARD_STATE = {
  */
 export class Dashboard extends BaseComponent {
 
-    /**
-     * @private
-     * @type {Card}
-     */
     #cardBalance;
 
-    /**
-     * @private
-     * @type {Card}
-     */
     #cardPlannedBudget;
 
     #cardActualBudget;
@@ -75,15 +78,15 @@ export class Dashboard extends BaseComponent {
         const cardPlannedBudgetHTML = this.#cardPlannedBudget.render();
         const cardActualBudgetHTML = this.#cardActualBudget.render();
 
-        const templatesToStateMap = {
-            'dashboard.hbs': {
+        const templates = [
+            template({
                 balance: cardBalanceHTML,
                 plannedBudget: cardPlannedBudgetHTML,
                 actualBudget: cardActualBudgetHTML,
-            },
-        };
+            }),
+        ];
 
-        super.renderTemplateToParent(templatesToStateMap);
+        super.renderTemplateToParent(templates);
     };
 
     /**
@@ -99,15 +102,15 @@ export class Dashboard extends BaseComponent {
         const cardPlannedBudgetHTML = this.#cardPlannedBudget.render();
         const cardActualBudgetHTML = this.#cardActualBudget.render();
 
-        const templatesToStateMap = {
-            'dashboard.hbs': {
+        const templates = [
+            template({
                 balance: cardBalanceHTML,
                 plannedBudget: cardPlannedBudgetHTML,
                 actualBudget: cardActualBudgetHTML,
-            },
-        };
+            }),
+        ];
 
-        return super.render(templatesToStateMap);
+        return super.render(templates);
     };
 
     /**

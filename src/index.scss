@@ -1,8 +1,7 @@
-@import "styles/dark_theme/theme.css";
-@import "styles/fonts.css";
-@import "components/components.css";
-@import "pages/pages.css";
-@import "pages/login/loginSignUp.css";
+@import "styles/dark_theme/theme";
+@import "styles/fonts";
+@import "components/components";
+@import "pages/pages";
 
 body {
     background-color: var(--background-main-color);

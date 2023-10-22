@@ -1,0 +1,83 @@
+@mixin button-state($color, $hover-color, $focus-color, $active-color, $disabled-color) {
+  background: $color;
+
+  &:hover {
+    background: $hover-color;
+    cursor: pointer;
+  }
+
+  &:focus {
+    background: $focus-color;
+  }
+
+  &:active {
+    outline: none;
+    background: $active-color;
+    box-shadow: 0 0 0 4px $focus-color;
+  }
+
+  &:disabled {
+    background: $disabled-color;
+    cursor: auto;
+  }
+}
+
+@mixin button-size($padding, $border-radius) {
+  padding: $padding;
+  border-radius: $border-radius;
+}
+
+.button {
+  border: none;
+  outline: none;
+  text-align: center;
+  display: inline-block;
+  transition: 0.2s;
+
+  &__text {
+    font-family: Rubik, sans-serif;
+    font-style: normal;
+    font-size: 14px;
+    letter-spacing: 0.03em;
+    color: var(--text-main-color);
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+
+  &__icon {
+    max-width: 24px;
+    max-height: 24px;
+  }
+
+  &.button_small {
+    @include button-size(var(--button-padding-small), var(--radius-size-small));
+  }
+
+  &.button_medium {
+    @include button-size(var(--button-padding-medium), var(--radius-size-medium));
+  }
+
+  &.button_large {
+    @include button-size(var(--button-padding-large), var(--radius-size-large));
+  }
+
+  &.button_radius-small {
+    border-radius: var(--radius-size-small);
+  }
+
+  &.button_radius-medium {
+    border-radius: var(--radius-size-medium);
+  }
+
+  &.button_radius-large {
+    border-radius: var(--radius-size-large);
+  }
+
+  &.button_primary-color {
+    @include button-state(var(--button-primary-default-color), var(--button-primary-hover-color), var(--button-primary-focus-color), var(--button-primary-active-color), var(--button-primary-disabled-color));
+  }
+
+  &.button_secondary-color {
+    @include button-state(var(--button-secondary-default-color), var(--button-secondary-hover-color), var(--button-secondary-focus-color), var(--button-secondary-active-color), var(--button-secondary-disabled-color));
+  }
+}
