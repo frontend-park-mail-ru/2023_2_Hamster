@@ -1,9 +1,10 @@
-import { BaseComponent } from '../../baseComponent.js';
-import { InputComponent } from '../../atoms/input/input.js';
-import { Button } from '../../atoms/button/button.js';
-import { signIn, signUp } from '../../../modules/ajax.js';
-import { router } from '../../../modules/router.js';
-import { ROUTE_CONSTANTS } from '../../../constants.js';
+import { BaseComponent } from '@components/baseComponent.js';
+import {Button, Input} from '@atoms';
+import { signIn, signUp } from '@ajax';
+import { router } from '@router';
+import { ROUTE_CONSTANTS } from '@constants';
+
+import template from './loginSignupForm.hbs';
 
 const PASSWORD_MIN_LENGTH = 4;
 const PASSWORD_MAX_LENGTH = 64;
@@ -63,19 +64,19 @@ export class LoginSignUpForm extends BaseComponent {
 
     /**
      * Input field for username.
-     * @type {InputComponent}
+     * @type {Input}
      */
     #inputUsername;
 
     /**
      * Input field for password.
-     * @type {InputComponent}
+     * @type {Input}
      */
     #inputPassword;
 
     /**
      * Input field for password repeat in case it is signup form.
-     * @type {InputComponent}
+     * @type {Input}
      */
     #inputPasswordRepeat;
 
@@ -99,10 +100,10 @@ export class LoginSignUpForm extends BaseComponent {
         super(state, parent);
 
         this.#isLogin = isLogin;
-        this.#inputUsername = new InputComponent(null, USERNAME_INPUT_STATE, this.usernameHandler);
-        this.#inputPassword = new InputComponent(null, PASSWORD_INPUT_STATE, this.passwordHandler);
+        this.#inputUsername = new Input(null, USERNAME_INPUT_STATE, this.usernameHandler);
+        this.#inputPassword = new Input(null, PASSWORD_INPUT_STATE, this.passwordHandler);
         this.#button = new Button(null, BUTTON_STATE, isLogin ? this.onLogin : this.onRegistration);
-        this.#inputPasswordRepeat = new InputComponent(null, PASSWORD_REPEAT_INPUT_STATE, this.passwordRepeatHandler);
+        this.#inputPasswordRepeat = new Input(null, PASSWORD_REPEAT_INPUT_STATE, this.passwordRepeatHandler);
     }
 
     /**
@@ -114,17 +115,18 @@ export class LoginSignUpForm extends BaseComponent {
         const inputUsernameHTML = this.#inputUsername.render();
         const inputPasswordHTML = this.#inputPassword.render();
         const inputPasswordRepeatHTML = this.#isLogin ? '' : this.#inputPasswordRepeat.render();
-        const templatesToStateMap = {
-            'loginSignupForm.hbs': {
+        const templates = [
+            template({
                 isSignup: !this.#isLogin,
                 ...this.getState(),
                 loginButton: buttonHTML,
                 userNameInput: inputUsernameHTML,
                 passwordInput: inputPasswordHTML,
                 passwordRepeatInput: inputPasswordRepeatHTML,
-            },
-        };
-        super.renderTemplateToParent(templatesToStateMap);
+            }),
+        ];
+
+        super.renderTemplateToParent(templates);
     }
 
     /**
@@ -435,17 +437,21 @@ export class LoginSignUpForm extends BaseComponent {
      */
     setHandlers() {
         const button = document.querySelector('#login_button');
-        button.addEventListener('click', this.#button.getHandler());
+        button.addEventListener('click', this.#button.getHandler()
+            .bind(this));
 
         const username = document.querySelector('#username_input');
-        username.addEventListener('blur', this.#inputUsername.getHandler());
+        username.addEventListener('blur', this.#inputUsername.getHandler()
+            .bind(this));
 
         const password = document.querySelector('#password_input');
-        password.addEventListener('blur', this.#inputPassword.getHandler());
+        password.addEventListener('blur', this.#inputPassword.getHandler()
+            .bind(this));
 
         if (!this.#isLogin) {
             const passwordRepeat = document.querySelector('#password_repeat_input');
-            passwordRepeat.addEventListener('blur', this.#inputPasswordRepeat.getHandler());
+            passwordRepeat.addEventListener('blur', this.#inputPasswordRepeat.getHandler()
+                .bind(this));
         }
     }
 }

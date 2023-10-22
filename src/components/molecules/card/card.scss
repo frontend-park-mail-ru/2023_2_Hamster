@@ -1,0 +1,69 @@
+.card {
+    background: var(--background-secondary-color);
+    padding: var(--card-padding);
+
+    &__content {
+        overflow: hidden;
+    }
+
+    &__heading {
+        overflow: hidden;
+
+        &-text-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+            float: left;
+        }
+    }
+
+    &__headline-text {
+        color: var(--text-main-color);
+    }
+
+    &__subhead-text {
+        color: var(--text-muted-color);
+    }
+
+    &__status {
+        float: right;
+        height: var(--card-status-height);
+        width: var(--card-status-width);
+        border-radius: 100%;
+
+        &_good {
+            background-color: var(--succes-color);
+        }
+
+        &_warning {
+            background-color: var(--warning-color);
+        }
+
+        &_bad {
+            background-color: var(--error-color);
+        }
+    }
+
+    &_small {
+        grid-column: span 4;
+        border-radius: var(--radius-size-small);
+    }
+
+    &_medium-vertical {
+        grid-row: span 2;
+        grid-column: span 4;
+        border-radius: var(--radius-size-small);
+    }
+
+    &_medium-horizontal {
+        grid-column: span 8;
+        border-radius: var(--radius-size-small);
+    }
+
+    &_big {
+        grid-row: span 2;
+        grid-column: span 8;
+        border-radius: var(--radius-size-small);
+    }
+}

@@ -1,4 +1,6 @@
-import { BaseComponent } from '../../baseComponent.js';
+import { BaseComponent } from '@components/baseComponent.js';
+
+import template from './list.hbs';
 
 const DEFAULT_LIST = {
     listItems: [
@@ -6,8 +8,8 @@ const DEFAULT_LIST = {
             listItemTitle: '',
             listItemValue: '',
             valueUnits: '',
-        }
-    ]
+        },
+    ],
 };
 
 /**
@@ -40,19 +42,11 @@ export class List extends BaseComponent {
      * @returns {string} - The rendered HTML template of the list.
      */
     renderTemplateToParent() {
-        const templatesToStateMap = {
-            'list.hbs': this.getState(),
-        };
-
-        super.renderTemplateToParent(templatesToStateMap);
+        super.renderTemplateToParent([template(this.getState())]);
     }
 
     render() {
-        const templatesToStateMap = {
-            'list.hbs': this.getState(),
-        };
-
-        return super.render(templatesToStateMap);
+        return super.render([template(this.getState())]);
     }
 
     setHandlers() {

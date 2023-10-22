@@ -1,4 +1,4 @@
-import { API_CONSTANTS, getBaseURL } from '../constants.js';
+import { API_CONSTANTS, getBaseURL } from '@constants';
 
 /**
  * Executes a GET request to the provided URL and returns the data in JSON format.

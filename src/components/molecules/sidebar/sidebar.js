@@ -1,25 +1,26 @@
-import { BaseComponent } from '../../baseComponent.js';
-import { Button } from '../../atoms/button/button.js';
-import { logOut } from '../../../modules/ajax.js';
+import { BaseComponent } from '@components';
+import { Button } from '@atoms';
+import { logOut } from '@ajax';
+
+import template from './sidebar.hbs';
+
+import LOG_OUT_IMAGE from '@icons/logout.svg';
 
 /**
  * The default state for the Sidebar component.
  * @typedef {Object} SidebarDefaultState
- * @property {string} siteLogo - The site logo.
  * @property {string} profilePic - The profile picture.
  * @property {string} profileName - The profile name.
  */
 const DEFAULT_STATE = {
-    siteLogo: '',
-    profilePic: '',
-    profileName: 'Profile name',
+    profileName: 'Имя пользователя',
 };
 
 const BUTTON_STATE = {
     id: 'logout_button',
-    buttonText: 'Выйти',
     buttonSize: 'button_small',
     buttonColor: 'button_secondary-color',
+    buttonImageLeft: LOG_OUT_IMAGE,
 };
 
 /**
@@ -66,15 +67,15 @@ export class Sidebar extends BaseComponent {
         const menuHTML = this.#menuElement.render();
         const logoutButtonHTML = this.#button.render();
 
-        const templatesToStateMap = {
-            'sidebar.hbs': {
+        const templates = [
+            template({
                 ...this.getState(),
                 menu: menuHTML,
                 logoutButton: logoutButtonHTML,
-            },
-        };
+            }),
+        ];
 
-        super.renderTemplateToParent(templatesToStateMap);
+        super.renderTemplateToParent(templates);
     }
 
     onLogout() {

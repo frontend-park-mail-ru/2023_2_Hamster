@@ -1,4 +1,6 @@
-import { BaseComponent } from '../../baseComponent.js';
+import { BaseComponent } from '@components/baseComponent.js';
+
+import template from './menu.hbs';
 
 const DEFAULT_LIST = {
     menuSections: [
@@ -35,11 +37,7 @@ export class Menu extends BaseComponent {
      * Render the Menu component's template to the parent element.
      */
     renderTemplateToParent() {
-        const templatesToStateMap = {
-            'menu.hbs': this.getState(),
-        };
-
-        super.renderTemplateToParent(templatesToStateMap);
+        super.renderTemplateToParent([template(this.getState())]);
     }
 
     /**
@@ -47,10 +45,6 @@ export class Menu extends BaseComponent {
      * @returns {HTMLElement} The rendered Menu element.
      */
     render() {
-        const templatesToStateMap = {
-            'menu.hbs': this.getState(),
-        };
-
-        return super.render(templatesToStateMap);
+        return super.render([template(this.getState())]);
     }
 }

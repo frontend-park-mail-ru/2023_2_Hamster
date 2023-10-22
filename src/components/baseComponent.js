@@ -28,15 +28,10 @@ export class BaseComponent {
         this.#state = { ...this.#state, ...state };
     }
 
-    /**
-     * Render the BaseComponent's template to the parent element.
-     * @param {Object} templatesToStateMap - A map of templates to their corresponding states.
-     * @returns {string} - The HTML string of the rendered template.
-     */
-    async renderTemplateToParent(templatesToStateMap) {
+    async renderTemplateToParent(templates) {
         this.cleanUp();
 
-        const htmlString = this.render(templatesToStateMap);
+        const htmlString = this.render(templates);
 
         if (this.parent) {
             this.parent.innerHTML = htmlString;
@@ -46,29 +41,20 @@ export class BaseComponent {
         return htmlString;
     }
 
-    cleanUp() {}
+    cleanUp() {
 
-    /**
-     * Render the BaseComponent's template.
-     * @param {Object} templatesToStateMap - A map of templates to their corresponding states.
-     * @returns {string} - The HTML string of the rendered template.
-     */
-    render(templatesToStateMap) {
-        return Object
-            .entries(templatesToStateMap)
-            .reduce(
-                (acc, [templateName, state]) => {
-                    const template = Handlebars.templates[templateName];
-                    const renderedTemplate = template(state);
-                    return acc + renderedTemplate;
-                }, '',
-            );
+    }
+
+    render(templates) {
+        return templates.reduce((acc, html) => acc + html, '');
     }
 
     /**
      * Set event handlers for the BaseComponent. To be implemented by subclasses.
      */
-    setHandlers() {}
+    setHandlers() {
+
+    }
 
     /**
      * Updates the state of the component.
