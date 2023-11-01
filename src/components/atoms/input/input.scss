@@ -1,37 +1,25 @@
 @mixin input-size($padding, $min-width, $border-radius) {
-  width: auto;
   padding: $padding;
   min-width: $min-width;
   border-radius: $border-radius;
 }
 
 .input-container {
-  position: relative;
-  display: inline-block;
-  height: auto;
-  width: 70%;
   background-color: var(--input-primary-color);
+}
+
+.input {
+  color: var(--text-main-color);
+  display: flex;
+  background: var(--input-primary-color);
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
   border: 1px solid var(--input-border-color);
   transition: border-color 0.3s ease;
 
   &:focus-within {
     border: 1px solid var(--input-focus-color);
-  }
-}
-
-.input {
-  background: transparent;
-  border: 0;
-  height: 100%;
-  width: 100%;
-
-  &__text {
-    font-style: normal;
-    font-size: 16px;
-    letter-spacing: 0.03em;
-    color: var(--text-main-color);
-    margin-left: 8px;
-    margin-right: 8px;
   }
 
   &_small {
@@ -100,10 +88,7 @@
   }
 }
 
-.input-helper{
-  font-style: normal;
-  font-size: 16px;
-
+.input-helper {
   &_error {
     color: var(--error-color)
   }

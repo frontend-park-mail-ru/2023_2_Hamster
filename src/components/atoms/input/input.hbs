@@ -1,33 +1,31 @@
+<div class="input-container">
+    {{#if this.inputLabelText}}
+        <div class="input__label font-caption">{{this.inputLabelText}}</div>
+    {{/if}}
 
-{{#if this.inputLabelText}}
-    <div class="input__label font-caption">{{this.inputLabelText}}</div>
-{{/if}}
-
-<div class="input-container
-            {{this.inputSize}}
-            {{this.inputRadiusSize}}
-            {{#if this.isError}}
-                input_error
-            {{/if}}">
     {{#if this.inputImageLeft}}
         <img
             class="input__icon input__icon-left"
             src="{{this.inputImageLeft}}"
-         alt="left icon">
+            alt="left icon">
     {{/if}}
-    <input {{#if id}} id="{{id}}" {{/if}} type="{{typeOfInput}}"
-        {{#if autocompleteOff}}
-            autocomplete="off"
-        {{/if}}
 
-        name="{{nameOfField}}"
-        placeholder="{{this.inputPlaceholder}}"
-        class="input input__text
-            {{#if this.inputImageLeft}}
-                input__text-left
-            {{else}}
-                input__text-right
-            {{/if}}"
+    <input {{#if id}} id="{{id}}" {{/if}}
+            type="{{typeOfInput}}"
+            {{#if autocompleteOff}}
+                autocomplete="off"
+            {{/if}}
+            name="{{nameOfField}}"
+            placeholder="{{this.inputPlaceholder}}"
+            class="input font-caption
+                {{this.inputSize}}
+                {{this.inputRadiusSize}}
+                {{#if this.isError}}
+                    input_error
+                {{/if}}
+                {{#if this.inputImageLeft}}
+                    input__text-left
+                {{/if}}"
     >
 
     {{#if this.inputImageRight}}
@@ -35,17 +33,17 @@
             <img
                 class="input__icon input__icon-right"
                 src="{{this.inputImageRight}}"
+                alt="right icon"
             >
         {{/unless}}
     {{/if}}
 
-</div>
-
-{{#if this.inputHelperText}}
-    <div class="input-helper
+    {{#if this.inputHelperText}}
+        <div class="input-helper font-caption
             {{#if this.isError}}
                 input-helper_error
             {{/if}}">
-        {{this.inputHelperText}}
-    </div>
-{{/if}}
+            {{this.inputHelperText}}
+        </div>
+    {{/if}}
+</div>

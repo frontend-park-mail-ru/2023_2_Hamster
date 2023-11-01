@@ -1,57 +1,111 @@
-import { ROUTE_CONSTANTS } from '@constants';
+import { ROUTE_CONSTANTS } from '@constants/constants.js';
+import { userStore } from '@stores/userStore';
 
 /**
  * Class representing a router.
+ *
  * @class
  */
 class Router {
+
     /**
      * Object storing routes
      * @type {Object}
      */
     routes = {};
 
-    isAuthorised = false;
-
-    username;
-
-    id;
-
-    addRoute = (routeName, view) => {
-        this.routes[routeName] = view;
+    /**
+     * Register a new route to the router.
+     *
+     * @param {string} path - The path of the route.
+     * @param {Object} view - The view associated with the route.
+     * @function
+     */
+    addRoute = (path, view) => {
+        this.routes[path] = view;
     };
 
     /**
-     * Navigates to a specified route.
-     * @param {string} route - The name of the route to navigate to.
+     * Register multiple routes to the router.
+     *
+     * @param {Object} routes - An object containing path-view pairs.
+     * @function
      */
-    navigateTo = (route) => {
-        const routeTrimmed = route.at(-1) === '/'
-            ? route.slice(0, -1)
-            : route;
+    addRoutes = (routes) => {
+        Object.entries(routes)
+            .forEach(([key, value]) => {
+                router.addRoute(key, value);
+            });
+    };
+
+    /**
+     * Start the router.
+     *
+     * @async
+     * @function
+     */
+    start = async () => {
+        try {
+            await userStore.checkAuth();
+        } catch (e) {
+            console.log('Error: ', e);
+        }
+
+        router.navigateTo(window.location.pathname);
+    };
+
+    /**
+     * Navigate to a specified route.
+     *
+     * @param {string} path - The path of the route to navigate to.
+     * @function
+     */
+    navigateTo = (path) => {
+        const routeTrimmed = path.at(-1) === '/'
+            ? path.slice(0, -1)
+            : path;
 
         let routeResult;
 
+        // TODO: 1) Need to make better check of authenticated routes; 2) Make private routes (for subscription :D)
         if (routeTrimmed === ROUTE_CONSTANTS.HOME_ROUTE || routeTrimmed === ROUTE_CONSTANTS.DASHBOARD_ROUTE) {
-            this.isAuthorised
+            userStore.storage.user.isAuthorised
                 ? routeResult = ROUTE_CONSTANTS.DASHBOARD_ROUTE
                 : routeResult = ROUTE_CONSTANTS.LOGIN_ROUTE;
         } else {
-            this.isAuthorised
+            userStore.storage.user.isAuthorised
                 ? routeResult = ROUTE_CONSTANTS.DASHBOARD_ROUTE
                 : routeResult = routeTrimmed;
         }
 
-        const routeInfo = this.routes[routeResult];
+        const view = this.routes[routeResult];
 
-        if (!routeInfo) {
+        if (!view) {
             console.error(`No route found for ${routeResult}`);
             return;
         }
 
         history.pushState({}, null, window.location.origin + routeResult);
 
-        routeInfo.view.renderTemplateToParent();
+        view.view.renderTemplateToParent();
+    };
+
+    /**
+     * Navigate back in the history.
+     *
+     * @function
+     */
+    back = () => {
+        window.history.back();
+    };
+
+    /**
+     * Navigate forward in the history.
+     *
+     * @function
+     */
+    forward = () => {
+        window.history.forward();
     };
 }
 

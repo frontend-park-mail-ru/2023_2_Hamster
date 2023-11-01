@@ -38,6 +38,7 @@ export class Button extends BaseComponent {
      * @param {Function} [clickHandler = this.#clickHandler] - The function that will handle the click event of the button element. (optional)
      */
     constructor(parent, state = DEFAULT_BUTTON, clickHandler) {
+        state = { ...DEFAULT_BUTTON, ...state };
         super(state, parent);
         if (typeof clickHandler === 'function') {
             this.#clickHandler = clickHandler;
@@ -49,7 +50,7 @@ export class Button extends BaseComponent {
      * @returns {string} - The rendered HTML template of the button.
      */
     renderTemplateToParent() {
-        return super.renderTemplateToParent([template(this.getState())]);
+        super.renderTemplateToParent([template(this.getState())]);
     }
 
     /**

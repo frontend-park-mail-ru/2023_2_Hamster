@@ -1,46 +1,28 @@
 import './index.scss';
 
-import { LoginOrSignUp } from '@pages/login/loginSignUp';
-import { Dashboard } from '@pages/dashboard/dashboard';
+import { LoginSignupView, DashboardView } from '@views';
 import { router } from '@router';
-import { ROUTE_CONSTANTS } from '@constants';
-import { Layout } from '@pages/layout/layout';
-import { checkAuth } from '@ajax';
+import { ROUTE_CONSTANTS } from '@constants/constants';
+import { Layout } from '@organisms/layout/layout';
 
 const root = document.querySelector('#root');
 
+// TODO: move all routes to specified file
 const routes = {
     [ROUTE_CONSTANTS.LOGIN_ROUTE]: {
-        view: new LoginOrSignUp(root, true),
+        view: new LoginSignupView(root, true),
     },
     [ROUTE_CONSTANTS.REGISTRATION_ROUTE]: {
-        view: new LoginOrSignUp(root, false),
-    },
-    [ROUTE_CONSTANTS.DASHBOARD_ROUTE]: {
-        view: new Layout(root, undefined, new Dashboard(null, undefined)),
+        view: new LoginSignupView(root, false),
     },
     [ROUTE_CONSTANTS.HOME_ROUTE]: {
-        view: new Layout(root, undefined, new Dashboard(null, undefined)),
+        view: new Layout(root, undefined, new DashboardView(null)),
+    },
+    [ROUTE_CONSTANTS.DASHBOARD_ROUTE]: {
+        view: new Layout(root, undefined, new DashboardView(null)),
     },
 };
 
-Object.entries(routes)
-    .forEach(([key, value]) => {
-        router.addRoute(key, value);
-    });
+router.addRoutes(routes);
 
-(async () => {
-    try {
-        const {
-            username,
-            id,
-        } = await checkAuth();
-        router.isAuthorised = true;
-        router.username = username;
-        router.id = id;
-    } catch (e) {
-        console.log('Error: ', e);
-    }
-
-    router.navigateTo(window.location.pathname);
-})();
+router.start();

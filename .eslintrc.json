@@ -7,7 +7,6 @@
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
-    "ignorePatterns": [ "**/precompiled.js" ],
     "rules": {
         "linebreak-style": "off",
         "indent": ["warn", 4],
