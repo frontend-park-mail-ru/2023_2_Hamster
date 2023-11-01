@@ -8,6 +8,8 @@ export class BaseComponent {
      */
     parent;
 
+    template;
+
     /**
      * The state of the BaseComponent.
      * @type {Object}
@@ -20,12 +22,14 @@ export class BaseComponent {
      * @param {Object} [state=this.#state] - The initial state of the BaseComponent.
      * @param {HTMLElement} parent - The parent HTML element where the BaseComponent will be rendered.
      */
-    constructor(state = this.#state, parent) {
+    constructor(state, template, parent) {
         if (parent) {
             this.parent = parent;
         }
 
-        this.#state = { ...this.#state, ...state };
+        this.template = template;
+
+        this.#state = state;
     }
 
     async renderTemplateToParent(templates) {

@@ -1,0 +1,382 @@
+import { STATUS_CODES, EVENT_TYPES, USER_STORE, ROUTE_CONSTANTS } from '@constants/constants';
+import { LOGIN_RULES, PASSWORD_RULES, USERNAME_RULES } from '@constants/validation';
+import { authApi } from '@api/auth';
+import BaseStore from './baseStore.js';
+import { userApi } from '@api/user';
+import { router } from '@router';
+
+/**
+ * UserStore is a class for managing user state of the site. It extends the BaseStore class and
+ * provides methods for authentication (login, registration, logout, and checking if session for this user is on),
+ * routing (login and registration routes), and validation (username and password validation).
+ *
+ * @class
+ * @extends BaseStore
+ */
+class UserStore extends BaseStore {
+
+    /**
+     * Creates an instance of UserStore.
+     *
+     * @constructor
+     * @property {Object} storage - An object that contains the state of the user.
+     * @property {Object} storage.loginState - The current login state.
+     * @property {Object} storage.registrationState - The current registration state.
+     * @property {Object} storage.user - An object representing the current user.
+     * @property {string|null} storage.error - An error message, if any.
+     */
+    constructor() {
+        super();
+        this.storage = {
+            loginState: USER_STORE.LOGIN_STATE,
+            registrationState: USER_STORE.REGISTRATION_STATE,
+            user: {},
+            error: null,
+        };
+    }
+
+    /**
+     * Checks if session for user is on.
+     *
+     * @async
+     * @function
+     */
+    checkAuth = async () => {
+        let response;
+
+        try {
+            response = await authApi.checkAuth();
+
+            switch (response.status) {
+            case STATUS_CODES.OK:
+                this.storage.user = {
+                    username: response.username,
+                    id: response.id,
+                    isAuthorised: true,
+                };
+                this.storage.error = null;
+                this.storeChanged = true;
+                break;
+
+            case STATUS_CODES.UNAUTHORISED:
+                this.storage.error = 'Не авторизован';
+                this.storeChanged = true;
+                break;
+
+            default:
+                console.log('Undefined status code', response.status);
+            }
+        } catch (error) {
+            console.log('Unable to connect to the server, error: ', error);
+        }
+    };
+
+    /**
+     * Authenticates a user.
+     *
+     * @async
+     * @function
+     * @param {Object} data - The user's credentials.
+     */
+    login = async (data) => {
+        let response;
+
+        try {
+            response = await authApi.signIn(data);
+
+            switch (response.status) {
+            case STATUS_CODES.OK:
+                this.storage.user = {
+                    username: response.username,
+                    id: response.id,
+                    isAuthorised: true,
+                };
+                this.storage.error = null;
+                this.storeChanged = true;
+                this.emitChange(EVENT_TYPES.LOGIN_SUCCESS);
+                break;
+
+            case STATUS_CODES.UNAUTHORISED:
+                this.storage.error = 'Неверное имя пользователя или пароль';
+                this.storeChanged = true;
+                this.emitChange(EVENT_TYPES.LOGIN_ERROR);
+                break;
+
+            case STATUS_CODES.INTERNAL_SERVER_ERROR:
+                this.storage.error = 'Непредвиденная ошибка';
+                this.storeChanged = true;
+                this.emitChange(EVENT_TYPES.LOGIN_ERROR);
+                break;
+
+            default:
+                console.log('Undefined status code', response.status);
+            }
+        } catch (error) {
+            console.log('Unable to connect to the server, error: ', error);
+        }
+    };
+
+    /**
+     * Registers a new user.
+     *
+     * @async
+     * @function
+     * @param {Object} data - The new user's information.
+     */
+    registration = async (data) => {
+        let response;
+
+        try {
+            response = await authApi.signUp(data);
+
+            switch (response.status) {
+            case STATUS_CODES.OK:
+                this.storage.user = {
+                    username: response.username,
+                    id: response.id,
+                    isAuthorised: true,
+                };
+                this.storage.error = null;
+                this.storeChanged = true;
+                this.emitChange(EVENT_TYPES.REGISTRATION_SUCCESS);
+                break;
+
+            case STATUS_CODES.UNAUTHORISED:
+                this.storage.error = 'Данное имя пользователя уже занято';
+                this.storeChanged = true;
+                this.emitChange(EVENT_TYPES.REGISTRATION_ERROR);
+                break;
+
+            case STATUS_CODES.INTERNAL_SERVER_ERROR:
+                this.storage.error = 'Непредвиденная ошибка';
+                this.storeChanged = true;
+                this.emitChange(EVENT_TYPES.REGISTRATION_ERROR);
+                break;
+
+            default:
+                console.log('Undefined status code', response.status);
+            }
+        } catch (error) {
+            console.log('Unable to connect to the server, error: ', error);
+        }
+    };
+
+    /**
+     * Logs the user out.
+     *
+     * @async
+     * @function
+     */
+    logout = async () => {
+        let response;
+
+        try {
+            response = await authApi.logOut();
+
+            switch (response.status) {
+            case STATUS_CODES.OK:
+                this.storage.user = {
+                    username: response.username,
+                    id: response.id,
+                    isAuthorised: false,
+                };
+                this.storage.error = null;
+                this.storeChanged = true;
+                break;
+
+            case STATUS_CODES.BAD_REQUEST:
+                this.storage.user = {
+                    isAuthorised: false,
+                };
+                this.storage.error = response.message;
+                this.storeChanged = true;
+                break;
+
+            case STATUS_CODES.INTERNAL_SERVER_ERROR:
+                this.storage.user = {
+                    isAuthorised: false,
+                };
+                this.storage.error = 'Ошибка на сервере';
+                this.storeChanged = true;
+                break;
+
+            default:
+                console.log('Undefined status code', response.status);
+            }
+
+            router.navigateTo(ROUTE_CONSTANTS.LOGIN_ROUTE);
+        } catch (error) {
+            console.log('Unable to connect to the server, error: ', error);
+        }
+    };
+
+    /**
+     * Gets feed for specific user.
+     *
+     * @async
+     * @function
+     */
+    feed = async () => {
+        try {
+            const response = await userApi.getFeed(this.storage.user.id);
+
+            switch (response.status) {
+            case STATUS_CODES.OK:
+                this.storage.user = {
+                    accounts: response.accounts.Map((account) => ({
+                        accountBalance: account.balance,
+                        meanPayment: account.mean_payment,
+                    })),
+                    balance: response.balance,
+                    actualBudget: response.actual_balance,
+                    plannedBudget: response.planned_balance,
+                };
+                this.storage.error = null;
+                this.storeChanged = true;
+                break;
+
+            case STATUS_CODES.BAD_REQUEST:
+            case STATUS_CODES.UNAUTHORISED:
+            case STATUS_CODES.FORBIDDEN:
+            case STATUS_CODES.INTERNAL_SERVER_ERROR:
+                this.storage.error = response.message;
+                this.storeChanged = true;
+                break;
+
+            default:
+                console.log('Undefined status code', response.status);
+            }
+        } catch (error) {
+            console.log('Unable to connect to the server, error: ', error);
+        }
+    };
+
+    /**
+     * Validates a data against a set of rules.
+     *
+     * @function
+     * @param {string} data - The data to be validated.
+     * @param {Array.<Object>} rules - The validation rules.
+     * @param {RegExp} rules.regex - The regex to test the data against.
+     * @param {string} rules.message - The message to return if the data fails the validation.
+     * @returns {Object} The validation result.
+     * @returns {boolean} result.isError - Indicates if there was an error during validation.
+     * @returns {string|null} result.message - The validation message.
+     */
+    validator(data, rules) {
+        const failedRule = rules.find((condition) => !condition.regex.test(data));
+
+        if (failedRule) {
+            return {
+                isError: true,
+                message: failedRule.message,
+            };
+        }
+
+        return {
+            isError: false,
+            message: null,
+        };
+    }
+
+    /**
+     * Checks if a login is valid.
+     *
+     * @function
+     * @param {Object} data - The username to validate.
+     * @param {string} data.login - The username to validate.
+     */
+    isLoginValid = (data) => {
+        const result = this.validator(data.login, LOGIN_RULES);
+
+        this.storage = {
+            ...this.storage,
+            loginInputState: {
+                login: data.login,
+                isError: result.isError,
+                inputHelperText: result.message,
+            },
+        };
+
+        this.storeChanged = true;
+
+        this.emitChange(EVENT_TYPES.RERENDER_LOGIN_INPUT);
+    };
+
+    /**
+     * Checks if a username is valid.
+     *
+     * @function
+     * @param {Object} data - The username to validate.
+     * @param {string} data.username - The username to validate.
+     */
+    isUsernameValid = (data) => {
+        const result = this.validator(data.username, USERNAME_RULES);
+
+        this.storage = {
+            ...this.storage,
+            usernameState: {
+                username: data.username,
+                isError: result.isError,
+                inputHelperText: result.message,
+            },
+        };
+
+        this.storeChanged = true;
+
+        this.emitChange(EVENT_TYPES.RERENDER_USERNAME_INPUT);
+    };
+
+    /**
+     * Checks if a password is valid.
+     *
+     * @function
+     * @param {Object} data - The password to validate.
+     * @param {string} data.password - The password to validate.
+     */
+    isPasswordValid = (data) => {
+        const result = this.validator(data.password, PASSWORD_RULES);
+
+        this.storage = {
+            ...this.storage,
+            passwordState: {
+                password: data.password,
+                isError: result.isError,
+                inputHelperText: result.message,
+            },
+        };
+
+        this.storeChanged = true;
+
+        this.emitChange(EVENT_TYPES.RERENDER_PASSWORD_INPUT);
+    };
+
+    /**
+     * Checks if a repeated password is equals to original.
+     *
+     * @function
+     * @param {Object} data - The passwords to check.
+     * @param {string} data.password - The original password.
+     * @param {string} data.passwordRepeat - The repeated password.
+     */
+    isPasswordRepeat = ({
+        password,
+        passwordRepeat,
+    }) => {
+        const result = password === passwordRepeat;
+
+        this.storage = {
+            ...this.storage,
+            repeatState: {
+                passwordRepeat: passwordRepeat,
+                isError: result ? null : true,
+                inputHelperText: result ? null : 'Пароли не совпадают',
+            },
+        };
+
+        this.storeChanged = true;
+        this.emitChange(EVENT_TYPES.RERENDER_REPEAT_INPUT);
+    };
+}
+
+export const userStore = new UserStore();

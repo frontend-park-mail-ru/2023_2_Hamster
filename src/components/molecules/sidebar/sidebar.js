@@ -1,10 +1,8 @@
 import { BaseComponent } from '@components';
 import { Button } from '@atoms';
-import { logOut } from '@ajax';
-
-import template from './sidebar.hbs';
 
 import LOG_OUT_IMAGE from '@icons/logout.svg';
+import template from './sidebar.hbs';
 
 /**
  * The default state for the Sidebar component.
@@ -79,7 +77,7 @@ export class Sidebar extends BaseComponent {
     }
 
     onLogout() {
-        return logOut();
+        // return logOut();
     }
 
     setHandlers() {

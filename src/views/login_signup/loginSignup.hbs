@@ -1,15 +1,15 @@
 <div class="login-sign-up-layout">
     <div class="login-sign-up-layout__form-container">
         <div class="login-sign-up-layout__form">
-
+            {{{ form }}}
         </div>
 
         <div class="login-sign-up-layout__link-container">
             {{#if isLogin}}
-                <p class="login-sign-up-layout__link font-caption"> {{LinkLogin}} </p>
+                <p class="login-sign-up-layout__link font-caption"> {{linkLogin}} </p>
                 {{{ button }}}
             {{else}}
-                <p class="login-sign-up-layout__link font-caption"> {{LinkRegister}} </p>
+                <p class="login-sign-up-layout__link font-caption"> {{linkRegister}} </p>
                 {{{ button }}}
             {{/if}}
         </div>
@@ -19,20 +19,20 @@
         <div class="login-sign-up-layout__greeting-text">
             <h1 class="login-sign-up-layout__greeting-text-h1 font-h1-medium">
                 {{#if isLogin}}
-                    {{ImageTextLoginH1}}
+                    {{imageTextLoginH1}}
                 {{else}}
-                    {{ImageTextRegistrH1}}
+                    {{imageTextRegistrH1}}
                 {{/if}} </h1>
             <p class="login-sign-up-layout__greeting-text-base font-base-text">
                 {{#if isLogin}}
-                    {{ImageTextLoginP1}}
+                    {{imageTextLoginP1}}
                 {{else}}
-                    {{ImageTextRegistrP1}}
+                    {{imageTextRegistrP1}}
                 {{/if}}
             </p>
         </div>
         <div class="login-sign-up-layout__greeting-image">
-            <img src="{{ImagePeople}}" alt="People image">
+            <img src="{{imagePeople}}" alt="People image">
         </div>
     </div>
 </div>

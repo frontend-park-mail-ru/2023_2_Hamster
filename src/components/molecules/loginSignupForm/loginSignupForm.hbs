@@ -2,10 +2,25 @@
     <form action="">
         <h1 class="">{{header}}</h1>
         <p>{{helperText}}</p>
-        {{{userNameInput}}}
-        {{{passwordInput}}}
+
+        <div id="login_input_container">
+            {{{loginInput}}}
+        </div>
+
+        {{#unless isLogin}}
+        <div id="username_input_container">
+            {{{userNameInput}}}
+        </div>
+        {{/unless}}
+
+        <div id="password_input_container">
+            {{{passwordInput}}}
+        </div>
+
         {{#if isSignup}}
-            {{{passwordRepeatInput}}}
+            <div id="password_repeat_input_container">
+                {{{passwordRepeatInput}}}
+            </div>
         {{/if}}
         {{{loginButton}}}
     </form>

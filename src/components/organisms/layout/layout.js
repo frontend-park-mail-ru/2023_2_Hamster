@@ -2,14 +2,15 @@ import { BaseComponent } from '@components/baseComponent.js';
 import { Menu } from '@atoms/menu/menu.js';
 import { Sidebar } from '@molecules/sidebar/sidebar.js';
 import { Button } from '@atoms/button/button.js';
-import { getAccounts, getActualBudget, getBalance, getPlannedBudget, logOut } from '@ajax';
 import { router } from '@router';
-import { ROUTE_CONSTANTS } from '@constants';
+import { ROUTE_CONSTANTS } from '@constants/constants.js';
 
-import layoutTemplate from './layout.hbs';
 import sidebarTemplate from '@molecules/sidebar/sidebar.hbs';
 
 import LOG_OUT_IMAGE from '@icons/logout.svg';
+import layoutTemplate from './layout.hbs';
+import { userStore } from '@stores/userStore';
+import { userActions } from '@actions/userActions';
 
 /**
  * The default state for the Layout component.
@@ -40,6 +41,7 @@ const BUTTON_STATE = {
     buttonSize: 'button_small',
     buttonColor: 'button_secondary-color',
     buttonImageLeft: LOG_OUT_IMAGE,
+    buttonText: '',
 };
 
 /**
@@ -47,21 +49,6 @@ const BUTTON_STATE = {
  * @extends BaseComponent
  */
 export class Layout extends BaseComponent {
-
-    /**
-     * The data associated with the Layout.
-     * @private
-     * @type {any}
-     */
-    #data = null;
-
-    /**
-     * The id associated with the Layout.
-     * @private
-     * @type {string}
-     */
-    #userId;
-
     /**
      * Logout button.
      * @private
@@ -70,7 +57,7 @@ export class Layout extends BaseComponent {
     #button;
 
     /**
-     * The Menu element associated with the Layout.
+     * The Menu element of the sidebar.
      * @private
      * @type {Menu}
      */
@@ -97,7 +84,7 @@ export class Layout extends BaseComponent {
      * @param {Object} contentElement - The content element associated with the Layout.
      */
     constructor(parent, state = DEFAULT_STATE, contentElement) {
-        super(state, parent);
+        super(state, layoutTemplate, parent);
 
         this.#menuElement = new Menu(this.getState().sidebar.menu);
 
@@ -114,12 +101,8 @@ export class Layout extends BaseComponent {
      * @async
      */
     async renderTemplateToParent() {
-        this.setState({ sidebar: { profileName: router.username ? router.username : 'Имя профиля' } });
-        this.#userId = router.id;
-
-        if (!this.data) {
-            this.#contentElement.setState(await this.getData());
-        }
+        const username = userStore.storage.username;
+        this.setState({ sidebar: { profileName: username ? username : 'Имя профиля' } });
 
         const contentHTML = this.#contentElement.render();
 
@@ -128,12 +111,12 @@ export class Layout extends BaseComponent {
         const logoutButtonHTML = this.#button.render();
 
         const templatesToStateMap = [
-            sidebarTemplate({
-                ...this.getState().sidebar,
-                menu: menuHTML,
-                logoutButton: logoutButtonHTML,
-            }),
             layoutTemplate({
+                sidebar: sidebarTemplate({
+                    ...this.getState().sidebar,
+                    menu: menuHTML,
+                    logoutButton: logoutButtonHTML,
+                }),
                 content: contentHTML,
             }),
         ];
@@ -141,18 +124,20 @@ export class Layout extends BaseComponent {
         return super.renderTemplateToParent(templatesToStateMap);
     }
 
+    cleanUp() {
+        super.cleanUp();
+
+        const button = document.querySelector('#logout_button');
+        if (button) {
+            button.removeEventListener('click', this.#button.getHandler());
+        }
+    }
+
     /**
      * Handle logout event.
      */
     onLogout = async () => {
-        try {
-            await logOut();
-            router.isAuthorised = false;
-            router.navigateTo(ROUTE_CONSTANTS.LOGIN_ROUTE);
-        } catch (e) {
-            router.isAuthorised = false;
-            console.log('Error: ', e);
-        }
+        userActions.logout();
     };
 
     /**
@@ -160,51 +145,8 @@ export class Layout extends BaseComponent {
      */
     setHandlers() {
         const button = document.querySelector('#logout_button');
-        button.addEventListener('click', this.#button.getHandler());
-    }
-
-    /**
-     * Get data for the dashboard component.
-     * @async
-     */
-    getData = async () => {
-        const id = this.#userId;
-        try {
-            const balance = await getBalance(id);
-            const accounts = await getAccounts(id);
-            const plannedBudget = await getPlannedBudget(id);
-            const actualBudget = await getActualBudget(id);
-
-            if (accounts != null) {
-                return {
-                    cardBalance: {
-                        cardSize: 'card_small',
-                        cardHeadline: balance.balance,
-                        cardSubhead: 'Баланс',
-                        cardList: {
-                            listItems: accounts.Account.map((account) => ({
-                                listItemTitle: account.mean_payment,
-                                listItemValue: account.balance,
-                                valueUnits: '₽',
-                            })),
-                        },
-                    },
-                    cardPlannedBudget: {
-                        cardSize: 'card_small',
-                        cardHeadline: plannedBudget.planned_balance,
-                        cardSubhead: 'Запланнированный бюджет',
-                    },
-                    cardActualBudget: {
-                        cardSize: 'card_small',
-                        cardHeadline: actualBudget.actual_balance,
-                        cardSubhead: 'Актуальный бюджет',
-                    },
-                };
-            }
-
-            return null;
-        } catch (e) {
-            console.error('some error occurred while connecting to server');
+        if (button) {
+            button.addEventListener('click', this.#button.getHandler());
         }
-    };
+    }
 }
