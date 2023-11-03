@@ -1,0 +1,79 @@
+@mixin image-container_size($radius) {
+  height: $radius;
+  width: $radius;
+}
+
+@mixin icon_size($length) {
+  height: $length;
+  width: $length;
+}
+
+.image-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  color: var(--text-halftoned-color);
+  background-color: var(--background-secondary-color);
+  background-size: cover;
+  border-radius: 50%;
+  font-size: 17px;
+
+  &__border {
+    border: var(--image-border-line-width) solid var(--image-border-color);
+  }
+
+  &_clickable {
+    cursor: pointer;
+  }
+
+  &_small-1 {
+    @include image-container_size(var(--image-small-1));
+    font-size: 0.9em;
+  }
+
+  &_small-2 {
+    @include image-container_size(var(--image-small-2));
+    font-size: 1em;
+  }
+
+  &_medium {
+    @include image-container_size(var(--image-medium));
+    font-size: 1.3333em;
+  }
+
+  &_large {
+    @include image-container_size(var(--image-large));
+    font-size: 4.1667em;
+  }
+}
+
+.avatar {
+  border-radius: inherit;
+  display: block;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+
+  &_small{
+    @include image-container_size(var(--icon-small))
+  }
+
+  &_big{
+    @include image-container_size(var(--icon-big))
+  }
+}
+
+.image-fallback {
+  user-select: none;
+  font-weight: 600;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+}

@@ -75,7 +75,7 @@
     --input-padding-medium: 17px 16px;
     --input-padding-large: 21px 20px;
     --inputs-minimal-width: 128px;
-    
+
     /*card sizes*/
     --card-status-height: 16px;
     --card-status-width: 16px;
@@ -110,4 +110,19 @@
     --menu-item-margin: 4px;
     --menu-icon-size: 32px;
     --menu-icon-margin: 10px;
+
+    //image colors
+    --image-border-color: var(--background-tertiary-color);
+
+    //image sizes
+    --image-small-1: 44px;
+    --image-small-2: 48px;
+    --image-medium: 64px;
+    --image-large: 200px;
+
+    --image-border-line-width: 1px;
+
+    //icon sizes
+    --icon-small: 24px;
+    --icon-big: 32px;
 }
