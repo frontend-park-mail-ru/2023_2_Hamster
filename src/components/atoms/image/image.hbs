@@ -1,0 +1,25 @@
+<div id="{{id}}" class="image-container {{imageSize}} {{imageColor}}
+    {{#if withBorder}}
+        image-container__border
+    {{/if}}
+
+    {{#if isClickable}}
+        image-container_clickable
+    {{/if}}">
+
+    {{#if avatar}}
+        <img class="avatar" src="{{avatar}}" alt="Profile image">
+    {{/if}}
+
+    {{#if svg}}
+        <svg class="icon {{iconSize}}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            {{{svg}}}
+        </svg>
+    {{/if}}
+
+    {{#if textFallback}}
+        <span class="image-fallback">
+            {{textFallback}}
+        </span>
+    {{/if}}
+</div>
