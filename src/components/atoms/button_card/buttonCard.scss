@@ -1,0 +1,54 @@
+@mixin button-card_sizes($borderColor, $backgroundColor) {
+  border: 1px solid $borderColor;
+  background-color: $backgroundColor;
+}
+
+.button-card {
+  display: flex;
+  height: auto;
+  grid-column: span 4;
+  flex-direction: column;
+  padding: var(--card-padding);
+  border-radius: var(--radius-size-medium);
+
+  &__icon-container{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    height: auto;
+    width: auto;
+  }
+
+  &__icon{
+    height: 32px;
+    width: 32px;
+  }
+
+  &__counter{
+    color: var(--text-main-color);
+    margin-right: 12px;
+  }
+
+  &__text-container{
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+  }
+
+  &__description{
+    color: var(--text-muted-color);
+  }
+
+  &__text{
+    color: var(--text-main-color);
+  }
+
+  &_accent-color {
+    @include button-card_sizes(var(--primary-color-lighter), var(--primary-color))
+  }
+
+  &_default-color {
+    @include button-card_sizes(var(--background-tertiary-color), var(--background-secondary-color))
+  }
+}
