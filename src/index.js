@@ -1,5 +1,6 @@
 import './index.scss';
 import { ButtonCard } from '@atoms';
+import { ProfileView } from '@views/profile/profile';
 
 // import { LoginSignupView, DashboardView } from '@views';
 // import { router } from '@router';
@@ -28,5 +29,5 @@ const root = document.querySelector('#root');
 //
 // router.start();
 
-const card = new ButtonCard(root, undefined, undefined);
-card.renderTemplateToParent();
+const profile = new ProfileView(root)
+profile.renderTemplateToParent()

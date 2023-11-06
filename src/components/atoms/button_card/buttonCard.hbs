@@ -6,7 +6,9 @@
         </svg>
     </div>
     <div class="button-card__text-container">
-        <span class="font-base-text button-card__description">{{description}}</span>
+        {{#if description}}
+            <span class="font-base-text button-card__description">{{description}}</span>
+        {{/if}}
         <span class="font-h2-medium button-card__text">{{text}}</span>
     </div>
 </div>

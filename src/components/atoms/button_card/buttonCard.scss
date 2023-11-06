@@ -6,7 +6,7 @@
 .button-card {
   display: flex;
   height: auto;
-  grid-column: span 4;
+  width: 100%;
   flex-direction: column;
   padding: var(--card-padding);
   border-radius: var(--radius-size-medium);
