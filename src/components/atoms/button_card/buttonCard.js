@@ -32,7 +32,6 @@ export class ButtonCard extends BaseComponent {
      * @param {Function} [clickHandler = this.#clickHandler] - The function that will handle the click event of the card element. (optional)
      */
     constructor(parent, state = DEFAULT_CARD, clickHandler) {
-        state = { ...DEFAULT_CARD, ...state };
         super(state, null, parent);
 
         if (typeof clickHandler === 'function') {

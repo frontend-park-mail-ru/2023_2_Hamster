@@ -1,6 +1,8 @@
 import './index.scss';
 import { ButtonCard } from '@atoms';
 import { ProfileView } from '@views/profile/profile';
+import { DashboardView, LoginSignupView } from '@views';
+import { Layout } from '@organisms/layout/layout';
 
 // import { LoginSignupView, DashboardView } from '@views';
 // import { router } from '@router';
@@ -29,5 +31,11 @@ const root = document.querySelector('#root');
 //
 // router.start();
 
-const profile = new ProfileView(root)
+// const dash = new Layout(root, undefined, new DashboardView(null));
+// dash.renderTemplateToParent();
+//
+const profile = new Layout(root, undefined, new ProfileView(null))
 profile.renderTemplateToParent()
+//
+// const view = new LoginSignupView(root, true);
+// view.renderTemplateToParent();

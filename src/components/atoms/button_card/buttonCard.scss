@@ -8,6 +8,7 @@
   height: auto;
   width: 100%;
   flex-direction: column;
+  flex-grow: 1;
   padding: var(--card-padding);
   border-radius: var(--radius-size-medium);
 
