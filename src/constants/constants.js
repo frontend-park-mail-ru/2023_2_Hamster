@@ -32,6 +32,7 @@ export const getBaseURL = (id) => `${SERVER_PREFIX}/api/user`;
 
 export const STATUS_CODES = {
     OK: 200,
+    ACCEPTED: 202,
     BAD_REQUEST: 400,
     UNAUTHORISED: 401,
     FORBIDDEN: 403,
