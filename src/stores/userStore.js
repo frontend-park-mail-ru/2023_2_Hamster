@@ -360,18 +360,19 @@ class UserStore extends BaseStore {
      * @function
      * @param {Object} data - The passwords to check.
      * @param {string} data.password - The original password.
-     * @param {string} data.passwordRepeat - The repeated password.
+     * @param {string} data.repeatPassword - The repeated password.
      */
     isPasswordRepeat = ({
         password,
-        passwordRepeat,
+        repeatPassword,
     }) => {
-        const result = password === passwordRepeat;
+        console.log('Store', password, repeatPassword);
+        const result = password === repeatPassword;
 
         this.storage = {
             ...this.storage,
             repeatState: {
-                passwordRepeat: passwordRepeat,
+                passwordRepeat: repeatPassword,
                 isError: result ? null : true,
                 inputHelperText: result ? null : 'Пароли не совпадают',
             },

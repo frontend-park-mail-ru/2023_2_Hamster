@@ -124,7 +124,7 @@ export class LoginSignupView extends BaseComponent {
      * @function
      */
     renderPassword = () => {
-        this.cleanUp();
+        // this.cleanUp();
 
         this.#form.inputPassword.setState(userStore.storage.passwordState);
 
@@ -143,12 +143,12 @@ export class LoginSignupView extends BaseComponent {
      * @function
      */
     renderRepeatPassword = () => {
-        this.cleanUp();
+        // this.cleanUp();
 
         this.#form.inputPasswordRepeat.setState(userStore.storage.repeatState);
 
-        const repeatPassword = document.querySelector('#password_repeat_input_container');
-        repeatPassword.innerHTML = this.#form.inputPasswordRepeat.render();
+        const repeatPasswordContainer = document.querySelector('#password_repeat_input_container');
+        repeatPasswordContainer.innerHTML = this.#form.inputPasswordRepeat.render();
 
         const repeatPasswordInput = document.querySelector('#password_repeat_input');
         repeatPasswordInput.addEventListener('blur', this.passwordRepeatInputHandler);
@@ -266,6 +266,8 @@ export class LoginSignupView extends BaseComponent {
     passwordRepeatInputHandler = () => {
         const password = document.querySelector('#password_input').value;
         const repeatPassword = document.querySelector('#password_repeat_input').value;
+        console.log('handler', password, repeatPassword);
+
         userActions.validateRepeatPassword(password, repeatPassword);
     };
 
