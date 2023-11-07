@@ -101,7 +101,7 @@ class UserStore extends BaseStore {
                 this.emitChange(EVENT_TYPES.LOGIN_SUCCESS);
                 break;
 
-            case STATUS_CODES.UNAUTHORISED:
+            case STATUS_CODES.TOO_MANY_REQUESTS:
                 this.storage.error = 'Неверное имя пользователя или пароль';
                 this.storeChanged = true;
                 this.emitChange(EVENT_TYPES.LOGIN_ERROR);
