@@ -86,8 +86,8 @@ export class LoginSignupView extends BaseComponent {
      * @function
      */
     renderLoginInput = () => {
-        this.cleanUp();
-
+        // this.cleanUp();
+        //
         this.#form.inputLogin.setState(userStore.storage.loginInputState);
 
         const login = document.querySelector('#login_input_container');
@@ -105,8 +105,8 @@ export class LoginSignupView extends BaseComponent {
      * @function
      */
     renderUsername = () => {
-        this.cleanUp();
-
+        // this.cleanUp();
+        //
         this.#form.inputUsername.setState(userStore.storage.usernameState);
 
         const username = document.querySelector('#username_input_container');
@@ -124,8 +124,6 @@ export class LoginSignupView extends BaseComponent {
      * @function
      */
     renderPassword = () => {
-        // this.cleanUp();
-
         this.#form.inputPassword.setState(userStore.storage.passwordState);
 
         const password = document.querySelector('#password_input_container');
@@ -143,8 +141,6 @@ export class LoginSignupView extends BaseComponent {
      * @function
      */
     renderRepeatPassword = () => {
-        // this.cleanUp();
-
         this.#form.inputPasswordRepeat.setState(userStore.storage.repeatState);
 
         const repeatPasswordContainer = document.querySelector('#password_repeat_input_container');
@@ -206,13 +202,13 @@ export class LoginSignupView extends BaseComponent {
      * @function
      */
     submitButtonHandler = () => {
-        if (this.#isLogin) {
-            const login = document.querySelector('#login_input').value;
-            const password = document.querySelector('#password_input').value;
-
-            userActions.login(login, password);
-            return;
-        }
+        // if (this.#isLogin) {
+        //     const login = document.querySelector('#login_input').value;
+        //     const password = document.querySelector('#password_input').value;
+        //
+        //
+        //     return;
+        // }
 
         const login = document.querySelector('#login_input');
         const username = document.querySelector('#username_input');
@@ -221,6 +217,8 @@ export class LoginSignupView extends BaseComponent {
 
         if (login && username && password && repeatPassword) {
             userActions.register(login.value, username.value, password.value, repeatPassword.value);
+        } else {
+            userActions.login(login.value, password.value);
         }
     };
 
