@@ -58,6 +58,7 @@ export class LoginSignupView extends BaseComponent {
      * @function
      */
     navigateToHome = () => {
+        console.log('home');
         router.navigateTo(ROUTE_CONSTANTS.HOME_ROUTE);
     };
 
