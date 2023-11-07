@@ -18,6 +18,8 @@ export const API_CONSTANTS = {
     LOG_OUT: `${SERVER_PREFIX}/api/auth/logout`,
     CHECK_AUTH: `${SERVER_PREFIX}/api/auth/checkAuth`,
 
+    CSRF: `${SERVER_PREFIX}/api/csrf/`,
+
     FEED_TAIL: '/feed',
     BALANCE_TAIL: '/balance',
     ACCOUNTS_TAIL: '/account/all',
