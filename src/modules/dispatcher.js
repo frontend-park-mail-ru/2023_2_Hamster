@@ -59,9 +59,8 @@ class Dispatcher {
      * @returns {undefined} Returns undefined if the action does not have a reducer or the action does not have a value.
      */
     async dispatch(action) {
-        console.log('dispatch',action.data.password, action.data.repeatPassword);
-
         if (this.isDispatching) {
+            console.error(action);
             throw new Error('Dispatcher: dispatch method must be run when Dispatcher is off');
         }
 

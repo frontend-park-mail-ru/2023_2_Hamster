@@ -74,7 +74,6 @@ export const userActions = {
     },
 
     validateRepeatPassword(password, repeatPassword) {
-        console.log('Action',password, repeatPassword);
         dispatcher.dispatch({
             type: USER_ACTIONS_TYPES.VALIDATE_REPEAT,
             data: {

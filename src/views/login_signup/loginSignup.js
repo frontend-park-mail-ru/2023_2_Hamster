@@ -266,7 +266,6 @@ export class LoginSignupView extends BaseComponent {
     passwordRepeatInputHandler = () => {
         const password = document.querySelector('#password_input').value;
         const repeatPassword = document.querySelector('#password_repeat_input').value;
-        console.log('handler', password, repeatPassword);
 
         userActions.validateRepeatPassword(password, repeatPassword);
     };

@@ -366,7 +366,6 @@ class UserStore extends BaseStore {
         password,
         repeatPassword,
     }) => {
-        console.log('Store', password, repeatPassword);
         const result = password === repeatPassword;
 
         this.storage = {
