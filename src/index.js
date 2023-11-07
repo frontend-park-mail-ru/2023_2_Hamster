@@ -22,7 +22,7 @@ const routes = {
     [ROUTE_CONSTANTS.DASHBOARD_ROUTE]: {
         view: new Layout(root, undefined, new DashboardView(null)),
     },
-    [ROUTE_CONSTANTS.CATEGORIES]: {
+    [ROUTE_CONSTANTS.PROFILE]: {
         view: new Layout(root, undefined, new ProfileView(null)),
     },
 };

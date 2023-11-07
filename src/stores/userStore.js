@@ -161,6 +161,9 @@ class UserStore extends BaseStore {
             }
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);
+            this.storage.error = 'Непредвиденная ошибка';
+            this.storeChanged = true;
+            this.emitChange(EVENT_TYPES.REGISTRATION_ERROR);
         }
     };
 

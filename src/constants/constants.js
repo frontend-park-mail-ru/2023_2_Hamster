@@ -2,7 +2,7 @@ import IMAGE_URL from '@images/peopleLoginReg.svg';
 import { SVG_ICONS } from '@icons/icons';
 
 export const ROUTE_CONSTANTS = {
-    CATEGORIES: '/categories',
+    PROFILE: '/profile',
     LOGIN_ROUTE: '/login',
     REGISTRATION_ROUTE: '/registration',
     DASHBOARD_ROUTE: '/dashboard',
@@ -10,7 +10,7 @@ export const ROUTE_CONSTANTS = {
     NOT_FOUND: '/404',
 };
 
-const SERVER_PREFIX = 'https://84.23.52.156';
+const SERVER_PREFIX = 'https://hammywallet.ru';
 
 export const API_CONSTANTS = {
     SIGN_IN: `${SERVER_PREFIX}/api/auth/signin`,
@@ -26,7 +26,7 @@ export const API_CONSTANTS = {
     UPDATE_TAIL: '/update',
 };
 
-export const getBaseURL = (id) => `${SERVER_PREFIX}/api/user/${id}`;
+export const getBaseURL = (id) => `${SERVER_PREFIX}/api/user`;
 
 export const STATUS_CODES = {
     OK: 200,
