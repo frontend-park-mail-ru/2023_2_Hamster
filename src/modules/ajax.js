@@ -30,10 +30,11 @@ export const get = async (url) => {
  * @throws {Error} - If an error occurs during the request, an error object is thrown.
  */
 export const post = async (url, data) => {
+    let response;
     if(!API_CONSTANTS.SIGN_IN || !API_CONSTANTS.SIGN_UP || !API_CONSTANTS.CHECK_AUTH) {
         const csrfToken = await csrfApi.getCsrfToken();
 
-        const response = await fetch(url, {
+        response = await fetch(url, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
@@ -43,7 +44,7 @@ export const post = async (url, data) => {
             credentials: 'include',
         });
     } else {
-        const response = await fetch(url, {
+        response = await fetch(url, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
