@@ -31,7 +31,7 @@ class UserStore extends BaseStore {
             loginState: USER_STORE.LOGIN_STATE,
             registrationState: USER_STORE.REGISTRATION_STATE,
             user: {
-                login: 'Ваш логин'
+                login: 'Ваш логин',
             },
             error: null,
         };
@@ -89,18 +89,16 @@ class UserStore extends BaseStore {
         try {
             response = await authApi.signIn(data);
 
+            this.storage.user = {
+                username: response.username,
+                id: response.id,
+                isAuthorised: true,
+            };
+            this.storage.error = null;
+            this.storeChanged = true;
+            this.emitChange(EVENT_TYPES.LOGIN_SUCCESS);
+        } catch (error) {
             switch (response.status) {
-            case STATUS_CODES.ACCEPTED:
-                this.storage.user = {
-                    username: response.username,
-                    id: response.id,
-                    isAuthorised: true,
-                };
-                this.storage.error = null;
-                this.storeChanged = true;
-                this.emitChange(EVENT_TYPES.LOGIN_SUCCESS);
-                break;
-
             case STATUS_CODES.TOO_MANY_REQUESTS:
                 this.storage.error = 'Неверное имя пользователя или пароль';
                 this.storeChanged = true;
@@ -116,7 +114,7 @@ class UserStore extends BaseStore {
             default:
                 console.log('Undefined status code', response.status);
             }
-        } catch (error) {
+
             console.log('Unable to connect to the server, error: ', error);
         }
     };
@@ -420,7 +418,7 @@ class UserStore extends BaseStore {
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);
         }
-    }
+    };
 }
 
 export const userStore = new UserStore();
