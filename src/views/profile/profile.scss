@@ -3,6 +3,7 @@
   flex-direction: column;
   gap: 48px;
   grid-column: span 12;
+  grid-row: span 3;
 
   &__cards-container {
     display: flex;
@@ -12,6 +13,10 @@
   &__edit-container {
     display: flex;
     justify-content: space-between;
+  }
+
+  &__button-container {
+    display: flex;
   }
 
   &__form {

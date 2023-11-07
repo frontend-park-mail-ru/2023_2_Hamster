@@ -26,6 +26,7 @@
   border-radius: var(--radius-size-medium);
   word-break: break-word;
   user-select: none;
+  transition: 0.2s;
 
   &__icon-container{
     display: flex;

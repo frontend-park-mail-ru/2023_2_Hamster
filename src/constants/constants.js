@@ -1,4 +1,5 @@
 import IMAGE_URL from '@images/peopleLoginReg.svg';
+import { SVG_ICONS } from '@icons/icons';
 
 export const ROUTE_CONSTANTS = {
     LOGIN_ROUTE: '/login',
@@ -79,7 +80,7 @@ export const USER_STORE = {
             buttonColor: 'button_primary-color',
         },
     },
-    FEED_STATE:{
+    FEED_STATE: {
         cardBalance: {
             cardSize: 'card_small',
             cardHeadline: 'Баланс',
@@ -95,5 +96,80 @@ export const USER_STORE = {
             cardHeadline: 'Фактический бюджет',
             cardSubhead: 'Не можем расчитать фактический бюджет',
         },
-    }
+    },
+};
+
+export const PROFILE_STATE = {
+    PLAN_CARD_STATE: {
+        cardColor: 'button-card_accent-color',
+        description: 'Ваш план',
+        text: 'Базовый',
+        path: SVG_ICONS.box.path,
+    },
+
+    SHARE_CARD_STATE: {
+        cardColor: 'button-card_default-color',
+        text: 'Совместный доступ',
+        path: SVG_ICONS.people.path,
+    },
+
+    CATEGORIES_CARD_STATE: {
+        cardColor: 'button-card_default-color',
+        description: 'Настройте свои',
+        text: 'Категории',
+        path: SVG_ICONS.bookmark.path,
+    },
+
+    USERNAME_INPUT_STATE: {
+        isError: '',
+        id: 'username_input',
+        inputSize: 'input_small',
+        typeOfInput: 'text',
+        inputPlaceholder: 'Имя пользователя',
+    },
+
+    CURRENT_PASSWORD_INPUT_STATE: {
+        isError: '',
+        id: 'current_password_input',
+        inputSize: 'input_small',
+        typeOfInput: 'password',
+        inputPlaceholder: 'Текущий пароль',
+    },
+
+    NEW_PASSWORD_INPUT_STATE: {
+        isError: '',
+        id: 'new_password_input',
+        inputSize: 'input_small',
+        typeOfInput: 'password',
+        inputPlaceholder: 'Новый пароль',
+    },
+
+    REPEAT_PASSWORD_INPUT_STATE: {
+        isError: '',
+        id: 'repeat_password_input',
+        inputSize: 'input_small',
+        typeOfInput: 'password',
+        inputPlaceholder: 'Повтор пароля',
+    },
+
+    BUDGET_INPUT_STATE: {
+        isError: '',
+        id: 'budget_input',
+        inputSize: 'input_small',
+        typeOfInput: 'text',
+        inputPlaceholder: 'Ваш бюджет на месяц',
+    },
+
+    AVATAR: {
+        avatar: true,
+        svg: null,
+        imageSize: 'image-container_large',
+    },
+
+    BUTTON_STATE: {
+        buttonText: 'Сохранить изменения',
+        buttonColor: 'button_primary-color',
+        buttonSize: 'button_small',
+        buttonType: 'button',
+    },
 };

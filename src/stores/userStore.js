@@ -30,7 +30,9 @@ class UserStore extends BaseStore {
         this.storage = {
             loginState: USER_STORE.LOGIN_STATE,
             registrationState: USER_STORE.REGISTRATION_STATE,
-            user: {},
+            user: {
+                login: 'Ваш логин'
+            },
             error: null,
         };
     }
@@ -50,6 +52,7 @@ class UserStore extends BaseStore {
             switch (response.status) {
             case STATUS_CODES.OK:
                 this.storage.user = {
+                    login: response.login,
                     username: response.username,
                     id: response.id,
                     isAuthorised: true,

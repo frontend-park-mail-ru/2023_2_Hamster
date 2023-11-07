@@ -41,6 +41,12 @@
   --button-secondary-focus-color: var(--secondary-color-darker);
   --button-secondary-active-color: var(--secondary-color-lighter);
   --button-secondary-disabled-color: var(--secondary-color-muted);
+  --button-card-accent-border-color: var(--primary-color-lighter);
+  --button-card-accent-background-color: var(--primary-color);
+  --button-card-accent-hover-color: var(--primary-color-darker);
+  --button-card-default-border-color: #333437;
+  --button-card-default-background-color: #222226;
+  --button-card-default-hover-color: #1e1e22;
   /*input*/
   --input-primary-color: var(--background-main-color);
   --input-primary-error-color: var(--error-color);
@@ -90,9 +96,9 @@
   --menu-icon-size: 32px;
   --menu-icon-margin: 10px;
   --image-border-color: var(--background-tertiary-color);
-  --image-small-1: 44px;
-  --image-small-2: 48px;
-  --image-medium: 64px;
+  --image-small: 44px;
+  --image-medium: 48px;
+  --image-big: 64px;
   --image-large: 200px;
   --image-border-line-width: 1px;
   --icon-small: 24px;
@@ -455,6 +461,9 @@
   flex-grow: 1;
   padding: var(--card-padding);
   border-radius: var(--radius-size-medium);
+  word-break: break-word;
+  user-select: none;
+  transition: 0.2s;
 }
 .button-card__icon-container {
   display: flex;
@@ -484,12 +493,32 @@
   color: var(--text-main-color);
 }
 .button-card_accent-color {
-  border: 1px solid var(--primary-color-lighter);
-  background-color: var(--primary-color);
+  border: 1px solid var(--button-card-accent-border-color);
+  background-color: var(--button-card-accent-background-color);
+  cursor: pointer;
+}
+.button-card_accent-color:hover {
+  background: var(--button-card-accent-hover-color);
+}
+.button-card_accent-color:focus {
+  background: var(--background-main-color);
+}
+.button-card_accent-color:active {
+  background: var(--background-main-color);
 }
 .button-card_default-color {
-  border: 1px solid var(--background-tertiary-color);
-  background-color: var(--background-secondary-color);
+  border: 1px solid var(--button-card-default-border-color);
+  background-color: var(--button-card-default-background-color);
+  cursor: pointer;
+}
+.button-card_default-color:hover {
+  background: var(--button-card-default-hover-color);
+}
+.button-card_default-color:focus {
+  background: var(--background-main-color);
+}
+.button-card_default-color:active {
+  background: var(--background-main-color);
 }
 
 .card {
@@ -762,6 +791,7 @@
   flex-direction: column;
   gap: 48px;
   grid-column: span 12;
+  grid-row: span 3;
 }
 .profile__cards-container {
   display: flex;
@@ -770,6 +800,9 @@
 .profile__edit-container {
   display: flex;
   justify-content: space-between;
+}
+.profile__button-container {
+  display: flex;
 }
 .profile__form {
   display: flex;
