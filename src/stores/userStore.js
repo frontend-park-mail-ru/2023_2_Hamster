@@ -59,7 +59,8 @@ class UserStore extends BaseStore {
                 };
                 this.storage.error = null;
                 this.storeChanged = true;
-                this.emitChange(EVENT_TYPES.LOGIN_SUCCESS);
+                console.log('test');
+                router.navigateTo(ROUTE_CONSTANTS.HOME_ROUTE);
                 break;
 
             case STATUS_CODES.UNAUTHORISED:
