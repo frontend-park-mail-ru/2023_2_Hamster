@@ -1,5 +1,5 @@
 import { API_CONSTANTS, getBaseURL } from '@constants/constants';
-import { get, post } from '@ajax';
+import { get, post, put } from '@ajax';
 
 class UserApi {
     /**
@@ -70,6 +70,11 @@ class UserApi {
     getFeed = (id) => {
         const url = getBaseURL(id) + API_CONSTANTS.FEED_TAIL;
         return get(url);
+    };
+
+    putUpdate = (id, userInfo) => {
+        const url = getBaseURL(id) + API_CONSTANTS.UPDATE_TAIL;
+        return put(url, userInfo);
     };
 }
 

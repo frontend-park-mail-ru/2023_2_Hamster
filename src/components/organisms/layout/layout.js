@@ -148,5 +148,7 @@ export class Layout extends BaseComponent {
         if (button) {
             button.addEventListener('click', this.#button.getHandler());
         }
+
+        this.#contentElement.setHandlers()
     }
 }

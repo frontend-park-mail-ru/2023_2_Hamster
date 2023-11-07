@@ -301,6 +301,13 @@
   cursor: auto;
 }
 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+  -moz-appearance: textfield;
+}
+
 .input-container {
   background-color: var(--input-primary-color);
 }

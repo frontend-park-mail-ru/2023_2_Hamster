@@ -82,4 +82,14 @@ export const userActions = {
             },
         });
     },
+
+    updateProfile(planned_budget, username) {
+        dispatcher.dispatch({
+            type: USER_ACTIONS_TYPES.UPDATE_PROFILE,
+            data: {
+                planned_budget,
+                username,
+            },
+        });
+    }
 };

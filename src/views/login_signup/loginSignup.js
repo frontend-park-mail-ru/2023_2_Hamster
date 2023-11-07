@@ -18,6 +18,8 @@ export class LoginSignupView extends BaseComponent {
 
     #buttonElement;
 
+    #isLogin;
+
     /**
      * Create a LoginSignupView, register listeners.
      *
@@ -33,6 +35,8 @@ export class LoginSignupView extends BaseComponent {
             super(userStore.storage.registrationState, template, parent);
             this.#form = new LoginSignUpForm(null, isLogin);
         }
+
+        this.#isLogin = isLogin;
 
         this.#buttonElement = new Button(null, this.getState().redirectButton, this.switchLoginSignup.bind(this));
 
@@ -54,8 +58,8 @@ export class LoginSignupView extends BaseComponent {
      * @function
      */
     navigateToHome = () => {
-        router.navigateTo(ROUTE_CONSTANTS.HOME_ROUTE)
-    }
+        router.navigateTo(ROUTE_CONSTANTS.HOME_ROUTE);
+    };
 
     /**
      * Render template to parent.
@@ -202,7 +206,22 @@ export class LoginSignupView extends BaseComponent {
      * @function
      */
     submitButtonHandler = () => {
-        userActions.login();
+        if (this.#isLogin) {
+            const login = document.querySelector('#login_input').value;
+            const password = document.querySelector('#password_input').value;
+
+            userActions.login(login, password);
+            return;
+        }
+
+        const login = document.querySelector('#login_input');
+        const username = document.querySelector('#username_input');
+        const password = document.querySelector('#password_input');
+        const repeatPassword = document.querySelector('#password_repeat_input');
+
+        if (login && username && password && repeatPassword) {
+            userActions.register(login.value, username.value, password.value, repeatPassword.value);
+        }
     };
 
     /**

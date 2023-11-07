@@ -380,6 +380,42 @@ class UserStore extends BaseStore {
         this.storeChanged = true;
         this.emitChange(EVENT_TYPES.RERENDER_REPEAT_INPUT);
     };
+
+    /**
+     * Update user profile.
+     *
+     * @async
+     * @function
+     * @param {Object} data - The user's updated information.
+     */
+    updateProfile = async (data) => {
+        try {
+            const response = await userApi.putUpdate(this.storage.user.id, data);
+
+            switch (response.status) {
+            case STATUS_CODES.OK:
+                this.storage.user = {
+                    plannedBudget: data.planned_budget,
+                };
+                this.storage.error = null;
+                this.storeChanged = true;
+                break;
+
+            case STATUS_CODES.BAD_REQUEST:
+            case STATUS_CODES.UNAUTHORISED:
+            case STATUS_CODES.FORBIDDEN:
+            case STATUS_CODES.INTERNAL_SERVER_ERROR:
+                this.storage.error = response.message;
+                this.storeChanged = true;
+                break;
+
+            default:
+                console.log('Undefined status code', response.status);
+            }
+        } catch (error) {
+            console.log('Unable to connect to the server, error: ', error);
+        }
+    }
 }
 
 export const userStore = new UserStore();

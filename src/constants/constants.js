@@ -2,6 +2,7 @@ import IMAGE_URL from '@images/peopleLoginReg.svg';
 import { SVG_ICONS } from '@icons/icons';
 
 export const ROUTE_CONSTANTS = {
+    CATEGORIES: '/categories',
     LOGIN_ROUTE: '/login',
     REGISTRATION_ROUTE: '/registration',
     DASHBOARD_ROUTE: '/dashboard',
@@ -22,6 +23,7 @@ export const API_CONSTANTS = {
     ACCOUNTS_TAIL: '/account/all',
     ACTUAL_BUDGET_TAIL: '/actualBudget',
     PLANNED_BUDGET_TAIL: '/plannedBudget',
+    UPDATE_TAIL: '/update',
 };
 
 export const getBaseURL = (id) => `${SERVER_PREFIX}/api/user/${id}`;
@@ -114,6 +116,7 @@ export const PROFILE_STATE = {
     },
 
     CATEGORIES_CARD_STATE: {
+        id: 'categories_card',
         cardColor: 'button-card_default-color',
         description: 'Настройте свои',
         text: 'Категории',
@@ -156,7 +159,7 @@ export const PROFILE_STATE = {
         isError: '',
         id: 'budget_input',
         inputSize: 'input_small',
-        typeOfInput: 'text',
+        typeOfInput: 'number',
         inputPlaceholder: 'Ваш бюджет на месяц',
     },
 
@@ -167,6 +170,7 @@ export const PROFILE_STATE = {
     },
 
     BUTTON_STATE: {
+        id: 'save_profile_button',
         buttonText: 'Сохранить изменения',
         buttonColor: 'button_primary-color',
         buttonSize: 'button_small',
