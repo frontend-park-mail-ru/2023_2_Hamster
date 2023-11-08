@@ -4,8 +4,9 @@ import { Button, ButtonCard, Image, Input } from '@atoms';
 import { userActions } from '@actions/userActions';
 
 import template from './profile.hbs';
-import { PROFILE_STATE} from '@constants/constants';
+import { PROFILE_STATE, ROUTE_CONSTANTS } from '@constants/constants';
 import { categoryActions } from '@actions/categoryActions';
+import { router } from '@router';
 
 /**
  * ProfileView class extends BaseComponent.
@@ -191,7 +192,7 @@ export class ProfileView extends BaseComponent {
         const categoriesCard = document.querySelector('#categories_card');
         if (categoriesCard) {
             this.#buttonCardCategories.setHandler(this.categoriesButtonHandler);
-            categoriesCard.addEventListener('click', this.#buttonCardCategories.getHandler());
+            categoriesCard.addEventListener('click', this.#buttonCardCategories.getHandler().bind(this));
         }
 
         // TODO: maybe add validation if necessary (now it can be even smiles, i think it's normal behaviour)
@@ -235,6 +236,7 @@ export class ProfileView extends BaseComponent {
 
     categoriesButtonHandler = () => {
         categoryActions.getCategories();
+        router.navigateTo(ROUTE_CONSTANTS.CATEGORIES)
     };
 
     saveButtonHandler = () => {

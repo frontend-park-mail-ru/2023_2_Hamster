@@ -35,8 +35,6 @@ class CategoriesStore extends BaseStore {
             if (response.body){
                 this.storage.states = this.transformArray(response.body);
             }
-
-            router.navigateTo(ROUTE_CONSTANTS.CATEGORIES)
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);
         }
