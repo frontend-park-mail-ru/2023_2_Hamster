@@ -11,12 +11,12 @@ class UserApi {
      * @throws {Error} If an error occurs during the request, an error object is thrown.
      */
     getFeed = () => {
-        const url = getBaseURL + API_CONSTANTS.FEED;
+        const url = API_CONSTANTS.FEED;
         return get(url);
     };
 
     putUpdate = (userInfo) => {
-        const url = getBaseURL + API_CONSTANTS.UPDATE;
+        const url = API_CONSTANTS.UPDATE;
         return put(url, userInfo);
     };
 }
