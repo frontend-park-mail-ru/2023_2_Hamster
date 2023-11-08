@@ -226,7 +226,7 @@ class UserStore extends BaseStore {
      */
     feed = async () => {
         try {
-            const response = await userApi.getFeed(this.storage.user.id);
+            const response = await userApi.getFeed();
 
             switch (response.status) {
             case STATUS_CODES.OK:
@@ -236,8 +236,8 @@ class UserStore extends BaseStore {
                         meanPayment: account.mean_payment,
                     })),
                     balance: response.balance,
-                    actualBudget: response.actual_balance,
-                    plannedBudget: response.planned_balance,
+                    actualBudget: response.actual_budget,
+                    plannedBudget: response.planned_budget,
                 };
                 this.storage.error = null;
                 this.storeChanged = true;

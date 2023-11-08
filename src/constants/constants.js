@@ -26,15 +26,9 @@ export const API_CONSTANTS = {
     DELETE_TAG: `${SERVER_PREFIX}/api/tag/delete`,
     UPDATE_TAG_TAIL: `/update`,
 
-    FEED_TAIL: '/feed',
-    BALANCE_TAIL: '/balance',
-    ACCOUNTS_TAIL: '/account/all',
-    ACTUAL_BUDGET_TAIL: '/actualBudget',
-    PLANNED_BUDGET_TAIL: '/plannedBudget',
-    UPDATE_TAIL: '/update',
+    FEED: `${SERVER_PREFIX}/api/user/feed`,
+    UPDATE: `${SERVER_PREFIX}/api/user/update`,
 };
-
-export const getBaseURL = () => `${SERVER_PREFIX}/api/user`;
 
 export const getTagURL = (id) => `${SERVER_PREFIX}/api/tag/${id}`;
 
