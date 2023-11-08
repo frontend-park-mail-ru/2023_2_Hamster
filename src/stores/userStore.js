@@ -59,7 +59,7 @@ class UserStore extends BaseStore {
                 };
                 this.storage.error = null;
                 this.storeChanged = true;
-                console.log('test');
+
                 router.navigateTo(ROUTE_CONSTANTS.HOME_ROUTE);
                 break;
 

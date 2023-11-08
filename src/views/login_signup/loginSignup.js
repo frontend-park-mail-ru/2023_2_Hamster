@@ -183,8 +183,6 @@ export class LoginSignupView extends BaseComponent {
         if (passwordRepeatInput) {
             passwordRepeatInput.removeEventListener('blur', this.passwordRepeatInputHandler);
         }
-
-        this.setHandlers();
     }
 
     /**
