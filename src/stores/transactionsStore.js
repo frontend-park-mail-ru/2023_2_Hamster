@@ -33,8 +33,6 @@ class CategoriesStore extends BaseStore {
             const response = await transactionsApi.getTransaction();
 
             this.storage.states = this.transformArray(response);
-
-            router.navigateTo(ROUTE_CONSTANTS.TRANSACTIONS)
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);
         }
