@@ -6,6 +6,7 @@ import { ROUTE_CONSTANTS } from '@constants/constants';
 import { Layout } from '@organisms/layout/layout';
 import { ProfileView } from '@views/profile/profile';
 import { CategoriesView } from '@views/categories/categories';
+import { TransactionsView } from '@views/transactions/transactions';
 
 const root = document.querySelector('#root');
 
@@ -31,6 +32,9 @@ const routes = {
     },
 };
 
-router.addRoutes(routes);
+// router.addRoutes(routes);
 
-router.start();
+// router.start();
+
+const views = new Layout(root, undefined, new TransactionsView(null));
+views.renderTemplateToParent();

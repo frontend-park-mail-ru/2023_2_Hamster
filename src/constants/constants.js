@@ -8,6 +8,7 @@ export const ROUTE_CONSTANTS = {
     DASHBOARD_ROUTE: '/dashboard',
     HOME_ROUTE: '',
     CATEGORIES: '/categories',
+    TRANSACTIONS: '/transactions',
     NOT_FOUND: '/404',
 };
 
@@ -26,11 +27,18 @@ export const API_CONSTANTS = {
     DELETE_TAG: `${SERVER_PREFIX}/api/tag/delete`,
     UPDATE_TAG_TAIL: `/update`,
 
+    CREATE_TRANSACTION: `${SERVER_PREFIX}/api/transaction/create`,
+    GET_TRANSACTIONS: `${SERVER_PREFIX}/api/transaction/feed`,
+    UPDATE_TRANSACTION: `${SERVER_PREFIX}/api/transaction/update`,
+    DELETE_TRANSACTION_TAIL: `/delete`,
+
     FEED: `${SERVER_PREFIX}/api/user/feed`,
     UPDATE: `${SERVER_PREFIX}/api/user/update`,
 };
 
 export const getTagURL = (id) => `${SERVER_PREFIX}/api/tag/${id}`;
+
+export const getTransactionURL = (id) => `${SERVER_PREFIX}/api/transaction/${id}`;
 
 export const STATUS_CODES = {
     OK: 200,
@@ -63,6 +71,8 @@ export const EVENT_TYPES = {
     FEED_ERROR: 'FEED_ERROR',
 
     RERENDER_CATEGORIES: 'RERENDER_CATEGORIES',
+
+    RERENDER_TRANSACTIONS: 'RERENDER_TRANSACTIONS',
 };
 
 export const USER_STORE = {

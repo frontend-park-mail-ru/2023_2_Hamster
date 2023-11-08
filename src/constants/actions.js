@@ -1,5 +1,6 @@
 import { userStore } from '@stores/userStore.js';
 import { categoriesStore } from '@stores/categoriesStore';
+import { transactionsStore } from '@stores/transactionsStore';
 
 export const USER_ACTIONS_TYPES = {
     API_CHECK_AUTH: 'USER_CHECK_AUTH',
@@ -24,6 +25,13 @@ export const CATEGORY_ACTIONS = {
     CREATE_CATEGORY: 'CREATE_CATEGORY',
     UPDATE_CATEGORY: 'UPDATE_CATEGORY',
     DELETE_CATEGORY: 'DELETE_CATEGORY',
+};
+
+export const TRANSACTION_ACTIONS = {
+    GET_TRANSACTIONS: 'GET_TRANSACTIONS',
+    CREATE_TRANSACTION: 'CREATE_TRANSACTION',
+    UPDATE_TRANSACTION: 'UPDATE_TRANSACTION',
+    DELETE_TRANSACTION: 'DELETE_TRANSACTION',
 };
 
 export const actions = [
@@ -92,5 +100,22 @@ export const actions = [
     {
         type: CATEGORY_ACTIONS.DELETE_CATEGORY,
         method: categoriesStore.deleteTag,
+    },
+
+    {
+        type: TRANSACTION_ACTIONS.GET_TRANSACTIONS,
+        method: transactionsStore.getTransaction,
+    },
+    {
+        type: TRANSACTION_ACTIONS.CREATE_TRANSACTION,
+        method: transactionsStore.createTag,
+    },
+    {
+        type: TRANSACTION_ACTIONS.UPDATE_TRANSACTION,
+        method: transactionsStore.updateTag,
+    },
+    {
+        type: TRANSACTION_ACTIONS.DELETE_TRANSACTION,
+        method: transactionsStore.deleteTag,
     },
 ];

@@ -1,0 +1,79 @@
+.transaction{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  &__card{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 12px;
+    height: 64px;
+    width: auto;
+    border-radius: var(--radius-size-medium);
+
+    &:hover{
+      background-color: var(--background-secondary-color);
+    }
+  }
+
+  &__date{
+    margin-right: 64px;
+  }
+
+  &__icon{
+    height: 64px;
+    width: 64px;
+    margin-right: 40px;
+  }
+
+  &__text{
+    display: flex;
+    width: auto;
+    height: auto;
+    margin-right: 40px;
+    color: var(--text-main-color);
+  }
+
+  &__value{
+    display: flex;
+    width: auto;
+    height: auto;
+    margin-right: 40px;
+    color: var(--text-main-color);
+  }
+
+  &__account{
+    display: flex;
+    width: auto;
+    height: auto;
+    color: var(--text-main-color);
+  }
+
+  &__settings{
+    user-select: none;
+    cursor: pointer;
+    margin-left: auto;
+    width: auto;
+    display: flex;
+    margin-right: 8px;
+    flex-direction: column;
+  }
+
+  &__delete {
+    color: var(--text-label-color);
+    text-decoration: underline;
+
+    &:hover{
+      color: var(--error-color);
+    }
+  }
+}
+
+.settings{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-top: var(--card-padding);
+  margin-bottom: var(--card-padding);
+}

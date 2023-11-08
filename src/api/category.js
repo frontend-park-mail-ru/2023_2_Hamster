@@ -17,8 +17,8 @@ class CategoryApi {
         return deleteRequest(url, id)
     }
 
-    updateTag = (data) => {
-        const url = getTagURL() + API_CONSTANTS.UPDATE_TAG_TAIL;
+    updateTag = (id, data) => {
+        const url = getTagURL(id) + API_CONSTANTS.UPDATE_TAG_TAIL;
         return put(url, data)
     }
 }

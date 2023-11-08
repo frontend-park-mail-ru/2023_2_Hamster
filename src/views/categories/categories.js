@@ -44,20 +44,7 @@ export class CategoriesView extends BaseComponent {
      * @function
      */
     render() {
-        this.categories = this.createCategories([
-            {
-                'id': 'c1',
-                'categoryName': 'name1',
-                'deleteId': 'c1_delete',
-                'cardId': 'c1_card',
-            },
-            {
-                'id': 'c2',
-                'categoryName': 'name2',
-                'deleteId': 'c2_delete',
-                'cardId': 'c2_card',
-            },
-        ]);
+        this.categories = this.createCategories(categoriesStore.storage.states);
         this.renderedCategories = this.renderCategories(this.categories);
 
         const templates = [
