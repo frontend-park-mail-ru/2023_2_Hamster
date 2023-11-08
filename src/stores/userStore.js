@@ -52,9 +52,8 @@ class UserStore extends BaseStore {
             switch (response.status) {
             case STATUS_CODES.OK:
                 this.storage.user = {
-                    login: response.login,
-                    username: response.username,
-                    id: response.id,
+                    username: response.body.username,
+                    id: response.body.id,
                     isAuthorised: true,
                 };
                 this.storage.error = null;
@@ -92,8 +91,8 @@ class UserStore extends BaseStore {
             switch (response.status) {
             case STATUS_CODES.ACCEPTED:
                 this.storage.user = {
-                    username: response.username,
-                    id: response.id,
+                    username: response.body.username,
+                    id: response.body.id,
                     isAuthorised: true,
                 };
                 this.storage.error = null;
@@ -137,8 +136,8 @@ class UserStore extends BaseStore {
             switch (response.status) {
             case STATUS_CODES.ACCEPTED:
                 this.storage.user = {
-                    username: response.username,
-                    id: response.id,
+                    username: response.body.username,
+                    id: response.body.id,
                     isAuthorised: true,
                 };
                 this.storage.error = null;
@@ -184,8 +183,8 @@ class UserStore extends BaseStore {
             switch (response.status) {
             case STATUS_CODES.OK:
                 this.storage.user = {
-                    username: response.username,
-                    id: response.id,
+                    username: response.body.username,
+                    id: response.body.id,
                     isAuthorised: false,
                 };
                 this.storage.error = null;
