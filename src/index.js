@@ -5,6 +5,7 @@ import { router } from '@router';
 import { ROUTE_CONSTANTS } from '@constants/constants';
 import { Layout } from '@organisms/layout/layout';
 import { ProfileView } from '@views/profile/profile';
+import { CategoriesView } from '@views/categories/categories';
 
 const root = document.querySelector('#root');
 
@@ -24,6 +25,9 @@ const routes = {
     },
     [ROUTE_CONSTANTS.PROFILE]: {
         view: new Layout(root, undefined, new ProfileView(null)),
+    },
+    [ROUTE_CONSTANTS.CATEGORIES]: {
+        view: new Layout(root, undefined, new CategoriesView(null)),
     },
 };
 

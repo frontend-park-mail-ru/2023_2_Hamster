@@ -7,6 +7,7 @@ export const ROUTE_CONSTANTS = {
     REGISTRATION_ROUTE: '/registration',
     DASHBOARD_ROUTE: '/dashboard',
     HOME_ROUTE: '',
+    CATEGORIES: '/categories',
     NOT_FOUND: '/404',
 };
 
@@ -20,6 +21,11 @@ export const API_CONSTANTS = {
 
     CSRF: `${SERVER_PREFIX}/api/csrf/`,
 
+    GET_TAGS: `${SERVER_PREFIX}/api/tag/all`,
+    CREATE_TAG: `${SERVER_PREFIX}/api/tag/create`,
+    DELETE_TAG: `${SERVER_PREFIX}/api/tag/delete`,
+    UPDATE_TAG_TAIL: `/update`,
+
     FEED_TAIL: '/feed',
     BALANCE_TAIL: '/balance',
     ACCOUNTS_TAIL: '/account/all',
@@ -29,6 +35,8 @@ export const API_CONSTANTS = {
 };
 
 export const getBaseURL = (id) => `${SERVER_PREFIX}/api/user`;
+
+export const getTagURL = (id) => `${SERVER_PREFIX}/api/tag/${id}`;
 
 export const STATUS_CODES = {
     OK: 200,
@@ -59,6 +67,8 @@ export const EVENT_TYPES = {
 
     FEED: 'FEED',
     FEED_ERROR: 'FEED_ERROR',
+
+    RERENDER_CATEGORIES: 'RERENDER_CATEGORIES',
 };
 
 export const USER_STORE = {

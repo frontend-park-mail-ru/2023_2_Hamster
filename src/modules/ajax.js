@@ -97,10 +97,11 @@ export const patch = async (url, data) => {
  *
  * @async
  * @param {string} url - The URL to which the request will be made.
+ * @param {Object} data - The data to be sent in the body of the request.
  * @returns {Promise<Object>} - Returns a Promise that resolves to the data in JSON format.
  * @throws {Error} - If an error occurs during the request, an error object is thrown.
  */
-export const deleteRequest = async (url) => {
+export const deleteRequest = async (url, data) => {
     const csrfToken = await csrfApi.getCsrfToken();
 
     const response = await fetch(url, {
@@ -108,6 +109,7 @@ export const deleteRequest = async (url) => {
         headers: {
             'X-CSRF-TOKEN': csrfToken,
         },
+        body: JSON.stringify(data),
         credentials: 'include',
     });
 

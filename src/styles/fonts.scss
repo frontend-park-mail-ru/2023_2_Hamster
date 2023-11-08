@@ -25,6 +25,14 @@
   @include font-style('Inter, sans-serif', 32px, 400);
 }
 
+.font-h4-medium{
+  @include font-style('Inter, sans-serif', 24px, 500);
+}
+
+.font-h4-regular{
+  @include font-style('Inter, sans-serif', 24px, 400);
+}
+
 .font-base-text {
   @include font-style('Rubik, sans-serif', 20px, 400);
 }

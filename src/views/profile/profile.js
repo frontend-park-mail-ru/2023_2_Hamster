@@ -4,8 +4,8 @@ import { Button, ButtonCard, Image, Input } from '@atoms';
 import { userActions } from '@actions/userActions';
 
 import template from './profile.hbs';
-import { PROFILE_STATE, ROUTE_CONSTANTS } from '@constants/constants';
-import { router } from '@router';
+import { PROFILE_STATE} from '@constants/constants';
+import { categoryActions } from '@actions/categoryActions';
 
 /**
  * ProfileView class extends BaseComponent.
@@ -119,8 +119,6 @@ export class ProfileView extends BaseComponent {
         if (saveProfileButton) {
             saveProfileButton.removeEventListener('click', this.#saveButton.getHandler());
         }
-
-        this.setHandlers();
     }
 
     /**
@@ -236,7 +234,7 @@ export class ProfileView extends BaseComponent {
     }
 
     categoriesButtonHandler = () => {
-        router.navigateTo(ROUTE_CONSTANTS.CATEGORIES)
+        categoryActions.getCategories();
     };
 
     saveButtonHandler = () => {
