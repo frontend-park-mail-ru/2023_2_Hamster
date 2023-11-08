@@ -167,17 +167,17 @@ export class Layout extends BaseComponent {
 
         const menuHome = document.querySelector('#home');
         if (menuHome) {
-            menuHome.addEventListener('click', this.navigateHome.bind(this));
+            menuHome.addEventListener('click', this.navigateHome);
         }
 
         const menuTransactions = document.querySelector('#transactions');
         if (menuTransactions) {
-            menuTransactions.addEventListener('click', this.navigateTransaction.bind(this));
+            menuTransactions.addEventListener('click', this.navigateTransaction);
         }
 
         const menuProfile = document.querySelector('#profile');
         if (menuProfile) {
-            menuProfile.addEventListener('click', this.navigateProfile.bind(this));
+            menuProfile.addEventListener('click', this.navigateProfile);
         }
 
         this.#contentElement.setHandlers();
