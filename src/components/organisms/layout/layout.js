@@ -11,6 +11,7 @@ import LOG_OUT_IMAGE from '@icons/logout.svg';
 import layoutTemplate from './layout.hbs';
 import { userStore } from '@stores/userStore';
 import { userActions } from '@actions/userActions';
+import { transactionActions } from '@actions/transactionActions';
 
 /**
  * The default state for the Layout component.
@@ -29,6 +30,10 @@ const DEFAULT_STATE = {
                             {
                                 menuItemText: 'Доска',
                                 menuItemID: 'home',
+                            },
+                            {
+                                menuItemText: 'Транзакции',
+                                menuItemID: 'transactions',
                             },
                         ],
                     },
@@ -165,6 +170,11 @@ export class Layout extends BaseComponent {
             menuHome.addEventListener('click', this.navigateHome.bind(this));
         }
 
+        const menuTransactions = document.querySelector('#transactions');
+        if (menuTransactions) {
+            menuTransactions.addEventListener('click', this.navigateTransaction.bind(this));
+        }
+
         const menuProfile = document.querySelector('#profile');
         if (menuProfile) {
             menuProfile.addEventListener('click', this.navigateProfile.bind(this));
@@ -175,6 +185,11 @@ export class Layout extends BaseComponent {
 
     navigateHome = () => {
         router.navigateTo(ROUTE_CONSTANTS.HOME_ROUTE);
+    }
+
+    navigateTransaction = () => {
+        transactionActions.getTransactions();
+        router.navigateTo(ROUTE_CONSTANTS.TRANSACTIONS);
     }
 
     navigateProfile = () => {

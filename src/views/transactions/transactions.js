@@ -6,6 +6,8 @@ import { Button, Category, Input } from '@atoms';
 import { EVENT_TYPES } from '@constants/constants';
 import { Transaction } from '@atoms/transaction/transaction';
 import { transactionsStore } from '@stores/transactionsStore';
+import { categoriesStore } from '@stores/categoriesStore';
+import { transactionActions } from '@actions/transactionActions';
 
 const BUTTON_STATE = {
     id: 'button',
@@ -43,7 +45,7 @@ const ACCOUNT_INPUT_STATE = {
  */
 export class TransactionsView extends BaseComponent {
 
-    constructor(parent) {я
+    constructor(parent) {
         super(undefined, template, parent);
 
         this.sumInput = new Input(null, SUM_INPUT_STATE);
@@ -51,9 +53,7 @@ export class TransactionsView extends BaseComponent {
         this.accountInput = new Input(null, ACCOUNT_INPUT_STATE);
         this.button = new Button(null, BUTTON_STATE);
 
-        this.transaction = new Transaction(null, undefined);
-
-        transactionsStore.registerListener(EVENT_TYPES.RERENDER_TRANSACTIONS, this.render)
+        transactionsStore.registerListener(EVENT_TYPES.RERENDER_TRANSACTIONS, this.render);
     }
 
     /**
@@ -63,23 +63,23 @@ export class TransactionsView extends BaseComponent {
      * @function
      */
     render() {
+        this.transactions = this.createTransactions(categoriesStore.storage.states);
+        this.renderedTransactions = this.renderTransactions(this.transactions);
+
         const templates = [
             template({
                 sumInput: this.sumInput.render(),
                 tagInput: this.tagInput.render(),
                 accountInput: this.accountInput.render(),
                 button: this.button.render(),
-                transactionsList: [{
-                    transaction: this.transaction.render(),
-                },
-                ],
+                transactionsList: this.renderedTransactions,
             }),
         ];
 
         return super.render(templates);
     }
 
-    createCategories = (arr) => {
+    createTransactions = (arr) => {
         if (arr) {
             return arr.map(item => {
                 return new Category(null, item, null);
@@ -87,7 +87,7 @@ export class TransactionsView extends BaseComponent {
         }
     };
 
-    renderCategories = (arr) => {
+    renderTransactions = (arr) => {
         if (arr) {
             return arr.map(item => {
                 return { category: item.render() };
@@ -96,57 +96,63 @@ export class TransactionsView extends BaseComponent {
     };
 
     // TODO: add input validation
-    // setHandlers() {
-    //     if (this.categories) {
-    //         this.categories.forEach(category => {
-    //             const categoryCard = document.querySelector(`#${category.getState().cardId}`);
-    //             if (categoryCard) {
-    //                 categoryCard.addEventListener('click', this.handleClick.bind(this, category));
-    //             }
-    //
-    //             const button = document.querySelector(`#${category.button.getState().id}`);
-    //             if (button) {
-    //                 button.addEventListener('click', this.updateButtonHandler.bind(this, category));
-    //             }
-    //
-    //             const deleteButton = document.querySelector(`#${category.button.getState().deleteId}`);
-    //             if (deleteButton) {
-    //                 deleteButton.addEventListener('click', this.deleteButtonHandler.bind(this, category));
-    //             }
-    //         });
-    //     }
-    //
-    //     const createButton = document.querySelector(this.button.getState().id);
-    //     if (createButton) {
-    //         createButton.addEventListener('click', this.createButtonHandler.bind(this));
-    //     }
-    // }
-    //
-    // handleClick = (category) => {
-    //     const isSettingsOpen = category.getState().settingsOpen;
-    //     category.setState({ settingsOpen: !isSettingsOpen });
-    //
-    //     const categoryCard = document.querySelector(`#${category.getState().id}`);
-    //     categoryCard.outerHTML = category.render();
-    //
-    //     this.setHandlers();
-    // };
-    //
-    // updateButtonHandler = (category) => {
-    //     const inputValue = document.querySelector(`#${category.input.getState().id}`).value;
-    //     if (inputValue) {
-    //         categoryActions.updateCategory(category.getState().id, inputValue);
-    //     }
-    // };
-    //
-    // deleteButtonHandler = (category) => {
-    //     categoryActions.deleteCategory(category.getState().id);
-    // };
-    //
-    // createButtonHandler = () => {
-    //     const inputValue = document.querySelector(this.input.getState().id).value;
-    //     if (inputValue) {
-    //         categoryActions.createCategory(inputValue);
-    //     }
-    // };
+    setHandlers() {
+        if (this.transactions) {
+            this.transactions.forEach(transaction => {
+                const categoryCard = document.querySelector(`#${transaction.getState().cardId}`);
+                if (categoryCard) {
+                    categoryCard.addEventListener('click', this.handleClick.bind(this, transaction));
+                }
+
+                const button = document.querySelector(`#${transaction.button.getState().id}`);
+                if (button) {
+                    button.addEventListener('click', this.updateButtonHandler.bind(this, transaction));
+                }
+
+                const deleteButton = document.querySelector(`#${transaction.button.getState().deleteId}`);
+                if (deleteButton) {
+                    deleteButton.addEventListener('click', this.deleteButtonHandler.bind(this, transaction));
+                }
+            });
+        }
+
+        const createButton = document.querySelector(this.button.getState().id);
+        if (createButton) {
+            createButton.addEventListener('click', this.createButtonHandler.bind(this));
+        }
+    }
+
+    handleClick = (transaction) => {
+        const isSettingsOpen = transaction.getState().settingsOpen;
+        transaction.setState({ settingsOpen: !isSettingsOpen });
+
+        const categoryCard = document.querySelector(`#${transaction.getState().id}`);
+        categoryCard.outerHTML = transaction.render();
+
+        this.setHandlers();
+    };
+
+    updateButtonHandler = (transaction) => {
+        const sumInput = document.querySelector(`#${transaction.sumInput.getState().id}`).value;
+        const tagInput = document.querySelector(`#${transaction.tagInput.getState().id}`).value;
+        const accountInput = document.querySelector(`#${transaction.accountInput.getState().id}`).value;
+
+        if (sumInput && tagInput && accountInput) {
+            transactionActions.updateTransaction(transaction.getState().id, [tagInput], sumInput);
+        }
+    };
+
+    deleteButtonHandler = (transaction) => {
+        transactionActions.deleteTransaction(transaction.getState().id);
+    };
+
+    createButtonHandler = () => {
+        const sumInput = document.querySelector(`#${this.sumInput.getState().id}`).value;
+        const tagInput = document.querySelector(`#${this.tagInput.getState().id}`).value;
+        const accountInput = document.querySelector(`#${this.accountInput.getState().id}`).value;
+
+        if (sumInput && tagInput && accountInput) {
+            transactionActions.createTransaction([tagInput]);
+        }
+    };
 }

@@ -1,7 +1,9 @@
 import { API_CONSTANTS, getTransactionURL } from '@constants/constants';
 import { deleteRequest, get, post, put } from '@ajax';
 
-class CategoryApi {
+class TransactionApi {
+
+    // TODO: remove hardcode url
     getTransaction = () => {
         const url = API_CONSTANTS.GET_TRANSACTIONS + '?page=1&page_size=10';
         return get(url);
@@ -23,4 +25,4 @@ class CategoryApi {
     };
 }
 
-export const transactionsApi = new CategoryApi();
+export const transactionsApi = new transactionsApi();

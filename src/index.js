@@ -30,6 +30,9 @@ const routes = {
     [ROUTE_CONSTANTS.CATEGORIES]: {
         view: new Layout(root, undefined, new CategoriesView(null)),
     },
+    [ROUTE_CONSTANTS.TRANSACTIONS]: {
+        view: new Layout(root, undefined, new TransactionsView(null)),
+    },
 };
 
 // router.addRoutes(routes);

@@ -1,7 +1,7 @@
 import { TRANSACTION_ACTIONS } from '@constants/actions';
 import { dispatcher } from '../modules/dispatcher.js';
 
-export const categoryActions = {
+export const transactionActions = {
     getTransactions() {
         dispatcher.dispatch({
             type: TRANSACTION_ACTIONS.GET_TRANSACTIONS,
@@ -28,11 +28,11 @@ export const categoryActions = {
         });
     },
 
-    deleteTransaction(id) {
+    deleteTransaction(transaction_id) {
         dispatcher.dispatch({
             type: TRANSACTION_ACTIONS.DELETE_TRANSACTION,
             data: {
-                id,
+                transaction_id,
             },
         });
     },
