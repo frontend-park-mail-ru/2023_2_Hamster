@@ -137,7 +137,7 @@ export class Layout extends BaseComponent {
             }),
         ];
 
-        return super.renderTemplateToParent(templatesToStateMap);
+        return await super.renderTemplateToParent(templatesToStateMap);
     }
 
     cleanUp() {
