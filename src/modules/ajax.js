@@ -31,14 +31,14 @@ export const get = async (url) => {
  */
 export const post = async (url, data) => {
     let response;
-    if(!API_CONSTANTS.SIGN_IN || !API_CONSTANTS.SIGN_UP || !API_CONSTANTS.CHECK_AUTH) {
+    if(url !== API_CONSTANTS.SIGN_IN || url !== API_CONSTANTS.SIGN_UP || url !== API_CONSTANTS.CHECK_AUTH) {
         const csrfToken = await csrfApi.getCsrfToken();
 
         response = await fetch(url, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
-                'X-CSRF-Token': csrfToken,
+                'X-CSRF-Token': csrfToken.body.csrf,
             },
             body: JSON.stringify(data),
             credentials: 'include',
@@ -78,7 +78,7 @@ export const patch = async (url, data) => {
         method: 'PATCH',
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
-            'X-CSRF-Token': csrfToken,
+            'X-CSRF-Token': csrfToken.body.csrf,
         },
         body: JSON.stringify(data),
         credentials: 'include',
@@ -107,7 +107,7 @@ export const deleteRequest = async (url, data) => {
     const response = await fetch(url, {
         method: 'DELETE',
         headers: {
-            'X-CSRF-Token': csrfToken,
+            'X-CSRF-Token': csrfToken.body.csrf,
         },
         body: JSON.stringify(data),
         credentials: 'include',
@@ -136,7 +136,7 @@ export const put = async (url, data) => {
         method: 'PUT',
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
-            'X-CSRF-Token': csrfToken,
+            'X-CSRF-Token': csrfToken.body.csrf,
         },
         body: JSON.stringify(data),
         credentials: 'include',
