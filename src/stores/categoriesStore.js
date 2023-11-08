@@ -33,6 +33,7 @@ class CategoriesStore extends BaseStore {
             const response = await categoryApi.getTags();
 
             if (response){
+                console.log(response);
                 this.storage.states = this.transformArray(response);
             }
 
