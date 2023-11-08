@@ -242,6 +242,6 @@ export class ProfileView extends BaseComponent {
     saveButtonHandler = () => {
         const username = document.querySelector('#username_input').value;
         const budget = document.querySelector('#budget_input').value;
-        userActions.updateProfile(budget, username);
+        userActions.updateProfile(parseFloat(budget), username);
     }
 }
