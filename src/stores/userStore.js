@@ -135,7 +135,7 @@ class UserStore extends BaseStore {
             response = await authApi.signUp(data);
 
             switch (response.status) {
-            case STATUS_CODES.OK:
+            case STATUS_CODES.ACCEPTED:
                 this.storage.user = {
                     username: response.username,
                     id: response.id,
