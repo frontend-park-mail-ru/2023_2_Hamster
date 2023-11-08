@@ -3,7 +3,7 @@ import { Menu } from '@atoms/menu/menu.js';
 import { Sidebar } from '@molecules/sidebar/sidebar.js';
 import { Button } from '@atoms/button/button.js';
 import { router } from '@router';
-import { ROUTE_CONSTANTS } from '@constants/constants.js';
+import { API_CONSTANTS, ROUTE_CONSTANTS } from '@constants/constants.js';
 
 import sidebarTemplate from '@molecules/sidebar/sidebar.hbs';
 
@@ -19,22 +19,33 @@ import { userActions } from '@actions/userActions';
  * @property {string} layout - The layout of the Layout.
  */
 const DEFAULT_STATE = {
-    sidebar: {
-        profileName: 'Имя профиля',
-        menu: {
-            menuSections: [
-                {
-                    menuSectionHeading: 'Главное',
-                    menuItems: [
-                        {
-                            menuItemText: 'Доска',
-                        },
-                    ],
-                },
-            ],
+        sidebar: {
+            profileName: 'Имя профиля',
+            menu: {
+                menuSections: [
+                    {
+                        menuSectionHeading: 'Главное',
+                        menuItems: [
+                            {
+                                menuItemText: 'Доска',
+                                menuItemID: 'home',
+                            },
+                        ],
+                    },
+                    {
+                        menuSectionHeading: 'Настройки',
+                        menuItems: [
+                            {
+                                menuItemText: 'Профиль',
+                                menuItemID: 'profile',
+                            },
+                        ],
+                    },
+                ],
+            },
         },
-    },
-};
+    }
+;
 
 const BUTTON_STATE = {
     id: 'logout_button',
@@ -149,6 +160,24 @@ export class Layout extends BaseComponent {
             button.addEventListener('click', this.#button.getHandler());
         }
 
-        this.#contentElement.setHandlers()
+        const menuHome = document.querySelector('#home');
+        if (menuHome) {
+            menuHome.addEventListener('click', this.navigateHome.bind(this));
+        }
+
+        const menuProfile = document.querySelector('#profile');
+        if (menuProfile) {
+            menuProfile.addEventListener('click', this.navigateProfile.bind(this));
+        }
+
+        this.#contentElement.setHandlers();
+    }
+
+    navigateHome = () => {
+        router.navigateTo(ROUTE_CONSTANTS.HOME_ROUTE);
+    }
+
+    navigateProfile = () => {
+        router.navigateTo(ROUTE_CONSTANTS.PROFILE);
     }
 }
