@@ -35,9 +35,9 @@ const routes = {
     },
 };
 
-// router.addRoutes(routes);
+router.addRoutes(routes);
 
-// router.start();
+router.start();
 
-const views = new Layout(root, undefined, new TransactionsView(null));
-views.renderTemplateToParent();
+// const views = new Layout(root, undefined, new TransactionsView(null));
+// views.renderTemplateToParent();
