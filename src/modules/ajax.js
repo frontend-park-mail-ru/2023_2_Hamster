@@ -38,7 +38,7 @@ export const post = async (url, data) => {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
-                'X-CSRF-TOKEN': csrfToken,
+                'X-CSRF-Token': csrfToken,
             },
             body: JSON.stringify(data),
             credentials: 'include',
@@ -78,7 +78,7 @@ export const patch = async (url, data) => {
         method: 'PATCH',
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
-            'X-CSRF-TOKEN': csrfToken,
+            'X-CSRF-Token': csrfToken,
         },
         body: JSON.stringify(data),
         credentials: 'include',
@@ -107,7 +107,7 @@ export const deleteRequest = async (url, data) => {
     const response = await fetch(url, {
         method: 'DELETE',
         headers: {
-            'X-CSRF-TOKEN': csrfToken,
+            'X-CSRF-Token': csrfToken,
         },
         body: JSON.stringify(data),
         credentials: 'include',
@@ -136,7 +136,7 @@ export const put = async (url, data) => {
         method: 'PUT',
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
-            'X-CSRF-TOKEN': csrfToken,
+            'X-CSRF-Token': csrfToken,
         },
         body: JSON.stringify(data),
         credentials: 'include',
