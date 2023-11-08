@@ -2,7 +2,7 @@ import { BaseComponent } from '@components/baseComponent.js';
 
 import template from './transactions.hbs';
 
-import { Button, Category, Input } from '@atoms';
+import { Button, Input } from '@atoms';
 import { EVENT_TYPES } from '@constants/constants';
 import { Transaction } from '@atoms/transaction/transaction';
 import { transactionsStore } from '@stores/transactionsStore';
@@ -82,7 +82,7 @@ export class TransactionsView extends BaseComponent {
     createTransactions = (arr) => {
         if (arr) {
             return arr.map(item => {
-                return new Category(null, item, null);
+                return new Transaction(null, item, null);
             });
         }
     };

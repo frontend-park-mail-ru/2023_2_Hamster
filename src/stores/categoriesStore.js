@@ -32,7 +32,9 @@ class CategoriesStore extends BaseStore {
         try {
             const response = await categoryApi.getTags();
 
-            this.storage.states = this.transformArray(response);
+            if (response){
+                this.storage.states = this.transformArray(response);
+            }
 
             router.navigateTo(ROUTE_CONSTANTS.CATEGORIES)
         } catch (error) {
