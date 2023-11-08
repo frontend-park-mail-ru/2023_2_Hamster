@@ -395,7 +395,7 @@ class UserStore extends BaseStore {
      */
     updateProfile = async (data) => {
         try {
-            const response = await userApi.putUpdate(this.storage.user.id, data);
+            const response = await userApi.putUpdate(data);
 
             switch (response.status) {
             case STATUS_CODES.OK:

@@ -63,17 +63,16 @@ class UserApi {
      *
      * @async
      * @function getFeed
-     * @param {string} id - The id for which the feed will be retrieved.
      * @returns {Promise<Object>} Returns a Promise that resolves to the data in JSON format.
      * @throws {Error} If an error occurs during the request, an error object is thrown.
      */
     getFeed = (id) => {
-        const url = getBaseURL(id) + API_CONSTANTS.FEED_TAIL;
+        const url = getBaseURL + API_CONSTANTS.FEED_TAIL;
         return get(url);
     };
 
-    putUpdate = (id, userInfo) => {
-        const url = getBaseURL(id) + API_CONSTANTS.UPDATE_TAIL;
+    putUpdate = (userInfo) => {
+        const url = getBaseURL + API_CONSTANTS.UPDATE_TAIL;
         return put(url, userInfo);
     };
 }

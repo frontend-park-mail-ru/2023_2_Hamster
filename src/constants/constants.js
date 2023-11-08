@@ -34,7 +34,7 @@ export const API_CONSTANTS = {
     UPDATE_TAIL: '/update',
 };
 
-export const getBaseURL = (id) => `${SERVER_PREFIX}/api/user`;
+export const getBaseURL = () => `${SERVER_PREFIX}/api/user`;
 
 export const getTagURL = (id) => `${SERVER_PREFIX}/api/tag/${id}`;
 
