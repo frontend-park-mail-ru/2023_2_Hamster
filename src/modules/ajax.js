@@ -31,7 +31,16 @@ export const get = async (url) => {
  */
 export const post = async (url, data) => {
     let response;
-    if(url !== API_CONSTANTS.SIGN_IN || url !== API_CONSTANTS.SIGN_UP || url !== API_CONSTANTS.CHECK_AUTH) {
+    if(url === API_CONSTANTS.SIGN_IN || url === API_CONSTANTS.SIGN_UP || url === API_CONSTANTS.CHECK_AUTH) {
+        response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+            },
+            body: JSON.stringify(data),
+            credentials: 'include',
+        });
+    } else {
         const csrfToken = await csrfApi.getCsrfToken();
 
         response = await fetch(url, {
@@ -39,15 +48,6 @@ export const post = async (url, data) => {
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
                 'X-CSRF-Token': csrfToken.body.csrf,
-            },
-            body: JSON.stringify(data),
-            credentials: 'include',
-        });
-    } else {
-        response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8',
             },
             body: JSON.stringify(data),
             credentials: 'include',
