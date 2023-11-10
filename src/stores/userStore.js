@@ -229,15 +229,17 @@ class UserStore extends BaseStore {
 
             switch (response.status) {
             case STATUS_CODES.OK:
-                this.storage.user = {
-                    accounts: response.body.accounts.Map((account) => ({
-                        accountBalance: account.balance,
-                        meanPayment: account.mean_payment,
-                    })),
-                    balance: response.balance,
-                    actualBudget: response.actual_budget,
-                    plannedBudget: response.planned_budget,
-                };
+                if (response.body.accounts !== null){
+                    this.storage.user = {
+                        accounts: response.body.accounts.Map((account) => ({
+                            accountBalance: account.balance,
+                            meanPayment: account.mean_payment,
+                        })),
+                        balance: response.body.balance,
+                        actualBudget: response.body.actual_budget,
+                        plannedBudget: response.body.planned_budget,
+                    };
+                }
                 this.storage.error = null;
                 this.storeChanged = true;
                 break;
