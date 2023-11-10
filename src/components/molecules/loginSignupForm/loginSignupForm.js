@@ -65,7 +65,7 @@ export class LoginSignUpForm extends BaseComponent {
     isLogin;
 
     constructor(parent, isLogin = true, state = DEFAULT_FORM_STATE) {
-        state.header = isLogin ? state.header : SIGNUP_HEADER;
+        state.header = isLogin ? LOGIN_HEADER : SIGNUP_HEADER;
         super(state, parent);
 
         this.isLogin = isLogin;
