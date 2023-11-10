@@ -30,10 +30,10 @@ export class LoginSignupView extends BaseComponent {
     constructor(parent, isLogin) {
         if (isLogin) {
             super(userStore.storage.loginState, template, parent);
-            this.#form = new LoginSignUpForm(null, isLogin);
+            this.#form = new LoginSignUpForm(null, isLogin, undefined);
         } else {
             super(userStore.storage.registrationState, template, parent);
-            this.#form = new LoginSignUpForm(null, isLogin);
+            this.#form = new LoginSignUpForm(null, isLogin, undefined);
         }
 
         this.#isLogin = isLogin;

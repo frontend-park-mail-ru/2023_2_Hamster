@@ -47,7 +47,7 @@ const LOGIN_HEADER = 'Вход';
 const SIGNUP_HEADER = 'Регистрация';
 
 const DEFAULT_FORM_STATE = {
-    header: LOGIN_HEADER,
+    header: SIGNUP_HEADER,
     helperText: 'Введите данные вашего аккаунта',
 };
 
@@ -65,7 +65,10 @@ export class LoginSignUpForm extends BaseComponent {
     isLogin;
 
     constructor(parent, isLogin = true, state = DEFAULT_FORM_STATE) {
-        state.header = isLogin ? LOGIN_HEADER : SIGNUP_HEADER;
+        if (isLogin) {
+            state = {...state, header: LOGIN_HEADER}
+        }
+
         super(state, parent);
 
         this.isLogin = isLogin;
