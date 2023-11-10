@@ -1,7 +1,7 @@
 import BaseStore from './baseStore.js';
 import { transactionsApi } from '@api/transaction';
 import { router } from '@router';
-import { EVENT_TYPES, ROUTE_CONSTANTS } from '@constants/constants';
+import { EVENT_TYPES, ROUTE_CONSTANTS, STATUS_CODES } from '@constants/constants';
 
 /**
  *
@@ -32,7 +32,20 @@ class CategoriesStore extends BaseStore {
         try {
             const response = await transactionsApi.getTransaction();
 
-            this.storage.states = this.transformArray(response);
+            switch (response.status) {
+            case STATUS_CODES.OK:
+                this.storage.states = this.transformArray(response);
+
+                break;
+
+            case STATUS_CODES.NO_CONTENT:
+                this.storage.states = null;
+
+                break;
+
+            default:
+                console.log('Undefined status code', response.status);
+            }
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);
         }

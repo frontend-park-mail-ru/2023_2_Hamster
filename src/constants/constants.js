@@ -43,6 +43,7 @@ export const getTransactionURL = (id) => `${SERVER_PREFIX}/api/transaction/${id}
 export const STATUS_CODES = {
     OK: 200,
     ACCEPTED: 202,
+    NO_CONTENT: 204,
     BAD_REQUEST: 400,
     UNAUTHORISED: 401,
     FORBIDDEN: 403,
