@@ -230,7 +230,7 @@ class UserStore extends BaseStore {
             switch (response.status) {
             case STATUS_CODES.OK:
                 this.storage.user = {
-                    accounts: response.accounts.Map((account) => ({
+                    accounts: response.body.accounts.Map((account) => ({
                         accountBalance: account.balance,
                         meanPayment: account.mean_payment,
                     })),
