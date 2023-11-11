@@ -4,7 +4,8 @@
     flex-direction: column;
     height: 100%;
     width: var(--sidebar-width);
-    background-color: var(--background-secondary-color);
+    background-color: var(--background-main-color);
+    border-right: 2px solid var(--background-secondary-color);
 
     &__header {
         height: var(--sidebar-header-height);
@@ -12,10 +13,11 @@
         display: flex;
         align-items: center;
         padding: var(--sidebar-header-padding);
+        border-bottom: 2px solid var(--background-secondary-color);
     }
 
     &__header-container {
-        color: var(--text-muted-color);
+        color: var(--text-main-color);
         align-items: center;
         justify-content: center;
         overflow: hidden;
@@ -63,13 +65,13 @@
 
     &__footer-profile-container {
         padding: var(--sidebar-footer-profile-container-padding);
-        background-color: var(--background-tertiary-color);
         align-items: center;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
         display: flex;
         justify-content: space-between;
+        border-top: 2px solid var(--background-secondary-color);
     }
 
     &__footer-profile-img {
