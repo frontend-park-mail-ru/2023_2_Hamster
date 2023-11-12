@@ -107,7 +107,9 @@ export class CategoriesView extends BaseComponent {
     }
 
     handleCardClick = (category, event) => {
-        console.log(event);
+        if (event.target.classList.contains('category__delete')) {
+            return;
+        }
 
         const isSettingsOpen = category.getState().settingsOpen;
         category.setState({ settingsOpen: !isSettingsOpen });
