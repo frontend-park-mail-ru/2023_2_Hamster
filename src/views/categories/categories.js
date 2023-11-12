@@ -44,7 +44,11 @@ export class CategoriesView extends BaseComponent {
      *
      * @function
      */
-    render() {
+    async render() {
+        if (!categoriesStore.storage.states) {
+            await categoryActions.getCategories();
+        }
+
         this.categories = this.createCategories(categoriesStore.storage.states);
         this.renderedCategories = this.renderCategories(this.categories);
 
@@ -115,7 +119,9 @@ export class CategoriesView extends BaseComponent {
     updateButtonHandler = (category) => {
         const inputValue = document.querySelector(`#${category.input.getState().id}`).value;
         if (inputValue) {
-            categoryActions.updateCategory(category.getState().id.slice(2), inputValue, userStore.storage.user.id);
+            categoryActions.updateCategory(category.getState()
+                .id
+                .slice(2), inputValue, userStore.storage.user.id);
         }
     };
 
