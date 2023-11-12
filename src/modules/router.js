@@ -51,6 +51,7 @@ class Router {
             console.log('Error: ', e);
         }
 
+        console.log(window.location.pathname);
         router.navigateTo(window.location.pathname);
     };
 
@@ -86,6 +87,8 @@ class Router {
         }
 
         window.history.pushState({}, null, window.location.origin + routeResult);
+
+        console.log(window.location.origin + routeResult);
 
         view.view.renderTemplateToParent();
     };

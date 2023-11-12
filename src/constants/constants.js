@@ -24,8 +24,8 @@ export const API_CONSTANTS = {
 
     GET_TAGS: `${SERVER_PREFIX}/api/tag/all`,
     CREATE_TAG: `${SERVER_PREFIX}/api/tag/create`,
-    DELETE_TAG: `${SERVER_PREFIX}/api/tag/delete`,
     UPDATE_TAG_TAIL: `/update`,
+    DELETE_TAG: `${SERVER_PREFIX}/api/tag/delete`,
 
     CREATE_TRANSACTION: `${SERVER_PREFIX}/api/transaction/create`,
     GET_TRANSACTIONS: `${SERVER_PREFIX}/api/transaction/feed`,
@@ -146,7 +146,7 @@ export const PROFILE_STATE = {
         isError: '',
         id: 'username_input',
         inputSize: 'input_small',
-        typeOfInput: 'text',
+        typeOfInput: 'editable',
         inputPlaceholder: 'Имя пользователя',
     },
 
@@ -183,7 +183,8 @@ export const PROFILE_STATE = {
     },
 
     AVATAR: {
-        avatar: true,
+        avatar: null,
+        textFallback: 'ИП',
         svg: null,
         imageSize: 'image-container_large',
     },
