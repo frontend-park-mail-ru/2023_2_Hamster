@@ -88,6 +88,7 @@ class Router {
 
         window.history.pushState({}, null, window.location.origin + routeResult);
 
+        console.log(path);
         console.log(window.location.origin + routeResult);
 
         view.view.renderTemplateToParent();
