@@ -115,7 +115,7 @@ export class CategoriesView extends BaseComponent {
     updateButtonHandler = (category) => {
         const inputValue = document.querySelector(`#${category.input.getState().id}`).value;
         if (inputValue) {
-            categoryActions.updateCategory(category.getState().raw, inputValue, userStore.storage.user.id);
+            categoryActions.updateCategory(category.getState().id.slice(2), inputValue, userStore.storage.user.id);
         }
     };
 
