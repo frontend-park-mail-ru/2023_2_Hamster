@@ -59,7 +59,6 @@ class UserStore extends BaseStore {
                 this.storage.error = null;
                 this.storeChanged = true;
 
-                router.navigateTo(ROUTE_CONSTANTS.HOME_ROUTE);
                 break;
 
             case STATUS_CODES.UNAUTHORISED:
