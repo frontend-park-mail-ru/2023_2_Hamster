@@ -57,9 +57,9 @@ export class LoginSignupView extends BaseComponent {
      *
      * @function
      */
-    navigateToHome = () => {
+    navigateToHome = async () => {
         console.log('home');
-        router.navigateTo(ROUTE_CONSTANTS.HOME_ROUTE);
+        await router.navigateTo(ROUTE_CONSTANTS.HOME_ROUTE);
     };
 
     /**
@@ -68,7 +68,7 @@ export class LoginSignupView extends BaseComponent {
      * @returns {HTMLElement} The rendered template.
      * @function
      */
-    renderTemplateToParent() {
+    async renderTemplateToParent() {
         const templates = [
             template({
                 ...this.getState(),
@@ -78,7 +78,7 @@ export class LoginSignupView extends BaseComponent {
             }),
         ];
 
-        return super.renderTemplateToParent(templates);
+        return await super.renderTemplateToParent(templates);
     }
 
     /**

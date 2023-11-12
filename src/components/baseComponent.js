@@ -49,7 +49,7 @@ export class BaseComponent {
 
     }
 
-    async render(templates) {
+    render(templates) {
         return this.uniteTemplates(templates)
     }
 

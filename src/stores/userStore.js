@@ -52,6 +52,7 @@ class UserStore extends BaseStore {
             switch (response.status) {
             case STATUS_CODES.OK:
                 this.storage.user = {
+                    login: response.body.login,
                     username: response.body.username,
                     id: response.body.id,
                     isAuthorised: true,
@@ -90,12 +91,14 @@ class UserStore extends BaseStore {
             switch (response.status) {
             case STATUS_CODES.ACCEPTED:
                 this.storage.user = {
+                    login: response.body.login,
                     username: response.body.username,
                     id: response.body.id,
                     isAuthorised: true,
                 };
                 this.storage.error = null;
                 this.storeChanged = true;
+
                 this.emitChange(EVENT_TYPES.LOGIN_SUCCESS);
                 break;
 
@@ -135,6 +138,7 @@ class UserStore extends BaseStore {
             switch (response.status) {
             case STATUS_CODES.ACCEPTED:
                 this.storage.user = {
+                    login: response.body.login,
                     username: response.body.username,
                     id: response.body.id,
                     isAuthorised: true,
@@ -210,7 +214,7 @@ class UserStore extends BaseStore {
                 console.log('Undefined status code', response.status);
             }
 
-            router.navigateTo(ROUTE_CONSTANTS.LOGIN_ROUTE);
+            await router.navigateTo(ROUTE_CONSTANTS.LOGIN_ROUTE);
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);
         }
