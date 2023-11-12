@@ -33,8 +33,8 @@ export const categoryActions = {
         });
     },
 
-    deleteCategory(id) {
-        dispatcher.dispatch({
+    async deleteCategory(id) {
+        await dispatcher.dispatch({
             type: CATEGORY_ACTIONS.DELETE_CATEGORY,
             data: {
                 id,

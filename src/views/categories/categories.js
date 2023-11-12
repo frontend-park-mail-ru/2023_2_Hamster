@@ -93,7 +93,7 @@ export class CategoriesView extends BaseComponent {
                     button.addEventListener('click', this.updateButtonHandler.bind(this, category));
                 }
 
-                const deleteButton = document.querySelector(`#${category.button.getState().deleteId}`);
+                const deleteButton = document.querySelector(`#${category.getState().deleteId}`);
                 if (deleteButton) {
                     deleteButton.addEventListener('click', this.deleteButtonHandler.bind(this, category));
                 }
@@ -127,8 +127,8 @@ export class CategoriesView extends BaseComponent {
         }
     };
 
-    deleteButtonHandler = (category) => {
-        categoryActions.deleteCategory(category.getState().id);
+    deleteButtonHandler = async (category) => {
+        await categoryActions.deleteCategory(category.getState().id.slice(2));
     };
 
     createButtonHandler = () => {

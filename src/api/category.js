@@ -12,7 +12,7 @@ class CategoryApi {
         return post(url, data);
     };
 
-    deleteTag = (id) => {
+    deleteTag = async (id) => {
         const url = API_CONSTANTS.DELETE_TAG;
         return deleteRequest(url, id)
     }
