@@ -226,6 +226,7 @@ class UserStore extends BaseStore {
     feed = async () => {
         try {
             const response = await userApi.getFeed();
+            console.log(response);
 
             switch (response.status) {
             case STATUS_CODES.OK:
