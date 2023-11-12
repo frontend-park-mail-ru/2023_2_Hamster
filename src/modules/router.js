@@ -51,7 +51,6 @@ class Router {
             console.log('Error: ', e);
         }
 
-        console.log(window.location.pathname);
         router.navigateTo(window.location.pathname);
     };
 
