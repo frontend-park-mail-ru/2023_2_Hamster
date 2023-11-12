@@ -134,7 +134,7 @@ export class CategoriesView extends BaseComponent {
     createButtonHandler = async () => {
         const inputValue = document.querySelector(this.input.getState().id).value;
         if (inputValue) {
-            await categoryActions.createCategory(inputValue, userStore.storage.user.user.id);
+            await categoryActions.createCategory(inputValue, userStore.storage.user.id);
         }
     };
 }
