@@ -85,7 +85,7 @@ class Router {
             return;
         }
 
-        history.pushState({}, null, window.location.origin + routeResult);
+        window.history.pushState({}, null, window.location.origin + routeResult);
 
         view.view.renderTemplateToParent();
     };

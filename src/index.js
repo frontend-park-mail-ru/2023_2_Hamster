@@ -13,10 +13,10 @@ const root = document.querySelector('#root');
 // TODO: move all routes to specified file
 const routes = {
     [ROUTE_CONSTANTS.LOGIN_ROUTE]: {
-        view: new LoginSignupView(root, true),
+        view: new Layout(root, undefined, new DashboardView(null)),
     },
     [ROUTE_CONSTANTS.REGISTRATION_ROUTE]: {
-        view: new LoginSignupView(root, false),
+        view: new Layout(root, undefined, new DashboardView(null)),
     },
     [ROUTE_CONSTANTS.HOME_ROUTE]: {
         view: new Layout(root, undefined, new DashboardView(null)),
@@ -37,7 +37,4 @@ const routes = {
 
 router.addRoutes(routes);
 
-router.start();
-
-// const views = new Layout(root, undefined, new TransactionsView(null));
-// views.renderTemplateToParent();
+await router.start();
