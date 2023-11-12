@@ -34,8 +34,6 @@ export class CategoriesView extends BaseComponent {
 
         this.input = new Input(null, INPUT_STATE);
         this.button = new Button(null, BUTTON_STATE);
-
-        categoriesStore.registerListener(EVENT_TYPES.RERENDER_CATEGORIES, this.render.bind(this));
     }
 
     /**

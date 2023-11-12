@@ -3,7 +3,7 @@ import { Menu } from '@atoms/menu/menu.js';
 import { Sidebar } from '@molecules/sidebar/sidebar.js';
 import { Button } from '@atoms/button/button.js';
 import { router } from '@router';
-import { API_CONSTANTS, ROUTE_CONSTANTS } from '@constants/constants.js';
+import { API_CONSTANTS, EVENT_TYPES, ROUTE_CONSTANTS } from '@constants/constants.js';
 
 import sidebarTemplate from '@molecules/sidebar/sidebar.hbs';
 
@@ -12,6 +12,7 @@ import layoutTemplate from './layout.hbs';
 import { userStore } from '@stores/userStore';
 import { userActions } from '@actions/userActions';
 import { transactionActions } from '@actions/transactionActions';
+import { categoriesStore } from '@stores/categoriesStore';
 
 /**
  * The default state for the Layout component.
@@ -109,6 +110,8 @@ export class Layout extends BaseComponent {
         this.#contentElement = contentElement;
 
         this.#sidebar = new Sidebar(parent, this.getState().sidebar);
+
+        categoriesStore.registerListener(EVENT_TYPES.RERENDER_CATEGORIES, this.renderTemplateToParent().bind(this));
 
     }
 
