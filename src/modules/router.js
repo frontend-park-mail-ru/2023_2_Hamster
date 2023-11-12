@@ -69,7 +69,7 @@ class Router {
         let routeResult;
 
         // TODO: 1) Need to make better check of authenticated routes; 2) Make private routes (for subscription :D)
-        if (routeTrimmed === ROUTE_CONSTANTS.HOME_ROUTE || routeTrimmed === ROUTE_CONSTANTS.DASHBOARD_ROUTE || routeTrimmed === ROUTE_CONSTANTS.PROFILE || routeTrimmed === ROUTE_CONSTANTS.CATEGORIES) {
+        if (routeTrimmed === ROUTE_CONSTANTS.HOME_ROUTE || routeTrimmed === ROUTE_CONSTANTS.DASHBOARD_ROUTE || routeTrimmed === ROUTE_CONSTANTS.PROFILE || routeTrimmed === ROUTE_CONSTANTS.CATEGORIES || routeTrimmed === ROUTE_CONSTANTS.TRANSACTIONS) {
             userStore.storage.user.isAuthorised
                 ? routeResult = routeTrimmed
                 : routeResult = ROUTE_CONSTANTS.LOGIN_ROUTE;
@@ -79,17 +79,17 @@ class Router {
                 : routeResult = routeTrimmed;
         }
 
-        const view = this.routes[routeResult];
+        const view = this.routes[routeTrimmed];
 
         if (!view) {
             console.error(`No route found for ${routeResult}`);
             return;
         }
 
-        window.history.pushState({}, null, window.location.origin + routeResult);
+        window.history.pushState({}, null, window.location.origin + routeTrimmed);
 
         console.log(path);
-        console.log(window.location.origin + routeResult);
+        console.log(window.location.origin + routeTrimmed);
 
         view.view.renderTemplateToParent();
     };
