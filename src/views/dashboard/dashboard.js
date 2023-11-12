@@ -49,7 +49,7 @@ export class DashboardView extends BaseComponent {
             this.#cardActualBudget.setState({ cardSubhead: actualBudget });
         }
 
-        console.log(userStore.storage.user);
+        console.log('dashboard', userStore.storage.user);
 
         const cardBalanceHTML = this.#cardBalance.render();
         const cardPlannedBudgetHTML = this.#cardPlannedBudget.render();

@@ -47,6 +47,7 @@ class Router {
     start = async () => {
         try {
             await userStore.checkAuth();
+            console.log(window.location.pathname);
         } catch (e) {
             console.log('Error: ', e);
         }
