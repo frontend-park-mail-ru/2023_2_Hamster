@@ -131,10 +131,10 @@ export class CategoriesView extends BaseComponent {
         await categoryActions.deleteCategory(category.getState().id.slice(2));
     };
 
-    createButtonHandler = () => {
+    createButtonHandler = async () => {
         const inputValue = document.querySelector(this.input.getState().id).value;
         if (inputValue) {
-            categoryActions.createCategory(inputValue);
+            await categoryActions.createCategory(inputValue, userStore.storage.user.user.id);
         }
     };
 }

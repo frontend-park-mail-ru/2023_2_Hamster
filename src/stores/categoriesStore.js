@@ -73,7 +73,6 @@ class CategoriesStore extends BaseStore {
 
     deleteTag = async (data) => {
         try {
-            console.log(data);
             await categoryApi.deleteTag(data);
 
             this.storage.states.filter(item => item.id !== data);

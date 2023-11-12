@@ -9,11 +9,16 @@ export const categoryActions = {
         });
     },
 
-    createCategory(name) {
-        dispatcher.dispatch({
+    async createCategory(name, user_id) {
+        await dispatcher.dispatch({
             type: CATEGORY_ACTIONS.CREATE_CATEGORY,
             data: {
                 name,
+                parent_id: '00000000-0000-0000-0000-000000000000',
+                regular: false,
+                show_income: true,
+                show_outcome: true,
+                user_id,
             },
         });
     },
