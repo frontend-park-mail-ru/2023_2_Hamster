@@ -85,7 +85,9 @@ export class CategoriesView extends BaseComponent {
             this.categories.forEach(category => {
                 const categoryCard = document.querySelector(`#${category.getState().cardId}`);
                 if (categoryCard) {
-                    categoryCard.addEventListener('click', this.handleClick.bind(this, category));
+                    // categoryCard.addEventListener('click', this.handleCardClick.bind(this, category));
+                    categoryCard.addEventListener('click', (event) => {
+                        console.log(event);});
                 }
 
                 const button = document.querySelector(`#${category.button.getState().id}`);
@@ -106,7 +108,7 @@ export class CategoriesView extends BaseComponent {
         }
     }
 
-    handleClick = (category) => {
+    handleCardClick = (event, category) => {
         const isSettingsOpen = category.getState().settingsOpen;
         category.setState({ settingsOpen: !isSettingsOpen });
 
@@ -116,12 +118,10 @@ export class CategoriesView extends BaseComponent {
         this.setHandlers();
     };
 
-    updateButtonHandler = (category) => {
+    updateButtonHandler = async (category) => {
         const inputValue = document.querySelector(`#${category.input.getState().id}`).value;
         if (inputValue) {
-            categoryActions.updateCategory(category.getState()
-                .id
-                .slice(2), inputValue, userStore.storage.user.id);
+            await categoryActions.updateCategory(category.getState().id.slice(2), inputValue, userStore.storage.user.id);
         }
     };
 
