@@ -19,7 +19,6 @@ class CategoryApi {
 
     updateTag = async (id, data) => {
         const url = getTagURL(id) + API_CONSTANTS.UPDATE_TAG_TAIL;
-        console.log(url, data);
         return await put(url, data);
     }
 }

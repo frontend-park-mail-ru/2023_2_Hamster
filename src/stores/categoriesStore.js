@@ -34,6 +34,7 @@ class CategoriesStore extends BaseStore {
 
             if (response.body){
                 this.storage.states = this.transformArray(response.body);
+                this.storage.tags = response.body;
             }
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);
@@ -82,7 +83,7 @@ class CategoriesStore extends BaseStore {
 
     updateTag = async (data) => {
         try {
-            const response = await categoryApi.updateTag(data);
+            const response = await categoryApi.updateTag(this.storage.tags[0], data);
 
             this.storage.states.map(item => {
                 if (item.id === response.id) {
