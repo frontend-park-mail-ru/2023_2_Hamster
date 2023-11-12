@@ -100,7 +100,7 @@ export class CategoriesView extends BaseComponent {
             });
         }
 
-        const createButton = document.querySelector(this.button.getState().id);
+        const createButton = document.querySelector('#button');
         if (createButton) {
             createButton.addEventListener('click', this.createButtonHandler.bind(this));
         }
