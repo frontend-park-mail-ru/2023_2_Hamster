@@ -5,6 +5,7 @@ import { Button, Category, Input } from '@atoms';
 import { categoriesStore } from '@stores/categoriesStore';
 import { EVENT_TYPES } from '@constants/constants';
 import { categoryActions } from '@actions/categoryActions';
+import { userStore } from '@stores/userStore';
 
 const BUTTON_STATE = {
     id: 'button',
@@ -114,7 +115,7 @@ export class CategoriesView extends BaseComponent {
     updateButtonHandler = (category) => {
         const inputValue = document.querySelector(`#${category.input.getState().id}`).value;
         if (inputValue) {
-            categoryActions.updateCategory(category.getState().id, inputValue);
+            categoryActions.updateCategory(category.getState().id, inputValue, userStore.storage.user.id);
         }
     };
 

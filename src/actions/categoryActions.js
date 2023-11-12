@@ -18,12 +18,17 @@ export const categoryActions = {
         });
     },
 
-    updateCategory(id, name) {
+    updateCategory(id, name, user_id) {
         dispatcher.dispatch({
             type: CATEGORY_ACTIONS.UPDATE_CATEGORY,
             data: {
                 id,
                 name,
+                parent_id: id,
+                regular: false,
+                show_income: true,
+                show_outcome: true,
+                user_id,
             },
         });
     },
