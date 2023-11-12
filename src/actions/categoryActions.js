@@ -18,8 +18,8 @@ export const categoryActions = {
         });
     },
 
-    updateCategory(id, name, user_id) {
-        dispatcher.dispatch({
+    async updateCategory(id, name, user_id) {
+        await dispatcher.dispatch({
             type: CATEGORY_ACTIONS.UPDATE_CATEGORY,
             data: {
                 id,

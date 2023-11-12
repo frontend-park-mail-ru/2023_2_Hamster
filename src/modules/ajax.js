@@ -132,6 +132,7 @@ export const deleteRequest = async (url, data) => {
 export const put = async (url, data) => {
     const csrfToken = await csrfApi.getCsrfToken();
 
+    console.log(data);
     const response = await fetch(url, {
         method: 'PUT',
         headers: {

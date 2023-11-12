@@ -17,9 +17,9 @@ class CategoryApi {
         return deleteRequest(url, id)
     }
 
-    updateTag = (id, data) => {
+    updateTag = async (id, data) => {
         const url = getTagURL(id) + API_CONSTANTS.UPDATE_TAG_TAIL;
-        return put(url, data)
+        return await put(url, data);
     }
 }
 
