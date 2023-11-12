@@ -83,7 +83,7 @@ class CategoriesStore extends BaseStore {
 
     updateTag = async (data) => {
         try {
-            const response = await categoryApi.updateTag(this.storage.tags[0], data);
+            const response = await categoryApi.updateTag(this.storage.tags[0].id, data);
 
             this.storage.states.map(item => {
                 if (item.id === response.id) {
