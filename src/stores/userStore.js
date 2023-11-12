@@ -88,8 +88,10 @@ class UserStore extends BaseStore {
         try {
             response = await authApi.signIn(data);
 
+            console.log(response);
+
             switch (response.status) {
-            case STATUS_CODES.OK:
+            case STATUS_CODES.ACCEPTED:
                 this.storage.user = {
                     login: response.body.login,
                     username: response.body.username,
@@ -105,12 +107,14 @@ class UserStore extends BaseStore {
             case STATUS_CODES.TOO_MANY_REQUESTS:
                 this.storage.error = 'Неверное имя пользователя или пароль';
                 this.storeChanged = true;
+
                 this.emitChange(EVENT_TYPES.LOGIN_ERROR);
                 break;
 
             case STATUS_CODES.INTERNAL_SERVER_ERROR:
                 this.storage.error = 'Непредвиденная ошибка';
                 this.storeChanged = true;
+
                 this.emitChange(EVENT_TYPES.LOGIN_ERROR);
                 break;
 
@@ -135,8 +139,10 @@ class UserStore extends BaseStore {
         try {
             response = await authApi.signUp(data);
 
+            console.log(response);
+
             switch (response.status) {
-            case STATUS_CODES.OK:
+            case STATUS_CODES.ACCEPTED:
                 this.storage.user = {
                     login: response.body.login,
                     username: response.body.username,
@@ -145,18 +151,21 @@ class UserStore extends BaseStore {
                 };
                 this.storage.error = null;
                 this.storeChanged = true;
+
                 this.emitChange(EVENT_TYPES.REGISTRATION_SUCCESS);
                 break;
 
             case STATUS_CODES.UNAUTHORISED:
                 this.storage.error = 'Данное имя пользователя уже занято';
                 this.storeChanged = true;
+
                 this.emitChange(EVENT_TYPES.REGISTRATION_ERROR);
                 break;
 
             case STATUS_CODES.INTERNAL_SERVER_ERROR:
                 this.storage.error = 'Непредвиденная ошибка';
                 this.storeChanged = true;
+
                 this.emitChange(EVENT_TYPES.REGISTRATION_ERROR);
                 break;
 

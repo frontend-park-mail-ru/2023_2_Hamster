@@ -59,6 +59,7 @@ export class LoginSignupView extends BaseComponent {
      */
     navigateToHome = async () => {
         console.log('home');
+
         await router.navigateTo(ROUTE_CONSTANTS.HOME_ROUTE);
     };
 
