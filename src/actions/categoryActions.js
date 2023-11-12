@@ -24,7 +24,7 @@ export const categoryActions = {
             data: {
                 id,
                 name,
-                parent_id: id,
+                parent_id: '00000000-0000-0000-0000-000000000000',
                 regular: false,
                 show_income: true,
                 show_outcome: true,

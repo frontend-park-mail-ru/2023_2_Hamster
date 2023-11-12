@@ -45,6 +45,7 @@ class CategoriesStore extends BaseStore {
     transformArray = (arr) => {
         return arr.map(data => {
             return {
+                raw: data.id,
                 id: 'id' + data.id,
                 categoryName: data.name,
                 deleteId: 'delete_' + data.id,
