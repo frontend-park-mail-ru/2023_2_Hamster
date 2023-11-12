@@ -10,9 +10,9 @@ class UserApi {
      * @returns {Promise<Object>} Returns a Promise that resolves to the data in JSON format.
      * @throws {Error} If an error occurs during the request, an error object is thrown.
      */
-    getFeed = () => {
+    getFeed = async () => {
         const url = API_CONSTANTS.FEED;
-        return get(url);
+        return await get(url);
     };
 
     putUpdate = (userInfo) => {
