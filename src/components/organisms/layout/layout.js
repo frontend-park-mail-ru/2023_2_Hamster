@@ -120,7 +120,7 @@ export class Layout extends BaseComponent {
         const username = userStore.storage.username;
         this.setState({ sidebar: { profileName: username ? username : 'Имя профиля' } });
 
-        const contentHTML = this.#contentElement.render();
+        const contentHTML = await this.#contentElement.render();
 
         const menuHTML = this.#menuElement.render();
 
