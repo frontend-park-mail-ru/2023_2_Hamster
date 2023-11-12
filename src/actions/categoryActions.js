@@ -2,8 +2,8 @@ import { CATEGORY_ACTIONS } from '@constants/actions';
 import { dispatcher } from '../modules/dispatcher.js';
 
 export const categoryActions = {
-    getCategories() {
-        dispatcher.dispatch({
+    async getCategories() {
+        await dispatcher.dispatch({
             type: CATEGORY_ACTIONS.GET_CATEGORIES,
             data: {},
         });
