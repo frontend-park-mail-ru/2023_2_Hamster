@@ -1,7 +1,6 @@
 import BaseStore from './baseStore.js';
 import { categoryApi } from '@api/category';
-import { EVENT_TYPES, ROUTE_CONSTANTS } from '@constants/constants';
-import { router } from '@router';
+import { EVENT_TYPES } from '@constants/constants';
 
 /**
  *
@@ -110,17 +109,15 @@ class CategoriesStore extends BaseStore {
         }
     };
 
-    findNames = (arr) => {
-        return this.storage.states.map(item => {
-            arr.forEach(category => {
-                if (category === item.raw) {
-                    return {
-                        id: item.raw,
-                        categoryName: item.categoryName,
-                    };
-                }
-            });
+    findNames = (categories) => {
+        let newArray = this.storage.states.map(obj => {
+            return {
+                id: obj.id,
+                name: obj.name
+            };
         });
+
+        return newArray.filter(obj => categories.includes(obj.id));
     };
 }
 
