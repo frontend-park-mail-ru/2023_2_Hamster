@@ -114,17 +114,6 @@ export const actions = [
     },
     {
         type: TRANSACTION_ACTIONS.CREATE_TRANSACTION,
-<<<<<<< HEAD
-        method: transactionsStore.createTag,
-    },
-    {
-        type: TRANSACTION_ACTIONS.UPDATE_TRANSACTION,
-        method: transactionsStore.updateTag,
-    },
-    {
-        type: TRANSACTION_ACTIONS.DELETE_TRANSACTION,
-        method: transactionsStore.deleteTag,
-=======
         method: transactionsStore.createTransaction,
     },
     {
@@ -134,6 +123,5 @@ export const actions = [
     {
         type: TRANSACTION_ACTIONS.DELETE_TRANSACTION,
         method: transactionsStore.deleteTransaction,
->>>>>>> d323467c376c420f53c60724b598133e752a97fb
     },
 ];
