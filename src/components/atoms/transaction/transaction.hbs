@@ -1,0 +1,36 @@
+<div class="transaction" id="{{id}}">
+    <div class="transaction__card" id="{{cardId}}">
+        <div class="transaction__date">
+            <span class="font-base-text">
+                {{date}}
+            </span>
+        </div>
+        <div class="transaction__icon">
+            {{{icon}}}
+        </div>
+        <div class="transaction__text">
+            <h4 class="font-h4-medium">{{transactionName}}</h4>
+        </div>
+        <div class="transaction__value">
+            <span class="font-base-text">
+                {{value}}
+            </span>
+        </div>
+        <div class="transaction__account">
+            <span class="font-base-text">
+                {{account}}
+            </span>
+        </div>
+        <div class="transaction__settings">
+            <span class="transaction__delete" id="{{deleteId}}">Удалить</span>
+        </div>
+    </div>
+    {{#if settingsOpen}}
+        <div class="settings">
+            {{{sumInput}}}
+            {{{tagInput}}}
+            {{{accountInput}}}
+            {{{button}}}
+        </div>
+    {{/if}}
+</div>

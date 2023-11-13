@@ -1,8 +1,8 @@
 # 2023_2_Hamster
 Проект Zenmoney для 2 семестра проекта "VK образование" команды Hamster
 
-### [Деплой](http://84.23.52.156:80)
-### [Документация API](http://84.23.52.156:8090/swagger/)
+### [Деплой](https://hammywallet.ru/)
+### [Документация API](https://hammywallet.ru/swagger)
 ### [Бекенд](https://github.com/go-park-mail-ru/2023_2_Hamster)
 ### [Макет](https://www.figma.com/file/8rlEHoax6ZMw60lOc4k1du/Hamsters-Project?type=design&node-id=47%3A470&mode=design&t=cenu4FNQXn8V4N3C-1)
 

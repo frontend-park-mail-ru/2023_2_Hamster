@@ -3,7 +3,7 @@ import { Menu } from '@atoms/menu/menu.js';
 import { Sidebar } from '@molecules/sidebar/sidebar.js';
 import { Button } from '@atoms/button/button.js';
 import { router } from '@router';
-import { ROUTE_CONSTANTS } from '@constants/constants.js';
+import { API_CONSTANTS, EVENT_TYPES, ROUTE_CONSTANTS } from '@constants/constants.js';
 
 import sidebarTemplate from '@molecules/sidebar/sidebar.hbs';
 
@@ -11,6 +11,8 @@ import LOG_OUT_IMAGE from '@icons/logout.svg';
 import layoutTemplate from './layout.hbs';
 import { userStore } from '@stores/userStore';
 import { userActions } from '@actions/userActions';
+import { transactionActions } from '@actions/transactionActions';
+import { categoriesStore } from '@stores/categoriesStore';
 
 /**
  * The default state for the Layout component.
@@ -19,22 +21,37 @@ import { userActions } from '@actions/userActions';
  * @property {string} layout - The layout of the Layout.
  */
 const DEFAULT_STATE = {
-    sidebar: {
-        profileName: 'Имя профиля',
-        menu: {
-            menuSections: [
-                {
-                    menuSectionHeading: 'Главное',
-                    menuItems: [
-                        {
-                            menuItemText: 'Доска',
-                        },
-                    ],
-                },
-            ],
+        sidebar: {
+            profileName: 'Имя профиля',
+            menu: {
+                menuSections: [
+                    {
+                        menuSectionHeading: 'Главное',
+                        menuItems: [
+                            {
+                                menuItemText: 'Доска',
+                                menuItemID: 'home',
+                            },
+                            {
+                                menuItemText: 'Транзакции',
+                                menuItemID: 'transactions',
+                            },
+                        ],
+                    },
+                    {
+                        menuSectionHeading: 'Настройки',
+                        menuItems: [
+                            {
+                                menuItemText: 'Профиль',
+                                menuItemID: 'profile',
+                            },
+                        ],
+                    },
+                ],
+            },
         },
-    },
-};
+    }
+;
 
 const BUTTON_STATE = {
     id: 'logout_button',
@@ -83,7 +100,7 @@ export class Layout extends BaseComponent {
      * @param {Object} [state=DEFAULT_STATE] - The initial state of the Layout component. (optional)
      * @param {Object} contentElement - The content element associated with the Layout.
      */
-    constructor(parent, state = DEFAULT_STATE, contentElement) {
+    constructor(parent, state = DEFAULT_STATE, contentElement, context) {
         super(state, layoutTemplate, parent);
 
         this.#menuElement = new Menu(this.getState().sidebar.menu);
@@ -94,6 +111,13 @@ export class Layout extends BaseComponent {
 
         this.#sidebar = new Sidebar(parent, this.getState().sidebar);
 
+        if (context === 'categories') {
+            categoriesStore.registerListener(EVENT_TYPES.RERENDER_CATEGORIES, this.renderTemplateToParent.bind(this));
+        }
+
+        if (context === 'transactions') {
+            categoriesStore.registerListener(EVENT_TYPES.RERENDER_TRANSACTIONS, this.renderTemplateToParent.bind(this));
+        }
     }
 
     /**
@@ -101,10 +125,11 @@ export class Layout extends BaseComponent {
      * @async
      */
     async renderTemplateToParent() {
-        const username = userStore.storage.username;
+        const username = userStore.storage.user.username;
+
         this.setState({ sidebar: { profileName: username ? username : 'Имя профиля' } });
 
-        const contentHTML = this.#contentElement.render();
+        const contentHTML = await this.#contentElement.render();
 
         const menuHTML = this.#menuElement.render();
 
@@ -121,7 +146,7 @@ export class Layout extends BaseComponent {
             }),
         ];
 
-        return super.renderTemplateToParent(templatesToStateMap);
+        return await super.renderTemplateToParent(templatesToStateMap);
     }
 
     cleanUp() {
@@ -148,5 +173,34 @@ export class Layout extends BaseComponent {
         if (button) {
             button.addEventListener('click', this.#button.getHandler());
         }
+
+        const menuHome = document.querySelector('#home');
+        if (menuHome) {
+            menuHome.addEventListener('click', this.navigateHome);
+        }
+
+        const menuTransactions = document.querySelector('#transactions');
+        if (menuTransactions) {
+            menuTransactions.addEventListener('click', this.navigateTransaction);
+        }
+
+        const menuProfile = document.querySelector('#profile');
+        if (menuProfile) {
+            menuProfile.addEventListener('click', this.navigateProfile);
+        }
+
+        this.#contentElement.setHandlers();
     }
+
+    navigateHome = async () => {
+       await router.navigateTo(ROUTE_CONSTANTS.HOME_ROUTE);
+    };
+
+    navigateTransaction = async () => {
+        await router.navigateTo(ROUTE_CONSTANTS.TRANSACTIONS);
+    };
+
+    navigateProfile = async () => {
+        await router.navigateTo(ROUTE_CONSTANTS.PROFILE);
+    };
 }

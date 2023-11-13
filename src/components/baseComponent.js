@@ -35,7 +35,7 @@ export class BaseComponent {
     async renderTemplateToParent(templates) {
         this.cleanUp();
 
-        const htmlString = this.render(templates);
+        const htmlString = this.uniteTemplates(templates);
 
         if (this.parent) {
             this.parent.innerHTML = htmlString;
@@ -50,6 +50,10 @@ export class BaseComponent {
     }
 
     render(templates) {
+        return this.uniteTemplates(templates)
+    }
+
+    uniteTemplates(templates) {
         return templates.reduce((acc, html) => acc + html, '');
     }
 

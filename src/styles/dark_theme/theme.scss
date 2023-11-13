@@ -52,6 +52,14 @@
     --button-secondary-active-color: var(--secondary-color-lighter);
     --button-secondary-disabled-color: var(--secondary-color-muted);
 
+    --button-card-accent-border-color: var(--primary-color-lighter);
+    --button-card-accent-background-color: var(--primary-color);
+    --button-card-accent-hover-color: var(--primary-color-darker);
+
+    --button-card-default-border-color: #333437;
+    --button-card-default-background-color: #222226;
+    --button-card-default-hover-color: #1e1e22;
+
     /*input*/
     --input-primary-color: var(--background-main-color);
     --input-primary-error-color: var(--error-color);
@@ -115,9 +123,9 @@
     --image-border-color: var(--background-tertiary-color);
 
     //image sizes
-    --image-small-1: 44px;
-    --image-small-2: 48px;
-    --image-medium: 64px;
+    --image-small: 44px;
+    --image-medium: 48px;
+    --image-big: 64px;
     --image-large: 200px;
 
     --image-border-line-width: 1px;

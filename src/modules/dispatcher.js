@@ -60,6 +60,7 @@ class Dispatcher {
      */
     async dispatch(action) {
         if (this.isDispatching) {
+            console.error(action);
             throw new Error('Dispatcher: dispatch method must be run when Dispatcher is off');
         }
 

@@ -27,65 +27,22 @@ export class DashboardView extends BaseComponent {
     }
 
     /**
-     * Renders the Dashboard template to the parent element.
-     * This method is responsible for rendering the card balance list, cards for planned and actual budget,
-     * and then mapping these rendered HTML strings to their corresponding state keys.
-     */
-    renderTemplateToParent = () => {
-        userActions.getFeed();
-
-        const balance = userStore.storage.user.balance;
-        const plannedBudget = userStore.storage.user.plannedBudget;
-        const actualBudget = userStore.storage.user.actualBudget;
-
-        if (balance) {
-            this.#cardBalance.setState({ cardSubhead: balance });
-        }
-
-        if (plannedBudget) {
-            this.#cardPlannedBudget.setState({ cardSubhead: plannedBudget });
-        }
-
-        if (actualBudget) {
-            this.#cardActualBudget.setState({ cardSubhead: actualBudget });
-        }
-
-        const cardBalanceHTML = this.#cardBalance.render();
-        const cardPlannedBudgetHTML = this.#cardPlannedBudget.render();
-        const cardActualBudgetHTML = this.#cardActualBudget.render();
-
-        const templates = [
-            template({
-                balance: cardBalanceHTML,
-                plannedBudget: cardPlannedBudgetHTML,
-                actualBudget: cardActualBudgetHTML,
-            }),
-        ];
-
-        super.renderTemplateToParent(templates);
-    };
-
-    /**
      * Renders the Dashboard template and returns the rendered HTML.
      * This method is similar to `renderTemplateToParent` but returns the rendered HTML instead of rendering it to the parent element.
      */
-    render = () => {
-        userActions.getFeed();
-
-        const balance = userStore.storage.user.balance;
-        const plannedBudget = userStore.storage.user.plannedBudget;
-        const actualBudget = userStore.storage.user.actualBudget;
-
-        if (balance) {
-            this.#cardBalance.setState({ cardSubhead: balance });
+    render = async () => {
+        if (!userStore.storage.user.feed) {
+            await userStore.feed();
         }
 
-        if (plannedBudget) {
-            this.#cardPlannedBudget.setState({ cardSubhead: plannedBudget });
-        }
+        if (userStore.storage.user.feed) {
+            const balance = userStore.storage.user.feed.balance;
+            const plannedBudget = userStore.storage.user.feed.plannedBudget;
+            const actualBudget = userStore.storage.user.feed.actualBudget;
 
-        if (actualBudget) {
-            this.#cardActualBudget.setState({ cardSubhead: actualBudget });
+            this.#cardBalance.setState({ cardSubhead: parseFloat(balance) });
+            this.#cardPlannedBudget.setState({ cardSubhead: parseFloat(plannedBudget) });
+            this.#cardActualBudget.setState({ cardSubhead: parseFloat(actualBudget) });
         }
 
         const cardBalanceHTML = this.#cardBalance.render();

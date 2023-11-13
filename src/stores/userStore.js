@@ -30,7 +30,9 @@ class UserStore extends BaseStore {
         this.storage = {
             loginState: USER_STORE.LOGIN_STATE,
             registrationState: USER_STORE.REGISTRATION_STATE,
-            user: {},
+            user: {
+                login: 'Ваш логин',
+            },
             error: null,
         };
     }
@@ -50,12 +52,14 @@ class UserStore extends BaseStore {
             switch (response.status) {
             case STATUS_CODES.OK:
                 this.storage.user = {
-                    username: response.username,
-                    id: response.id,
+                    login: response.body.login,
+                    username: response.body.username,
+                    id: response.body.id,
                     isAuthorised: true,
                 };
                 this.storage.error = null;
                 this.storeChanged = true;
+
                 break;
 
             case STATUS_CODES.UNAUTHORISED:
@@ -85,26 +89,30 @@ class UserStore extends BaseStore {
             response = await authApi.signIn(data);
 
             switch (response.status) {
-            case STATUS_CODES.OK:
+            case STATUS_CODES.ACCEPTED:
                 this.storage.user = {
-                    username: response.username,
-                    id: response.id,
+                    login: response.body.login,
+                    username: response.body.username,
+                    id: response.body.id,
                     isAuthorised: true,
                 };
                 this.storage.error = null;
                 this.storeChanged = true;
-                this.emitChange(EVENT_TYPES.LOGIN_SUCCESS);
+
+                await this.emitChange(EVENT_TYPES.LOGIN_SUCCESS);
                 break;
 
-            case STATUS_CODES.UNAUTHORISED:
+            case STATUS_CODES.TOO_MANY_REQUESTS:
                 this.storage.error = 'Неверное имя пользователя или пароль';
                 this.storeChanged = true;
+
                 this.emitChange(EVENT_TYPES.LOGIN_ERROR);
                 break;
 
             case STATUS_CODES.INTERNAL_SERVER_ERROR:
                 this.storage.error = 'Непредвиденная ошибка';
                 this.storeChanged = true;
+
                 this.emitChange(EVENT_TYPES.LOGIN_ERROR);
                 break;
 
@@ -130,26 +138,30 @@ class UserStore extends BaseStore {
             response = await authApi.signUp(data);
 
             switch (response.status) {
-            case STATUS_CODES.OK:
+            case STATUS_CODES.ACCEPTED:
                 this.storage.user = {
-                    username: response.username,
-                    id: response.id,
+                    login: response.body.login,
+                    username: response.body.username,
+                    id: response.body.id,
                     isAuthorised: true,
                 };
                 this.storage.error = null;
                 this.storeChanged = true;
-                this.emitChange(EVENT_TYPES.REGISTRATION_SUCCESS);
+
+                await this.emitChange(EVENT_TYPES.REGISTRATION_SUCCESS);
                 break;
 
             case STATUS_CODES.UNAUTHORISED:
                 this.storage.error = 'Данное имя пользователя уже занято';
                 this.storeChanged = true;
+
                 this.emitChange(EVENT_TYPES.REGISTRATION_ERROR);
                 break;
 
             case STATUS_CODES.INTERNAL_SERVER_ERROR:
                 this.storage.error = 'Непредвиденная ошибка';
                 this.storeChanged = true;
+
                 this.emitChange(EVENT_TYPES.REGISTRATION_ERROR);
                 break;
 
@@ -158,6 +170,9 @@ class UserStore extends BaseStore {
             }
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);
+            this.storage.error = 'Непредвиденная ошибка';
+            this.storeChanged = true;
+            this.emitChange(EVENT_TYPES.REGISTRATION_ERROR);
         }
     };
 
@@ -176,8 +191,8 @@ class UserStore extends BaseStore {
             switch (response.status) {
             case STATUS_CODES.OK:
                 this.storage.user = {
-                    username: response.username,
-                    id: response.id,
+                    username: response.body.username,
+                    id: response.body.id,
                     isAuthorised: false,
                 };
                 this.storage.error = null;
@@ -204,7 +219,7 @@ class UserStore extends BaseStore {
                 console.log('Undefined status code', response.status);
             }
 
-            router.navigateTo(ROUTE_CONSTANTS.LOGIN_ROUTE);
+            await router.navigateTo(ROUTE_CONSTANTS.LOGIN_ROUTE);
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);
         }
@@ -218,19 +233,18 @@ class UserStore extends BaseStore {
      */
     feed = async () => {
         try {
-            const response = await userApi.getFeed(this.storage.user.id);
+            const response = await userApi.getFeed();
 
             switch (response.status) {
             case STATUS_CODES.OK:
-                this.storage.user = {
-                    accounts: response.accounts.Map((account) => ({
-                        accountBalance: account.balance,
-                        meanPayment: account.mean_payment,
-                    })),
-                    balance: response.balance,
-                    actualBudget: response.actual_balance,
-                    plannedBudget: response.planned_balance,
-                };
+                if (response.body.accounts !== null) {
+                    console.log(response.body);
+                    this.storage.user.feed = {
+                        balance: response.body.balance,
+                        actualBudget: response.body.actual_budget,
+                        plannedBudget: response.body.planned_budget,
+                    };
+                }
                 this.storage.error = null;
                 this.storeChanged = true;
                 break;
@@ -357,18 +371,18 @@ class UserStore extends BaseStore {
      * @function
      * @param {Object} data - The passwords to check.
      * @param {string} data.password - The original password.
-     * @param {string} data.passwordRepeat - The repeated password.
+     * @param {string} data.repeatPassword - The repeated password.
      */
     isPasswordRepeat = ({
         password,
-        passwordRepeat,
+        repeatPassword,
     }) => {
-        const result = password === passwordRepeat;
+        const result = password === repeatPassword;
 
         this.storage = {
             ...this.storage,
             repeatState: {
-                passwordRepeat: passwordRepeat,
+                passwordRepeat: repeatPassword,
                 isError: result ? null : true,
                 inputHelperText: result ? null : 'Пароли не совпадают',
             },
@@ -376,6 +390,40 @@ class UserStore extends BaseStore {
 
         this.storeChanged = true;
         this.emitChange(EVENT_TYPES.RERENDER_REPEAT_INPUT);
+    };
+
+    /**
+     * Update user profile.
+     *
+     * @async
+     * @function
+     * @param {Object} data - The user's updated information.
+     */
+    updateProfile = async (data) => {
+        try {
+            const response = await userApi.putUpdate(data);
+
+            switch (response.status) {
+            case STATUS_CODES.OK:
+                this.storage.user.feed.plannedBudget = data.planned_budget;
+                this.storage.error = null;
+                this.storeChanged = true;
+                break;
+
+            case STATUS_CODES.BAD_REQUEST:
+            case STATUS_CODES.UNAUTHORISED:
+            case STATUS_CODES.FORBIDDEN:
+            case STATUS_CODES.INTERNAL_SERVER_ERROR:
+                this.storage.error = response.message;
+                this.storeChanged = true;
+                break;
+
+            default:
+                console.log('Undefined status code', response.status);
+            }
+        } catch (error) {
+            console.log('Unable to connect to the server, error: ', error);
+        }
     };
 }
 

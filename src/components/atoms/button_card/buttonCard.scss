@@ -1,0 +1,71 @@
+@mixin button-card_state($borderColor, $backgroundColor, $hoverColor) {
+  border: 1px solid $borderColor;
+  background-color: $backgroundColor;
+  cursor: pointer;
+
+  &:hover {
+    background: $hoverColor;
+  }
+
+  &:focus{
+    background: var(--background-main-color);
+  }
+
+  &:active {
+    background: var(--background-main-color);
+  }
+}
+
+.button-card {
+  display: flex;
+  height: auto;
+  width: 100%;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: var(--card-padding);
+  border-radius: var(--radius-size-medium);
+  word-break: break-word;
+  user-select: none;
+  transition: 0.2s;
+
+  &__icon-container{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    height: auto;
+    width: auto;
+  }
+
+  &__icon{
+    height: 32px;
+    width: 32px;
+  }
+
+  &__counter{
+    color: var(--text-main-color);
+    margin-right: 12px;
+  }
+
+  &__text-container{
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+  }
+
+  &__description{
+    color: var(--text-muted-color);
+  }
+
+  &__text{
+    color: var(--text-main-color);
+  }
+
+  &_accent-color {
+    @include button-card_state(var(--button-card-accent-border-color), var(--button-card-accent-background-color), var(--button-card-accent-hover-color));
+  }
+
+  &_default-color {
+    @include button-card_state(var(--button-card-default-border-color), var(--button-card-default-background-color), var(--button-card-default-hover-color));
+  }
+}

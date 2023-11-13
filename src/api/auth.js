@@ -10,9 +10,9 @@ class AuthApi {
      * @returns {Promise<Object>} Returns a Promise that resolves to the data in JSON format.
      * @throws {Error} If an error occurs during the request, an error object is thrown.
      */
-    checkAuth = () => {
+    checkAuth = async () => {
         const url = API_CONSTANTS.CHECK_AUTH;
-        return post(url, null);
+        return await post(url, null);
     };
 
     /**

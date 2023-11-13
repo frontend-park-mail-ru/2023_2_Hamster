@@ -4,6 +4,9 @@ import { LoginSignupView, DashboardView } from '@views';
 import { router } from '@router';
 import { ROUTE_CONSTANTS } from '@constants/constants';
 import { Layout } from '@organisms/layout/layout';
+import { ProfileView } from '@views/profile/profile';
+import { CategoriesView } from '@views/categories/categories';
+import { TransactionsView } from '@views/transactions/transactions';
 
 const root = document.querySelector('#root');
 
@@ -16,13 +19,22 @@ const routes = {
         view: new LoginSignupView(root, false),
     },
     [ROUTE_CONSTANTS.HOME_ROUTE]: {
-        view: new Layout(root, undefined, new DashboardView(null)),
+        view: new Layout(root, undefined, new DashboardView(null), 'home'),
     },
     [ROUTE_CONSTANTS.DASHBOARD_ROUTE]: {
-        view: new Layout(root, undefined, new DashboardView(null)),
+        view: new Layout(root, undefined, new DashboardView(null), 'home'),
+    },
+    [ROUTE_CONSTANTS.PROFILE]: {
+        view: new Layout(root, undefined, new ProfileView(null), 'profile'),
+    },
+    [ROUTE_CONSTANTS.CATEGORIES]: {
+        view: new Layout(root, undefined, new CategoriesView(null), 'categories'),
+    },
+    [ROUTE_CONSTANTS.TRANSACTIONS]: {
+        view: new Layout(root, undefined, new TransactionsView(null), 'transactions'),
     },
 };
 
 router.addRoutes(routes);
 
-router.start();
+await router.start();
