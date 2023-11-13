@@ -193,7 +193,6 @@ export class Layout extends BaseComponent {
     };
 
     navigateTransaction = () => {
-        transactionActions.getTransactions();
         router.navigateTo(ROUTE_CONSTANTS.TRANSACTIONS);
     };
 

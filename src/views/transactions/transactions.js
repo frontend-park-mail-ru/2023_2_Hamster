@@ -8,6 +8,7 @@ import { Transaction } from '@atoms/transaction/transaction';
 import { transactionsStore } from '@stores/transactionsStore';
 import { categoriesStore } from '@stores/categoriesStore';
 import { transactionActions } from '@actions/transactionActions';
+import { categoryActions } from '@actions/categoryActions';
 
 const BUTTON_STATE = {
     id: 'button',
@@ -62,7 +63,15 @@ export class TransactionsView extends BaseComponent {
      *
      * @function
      */
-    render() {
+    async render() {
+        if (!categoriesStore.storage.states) {
+            await categoryActions.getCategories();
+        }
+
+        if (!transactionsStore.storage.states) {
+            await transactionActions.getTransactions();
+        }
+
         this.transactions = this.createTransactions(categoriesStore.storage.states);
         this.renderedTransactions = this.renderTransactions(this.transactions);
 
