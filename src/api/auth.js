@@ -12,6 +12,16 @@ class AuthApi {
      */
     checkAuth = () => {
         const url = API_CONSTANTS.CHECK_AUTH;
+        /*
+        const cookies = document.cookie.split('; ');
+  
+        for (const cookie of cookies) {
+          const [name, value] = cookie.split('=');
+          if (name === "session_id") {
+            return {status:200, body:{username:"testUser", login:"testLogin"}};
+          }
+        }
+        */
         return post(url, null);
     };
 

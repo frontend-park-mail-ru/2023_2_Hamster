@@ -91,5 +91,14 @@ export const userActions = {
                 username,
             },
         });
-    }
+    },
+
+    updateAvatar(filename) {
+        dispatcher.dispatch({
+            type: USER_ACTIONS_TYPES.UPDATE_AVATAR,
+            data: {
+                filename,
+            },
+        });
+    },
 };

@@ -18,20 +18,20 @@
   border: 1px solid var(--input-border-color);
   transition: border-color 0.3s ease;
 
-  &_number {
-    /* Chrome, Safari, Edge, Opera */
-    &::-webkit-outer-spin-button,
-    &::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-
-    /* Firefox */
-    &[type=number] {
-      -moz-appearance: textfield;
-    }
-
+  
+  
+  /* Chrome, Safari, Edge, Opera */
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
+  
+  /* Firefox */
+  &[type=number] {
+    -moz-appearance: textfield;
+  }
+ 
 
   &:focus-within {
     border: 1px solid var(--input-focus-color);

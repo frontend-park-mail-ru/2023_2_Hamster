@@ -1,5 +1,5 @@
 import { API_CONSTANTS, getBaseURL } from '@constants/constants';
-import { get, post, put } from '@ajax';
+import { get, post, put, putMulti } from '@ajax';
 
 class UserApi {
     /**
@@ -19,6 +19,11 @@ class UserApi {
         const url = API_CONSTANTS.UPDATE;
         return put(url, userInfo);
     };
+
+    putAvatar = (photo) => {
+        const url = API_CONSTANTS.UPDATE_AVATAR
+        return putMulti(url, photo)
+    }
 }
 
 export const userApi = new UserApi();

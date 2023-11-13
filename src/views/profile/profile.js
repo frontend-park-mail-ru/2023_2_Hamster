@@ -31,6 +31,8 @@ export class ProfileView extends BaseComponent {
 
     #avatar;
 
+    #imageInput;
+
     #saveButton;
 
     constructor(parent) {
@@ -50,6 +52,8 @@ export class ProfileView extends BaseComponent {
         this.#budgetInput = new Input(null, PROFILE_STATE.BUDGET_INPUT_STATE, null);
 
         this.#avatar = new Image(null, PROFILE_STATE.AVATAR, null);
+
+        this.#imageInput = new Input(null, PROFILE_STATE.IMAGE_INPUT_STATE, null);
 
         this.#saveButton = new Button(null, PROFILE_STATE.BUTTON_STATE, null);
     }
@@ -73,6 +77,7 @@ export class ProfileView extends BaseComponent {
                 budgetInput: this.#budgetInput.render(),
                 login: userStore.storage.user.login,
                 avatar: this.#avatar.render(),
+                imageInput: this.#imageInput.render(),
                 saveButton: this.#saveButton.render(),
             }),
         ];
@@ -120,6 +125,11 @@ export class ProfileView extends BaseComponent {
         if (saveProfileButton) {
             saveProfileButton.removeEventListener('click', this.#saveButton.getHandler());
         }
+
+        const imageInput = document.querySelector('#image_profile_input');
+        if (imageInput) {
+            imageInput.removeEventListener('blur', this.#imageInput.getHandler());
+        }
     }
 
     /**
@@ -141,6 +151,7 @@ export class ProfileView extends BaseComponent {
                 budgetInput: this.#budgetInput.render(),
                 login: userStore.storage.user.login,
                 avatar: this.#avatar.render(),
+                imageInput: this.#imageInput.render(),
                 saveButton: this.#saveButton.render(),
             }),
         ];
@@ -232,6 +243,12 @@ export class ProfileView extends BaseComponent {
             this.#saveButton.setHandler(this.saveButtonHandler);
             saveProfileButton.addEventListener('click', this.#saveButton.getHandler());
         }
+
+        const imageInput = document.querySelector('#upload-form');
+        if (imageInput) {
+            this.#imageInput.setHandler(this.changeImageHandler);
+            imageInput.addEventListener('click', this.#imageInput.getHandler());
+        }
     }
 
     categoriesButtonHandler = () => {
@@ -243,5 +260,16 @@ export class ProfileView extends BaseComponent {
         const username = document.querySelector('#username_input').value;
         const budget = document.querySelector('#budget_input').value;
         userActions.updateProfile(parseFloat(budget), username);
+    }
+
+    changeImageHandler = () => {
+        const fileInput = document.getElementById("image_profile_input");
+        fileInput.click();
+        fileInput.onchange = function() {
+            let file = fileInput.files[0];
+            let selectName = document.getElementsByClassName("upload-form__filename")[0];
+            selectName.innerHTML = file.name
+            userActions.updateAvatar(filename) 
+        }
     }
 }

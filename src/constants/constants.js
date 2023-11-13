@@ -34,6 +34,7 @@ export const API_CONSTANTS = {
 
     FEED: `${SERVER_PREFIX}/api/user/feed`,
     UPDATE: `${SERVER_PREFIX}/api/user/update`,
+    UPDATE_AVATAR: `${SERVER_PREFIX}/api/user/updatePhoto`
 };
 
 export const getTagURL = (id) => `${SERVER_PREFIX}/api/tag/${id}`;
@@ -196,4 +197,13 @@ export const PROFILE_STATE = {
         buttonSize: 'button_small',
         buttonType: 'button',
     },
-};
+
+    IMAGE_INPUT_STATE: {
+        isError: '',
+        id: 'image_profile_input',
+        inputPlaceholder: 'Выбрать картинку',
+        inputSize: 'input_small',
+        typeOfInput: 'file',
+        inputPlaceholder: 'Выбери файлик',
+    },
+}
