@@ -12,14 +12,14 @@ class CategoryApi {
         return post(url, data);
     };
 
-    deleteTag = (id) => {
+    deleteTag = async (id) => {
         const url = API_CONSTANTS.DELETE_TAG;
-        return deleteRequest(url, id)
+        return await deleteRequest(url, id)
     }
 
-    updateTag = (id, data) => {
+    updateTag = async (id, data) => {
         const url = getTagURL(id) + API_CONSTANTS.UPDATE_TAG_TAIL;
-        return put(url, data)
+        return await put(url, data);
     }
 }
 

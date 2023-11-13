@@ -5,6 +5,7 @@ import { Button, Category, Input } from '@atoms';
 import { categoriesStore } from '@stores/categoriesStore';
 import { EVENT_TYPES } from '@constants/constants';
 import { categoryActions } from '@actions/categoryActions';
+import { userStore } from '@stores/userStore';
 
 const BUTTON_STATE = {
     id: 'button',
@@ -33,8 +34,6 @@ export class CategoriesView extends BaseComponent {
 
         this.input = new Input(null, INPUT_STATE);
         this.button = new Button(null, BUTTON_STATE);
-
-        categoriesStore.registerListener(EVENT_TYPES.RERENDER_CATEGORIES, this.render.bind(this));
     }
 
     /**
@@ -43,7 +42,11 @@ export class CategoriesView extends BaseComponent {
      *
      * @function
      */
-    render() {
+    async render() {
+        if (!categoriesStore.storage.states) {
+            await categoryActions.getCategories();
+        }
+
         this.categories = this.createCategories(categoriesStore.storage.states);
         this.renderedCategories = this.renderCategories(this.categories);
 
@@ -80,7 +83,7 @@ export class CategoriesView extends BaseComponent {
             this.categories.forEach(category => {
                 const categoryCard = document.querySelector(`#${category.getState().cardId}`);
                 if (categoryCard) {
-                    categoryCard.addEventListener('click', this.handleClick.bind(this, category));
+                    categoryCard.addEventListener('click', this.handleCardClick.bind(this, category));
                 }
 
                 const button = document.querySelector(`#${category.button.getState().id}`);
@@ -88,20 +91,24 @@ export class CategoriesView extends BaseComponent {
                     button.addEventListener('click', this.updateButtonHandler.bind(this, category));
                 }
 
-                const deleteButton = document.querySelector(`#${category.button.getState().deleteId}`);
+                const deleteButton = document.querySelector(`#${category.getState().deleteId}`);
                 if (deleteButton) {
                     deleteButton.addEventListener('click', this.deleteButtonHandler.bind(this, category));
                 }
             });
         }
 
-        const createButton = document.querySelector(this.button.getState().id);
+        const createButton = document.querySelector('#button');
         if (createButton) {
             createButton.addEventListener('click', this.createButtonHandler.bind(this));
         }
     }
 
-    handleClick = (category) => {
+    handleCardClick = (category, event) => {
+        if (event.target.classList.contains('category__delete')) {
+            return;
+        }
+
         const isSettingsOpen = category.getState().settingsOpen;
         category.setState({ settingsOpen: !isSettingsOpen });
 
@@ -111,21 +118,21 @@ export class CategoriesView extends BaseComponent {
         this.setHandlers();
     };
 
-    updateButtonHandler = (category) => {
+    updateButtonHandler = async (category) => {
         const inputValue = document.querySelector(`#${category.input.getState().id}`).value;
         if (inputValue) {
-            categoryActions.updateCategory(category.getState().id, inputValue);
+            await categoryActions.updateCategory(category.getState().id.slice(2), inputValue, userStore.storage.user.id);
         }
     };
 
-    deleteButtonHandler = (category) => {
-        categoryActions.deleteCategory(category.getState().id);
+    deleteButtonHandler = async (category) => {
+        await categoryActions.deleteCategory(category.getState().id.slice(2));
     };
 
-    createButtonHandler = () => {
+    createButtonHandler = async () => {
         const inputValue = document.querySelector(this.input.getState().id).value;
         if (inputValue) {
-            categoryActions.createCategory(inputValue);
+            await categoryActions.createCategory(inputValue, userStore.storage.user.id);
         }
     };
 }

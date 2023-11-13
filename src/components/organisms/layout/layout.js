@@ -3,7 +3,7 @@ import { Menu } from '@atoms/menu/menu.js';
 import { Sidebar } from '@molecules/sidebar/sidebar.js';
 import { Button } from '@atoms/button/button.js';
 import { router } from '@router';
-import { API_CONSTANTS, ROUTE_CONSTANTS } from '@constants/constants.js';
+import { API_CONSTANTS, EVENT_TYPES, ROUTE_CONSTANTS } from '@constants/constants.js';
 
 import sidebarTemplate from '@molecules/sidebar/sidebar.hbs';
 
@@ -12,6 +12,7 @@ import layoutTemplate from './layout.hbs';
 import { userStore } from '@stores/userStore';
 import { userActions } from '@actions/userActions';
 import { transactionActions } from '@actions/transactionActions';
+import { categoriesStore } from '@stores/categoriesStore';
 
 /**
  * The default state for the Layout component.
@@ -99,7 +100,7 @@ export class Layout extends BaseComponent {
      * @param {Object} [state=DEFAULT_STATE] - The initial state of the Layout component. (optional)
      * @param {Object} contentElement - The content element associated with the Layout.
      */
-    constructor(parent, state = DEFAULT_STATE, contentElement) {
+    constructor(parent, state = DEFAULT_STATE, contentElement, context) {
         super(state, layoutTemplate, parent);
 
         this.#menuElement = new Menu(this.getState().sidebar.menu);
@@ -110,6 +111,9 @@ export class Layout extends BaseComponent {
 
         this.#sidebar = new Sidebar(parent, this.getState().sidebar);
 
+        if (context === 'categories') {
+            categoriesStore.registerListener(EVENT_TYPES.RERENDER_CATEGORIES, this.renderTemplateToParent.bind(this));
+        }
     }
 
     /**
@@ -117,10 +121,11 @@ export class Layout extends BaseComponent {
      * @async
      */
     async renderTemplateToParent() {
-        const username = userStore.storage.username;
+        const username = userStore.storage.user.username;
+
         this.setState({ sidebar: { profileName: username ? username : 'Имя профиля' } });
 
-        const contentHTML = this.#contentElement.render();
+        const contentHTML = await this.#contentElement.render();
 
         const menuHTML = this.#menuElement.render();
 
@@ -185,14 +190,13 @@ export class Layout extends BaseComponent {
 
     navigateHome = () => {
         router.navigateTo(ROUTE_CONSTANTS.HOME_ROUTE);
-    }
+    };
 
     navigateTransaction = () => {
-        transactionActions.getTransactions();
         router.navigateTo(ROUTE_CONSTANTS.TRANSACTIONS);
-    }
+    };
 
     navigateProfile = () => {
         router.navigateTo(ROUTE_CONSTANTS.PROFILE);
-    }
+    };
 }

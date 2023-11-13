@@ -52,6 +52,7 @@ class UserStore extends BaseStore {
             switch (response.status) {
             case STATUS_CODES.OK:
                 this.storage.user = {
+                    login: response.body.login,
                     username: response.body.username,
                     id: response.body.id,
                     isAuthorised: true,
@@ -59,7 +60,6 @@ class UserStore extends BaseStore {
                 this.storage.error = null;
                 this.storeChanged = true;
 
-                router.navigateTo(ROUTE_CONSTANTS.HOME_ROUTE);
                 break;
 
             case STATUS_CODES.UNAUTHORISED:
@@ -88,27 +88,33 @@ class UserStore extends BaseStore {
         try {
             response = await authApi.signIn(data);
 
+            console.log(response);
+
             switch (response.status) {
             case STATUS_CODES.ACCEPTED:
                 this.storage.user = {
+                    login: response.body.login,
                     username: response.body.username,
                     id: response.body.id,
                     isAuthorised: true,
                 };
                 this.storage.error = null;
                 this.storeChanged = true;
+
                 this.emitChange(EVENT_TYPES.LOGIN_SUCCESS);
                 break;
 
             case STATUS_CODES.TOO_MANY_REQUESTS:
                 this.storage.error = 'Неверное имя пользователя или пароль';
                 this.storeChanged = true;
+
                 this.emitChange(EVENT_TYPES.LOGIN_ERROR);
                 break;
 
             case STATUS_CODES.INTERNAL_SERVER_ERROR:
                 this.storage.error = 'Непредвиденная ошибка';
                 this.storeChanged = true;
+
                 this.emitChange(EVENT_TYPES.LOGIN_ERROR);
                 break;
 
@@ -133,27 +139,33 @@ class UserStore extends BaseStore {
         try {
             response = await authApi.signUp(data);
 
+            console.log(response);
+
             switch (response.status) {
             case STATUS_CODES.ACCEPTED:
                 this.storage.user = {
+                    login: response.body.login,
                     username: response.body.username,
                     id: response.body.id,
                     isAuthorised: true,
                 };
                 this.storage.error = null;
                 this.storeChanged = true;
+
                 this.emitChange(EVENT_TYPES.REGISTRATION_SUCCESS);
                 break;
 
             case STATUS_CODES.UNAUTHORISED:
                 this.storage.error = 'Данное имя пользователя уже занято';
                 this.storeChanged = true;
+
                 this.emitChange(EVENT_TYPES.REGISTRATION_ERROR);
                 break;
 
             case STATUS_CODES.INTERNAL_SERVER_ERROR:
                 this.storage.error = 'Непредвиденная ошибка';
                 this.storeChanged = true;
+
                 this.emitChange(EVENT_TYPES.REGISTRATION_ERROR);
                 break;
 
@@ -211,7 +223,7 @@ class UserStore extends BaseStore {
                 console.log('Undefined status code', response.status);
             }
 
-            router.navigateTo(ROUTE_CONSTANTS.LOGIN_ROUTE);
+            await router.navigateTo(ROUTE_CONSTANTS.LOGIN_ROUTE);
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);
         }
@@ -226,11 +238,12 @@ class UserStore extends BaseStore {
     feed = async () => {
         try {
             const response = await userApi.getFeed();
+            console.log(response);
 
             switch (response.status) {
             case STATUS_CODES.OK:
                 if (response.body.accounts !== null){
-                    this.storage.user = {
+                    this.storage.user = {...this.storage.user, ...{
                         accounts: response.body.accounts.Map((account) => ({
                             accountBalance: account.balance,
                             meanPayment: account.mean_payment,
@@ -238,7 +251,7 @@ class UserStore extends BaseStore {
                         balance: response.body.balance,
                         actualBudget: response.body.actual_budget,
                         plannedBudget: response.body.planned_budget,
-                    };
+                    }};
                 }
                 this.storage.error = null;
                 this.storeChanged = true;

@@ -47,12 +47,12 @@ class Router {
     start = async () => {
         try {
             await userStore.checkAuth();
+            console.log(window.location.pathname);
         } catch (e) {
             console.log('Error: ', e);
         }
 
-        console.log(window.location.pathname);
-        router.navigateTo(window.location.pathname);
+        await router.navigateTo(window.location.pathname);
     };
 
     /**
@@ -61,7 +61,7 @@ class Router {
      * @param {string} path - The path of the route to navigate to.
      * @function
      */
-    navigateTo = (path) => {
+    navigateTo = async (path) => {
         const routeTrimmed = path.at(-1) === '/'
             ? path.slice(0, -1)
             : path;
@@ -91,7 +91,7 @@ class Router {
         console.log(path);
         console.log(window.location.origin + routeTrimmed);
 
-        view.view.renderTemplateToParent();
+        await view.view.renderTemplateToParent();
     };
 
     /**

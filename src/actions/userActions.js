@@ -16,8 +16,8 @@ export const userActions = {
         });
     },
 
-    getFeed() {
-        dispatcher.dispatch({
+    async getFeed() {
+        await dispatcher.dispatch({
            type: USER_ACTIONS_TYPES.API_FEED,
            data: {},
         });

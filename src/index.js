@@ -19,19 +19,19 @@ const routes = {
         view: new LoginSignupView(root, false),
     },
     [ROUTE_CONSTANTS.HOME_ROUTE]: {
-        view: new Layout(root, undefined, new DashboardView(null)),
+        view: new Layout(root, undefined, new DashboardView(null), 'home'),
     },
     [ROUTE_CONSTANTS.DASHBOARD_ROUTE]: {
-        view: new Layout(root, undefined, new DashboardView(null)),
+        view: new Layout(root, undefined, new DashboardView(null), 'home'),
     },
     [ROUTE_CONSTANTS.PROFILE]: {
-        view: new Layout(root, undefined, new ProfileView(null)),
+        view: new Layout(root, undefined, new ProfileView(null), 'profile'),
     },
     [ROUTE_CONSTANTS.CATEGORIES]: {
-        view: new Layout(root, undefined, new CategoriesView(null)),
+        view: new Layout(root, undefined, new CategoriesView(null), 'categories'),
     },
     [ROUTE_CONSTANTS.TRANSACTIONS]: {
-        view: new Layout(root, undefined, new TransactionsView(null)),
+        view: new Layout(root, undefined, new TransactionsView(null), 'transactions'),
     },
 };
 

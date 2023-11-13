@@ -2,6 +2,7 @@ import BaseStore from './baseStore.js';
 import { transactionsApi } from '@api/transaction';
 import { router } from '@router';
 import { EVENT_TYPES, ROUTE_CONSTANTS, STATUS_CODES } from '@constants/constants';
+import { categoriesStore } from '@stores/categoriesStore';
 
 /**
  *
@@ -34,7 +35,7 @@ class CategoriesStore extends BaseStore {
 
             switch (response.status) {
             case STATUS_CODES.OK:
-                this.storage.states = this.transformArray(response);
+                this.storage.states = this.transformArray(response.body.transactions);
 
                 break;
 
@@ -54,14 +55,28 @@ class CategoriesStore extends BaseStore {
     transformArray = (arr) => {
         return arr.map(data => {
             return {
-                id: 'id' + data.transaction_id,
-                transactionName: data.categories.pop(),
+                id: 'id' + data.id,
+                transactionName: categoriesStore.findName(data.categories).pop().name,
                 value: data.income - data.outcome,
                 account: data.account_income,
-                deleteId: 'delete_' + data.transaction_id,
-                cardId: 'card_' + data.transaction_id,
+                deleteId: 'delete_' + data.id,
+                cardId: 'card_' + data.id,
             };
         });
+    };
+
+    findName = (categories) => {
+        let newArray = categoriesStore.storage.tags.map(obj => {
+            return {
+                id: obj.id,
+                name: obj.name,
+            };
+        });
+
+        return newArray.filter(obj => {
+            console.log(obj);
+            return categories.includes(obj.raw);
+        })
     };
 
     createTransaction = async (data) => {
