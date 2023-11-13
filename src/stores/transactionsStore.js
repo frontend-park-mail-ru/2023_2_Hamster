@@ -56,7 +56,7 @@ class CategoriesStore extends BaseStore {
         return arr.map(data => {
             return {
                 id: 'id' + data.id,
-                transactionName: categoriesStore.findNames(data.categories).pop().name,
+                transactionName: categoriesStore.findNames(data.categories),
                 value: data.income - data.outcome,
                 account: data.account_income,
                 deleteId: 'delete_' + data.id,
