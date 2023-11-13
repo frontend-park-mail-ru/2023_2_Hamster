@@ -32,7 +32,7 @@ class CategoriesStore extends BaseStore {
         try {
             const response = await categoryApi.getTags();
 
-            if (response.body){
+            if (response.body) {
                 this.storage.states = this.transformArray(response.body);
                 this.storage.tags = response.body;
                 console.log(response.body);
@@ -76,7 +76,7 @@ class CategoriesStore extends BaseStore {
         try {
             await categoryApi.deleteTag(data);
 
-            this.storage.states.filter(item => item.raw !== data.id);
+            this.storage.states = this.storage.states.filter(item => item.raw !== data.id);
             console.log(this.storage.states);
             this.storeChanged = true;
 
