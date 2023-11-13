@@ -91,7 +91,7 @@ class CategoriesStore extends BaseStore {
             const response = await categoryApi.updateTag(this.storage.tags[0].id, data);
 
             this.storage.states.map(item => {
-                if (item.raw === response.id) {
+                if (item.raw === response.body.id) {
                     return {
                         id: 'id' + response.id,
                         categoryName: response.name,
@@ -101,7 +101,6 @@ class CategoriesStore extends BaseStore {
                 }
                 return item;
             });
-            console.log(this.storage.states);
             this.storeChanged = true;
 
             this.emitChange(EVENT_TYPES.RERENDER_CATEGORIES);
