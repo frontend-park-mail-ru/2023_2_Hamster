@@ -78,11 +78,11 @@ class Router {
                 : routeResult = routeTrimmed;
         }
 
-        const view = this.routes[routeResult];
+        let view = this.routes[routeResult];
 
         if (!view) {
+            view = this.routes[ROUTE_CONSTANTS.NOT_FOUND];
             console.error(`No route found for ${routeResult}`);
-            return;
         }
 
         window.history.pushState({}, null, window.location.origin + routeResult);
