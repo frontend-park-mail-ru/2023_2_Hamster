@@ -111,7 +111,7 @@ export class Layout extends BaseComponent {
 
         this.#sidebar = new Sidebar(parent, this.getState().sidebar);
 
-        categoriesStore.registerListener(EVENT_TYPES.RERENDER_CATEGORIES, this.renderTemplateToParent.bind(this));
+        categoriesStore.registerListener(EVENT_TYPES.RERENDER_CATEGORIES, () => {console.log(123)});
 
     }
 
