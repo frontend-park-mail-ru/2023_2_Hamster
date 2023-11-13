@@ -112,12 +112,16 @@ class CategoriesStore extends BaseStore {
 
     findNames = (arr) => {
         return this.storage.states.map(item => {
-            return {
-                id: item.raw,
-                categoryName: item.categoryName,
-            };
+            arr.forEach(category => {
+                if (category === item.raw) {
+                    return {
+                        id: item.raw,
+                        categoryName: item.categoryName,
+                    };
+                }
+            });
         });
-    }
+    };
 }
 
 export const categoriesStore = new CategoriesStore();
