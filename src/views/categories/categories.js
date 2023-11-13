@@ -43,10 +43,6 @@ export class CategoriesView extends BaseComponent {
      * @function
      */
     async render() {
-        if (!categoriesStore.storage.states) {
-            await categoryActions.getCategories();
-        }
-
         this.categories = this.createCategories(categoriesStore.storage.states);
         this.renderedCategories = this.renderCategories(this.categories);
 
