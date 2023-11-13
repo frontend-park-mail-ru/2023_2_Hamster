@@ -100,7 +100,7 @@ export class Layout extends BaseComponent {
      * @param {Object} [state=DEFAULT_STATE] - The initial state of the Layout component. (optional)
      * @param {Object} contentElement - The content element associated with the Layout.
      */
-    constructor(parent, state = DEFAULT_STATE, contentElement) {
+    constructor(parent, state = DEFAULT_STATE, contentElement, context) {
         super(state, layoutTemplate, parent);
 
         this.#menuElement = new Menu(this.getState().sidebar.menu);
@@ -111,8 +111,9 @@ export class Layout extends BaseComponent {
 
         this.#sidebar = new Sidebar(parent, this.getState().sidebar);
 
-        categoriesStore.registerListener(EVENT_TYPES.RERENDER_CATEGORIES, this.renderTemplateToParent.bind(this));
-
+        if (context === 'categories') {
+            categoriesStore.registerListener(EVENT_TYPES.RERENDER_CATEGORIES, this.renderTemplateToParent.bind(this));
+        }
     }
 
     /**
@@ -189,14 +190,14 @@ export class Layout extends BaseComponent {
 
     navigateHome = () => {
         router.navigateTo(ROUTE_CONSTANTS.HOME_ROUTE);
-    }
+    };
 
     navigateTransaction = () => {
         transactionActions.getTransactions();
         router.navigateTo(ROUTE_CONSTANTS.TRANSACTIONS);
-    }
+    };
 
     navigateProfile = () => {
         router.navigateTo(ROUTE_CONSTANTS.PROFILE);
-    }
+    };
 }
