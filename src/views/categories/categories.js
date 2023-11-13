@@ -48,6 +48,8 @@ export class CategoriesView extends BaseComponent {
         this.categories = this.createCategories(categoriesStore.storage.states);
         this.renderedCategories = this.renderCategories(this.categories);
 
+        console.log(this.categories);
+
         const templates = [
             template({
                 input: this.input.render(),

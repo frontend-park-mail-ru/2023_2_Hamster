@@ -122,7 +122,7 @@ export class Layout extends BaseComponent {
      */
     async renderTemplateToParent() {
         const username = userStore.storage.user.username;
-        console.log('layout: ', userStore.storage.user.username);
+
         this.setState({ sidebar: { profileName: username ? username : 'Имя профиля' } });
 
         const contentHTML = await this.#contentElement.render();
