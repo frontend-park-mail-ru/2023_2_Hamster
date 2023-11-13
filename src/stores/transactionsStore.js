@@ -35,7 +35,6 @@ class CategoriesStore extends BaseStore {
 
             switch (response.status) {
             case STATUS_CODES.OK:
-                this.storage.names = categoriesStore.findNames(response.body.transactions.categories).
                 this.storage.states = this.transformArray(response.body.transactions);
 
                 break;
@@ -57,7 +56,7 @@ class CategoriesStore extends BaseStore {
         return arr.map(data => {
             return {
                 id: 'id' + data.id,
-                transactionName: this.storage.names.name,
+                transactionName: categoriesStore.findNames(data.categories).pop().name,
                 value: data.income - data.outcome,
                 account: data.account_income,
                 deleteId: 'delete_' + data.id,
