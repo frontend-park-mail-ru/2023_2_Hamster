@@ -64,6 +64,7 @@ class CategoriesStore extends BaseStore {
                 deleteId: 'delete_' + response.id,
                 cardId: 'card_' + response.id,
             });
+            this.storeChanged = true;
 
             this.emitChange(EVENT_TYPES.RERENDER_CATEGORIES);
         } catch (error) {
@@ -76,6 +77,7 @@ class CategoriesStore extends BaseStore {
             await categoryApi.deleteTag(data);
 
             this.storage.states.filter(item => item.id !== data);
+            this.storeChanged = true;
 
             this.emitChange(EVENT_TYPES.RERENDER_CATEGORIES);
         } catch (error) {
@@ -98,6 +100,7 @@ class CategoriesStore extends BaseStore {
                 }
                 return item;
             });
+            this.storeChanged = true;
 
             this.emitChange(EVENT_TYPES.RERENDER_CATEGORIES);
         } catch (error) {
