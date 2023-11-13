@@ -27,11 +27,13 @@ export const categoryActions = {
         await dispatcher.dispatch({
             type: CATEGORY_ACTIONS.UPDATE_CATEGORY,
             data: {
+                id,
                 name,
                 parent_id: '00000000-0000-0000-0000-000000000000',
                 regular: false,
                 show_income: true,
                 show_outcome: true,
+                user_id,
             },
         });
     },
