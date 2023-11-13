@@ -117,7 +117,7 @@ class CategoriesStore extends BaseStore {
             };
         });
 
-        return newArray.filter(obj => categories.includes(obj.raw);
+        return newArray.filter(obj => categories.includes(obj.raw));
     };
 }
 
