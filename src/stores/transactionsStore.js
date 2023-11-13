@@ -2,6 +2,7 @@ import BaseStore from './baseStore.js';
 import { transactionsApi } from '@api/transaction';
 import { router } from '@router';
 import { EVENT_TYPES, ROUTE_CONSTANTS, STATUS_CODES } from '@constants/constants';
+import { categoriesStore } from '@stores/categoriesStore';
 
 /**
  *
@@ -55,7 +56,7 @@ class CategoriesStore extends BaseStore {
         return arr.map(data => {
             return {
                 id: 'id' + data.id,
-                transactionName: data.categories.pop(),
+                transactionName: categoriesStore.findNames(data.categories),
                 value: data.income - data.outcome,
                 account: data.account_income,
                 deleteId: 'delete_' + data.id,
