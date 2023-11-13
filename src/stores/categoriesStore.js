@@ -59,10 +59,10 @@ class CategoriesStore extends BaseStore {
             const response = await categoryApi.createTag(data);
 
             this.storage.states.push({
-                id: 'id' + response.id,
+                id: 'id' + response.category_id,
                 categoryName: data.name,
-                deleteId: 'delete_' + response.id,
-                cardId: 'card_' + response.id,
+                deleteId: 'delete_' + response.category_id,
+                cardId: 'card_' + response.category_id,
             });
             this.storeChanged = true;
 
