@@ -94,7 +94,7 @@ class CategoriesStore extends BaseStore {
                 if (item.raw === response.body.id) {
                     return {
                         id: 'id' + response.id,
-                        categoryName: response.name,
+                        categoryName: response.body.name,
                         deleteId: 'delete_' + response.id,
                         cardId: 'card_' + response.id,
                     };
