@@ -12,21 +12,8 @@ class AuthApi {
      */
     checkAuth = async () => {
         const url = API_CONSTANTS.CHECK_AUTH;
-<<<<<<< HEAD
-        /*
-        const cookies = document.cookie.split('; ');
-  
-        for (const cookie of cookies) {
-          const [name, value] = cookie.split('=');
-          if (name === "session_id") {
-            return {status:200, body:{username:"testUser", login:"testLogin"}};
-          }
-        }
-        */
-        return post(url, null);
-=======
+
         return await post(url, null);
->>>>>>> 20dbfa05b1d8fa17ea57ca85b0bb872b593afb17
     };
 
     /**

@@ -40,11 +40,15 @@ export class LoginSignupView extends BaseComponent {
 
         this.#buttonElement = new Button(null, this.getState().redirectButton, this.switchLoginSignup.bind(this));
 
-        userStore.registerListener(EVENT_TYPES.LOGIN_SUCCESS, this.navigateToHome.bind(this));
-        userStore.registerListener(EVENT_TYPES.REGISTRATION_SUCCESS, this.navigateToHome.bind(this));
+        if (isLogin) {
+            userStore.registerListener(EVENT_TYPES.LOGIN_SUCCESS, this.navigateToHome.bind(this));
 
-        userStore.registerListener(EVENT_TYPES.RENDER_LOGIN_VIEW, this.renderTemplateToParent.bind(this));
-        userStore.registerListener(EVENT_TYPES.RENDER_REGISTRATION_VIEW, this.renderTemplateToParent.bind(this));
+            userStore.registerListener(EVENT_TYPES.RENDER_LOGIN_VIEW, this.renderTemplateToParent.bind(this));
+        } else {
+            userStore.registerListener(EVENT_TYPES.REGISTRATION_SUCCESS, this.navigateToHome.bind(this));
+
+            userStore.registerListener(EVENT_TYPES.RENDER_REGISTRATION_VIEW, this.renderTemplateToParent.bind(this));
+        }
 
         userStore.registerListener(EVENT_TYPES.RERENDER_LOGIN_INPUT, this.renderLoginInput.bind(this));
         userStore.registerListener(EVENT_TYPES.RERENDER_USERNAME_INPUT, this.renderUsername.bind(this));
@@ -58,8 +62,6 @@ export class LoginSignupView extends BaseComponent {
      * @function
      */
     navigateToHome = async () => {
-        console.log('home');
-
         await router.navigateTo(ROUTE_CONSTANTS.HOME_ROUTE);
     };
 
@@ -192,7 +194,7 @@ export class LoginSignupView extends BaseComponent {
      * @function
      */
     switchLoginSignup = () => {
-        this.#form.isLogin ? router.navigateTo(ROUTE_CONSTANTS.REGISTRATION_ROUTE) : router.navigateTo(ROUTE_CONSTANTS.LOGIN_ROUTE);
+        this.#isLogin ? router.navigateTo(ROUTE_CONSTANTS.REGISTRATION_ROUTE) : router.navigateTo(ROUTE_CONSTANTS.LOGIN_ROUTE);
     };
 
     /**
@@ -201,24 +203,16 @@ export class LoginSignupView extends BaseComponent {
      *
      * @function
      */
-    submitButtonHandler = () => {
-        // if (this.#isLogin) {
-        //     const login = document.querySelector('#login_input').value;
-        //     const password = document.querySelector('#password_input').value;
-        //
-        //
-        //     return;
-        // }
-
+    submitButtonHandler = async () => {
         const login = document.querySelector('#login_input');
         const username = document.querySelector('#username_input');
         const password = document.querySelector('#password_input');
         const repeatPassword = document.querySelector('#password_repeat_input');
 
         if (login && username && password && repeatPassword) {
-            userActions.register(login.value, username.value, password.value, repeatPassword.value);
+            await userActions.register(login.value, username.value, password.value, repeatPassword.value);
         } else {
-            userActions.login(login.value, password.value);
+            await userActions.login(login.value, password.value);
         }
     };
 

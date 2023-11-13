@@ -114,6 +114,10 @@ export class Layout extends BaseComponent {
         if (context === 'categories') {
             categoriesStore.registerListener(EVENT_TYPES.RERENDER_CATEGORIES, this.renderTemplateToParent.bind(this));
         }
+
+        if (context === 'transactions') {
+            categoriesStore.registerListener(EVENT_TYPES.RERENDER_TRANSACTIONS, this.renderTemplateToParent.bind(this));
+        }
     }
 
     /**
@@ -188,15 +192,15 @@ export class Layout extends BaseComponent {
         this.#contentElement.setHandlers();
     }
 
-    navigateHome = () => {
-        router.navigateTo(ROUTE_CONSTANTS.HOME_ROUTE);
+    navigateHome = async () => {
+       await router.navigateTo(ROUTE_CONSTANTS.HOME_ROUTE);
     };
 
-    navigateTransaction = () => {
-        router.navigateTo(ROUTE_CONSTANTS.TRANSACTIONS);
+    navigateTransaction = async () => {
+        await router.navigateTo(ROUTE_CONSTANTS.TRANSACTIONS);
     };
 
-    navigateProfile = () => {
-        router.navigateTo(ROUTE_CONSTANTS.PROFILE);
+    navigateProfile = async () => {
+        await router.navigateTo(ROUTE_CONSTANTS.PROFILE);
     };
 }

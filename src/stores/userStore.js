@@ -31,7 +31,11 @@ class UserStore extends BaseStore {
             loginState: USER_STORE.LOGIN_STATE,
             registrationState: USER_STORE.REGISTRATION_STATE,
             user: {
+<<<<<<< HEAD
                 login: 'Ваш логин'
+=======
+                login: 'Ваш логин',
+>>>>>>> d323467c376c420f53c60724b598133e752a97fb
             },
             error: null,
         };
@@ -101,7 +105,11 @@ class UserStore extends BaseStore {
                 this.storage.error = null;
                 this.storeChanged = true;
 
+<<<<<<< HEAD
                 this.emitChange(EVENT_TYPES.LOGIN_SUCCESS);
+=======
+                await this.emitChange(EVENT_TYPES.LOGIN_SUCCESS);
+>>>>>>> d323467c376c420f53c60724b598133e752a97fb
                 break;
 
             case STATUS_CODES.TOO_MANY_REQUESTS:
@@ -152,7 +160,11 @@ class UserStore extends BaseStore {
                 this.storage.error = null;
                 this.storeChanged = true;
 
+<<<<<<< HEAD
                 this.emitChange(EVENT_TYPES.REGISTRATION_SUCCESS);
+=======
+                await this.emitChange(EVENT_TYPES.REGISTRATION_SUCCESS);
+>>>>>>> d323467c376c420f53c60724b598133e752a97fb
                 break;
 
             case STATUS_CODES.UNAUTHORISED:
@@ -238,6 +250,7 @@ class UserStore extends BaseStore {
     feed = async () => {
         try {
             const response = await userApi.getFeed();
+<<<<<<< HEAD
             console.log(response);
 
             switch (response.status) {
@@ -252,6 +265,18 @@ class UserStore extends BaseStore {
                         actualBudget: response.body.actual_budget,
                         plannedBudget: response.body.planned_budget,
                     }};
+=======
+
+            switch (response.status) {
+            case STATUS_CODES.OK:
+                if (response.body.accounts !== null) {
+                    console.log(response.body);
+                    this.storage.user.feed = {
+                        balance: response.body.balance,
+                        actualBudget: response.body.actual_budget,
+                        plannedBudget: response.body.planned_budget,
+                    };
+>>>>>>> d323467c376c420f53c60724b598133e752a97fb
                 }
                 this.storage.error = null;
                 this.storeChanged = true;
@@ -413,9 +438,13 @@ class UserStore extends BaseStore {
 
             switch (response.status) {
             case STATUS_CODES.OK:
+<<<<<<< HEAD
                 this.storage.user = {
                     plannedBudget: data.planned_budget,
                 };
+=======
+                this.storage.user.feed.plannedBudget = data.planned_budget;
+>>>>>>> d323467c376c420f53c60724b598133e752a97fb
                 this.storage.error = null;
                 this.storeChanged = true;
                 break;
@@ -434,6 +463,7 @@ class UserStore extends BaseStore {
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);
         }
+<<<<<<< HEAD
     }
 
 
@@ -465,6 +495,9 @@ class UserStore extends BaseStore {
             console.log('Unable to connect to the server, error: ', error);
         }
     }
+=======
+    };
+>>>>>>> d323467c376c420f53c60724b598133e752a97fb
 }
 
 export const userStore = new UserStore();

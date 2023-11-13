@@ -49,7 +49,7 @@ class Router {
             await userStore.checkAuth();
             console.log(window.location.pathname);
         } catch (e) {
-            console.log('Error: ', e);
+            console.error('Error: ', e);
         }
 
         await router.navigateTo(window.location.pathname);
@@ -79,17 +79,14 @@ class Router {
                 : routeResult = routeTrimmed;
         }
 
-        const view = this.routes[routeTrimmed];
+        let view = this.routes[routeResult];
 
         if (!view) {
+            view = this.routes[ROUTE_CONSTANTS.NOT_FOUND];
             console.error(`No route found for ${routeResult}`);
-            return;
         }
 
-        window.history.pushState({}, null, window.location.origin + routeTrimmed);
-
-        console.log(path);
-        console.log(window.location.origin + routeTrimmed);
+        window.history.pushState({}, null, window.location.origin + routeResult);
 
         await view.view.renderTemplateToParent();
     };

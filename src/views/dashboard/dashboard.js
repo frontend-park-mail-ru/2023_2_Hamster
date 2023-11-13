@@ -31,6 +31,7 @@ export class DashboardView extends BaseComponent {
      * This method is similar to `renderTemplateToParent` but returns the rendered HTML instead of rendering it to the parent element.
      */
     render = async () => {
+<<<<<<< HEAD
         await userActions.getFeed();
 
         const balance = userStore.storage.user.balance;
@@ -39,14 +40,20 @@ export class DashboardView extends BaseComponent {
 
         if (balance) {
             this.#cardBalance.setState({ cardSubhead: balance });
+=======
+        if (!userStore.storage.user.feed) {
+            await userStore.feed();
+>>>>>>> d323467c376c420f53c60724b598133e752a97fb
         }
 
-        if (plannedBudget) {
-            this.#cardPlannedBudget.setState({ cardSubhead: plannedBudget });
-        }
+        if (userStore.storage.user.feed) {
+            const balance = userStore.storage.user.feed.balance;
+            const plannedBudget = userStore.storage.user.feed.plannedBudget;
+            const actualBudget = userStore.storage.user.feed.actualBudget;
 
-        if (actualBudget) {
-            this.#cardActualBudget.setState({ cardSubhead: actualBudget });
+            this.#cardBalance.setState({ cardSubhead: parseFloat(balance) });
+            this.#cardPlannedBudget.setState({ cardSubhead: parseFloat(plannedBudget) });
+            this.#cardActualBudget.setState({ cardSubhead: parseFloat(actualBudget) });
         }
 
         console.log('dashboard', userStore.storage.user);

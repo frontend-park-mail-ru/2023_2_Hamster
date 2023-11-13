@@ -1,17 +1,33 @@
 import './index.scss';
 
-import { LoginSignupView, DashboardView } from '@views';
+import { LoginSignupView, DashboardView, Page404 } from '@views';
 import { router } from '@router';
 import { ROUTE_CONSTANTS } from '@constants/constants';
 import { Layout } from '@organisms/layout/layout';
 import { ProfileView } from '@views/profile/profile';
 import { CategoriesView } from '@views/categories/categories';
 import { TransactionsView } from '@views/transactions/transactions';
+<<<<<<< HEAD
+=======
+
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js', { scope: '/' })
+        .then((res) => {
+            console.log('register sw success', res);
+        })
+        .catch((err) => {
+            console.log('register sw failed', err);
+        });
+}
+>>>>>>> d323467c376c420f53c60724b598133e752a97fb
 
 const root = document.querySelector('#root');
 
 // TODO: move all routes to specified file
 const routes = {
+    [ROUTE_CONSTANTS.NOT_FOUND]: {
+        view: new Page404(root),
+    },
     [ROUTE_CONSTANTS.LOGIN_ROUTE]: {
         view: new LoginSignupView(root, true),
     },

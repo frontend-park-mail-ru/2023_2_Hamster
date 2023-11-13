@@ -121,6 +121,7 @@ export const USER_STORE = {
     },
 };
 
+
 export const PROFILE_STATE = {
     PLAN_CARD_STATE: {
         cardColor: 'button-card_accent-color',

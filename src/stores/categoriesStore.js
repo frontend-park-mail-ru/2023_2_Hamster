@@ -34,7 +34,6 @@ class CategoriesStore extends BaseStore {
             if (response.body) {
                 this.storage.states = this.transformArray(response.body);
                 this.storage.tags = response.body;
-                console.log(response.body);
             }
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);
@@ -76,7 +75,6 @@ class CategoriesStore extends BaseStore {
             await categoryApi.deleteTag(data);
 
             this.storage.states = this.storage.states.filter(item => item.raw !== data.id);
-            console.log(this.storage.states);
             this.storeChanged = true;
 
             this.emitChange(EVENT_TYPES.RERENDER_CATEGORIES);

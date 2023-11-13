@@ -23,8 +23,8 @@ export const userActions = {
         });
     },
 
-    register(login, username, password, passwordRepeat) {
-        dispatcher.dispatch({
+    async register(login, username, password, passwordRepeat) {
+        await dispatcher.dispatch({
             type: USER_ACTIONS_TYPES.API_REGISTRATION,
             data: {
                 login,
@@ -35,8 +35,8 @@ export const userActions = {
         });
     },
 
-    login(login, password) {
-        dispatcher.dispatch({
+    async login(login, password) {
+        await dispatcher.dispatch({
             type: USER_ACTIONS_TYPES.API_LOGIN,
             data: {
                 login,

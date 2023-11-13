@@ -36,6 +36,8 @@ class CategoriesStore extends BaseStore {
             switch (response.status) {
             case STATUS_CODES.OK:
                 this.storage.states = this.transformArray(response.body.transactions);
+                this.transactions = response.body.transactions;
+                this.account = response.body.transactions.pop().account_income;
 
                 break;
 
@@ -55,10 +57,12 @@ class CategoriesStore extends BaseStore {
     transformArray = (arr) => {
         return arr.map(data => {
             return {
+                raw: data.id,
                 id: 'id' + data.id,
-                transactionName: categoriesStore.findName(data.categories).pop().name,
+                transactionName: this.findName(data.categories)
+                    .pop().name,
                 value: data.income - data.outcome,
-                account: data.account_income,
+                account: 'Карта',
                 deleteId: 'delete_' + data.id,
                 cardId: 'card_' + data.id,
             };
@@ -66,31 +70,43 @@ class CategoriesStore extends BaseStore {
     };
 
     findName = (categories) => {
-        let newArray = categoriesStore.storage.tags.map(obj => {
+        this.categories = categoriesStore.storage.tags.map(obj => {
             return {
                 id: obj.id,
                 name: obj.name,
             };
         });
 
-        return newArray.filter(obj => {
-            console.log(obj);
-            return categories.includes(obj.raw);
-        })
+        return this.categories.filter(obj => categories.includes(obj.id));
     };
+
+    getNameById(id) {
+        const obj = this.categories.find(item => item.id === id);
+
+        return obj ? obj.name : 'Позже пофиксим';
+    }
+
+    getIdByName(name) {
+        const obj = this.categories.find(item => item.name === name);
+
+        return obj ? obj.id : '00000000-0000-0000-0000-000000000000';
+    }
 
     createTransaction = async (data) => {
         try {
             const response = await transactionsApi.createTransaction(data);
 
             this.storage.states.push({
+                raw: response.transaction_id,
                 id: 'id' + response.transaction_id,
-                transactionName: data.categories.pop(),
-                value: data.value,
-                account: data.account,
+                transactionName: this.getNameById(data.categories.pop()),
+                value: data.income - data.outcome,
+                account: 'Карта',
                 deleteId: 'delete_' + response.transaction_id,
                 cardId: 'card_' + response.transaction_id,
             });
+
+            this.storeChanged = true;
 
             this.emitChange(EVENT_TYPES.RERENDER_TRANSACTIONS);
         } catch (error) {
@@ -100,9 +116,11 @@ class CategoriesStore extends BaseStore {
 
     deleteTransaction = async (data) => {
         try {
-            const response = await transactionsApi.deleteTransaction(data);
+            await transactionsApi.deleteTransaction(data.transaction_id);
 
-            this.storage.states.filter(item => item.id !== data);
+            this.storage.states = this.storage.states.filter(item => item.raw !== data.transaction_id);
+
+            this.storeChanged = true;
 
             this.emitChange(EVENT_TYPES.RERENDER_TRANSACTIONS);
         } catch (error) {
@@ -112,19 +130,23 @@ class CategoriesStore extends BaseStore {
 
     updateTransaction = async (data) => {
         try {
-            const response = await transactionsApi.updateTransaction(data);
-
-            this.storage.states.map(item => {
-                if (item.id === response.id) {
+            await transactionsApi.updateTransaction(data);
+            this.storage.states = this.storage.states.map(item => {
+                if (item.raw === data.transaction_id) {
                     return {
-                        id: 'id' + response.id,
-                        categoryName: response.name,
-                        deleteId: 'delete_' + response.id,
-                        cardId: 'card_' + response.id,
+                        raw: data.transaction_id,
+                        id: 'id' + data.transaction_id,
+                        transactionName: this.getNameById(data.categories.pop()),
+                        value: data.income - data.outcome,
+                        account: 'Карта',
+                        deleteId: 'delete_' + data.transaction_id,
+                        cardId: 'card_' + data.transaction_id,
                     };
                 }
                 return item;
             });
+
+            this.storeChanged = true;
 
             this.emitChange(EVENT_TYPES.RERENDER_TRANSACTIONS);
         } catch (error) {

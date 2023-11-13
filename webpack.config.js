@@ -1,6 +1,7 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     resolve: {
@@ -23,6 +24,7 @@ module.exports = {
     },
     entry: {
         app: ['./src/index.js'],
+        // 'service-worker': './src/sw.js',
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -65,6 +67,14 @@ module.exports = {
         }),
         new MiniCssExtractPlugin({
             filename: '[name].[contenthash].css',
+        }),
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: path.resolve(__dirname, 'src/sw.js'),
+                    to: path.resolve(__dirname, 'dist'),
+                },
+            ],
         }),
     ],
 };

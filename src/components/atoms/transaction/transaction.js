@@ -98,7 +98,7 @@ export class Transaction extends BaseComponent {
                     ...this.getState(),
                     icon: this.icon.render(),
                     sumInput: this.sumInput.render(),
-                    accountInput: this.accountInput.render(),
+                    // accountInput: this.accountInput.render(),
                     tagInput: this.tagInput.render(),
                     button: this.button.render(),
                 },
