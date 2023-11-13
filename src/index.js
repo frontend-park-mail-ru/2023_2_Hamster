@@ -8,6 +8,16 @@ import { ProfileView } from '@views/profile/profile';
 import { CategoriesView } from '@views/categories/categories';
 import { TransactionsView } from '@views/transactions/transactions';
 
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js', { scope: '/' })
+        .then((res) => {
+            console.log('register sw success', res);
+        })
+        .catch((err) => {
+            console.log('register sw failed', err);
+        });
+}
+
 const root = document.querySelector('#root');
 
 // TODO: move all routes to specified file
