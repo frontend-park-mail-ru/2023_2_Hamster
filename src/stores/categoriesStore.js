@@ -108,17 +108,6 @@ class CategoriesStore extends BaseStore {
             console.log('Unable to connect to the server, error: ', error);
         }
     };
-
-    findNames = (categories) => {
-        let newArray = this.storage.states.map(obj => {
-            return {
-                id: obj.raw,
-                name: obj.categoryName,
-            };
-        });
-
-        return newArray.filter(obj => categories.includes(obj.raw));
-    };
 }
 
 export const categoriesStore = new CategoriesStore();

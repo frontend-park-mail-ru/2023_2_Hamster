@@ -56,13 +56,27 @@ class CategoriesStore extends BaseStore {
         return arr.map(data => {
             return {
                 id: 'id' + data.id,
-                transactionName: categoriesStore.findNames(data.categories),
+                transactionName: categoriesStore.findName(data.categories).pop().name,
                 value: data.income - data.outcome,
                 account: data.account_income,
                 deleteId: 'delete_' + data.id,
                 cardId: 'card_' + data.id,
             };
         });
+    };
+
+    findName = (categories) => {
+        let newArray = categoriesStore.storage.tags.map(obj => {
+            return {
+                id: obj.id,
+                name: obj.name,
+            };
+        });
+
+        return newArray.filter(obj => {
+            console.log(obj);
+            return categories.includes(obj.raw);
+        })
     };
 
     createTransaction = async (data) => {
