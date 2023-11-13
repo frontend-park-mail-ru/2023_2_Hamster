@@ -112,12 +112,12 @@ class CategoriesStore extends BaseStore {
     findNames = (categories) => {
         let newArray = this.storage.states.map(obj => {
             return {
-                id: obj.id,
-                name: obj.name
+                id: obj.raw,
+                name: obj.categoryName,
             };
         });
 
-        return newArray.filter(obj => categories.includes(obj.id));
+        return newArray.filter(obj => categories.includes(obj.raw);
     };
 }
 
