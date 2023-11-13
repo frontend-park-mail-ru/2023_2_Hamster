@@ -76,7 +76,8 @@ class CategoriesStore extends BaseStore {
         try {
             await categoryApi.deleteTag(data);
 
-            this.storage.states.filter(item => item.id !== 'id' + data.id);
+            this.storage.states.filter(item => item.raw !== data.id);
+            console.log(this.storage.states);
             this.storeChanged = true;
 
             this.emitChange(EVENT_TYPES.RERENDER_CATEGORIES);
