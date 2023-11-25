@@ -24,7 +24,7 @@ module.exports = {
     },
     entry: {
         app: ['./src/index.js'],
-        // 'service-worker': './src/sw.js',
+        csat: ['./src/views/csat/csat.js'],
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -64,6 +64,11 @@ module.exports = {
     plugins: [
         new HTMLWebpackPlugin({
             template: './src/index.html',
+        }),
+        new HTMLWebpackPlugin({
+            template: './src/csat.html',
+            filename: 'csat.html',
+            chunks: ['csat'],
         }),
         new MiniCssExtractPlugin({
             filename: '[name].[contenthash].css',
