@@ -8,11 +8,12 @@ import { API_CONSTANTS, EVENT_TYPES, ROUTE_CONSTANTS } from '@constants/constant
 import sidebarTemplate from '@molecules/sidebar/sidebar.hbs';
 
 import LOG_OUT_IMAGE from '@icons/logout.svg';
-import layoutTemplate from './layout.hbs';
 import { userStore } from '@stores/userStore';
 import { userActions } from '@actions/userActions';
 import { transactionActions } from '@actions/transactionActions';
 import { categoriesStore } from '@stores/categoriesStore';
+
+import layoutTemplate from './layout.hbs';
 
 /**
  * The default state for the Layout component.

@@ -74,9 +74,9 @@ class Router {
                 ? routeResult = routeTrimmed
                 : routeResult = ROUTE_CONSTANTS.LOGIN_ROUTE;
         } else {
-            userStore.storage.user.isAuthorised
-                ? routeResult = ROUTE_CONSTANTS.DASHBOARD_ROUTE
-                : routeResult = routeTrimmed;
+            routeResult = userStore.storage.user.isAuthorised
+                ? ROUTE_CONSTANTS.DASHBOARD_ROUTE
+                : routeTrimmed;
         }
 
         let view = this.routes[routeResult];

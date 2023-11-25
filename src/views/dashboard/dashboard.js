@@ -3,8 +3,8 @@ import { Card } from '@molecules';
 import { userStore } from '@stores/userStore';
 import { userActions } from '@actions/userActions';
 
-import template from './dashboard.hbs';
 import { USER_STORE } from '@constants/constants';
+import template from './dashboard.hbs';
 
 /**
  * Dashboard class extends BaseComponent.
@@ -27,13 +27,50 @@ export class DashboardView extends BaseComponent {
     }
 
     /**
+     * Renders the Dashboard template to the parent element.
+     * This method is responsible for rendering the card balance list, cards for planned and actual budget,
+     * and then mapping these rendered HTML strings to their corresponding state keys.
+     */
+    renderTemplateToParent = () => {
+        userActions.getFeed();
+
+        const { balance } = userStore.storage.user;
+        const { plannedBudget } = userStore.storage.user;
+        const { actualBudget } = userStore.storage.user;
+
+        if (balance) {
+            this.#cardBalance.setState({ cardSubhead: balance });
+        }
+
+        if (plannedBudget) {
+            this.#cardPlannedBudget.setState({ cardSubhead: plannedBudget });
+        }
+
+        if (actualBudget) {
+            this.#cardActualBudget.setState({ cardSubhead: actualBudget });
+        }
+
+        const cardBalanceHTML = this.#cardBalance.render();
+        const cardPlannedBudgetHTML = this.#cardPlannedBudget.render();
+        const cardActualBudgetHTML = this.#cardActualBudget.render();
+
+        const templates = [
+            template({
+                balance: cardBalanceHTML,
+                plannedBudget: cardPlannedBudgetHTML,
+                actualBudget: cardActualBudgetHTML,
+            }),
+        ];
+
+        super.renderTemplateToParent(templates);
+    };
+
+    /**
      * Renders the Dashboard template and returns the rendered HTML.
      * This method is similar to `renderTemplateToParent` but returns the rendered HTML instead of rendering it to the parent element.
      */
-    render = async () => {
-        if (!userStore.storage.user.feed) {
-            await userStore.feed();
-        }
+    render = () => {
+        await userStore.feed();
 
         if (userStore.storage.user.feed) {
             const balance = userStore.storage.user.feed.balance;
