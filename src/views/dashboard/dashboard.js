@@ -69,7 +69,7 @@ export class DashboardView extends BaseComponent {
      * Renders the Dashboard template and returns the rendered HTML.
      * This method is similar to `renderTemplateToParent` but returns the rendered HTML instead of rendering it to the parent element.
      */
-    render = () => {
+    render = async () => {
         await userStore.feed();
 
         if (userStore.storage.user.feed) {

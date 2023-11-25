@@ -7,6 +7,7 @@ import { Layout } from '@organisms/layout/layout';
 import { ProfileView } from '@views/profile/profile';
 import { CategoriesView } from '@views/categories/categories';
 import { TransactionsView } from '@views/transactions/transactions';
+import {StatsView} from "@views/stats/stats";
 
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./sw.js', { scope: '/' })
@@ -45,6 +46,9 @@ const routes = {
     },
     [ROUTE_CONSTANTS.TRANSACTIONS]: {
         view: new Layout(root, undefined, new TransactionsView(null), 'transactions'),
+    },
+    [ROUTE_CONSTANTS.STATS]: {
+        view: new Layout(root, undefined, new StatsView(null), 'stats'),
     },
 };
 

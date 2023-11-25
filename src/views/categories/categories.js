@@ -3,7 +3,6 @@ import { BaseComponent } from '@components/baseComponent.js';
 import template from './categories.hbs';
 import { Button, Category, Input } from '@atoms';
 import { categoriesStore } from '@stores/categoriesStore';
-import { EVENT_TYPES } from '@constants/constants';
 import { categoryActions } from '@actions/categoryActions';
 import { userStore } from '@stores/userStore';
 

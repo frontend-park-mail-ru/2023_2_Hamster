@@ -1,3 +1,22 @@
-<div >
-
+<div class="csat-stats">
+    <div>
+        <h1 class="csat-stats__heading font-h1-bold">
+            Статистика ответов пользователей
+        </h1>
+        <h4 class="csat-stats__subheading font-h4-medium">
+            Это усредненные результаты ответов на csat вопросы
+        </h4>
+    </div>
+    {{# each questions}}
+        <div class="csat-stats__question-container">
+            <h3 class="csat-stats__question font-h3-regular">
+                {{this.text}}
+            </h3>
+            <div class="csat-stats__result">
+                <span class="font-base-text">
+                    {{this.result}}
+                </span>
+            </div>
+        </div>
+    {{/each}}
 </div>
