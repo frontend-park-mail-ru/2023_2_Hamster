@@ -19,6 +19,25 @@ class CsatStore extends BaseStore {
     constructor() {
         super();
         this.storage = {};
+        this.storage.started = false;
+        this.storage.startPrompt = 'Оцените наш сервис!';
+        this.storage.answers = [];
+        this.storage.questions = [
+            {
+                questionText: 'Насколько удобно вам пользоваться сервисом?',
+                answers: [1,2,3,4,5,6,7,8,9,10],
+                subscriptionLeft: 'Ужасно',
+                subscriptionRight: 'Прекрасно',
+                internalName: 'NPS1',
+            },
+            {
+                questionText: 'Порекомендуете ли наш сервис своим друзьям и знакомым?',
+                answers: [1,2,3,4,5,6,7,8,9,10],
+                subscriptionLeft: 'Точно нет',
+                subscriptionRight: 'Точно да',
+                internalName: 'NPS2',
+            },
+        ];
     }
 
     /**
@@ -39,18 +58,44 @@ class CsatStore extends BaseStore {
             console.log('Unable to connect to the server, error: ', error);
         }
     };
-
+    
     post = async (data) => {
         try {
             const response = await csatApi.postCsat(data);
-
+            
             this.storeChanged = true;
-            this.emitChange(EVENT_TYPES.NEXT_QUESTION);
+            // this.emitChange(EVENT_TYPES.NEXT_QUESTION);
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);
         }
     };
+    
+    nextQuestion = async () => {
+        this.emitChange(EVENT_TYPES.NEXT_QUESTION);
+    }
 
+    saveAnswer = async (questionIndex, answer) => {
+        this.storage.answers.push({
+            name: this.storage.questions[questionIndex].internalName,
+            answer: answer,
+        });
+    }
+    
+    // getQuestions = async () => {
+        
+    //     try {
+    //         const response = await csatApi.getQuestions();
+
+    //         if (response.body) {
+    //             this.storage.results = response.body;
+    //             this.storeChanged = true;
+    //         }
+    //     } catch (error) {
+    //         console.log('Unable to connect to the server, error: ', error);
+    //     }
+    // };
+
+    
 }
 
 export const csatStore = new CsatStore();

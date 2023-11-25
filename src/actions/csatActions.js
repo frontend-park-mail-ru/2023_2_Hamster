@@ -1,4 +1,4 @@
-import {CATEGORY_ACTIONS, CSAT_ACTIONS} from '@constants/actions';
+import { CATEGORY_ACTIONS, CSAT_ACTIONS } from '@constants/actions';
 import { dispatcher } from '../modules/dispatcher.js';
 
 export const categoryActions = {
