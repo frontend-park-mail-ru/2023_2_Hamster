@@ -1,9 +1,9 @@
 .csat-iframe{
     position: absolute;
-    padding: var(--meduim-gap);
+    margin: var(--meduim-gap);
     border-radius: 24px;
-
     z-index: 1000;
+    border:2px solid var(--background-tertiary-color);
 }
 
 .csat {
