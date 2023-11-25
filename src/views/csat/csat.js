@@ -55,6 +55,8 @@ export class CsatView extends BaseComponent {
      * @function
      */
     async renderTemplateToParent() {
+        console.log('csatStore.storage.questions', csatStore.storage.questions);
+        console.log('this.currentQuestionIndex ', this.currentQuestionIndex );
         if (!csatStore.storage.questions) {
             await csatStore.getQuestions();
         }
@@ -98,22 +100,27 @@ export class CsatView extends BaseComponent {
         // await csatActions.saveAnswer();
         // await csatActions.nextQuestion();
 
-        const answerInputs = Array.from(document.querySelector('.csat__answer-options').querySelectorAll('input'));
-        const answer = answerInputs.reduce((prev, cur) => {
-            if (prev.checked) {
-                return prev.getAttribute('data-answer');
-            } else if (cur.checked) {
-                return cur.getAttribute('data-answer');
+        const answerInputs = document.querySelector('.csat__answer-options')?.querySelectorAll('input');
+        if (answerInputs) {
+            const answerInputsArray = Array.from(answerInputs);
+            const answer = answerInputs?.reduce((prev, cur) => {
+                if (prev.checked) {
+                    return prev.getAttribute('data-answer');
+                } else if (cur.checked) {
+                    return cur.getAttribute('data-answer');
+                }
+            });
+    
+            if (answer) {
+                csatStore.saveAnswer(this.currentQuestionIndex);
             }
-        });
-
-        if (answer) {
-            csatStore.saveAnswer(this.currentQuestionIndex);
         }
 
+        console.log('go next answer');
         if (++this.currentQuestionIndex === csatStore.storage.questions.length) {
             this.closeCsat();
         } else {
+            console.log('next question');
             csatStore.nextQuestion();
         }
     }

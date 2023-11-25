@@ -71,6 +71,7 @@ class CsatStore extends BaseStore {
     };
     
     nextQuestion = async () => {
+        this.storeChanged = true;
         this.emitChange(EVENT_TYPES.NEXT_QUESTION);
     }
 
