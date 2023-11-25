@@ -7,6 +7,7 @@ import { Button } from '@atoms';
 import { csatStore } from '@stores/csatStore';
 import { EVENT_TYPES } from '@constants/constants';
 import { csatActions } from '@actions/csatActions';
+import {categoriesStore} from "@stores/categoriesStore";
 
 
 const NEXT_BUTTON_STATE = {
@@ -39,6 +40,8 @@ export class CsatView extends BaseComponent {
         this.currentQuestionIndex = 0;
         this.nextButton = new Button(null, NEXT_BUTTON_STATE);
         this.rejectButton = new Button(null, REJECT_BUTTON_STATE);
+
+        categoriesStore.registerListener(EVENT_TYPES.NEXT_QUESTION, this.renderTemplateToParent.bind(this));
     }
 
     createAnswerOptions = (answers) => answers.map((a) => {
