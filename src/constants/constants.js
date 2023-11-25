@@ -79,7 +79,7 @@ export const USER_STORE = {
             buttonColor: 'button_primary-color',
         },
     },
-    FEED_STATE:{
+    FEED_STATE: {
         cardBalance: {
             cardSize: 'card_small',
             cardHeadline: 'Баланс',

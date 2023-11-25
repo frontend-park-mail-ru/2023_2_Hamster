@@ -69,13 +69,13 @@ class Router {
 
         // TODO: 1) Need to make better check of authenticated routes; 2) Make private routes (for subscription :D)
         if (routeTrimmed === ROUTE_CONSTANTS.HOME_ROUTE || routeTrimmed === ROUTE_CONSTANTS.DASHBOARD_ROUTE) {
-            userStore.storage.user.isAuthorised
-                ? routeResult = ROUTE_CONSTANTS.DASHBOARD_ROUTE
-                : routeResult = ROUTE_CONSTANTS.LOGIN_ROUTE;
+            routeResult = userStore.storage.user.isAuthorised
+                ? ROUTE_CONSTANTS.DASHBOARD_ROUTE
+                : ROUTE_CONSTANTS.LOGIN_ROUTE;
         } else {
-            userStore.storage.user.isAuthorised
-                ? routeResult = ROUTE_CONSTANTS.DASHBOARD_ROUTE
-                : routeResult = routeTrimmed;
+            routeResult = userStore.storage.user.isAuthorised
+                ? ROUTE_CONSTANTS.DASHBOARD_ROUTE
+                : routeTrimmed;
         }
 
         const view = this.routes[routeResult];

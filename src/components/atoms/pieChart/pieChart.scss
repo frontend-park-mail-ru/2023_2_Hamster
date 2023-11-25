@@ -1,0 +1,54 @@
+
+.pie-chart {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-main-color);
+
+    &__tooltip {
+        position: absolute;
+        display: none;
+        background-color: var(--background-tertiary-color);
+        padding: 0.5em 1em;
+        border-radius: 0.5em;
+        font-size: 1.2em;
+        white-space: nowrap;
+        transform: translateX(-50%) translateY(-220%);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        pointer-events: none;
+
+        &::before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 100%;
+            border: 1em solid;
+            transform: translateX(-50%);
+            border-color: var(--background-tertiary-color) transparent transparent transparent;
+        }
+    }
+    
+    &__inner-text {
+        position: absolute;
+        
+        font-size: 2em;
+        flex-direction: column;
+        display: flex;
+        align-items: center;
+
+        &-above {
+            font-size: 0.8em;
+        }
+        &-below {
+            font-size: 0.8em;
+        }
+    }
+
+    &__chart-section {
+        &:hover {
+            filter: brightness(0.8);
+        }
+        transition: filter 0.25s ease;
+    }
+}

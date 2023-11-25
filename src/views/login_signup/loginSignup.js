@@ -54,8 +54,8 @@ export class LoginSignupView extends BaseComponent {
      * @function
      */
     navigateToHome = () => {
-        router.navigateTo(ROUTE_CONSTANTS.HOME_ROUTE)
-    }
+        router.navigateTo(ROUTE_CONSTANTS.HOME_ROUTE);
+    };
 
     /**
      * Render template to parent.
@@ -192,7 +192,7 @@ export class LoginSignupView extends BaseComponent {
      * @function
      */
     switchLoginSignup = () => {
-        this.#form.isLogin ? router.navigateTo(ROUTE_CONSTANTS.REGISTRATION_ROUTE) : router.navigateTo(ROUTE_CONSTANTS.LOGIN_ROUTE);
+        router.navigateTo(this.#form.isLogin ? ROUTE_CONSTANTS.REGISTRATION_ROUTE : ROUTE_CONSTANTS.LOGIN_ROUTE);
     };
 
     /**

@@ -1,9 +1,11 @@
-import { STATUS_CODES, EVENT_TYPES, USER_STORE, ROUTE_CONSTANTS } from '@constants/constants';
+import {
+    STATUS_CODES, EVENT_TYPES, USER_STORE, ROUTE_CONSTANTS
+} from '@constants/constants';
 import { LOGIN_RULES, PASSWORD_RULES, USERNAME_RULES } from '@constants/validation';
 import { authApi } from '@api/auth';
-import BaseStore from './baseStore.js';
 import { userApi } from '@api/user';
 import { router } from '@router';
+import BaseStore from './baseStore.js';
 
 /**
  * UserStore is a class for managing user state of the site. It extends the BaseStore class and
@@ -368,7 +370,7 @@ class UserStore extends BaseStore {
         this.storage = {
             ...this.storage,
             repeatState: {
-                passwordRepeat: passwordRepeat,
+                passwordRepeat,
                 isError: result ? null : true,
                 inputHelperText: result ? null : 'Пароли не совпадают',
             },

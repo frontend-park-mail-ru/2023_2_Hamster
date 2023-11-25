@@ -8,9 +8,9 @@ import { ROUTE_CONSTANTS } from '@constants/constants.js';
 import sidebarTemplate from '@molecules/sidebar/sidebar.hbs';
 
 import LOG_OUT_IMAGE from '@icons/logout.svg';
-import layoutTemplate from './layout.hbs';
 import { userStore } from '@stores/userStore';
 import { userActions } from '@actions/userActions';
+import layoutTemplate from './layout.hbs';
 
 /**
  * The default state for the Layout component.
@@ -101,8 +101,8 @@ export class Layout extends BaseComponent {
      * @async
      */
     async renderTemplateToParent() {
-        const username = userStore.storage.username;
-        this.setState({ sidebar: { profileName: username ? username : 'Имя профиля' } });
+        const { username } = userStore.storage;
+        this.setState({ sidebar: { profileName: username || 'Имя профиля' } });
 
         const contentHTML = this.#contentElement.render();
 

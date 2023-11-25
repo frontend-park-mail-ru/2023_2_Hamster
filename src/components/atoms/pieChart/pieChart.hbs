@@ -1,0 +1,24 @@
+<div class="pie-chart"
+     {{#if id}} id="{{id}}" {{/if}}
+     >
+    <svg class="pie-chart__chart" xmlns="http://www.w3.org/2000/svg">
+
+    </svg>
+    <div class="pie-chart__inner-text">
+        {{#if textAbove}}
+            <span class="pie-chart__inner-text-above">{{textAbove}}</span>
+        {{/if}}
+        {{#if textCenter}}
+            <span class="pie-chart__inner-text-center">{{textCenter}}</span>
+        {{/if}}
+        {{#if textBelow}}
+            <span class="pie-chart__inner-text-below">{{textBelow}}</span>
+        {{/if}}
+    </div>
+
+    {{#if tooltipText}}
+        <div class="pie-chart__tooltip">
+            {{tooltipText}}
+        </div>
+    {{/if}}
+</div>

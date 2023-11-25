@@ -22,7 +22,8 @@
         "no-param-reassign": "off",
         "default-param-last": "off",
         "no-unused-vars": ["warn", { "vars": "local", "args": "none" }],
-        "quotes": ["error", "single"]
+        "quotes": ["error", "single"],
+        "import/no-unresolved": "off"
     },
     "globals": {
         "Handlebars": "readonly"
