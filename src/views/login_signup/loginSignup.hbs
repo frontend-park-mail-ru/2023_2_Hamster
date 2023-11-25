@@ -1,3 +1,9 @@
+{{#if isLogin}}
+    <div class="login-sign-up-layout__login-background-image"></div>
+{{else}}
+    <div class="login-sign-up-layout__signup-background-image"></div>
+{{/if}}
+
 <div class="login-sign-up-layout">
     <div class="login-sign-up-layout__form-container">
         <div class="login-sign-up-layout__form">
@@ -7,32 +13,27 @@
         <div class="login-sign-up-layout__link-container">
             {{#if isLogin}}
                 <p class="login-sign-up-layout__link font-caption"> {{linkLogin}} </p>
-                {{{ button }}}
             {{else}}
                 <p class="login-sign-up-layout__link font-caption"> {{linkRegister}} </p>
-                {{{ button }}}
             {{/if}}
+            <div>
+                {{{ button }}}
+            </div>
         </div>
     </div>
-
-    <div class="login-sign-up-layout__greeting-container">
-        <div class="login-sign-up-layout__greeting-text">
-            <h1 class="login-sign-up-layout__greeting-text-h1 font-h1-medium">
-                {{#if isLogin}}
-                    {{imageTextLoginH1}}
-                {{else}}
-                    {{imageTextRegistrH1}}
-                {{/if}} </h1>
-            <p class="login-sign-up-layout__greeting-text-base font-base-text">
-                {{#if isLogin}}
-                    {{imageTextLoginP1}}
-                {{else}}
-                    {{imageTextRegistrP1}}
-                {{/if}}
-            </p>
-        </div>
-        <div class="login-sign-up-layout__greeting-image">
-            <img src="{{imagePeople}}" alt="People image">
-        </div>
+    <div class="login-sign-up-layout__greeting-text">
+        <h1 class="login-sign-up-layout__greeting-text-h1 font-h1-medium">
+            {{#if isLogin}}
+                {{imageTextLoginH1}}
+            {{else}}
+                {{imageTextRegistrH1}}
+            {{/if}} </h1>
+        <p class="login-sign-up-layout__greeting-text-base font-base-text">
+            {{#if isLogin}}
+                {{imageTextLoginP1}}
+            {{else}}
+                {{imageTextRegistrP1}}
+            {{/if}}
+        </p>
     </div>
 </div>

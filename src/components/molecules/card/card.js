@@ -89,12 +89,4 @@ export class Card extends BaseComponent {
     getHandler() {
         return this.#clickHandler;
     }
-
-    setState(newState) {
-        super.setState(newState);
-    }
-
-    getState() {
-        return super.getState();
-    }
 }

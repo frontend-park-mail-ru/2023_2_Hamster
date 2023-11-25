@@ -3,12 +3,13 @@
     "jsdoc": "jsdoc -c jsdoc.json",
     "lint-check": "npx eslint src",
     "lint-fix": "npx eslint src --fix",
-    "dev-build": "webpack --mode development",
+    "dev-build": "webpack --mode development && getCache.sh",
     "dev-server": "webpack-dev-server --mode development",
     "prod-build": "webpack --mode production",
     "prod-server": "webpack-dev-server --mode production"
   },
   "dependencies": {
+    "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.8.1",
     "eslint": "^8.50.0",
     "eslint-config-airbnb-base": "^15.0.0",

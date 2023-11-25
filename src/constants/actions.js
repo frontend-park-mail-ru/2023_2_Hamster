@@ -1,4 +1,6 @@
 import { userStore } from '@stores/userStore.js';
+import { categoriesStore } from '@stores/categoriesStore';
+import { transactionsStore } from '@stores/transactionsStore';
 
 export const USER_ACTIONS_TYPES = {
     API_CHECK_AUTH: 'USER_CHECK_AUTH',
@@ -14,6 +16,22 @@ export const USER_ACTIONS_TYPES = {
 
     ROUTE_LOGIN: 'ROUTE_LOGIN',
     ROUTE_REGISTRATION: 'ROUTE_REGISTRATION',
+
+    UPDATE_PROFILE: 'UPDATE_PROFILE',
+};
+
+export const CATEGORY_ACTIONS = {
+    GET_CATEGORIES: 'GET_CATEGORIES',
+    CREATE_CATEGORY: 'CREATE_CATEGORY',
+    UPDATE_CATEGORY: 'UPDATE_CATEGORY',
+    DELETE_CATEGORY: 'DELETE_CATEGORY',
+};
+
+export const TRANSACTION_ACTIONS = {
+    GET_TRANSACTIONS: 'GET_TRANSACTIONS',
+    CREATE_TRANSACTION: 'CREATE_TRANSACTION',
+    UPDATE_TRANSACTION: 'UPDATE_TRANSACTION',
+    DELETE_TRANSACTION: 'DELETE_TRANSACTION',
 };
 
 export const actions = [
@@ -60,5 +78,44 @@ export const actions = [
     {
         type: USER_ACTIONS_TYPES.ROUTE_REGISTRATION,
         method: userStore.routeRegistration,
+    },
+
+    {
+        type: USER_ACTIONS_TYPES.UPDATE_PROFILE,
+        method: userStore.updateProfile,
+    },
+
+    {
+        type: CATEGORY_ACTIONS.GET_CATEGORIES,
+        method: categoriesStore.getTags,
+    },
+    {
+        type: CATEGORY_ACTIONS.CREATE_CATEGORY,
+        method: categoriesStore.createTag,
+    },
+    {
+        type: CATEGORY_ACTIONS.UPDATE_CATEGORY,
+        method: categoriesStore.updateTag,
+    },
+    {
+        type: CATEGORY_ACTIONS.DELETE_CATEGORY,
+        method: categoriesStore.deleteTag,
+    },
+
+    {
+        type: TRANSACTION_ACTIONS.GET_TRANSACTIONS,
+        method: transactionsStore.getTransaction,
+    },
+    {
+        type: TRANSACTION_ACTIONS.CREATE_TRANSACTION,
+        method: transactionsStore.createTransaction,
+    },
+    {
+        type: TRANSACTION_ACTIONS.UPDATE_TRANSACTION,
+        method: transactionsStore.updateTransaction,
+    },
+    {
+        type: TRANSACTION_ACTIONS.DELETE_TRANSACTION,
+        method: transactionsStore.deleteTransaction,
     },
 ];

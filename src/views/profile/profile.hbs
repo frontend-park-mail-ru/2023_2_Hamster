@@ -1,0 +1,65 @@
+<div class="profile">
+    <div class="profile__cards-container">
+        {{{planCard}}}
+        {{{shareCard}}}
+        {{{categoriesCard}}}
+    </div>
+    <div class="profile__edit-container">
+        <form class="profile__form">
+            <dl class="form-group">
+                <dt class="form-group__heading">
+                    <h2 class="font-h2-medium">
+                        Профиль
+                    </h2>
+                </dt>
+                <dd class="form-group__input">
+                    <div id="profile_name_input_container">
+                        {{{profileNameInput}}}
+                    </div>
+                </dd>
+            </dl>
+<!--            <dl class="form-group">-->
+<!--                <dt class="form-group__heading">-->
+<!--                    <h2 class="font-h2-medium">-->
+<!--                        Безопасность-->
+<!--                    </h2>-->
+<!--                </dt>-->
+<!--                <dd class="form-group__input">-->
+<!--                    <div id="current_password_input_container">-->
+<!--                        {{{currentPasswordInput}}}-->
+<!--                    </div>-->
+<!--                    <div id="new_password_input_container">-->
+<!--                        {{{newPasswordInput}}}-->
+<!--                    </div>-->
+<!--                    <div id="repeat_password_input_container">-->
+<!--                        {{{repeatPasswordInput}}}-->
+<!--                    </div>-->
+<!--                </dd>-->
+<!--            </dl>-->
+            <dl class="form-group">
+                <dt class="form-group__heading">
+                    <h2 class="font-h2-medium">
+                        Бюджет
+                    </h2>
+                </dt>
+                <dd class="form-group__input">
+                    <div class="input_numbers" id="budget_input_container">
+                        {{{budgetInput}}}
+                    </div>
+                </dd>
+            </dl>
+        </form>
+        <div class="profile__avatar">
+            <h2 class="font-h2-medium profile__avatar-heading">
+                Вы вошли как
+            </h2>
+            <span class="font-base-text profile__avatar-subhead">
+                {{login}}
+            </span>
+            {{{avatar}}}
+        </div>
+    </div>
+    <div class="profile__button-container">
+        {{{saveButton}}}
+    </div>
+</div>

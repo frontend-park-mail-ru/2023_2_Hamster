@@ -1,0 +1,19 @@
+<div class="transactions">
+    <h3 class="font-h3-regular"> Новая транзакция</h3>
+    <div class="transactions__create-container">
+        <div class="transactions__inputs">
+            {{{sumInput}}}
+            {{{tagInput}}}
+            {{{accountInput}}}
+        </div>
+        <div class="transactions__create-button">
+            {{{button}}}
+        </div>
+    </div>
+    <h3 class="font-h3-regular"> Транзакции</h3>
+    <div class="transactions__list">
+        {{#each transactionsList}}
+            {{{transaction}}}
+        {{/each}}
+    </div>
+</div>

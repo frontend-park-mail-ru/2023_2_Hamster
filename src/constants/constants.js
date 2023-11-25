@@ -1,14 +1,18 @@
 import IMAGE_URL from '@images/peopleLoginReg.svg';
+import { SVG_ICONS } from '@icons/icons';
 
 export const ROUTE_CONSTANTS = {
+    PROFILE: '/profile',
     LOGIN_ROUTE: '/login',
     REGISTRATION_ROUTE: '/registration',
     DASHBOARD_ROUTE: '/dashboard',
     HOME_ROUTE: '',
+    CATEGORIES: '/categories',
+    TRANSACTIONS: '/transactions',
     NOT_FOUND: '/404',
 };
 
-const SERVER_PREFIX = 'https://84.23.52.156';
+const SERVER_PREFIX = 'https://hammywallet.ru';
 
 export const API_CONSTANTS = {
     SIGN_IN: `${SERVER_PREFIX}/api/auth/signin`,
@@ -16,20 +20,34 @@ export const API_CONSTANTS = {
     LOG_OUT: `${SERVER_PREFIX}/api/auth/logout`,
     CHECK_AUTH: `${SERVER_PREFIX}/api/auth/checkAuth`,
 
-    FEED_TAIL: '/feed',
-    BALANCE_TAIL: '/balance',
-    ACCOUNTS_TAIL: '/account/all',
-    ACTUAL_BUDGET_TAIL: '/actualBudget',
-    PLANNED_BUDGET_TAIL: '/plannedBudget',
+    CSRF: `${SERVER_PREFIX}/api/csrf/`,
+
+    GET_TAGS: `${SERVER_PREFIX}/api/tag/all`,
+    CREATE_TAG: `${SERVER_PREFIX}/api/tag/create`,
+    UPDATE_TAG_TAIL: `/update`,
+    DELETE_TAG: `${SERVER_PREFIX}/api/tag/delete`,
+
+    CREATE_TRANSACTION: `${SERVER_PREFIX}/api/transaction/create`,
+    GET_TRANSACTIONS: `${SERVER_PREFIX}/api/transaction/feed`,
+    UPDATE_TRANSACTION: `${SERVER_PREFIX}/api/transaction/update`,
+    DELETE_TRANSACTION_TAIL: `/delete`,
+
+    FEED: `${SERVER_PREFIX}/api/user/feed`,
+    UPDATE: `${SERVER_PREFIX}/api/user/update`,
 };
 
-export const getBaseURL = (id) => `${SERVER_PREFIX}/api/user/${id}`;
+export const getTagURL = (id) => `${SERVER_PREFIX}/api/tag/${id}`;
+
+export const getTransactionURL = (id) => `${SERVER_PREFIX}/api/transaction/${id}`;
 
 export const STATUS_CODES = {
     OK: 200,
+    ACCEPTED: 202,
+    NO_CONTENT: 204,
     BAD_REQUEST: 400,
     UNAUTHORISED: 401,
     FORBIDDEN: 403,
+    TOO_MANY_REQUESTS: 429,
     INTERNAL_SERVER_ERROR: 500,
 };
 
@@ -52,6 +70,10 @@ export const EVENT_TYPES = {
 
     FEED: 'FEED',
     FEED_ERROR: 'FEED_ERROR',
+
+    RERENDER_CATEGORIES: 'RERENDER_CATEGORIES',
+
+    RERENDER_TRANSACTIONS: 'RERENDER_TRANSACTIONS',
 };
 
 export const USER_STORE = {
@@ -95,5 +117,83 @@ export const USER_STORE = {
             cardHeadline: 'Фактический бюджет',
             cardSubhead: 'Не можем расчитать фактический бюджет',
         },
-    }
+    },
+};
+
+export const PROFILE_STATE = {
+    PLAN_CARD_STATE: {
+        cardColor: 'button-card_accent-color',
+        description: 'Ваш план',
+        text: 'Базовый',
+        path: SVG_ICONS.box.path,
+    },
+
+    SHARE_CARD_STATE: {
+        cardColor: 'button-card_default-color',
+        text: 'Совместный доступ',
+        path: SVG_ICONS.people.path,
+    },
+
+    CATEGORIES_CARD_STATE: {
+        id: 'categories_card',
+        cardColor: 'button-card_default-color',
+        description: 'Настройте свои',
+        text: 'Категории',
+        path: SVG_ICONS.bookmark.path,
+    },
+
+    USERNAME_INPUT_STATE: {
+        isError: '',
+        id: 'username_input',
+        inputSize: 'input_small',
+        typeOfInput: 'editable',
+        inputPlaceholder: 'Имя пользователя',
+    },
+
+    CURRENT_PASSWORD_INPUT_STATE: {
+        isError: '',
+        id: 'current_password_input',
+        inputSize: 'input_small',
+        typeOfInput: 'password',
+        inputPlaceholder: 'Текущий пароль',
+    },
+
+    NEW_PASSWORD_INPUT_STATE: {
+        isError: '',
+        id: 'new_password_input',
+        inputSize: 'input_small',
+        typeOfInput: 'password',
+        inputPlaceholder: 'Новый пароль',
+    },
+
+    REPEAT_PASSWORD_INPUT_STATE: {
+        isError: '',
+        id: 'repeat_password_input',
+        inputSize: 'input_small',
+        typeOfInput: 'password',
+        inputPlaceholder: 'Повтор пароля',
+    },
+
+    BUDGET_INPUT_STATE: {
+        isError: '',
+        id: 'budget_input',
+        inputSize: 'input_small',
+        typeOfInput: 'number',
+        inputPlaceholder: 'Ваш бюджет на месяц',
+    },
+
+    AVATAR: {
+        avatar: null,
+        textFallback: 'ИП',
+        svg: null,
+        imageSize: 'image-container_large',
+    },
+
+    BUTTON_STATE: {
+        id: 'save_profile_button',
+        buttonText: 'Сохранить изменения',
+        buttonColor: 'button_primary-color',
+        buttonSize: 'button_small',
+        buttonType: 'button',
+    },
 };

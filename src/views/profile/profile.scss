@@ -1,0 +1,56 @@
+.profile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--big-gap);
+  grid-column: span 12;
+  grid-row: span 3;
+
+  &__cards-container {
+    display: flex;
+    gap: var(--meduim-gap);
+  }
+
+  &__edit-container {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__button-container {}
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--big-gap);
+    width: 50%;
+  }
+
+  &__avatar {
+    width: 25%;
+  }
+
+  &__avatar-heading {
+    color: var(--text-main-color);
+  }
+
+  &__avatar-subhead {
+    color: var(--text-label-color);
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--meduim-gap);
+  margin: 0;
+
+  &__heading {
+    color: var(--text-main-color);
+  }
+
+  &__input {
+    display: flex;
+    flex-direction: column;
+    gap: var(--meduim-gap);
+    margin: 0;
+  }
+}

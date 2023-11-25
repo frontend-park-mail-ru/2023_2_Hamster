@@ -1,6 +1,12 @@
-.login-form form {
+.login-form{
     display: flex;
     flex-direction: column;
-    row-gap: 12px;
+    gap: var(--meduim-gap);
     color: var(--text-main-color);
+
+    &__submit-button{
+        display: flex;
+        width: auto;
+        filter: drop-shadow(0 0 48px var(--background-main-color));
+    }
 }

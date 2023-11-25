@@ -1,27 +1,27 @@
-<div class="login-form">
-    <form action="">
-        <h1 class="">{{header}}</h1>
-        <p>{{helperText}}</p>
+<form class="login-form" action="">
+    <h1 class="font-h1-bold ">{{header}}</h1>
+    <span class="font-base-text">{{helperText}}</span>
+    <div id="login_input_container">
+        {{{loginInput}}}
+    </div>
 
-        <div id="login_input_container">
-            {{{loginInput}}}
-        </div>
-
-        {{#unless isLogin}}
+    {{#if isSignup}}
         <div id="username_input_container">
             {{{userNameInput}}}
         </div>
-        {{/unless}}
+    {{/if}}
 
-        <div id="password_input_container">
-            {{{passwordInput}}}
+    <div id="password_input_container">
+        {{{passwordInput}}}
+    </div>
+
+    {{#if isSignup}}
+        <div id="password_repeat_input_container">
+            {{{passwordRepeatInput}}}
         </div>
+    {{/if}}
 
-        {{#if isSignup}}
-            <div id="password_repeat_input_container">
-                {{{passwordRepeatInput}}}
-            </div>
-        {{/if}}
+    <div class="login-form__submit-button">
         {{{loginButton}}}
-    </form>
-</div>
+    </div>
+</form>

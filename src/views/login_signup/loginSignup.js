@@ -18,6 +18,8 @@ export class LoginSignupView extends BaseComponent {
 
     #buttonElement;
 
+    #isLogin;
+
     /**
      * Create a LoginSignupView, register listeners.
      *
@@ -28,19 +30,25 @@ export class LoginSignupView extends BaseComponent {
     constructor(parent, isLogin) {
         if (isLogin) {
             super(userStore.storage.loginState, template, parent);
-            this.#form = new LoginSignUpForm(null, isLogin);
+            this.#form = new LoginSignUpForm(null, isLogin, undefined);
         } else {
             super(userStore.storage.registrationState, template, parent);
-            this.#form = new LoginSignUpForm(null, isLogin);
+            this.#form = new LoginSignUpForm(null, isLogin, undefined);
         }
+
+        this.#isLogin = isLogin;
 
         this.#buttonElement = new Button(null, this.getState().redirectButton, this.switchLoginSignup.bind(this));
 
-        userStore.registerListener(EVENT_TYPES.LOGIN_SUCCESS, this.navigateToHome.bind(this));
-        userStore.registerListener(EVENT_TYPES.REGISTRATION_SUCCESS, this.navigateToHome.bind(this));
-
-        userStore.registerListener(EVENT_TYPES.RENDER_LOGIN_VIEW, this.renderTemplateToParent.bind(this));
-        userStore.registerListener(EVENT_TYPES.RENDER_REGISTRATION_VIEW, this.renderTemplateToParent.bind(this));
+        if (isLogin) {
+            userStore.registerListener(EVENT_TYPES.LOGIN_SUCCESS, this.navigateToHome.bind(this));
+            userStore.registerListener(EVENT_TYPES.LOGIN_ERROR, this.renderLoginInput.bind(this));
+            userStore.registerListener(EVENT_TYPES.RENDER_LOGIN_VIEW, this.renderTemplateToParent.bind(this));
+        } else {
+            userStore.registerListener(EVENT_TYPES.REGISTRATION_SUCCESS, this.navigateToHome.bind(this));
+            userStore.registerListener(EVENT_TYPES.REGISTRATION_ERROR, this.renderLoginInput.bind(this));
+            userStore.registerListener(EVENT_TYPES.RENDER_REGISTRATION_VIEW, this.renderTemplateToParent.bind(this));
+        }
 
         userStore.registerListener(EVENT_TYPES.RERENDER_LOGIN_INPUT, this.renderLoginInput.bind(this));
         userStore.registerListener(EVENT_TYPES.RERENDER_USERNAME_INPUT, this.renderUsername.bind(this));
@@ -53,8 +61,8 @@ export class LoginSignupView extends BaseComponent {
      *
      * @function
      */
-    navigateToHome = () => {
-        router.navigateTo(ROUTE_CONSTANTS.HOME_ROUTE);
+    navigateToHome = async () => {
+        await router.navigateTo(ROUTE_CONSTANTS.HOME_ROUTE);
     };
 
     /**
@@ -63,7 +71,7 @@ export class LoginSignupView extends BaseComponent {
      * @returns {HTMLElement} The rendered template.
      * @function
      */
-    renderTemplateToParent() {
+    async renderTemplateToParent() {
         const templates = [
             template({
                 ...this.getState(),
@@ -73,7 +81,7 @@ export class LoginSignupView extends BaseComponent {
             }),
         ];
 
-        return super.renderTemplateToParent(templates);
+        return await super.renderTemplateToParent(templates);
     }
 
     /**
@@ -82,8 +90,8 @@ export class LoginSignupView extends BaseComponent {
      * @function
      */
     renderLoginInput = () => {
-        this.cleanUp();
-
+        // this.cleanUp();
+        //
         this.#form.inputLogin.setState(userStore.storage.loginInputState);
 
         const login = document.querySelector('#login_input_container');
@@ -101,8 +109,8 @@ export class LoginSignupView extends BaseComponent {
      * @function
      */
     renderUsername = () => {
-        this.cleanUp();
-
+        // this.cleanUp();
+        //
         this.#form.inputUsername.setState(userStore.storage.usernameState);
 
         const username = document.querySelector('#username_input_container');
@@ -120,8 +128,6 @@ export class LoginSignupView extends BaseComponent {
      * @function
      */
     renderPassword = () => {
-        this.cleanUp();
-
         this.#form.inputPassword.setState(userStore.storage.passwordState);
 
         const password = document.querySelector('#password_input_container');
@@ -139,12 +145,10 @@ export class LoginSignupView extends BaseComponent {
      * @function
      */
     renderRepeatPassword = () => {
-        this.cleanUp();
-
         this.#form.inputPasswordRepeat.setState(userStore.storage.repeatState);
 
-        const repeatPassword = document.querySelector('#password_repeat_input_container');
-        repeatPassword.innerHTML = this.#form.inputPasswordRepeat.render();
+        const repeatPasswordContainer = document.querySelector('#password_repeat_input_container');
+        repeatPasswordContainer.innerHTML = this.#form.inputPasswordRepeat.render();
 
         const repeatPasswordInput = document.querySelector('#password_repeat_input');
         repeatPasswordInput.addEventListener('blur', this.passwordRepeatInputHandler);
@@ -182,8 +186,6 @@ export class LoginSignupView extends BaseComponent {
         if (passwordRepeatInput) {
             passwordRepeatInput.removeEventListener('blur', this.passwordRepeatInputHandler);
         }
-
-        this.setHandlers();
     }
 
     /**
@@ -191,8 +193,8 @@ export class LoginSignupView extends BaseComponent {
      *
      * @function
      */
-    switchLoginSignup = () => {
-        router.navigateTo(this.#form.isLogin ? ROUTE_CONSTANTS.REGISTRATION_ROUTE : ROUTE_CONSTANTS.LOGIN_ROUTE);
+    switchLoginSignup = async () => {
+        this.#isLogin ? await router.navigateTo(ROUTE_CONSTANTS.REGISTRATION_ROUTE) : await router.navigateTo(ROUTE_CONSTANTS.LOGIN_ROUTE);
     };
 
     /**
@@ -201,8 +203,17 @@ export class LoginSignupView extends BaseComponent {
      *
      * @function
      */
-    submitButtonHandler = () => {
-        userActions.login();
+    submitButtonHandler = async () => {
+        const login = document.querySelector('#login_input');
+        const username = document.querySelector('#username_input');
+        const password = document.querySelector('#password_input');
+        const repeatPassword = document.querySelector('#password_repeat_input');
+
+        if (login && username && password && repeatPassword) {
+            await userActions.register(login.value, username.value, password.value, repeatPassword.value);
+        } else {
+            await userActions.login(login.value, password.value);
+        }
     };
 
     /**
@@ -247,6 +258,7 @@ export class LoginSignupView extends BaseComponent {
     passwordRepeatInputHandler = () => {
         const password = document.querySelector('#password_input').value;
         const repeatPassword = document.querySelector('#password_repeat_input').value;
+
         userActions.validateRepeatPassword(password, repeatPassword);
     };
 
