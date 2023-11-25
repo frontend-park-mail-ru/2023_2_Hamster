@@ -1,5 +1,5 @@
 import IMAGE_URL from '@images/peopleLoginReg.svg';
-import { SVG_ICONS } from '@icons/icons';
+import {SVG_ICONS} from '@icons/icons';
 
 export const ROUTE_CONSTANTS = {
     PROFILE: '/profile',
@@ -34,6 +34,9 @@ export const API_CONSTANTS = {
 
     FEED: `${SERVER_PREFIX}/api/user/feed`,
     UPDATE: `${SERVER_PREFIX}/api/user/update`,
+
+    GET_CSAT: '',
+    POST_CSAT: ''
 };
 
 export const getTagURL = (id) => `${SERVER_PREFIX}/api/tag/${id}`;
@@ -74,6 +77,8 @@ export const EVENT_TYPES = {
     RERENDER_CATEGORIES: 'RERENDER_CATEGORIES',
 
     RERENDER_TRANSACTIONS: 'RERENDER_TRANSACTIONS',
+
+    NEXT_QUESTION: 'NEXT_QUESTION',
 };
 
 export const USER_STORE = {

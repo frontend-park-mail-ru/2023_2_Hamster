@@ -1,6 +1,7 @@
-import { userStore } from '@stores/userStore.js';
-import { categoriesStore } from '@stores/categoriesStore';
-import { transactionsStore } from '@stores/transactionsStore';
+import {userStore} from '@stores/userStore.js';
+import {categoriesStore} from '@stores/categoriesStore';
+import {transactionsStore} from '@stores/transactionsStore';
+import {csatStore} from "@stores/csatStore";
 
 export const USER_ACTIONS_TYPES = {
     API_CHECK_AUTH: 'USER_CHECK_AUTH',
@@ -32,6 +33,11 @@ export const TRANSACTION_ACTIONS = {
     CREATE_TRANSACTION: 'CREATE_TRANSACTION',
     UPDATE_TRANSACTION: 'UPDATE_TRANSACTION',
     DELETE_TRANSACTION: 'DELETE_TRANSACTION',
+};
+
+export const CSAT_ACTIONS = {
+    GET: 'GET_STATISTICS',
+    POST: 'SEND_RESULTS',
 };
 
 export const actions = [
@@ -118,4 +124,13 @@ export const actions = [
         type: TRANSACTION_ACTIONS.DELETE_TRANSACTION,
         method: transactionsStore.deleteTransaction,
     },
+
+    {
+        type: CSAT_ACTIONS.GET,
+        method: csatStore.getStats
+    },
+    {
+        type: CSAT_ACTIONS.POST,
+        method: csatStore.post
+    }
 ];
