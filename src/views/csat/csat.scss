@@ -1,9 +1,23 @@
-.csat {
-    display: flex;
-    padding: 2em;
-    
-    &__question-text {
+.csat-iframe{
+    position: absolute;
+    padding: var(--meduim-gap);
+    border-radius: 24px;
 
+    z-index: 1000;
+}
+
+.csat {
+    width: auto;
+    height: auto;
+    background-color: var(--background-secondary-color);
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--big-gap);
+    padding: 2em;
+
+    &__question-text {
+        color: var(--text-main-color);
     }
 
     &__answer-options {
@@ -45,10 +59,11 @@
 
     &__buttons {
         display: flex;
+        flex-direction: row;
     }
 
     &__next-button-div {
-        
+        margin-right: auto;
     }
     &__next-button-div {
         align-self: end;

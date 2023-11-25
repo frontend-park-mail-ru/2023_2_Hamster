@@ -7,6 +7,7 @@ module.exports = {
     resolve: {
         extensions: ['.js'],
         alias: {
+            '@src': path.resolve(__dirname, 'src'),
             '@icons': path.resolve(__dirname, 'src/assets/icons'),
             '@images': path.resolve(__dirname, 'src/assets/images'),
             '@components': path.resolve(__dirname, 'src/components'),

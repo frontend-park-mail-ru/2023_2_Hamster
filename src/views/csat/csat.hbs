@@ -5,29 +5,33 @@
         </span>
     {{/if}}
 
-    <div class="csat__answer-options">
-        {{#each answerOptions}}
-            <input data-answer="{{this.answer}}"
-            id="{{this.optionId}}"
-            type="radio" 
-            class="csat__option-input" 
-            name="csat-radio"
-            {{#if this.checked}} checked {{/if}}>
+    {{#if answerOptions}}
+        <div class="csat__answer-options">
+            {{#each answerOptions}}
+                <input data-answer="{{this.answer}}"
+                       id="{{this.optionId}}"
+                       type="radio"
+                       class="csat__option-input"
+                       name="csat-radio"
+                    {{#if this.checked}} checked {{/if}}>
 
-            <label for="{{this.optionId}}" class="csat__option-label">
-                {{this.optionText}}
-            </label>
-        {{/each}}
-    </div>
+                <label for="{{this.optionId}}" class="csat__option-label">
+                    {{this.optionText}}
+                </label>
+            {{/each}}
+        </div>
+    {{/if}}
 
-    <div class="csat__options-subscription">
-        {{#if subscriptionLeft}}
-            <span class="font-base-text csat__subscription-left"> {{subscriptionLeft}} </span>
-        {{/if}}
-        {{#if subscriptionRight}}
-            <span class="font-base-text csat__subscription-right"> {{subscriptionRight}} </span>
-        {{/if}}
-    </div>
+    {{#if subscriptionLeft}}
+        <div class="csat__options-subscription">
+            {{#if subscriptionLeft}}
+                <span class="font-base-text csat__subscription-left"> {{subscriptionLeft}} </span>
+            {{/if}}
+            {{#if subscriptionRight}}
+                <span class="font-base-text csat__subscription-right"> {{subscriptionRight}} </span>
+            {{/if}}
+        </div>
+    {{/if}}
 
     <div class="csat__buttons">
         <div class="csat__next-button-div">

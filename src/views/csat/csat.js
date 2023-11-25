@@ -1,3 +1,5 @@
+import '../../index.scss';
+
 import { BaseComponent } from '@components/baseComponent.js';
 
 import template from './csat.hbs';
@@ -46,13 +48,13 @@ export class CsatView extends BaseComponent {
             answer: a,
         };
     });
-    
+
     /**
      * Renders the CsatView template to the parent element.
      *
      * @function
      */
-    async render() {
+    async renderTemplateToParent() {
         if (!csatStore.storage.questions) {
             await csatStore.getQuestions();
         }
@@ -61,7 +63,7 @@ export class CsatView extends BaseComponent {
         const templateData = {
             nextButton: this.nextButton.render(),
         };
-        
+
         if (!csatStore.storage.started) {
             templateData.questionText = csatStore.storage.startPrompt;
             templateData.rejectButton = this.rejectButton.render();
@@ -77,7 +79,7 @@ export class CsatView extends BaseComponent {
             template(templateData),
         ];
 
-        return super.render(templates);
+        return super.renderTemplateToParent(templates);
     }
 
     setHandlers() {
@@ -118,6 +120,11 @@ export class CsatView extends BaseComponent {
 
     closeCsat = async (event) => {
         csatStore.sendAnswers();
+
         // send message to window.top
     }
 }
+
+const parent = document.querySelector('#csat');
+const csat = new CsatView(parent);
+await csat.renderTemplateToParent();
