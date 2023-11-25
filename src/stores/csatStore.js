@@ -80,6 +80,12 @@ class CsatStore extends BaseStore {
             answer: answer,
         });
     }
+
+    sendAnswers = async () => {
+        this.storage.answers.forEach((ans) => {
+            // this.post(...) // нужна ручка
+        });
+    }
     
     // getQuestions = async () => {
         

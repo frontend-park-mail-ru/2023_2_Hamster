@@ -117,7 +117,7 @@ export class CsatView extends BaseComponent {
     }
 
     closeCsat = async (event) => {
-
+        csatStore.sendAnswers();
         // send message to window.top
     }
 }
