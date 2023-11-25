@@ -1,1 +1,38 @@
-<
+<div class="csat" {{#if id}} id="{{id}}" {{/if}}>
+    {{#if questionText}}
+        <span class="csat__question-text font-h1-medium">
+            {{questionText}}
+        </span>
+    {{/if}}
+
+    <div class="csat__answer-options">
+        {{#each answerOptions}}
+            <input id="{{this.optionId}}" type="radio" class="csat__option-input" name="csat-radio">
+            <label for="{{this.optionId}}" class="csat__option-label">
+                {{this.optionText}}
+            </label>
+        {{/each}}
+    </div>
+
+    <div class="csat__options-subscription">
+        {{#if subscriptionLeft}}
+            <span class="font-base-text csat__subscription-left"> {{subscriptionLeft}} </span>
+        {{/if}}
+        {{#if subscriptionRight}}
+            <span class="font-base-text csat__subscription-right"> {{subscriptionRight}} </span>
+        {{/if}}
+    </div>
+
+    <div class="csat__buttons">
+        <div class="csat__next-button-div">
+            {{#if nextButton}}
+                {{{nextButton}}}
+            {{/if}}
+        </div>
+        <div class="csat__reject-button-div">
+            {{#if rejectButton}}
+                {{{rejectButton}}}
+            {{/if}}
+        </div>
+    </div>
+</div>

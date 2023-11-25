@@ -1,0 +1,56 @@
+.csat {
+    display: flex;
+    padding: 2em;
+    
+    &__question-text {
+
+    }
+
+    &__answer-options {
+        display: flex;
+        flex-direction: row;
+        gap: 1em;
+    }
+
+    &__option-input {
+        display: none;
+    }
+
+    &__option-label {
+        display: inline-block;
+        padding: 0.6em 1em;
+        background-color: var(--background-tertiary-color);
+        color: var(--text-muted-color);
+        cursor: pointer;
+    }
+
+    &__option-input:checked + &__option-label {
+        background-color: var(--primary-color);
+        color: var(--text-main-color);
+    }
+
+    &__options-subscription {
+        display: flex;
+        flex-direction: row;
+
+    }
+
+    &__subscription-left {
+
+    }
+
+    &__subscription-right {
+        align-self: end;
+    }
+
+    &__buttons {
+        display: flex;
+    }
+
+    &__next-button-div {
+        
+    }
+    &__next-button-div {
+        align-self: end;
+    }
+}
