@@ -7,8 +7,9 @@
 }
 
 .csat {
-    width: auto;
-    height: auto;
+    width: 80%;
+    height: 80%;
+    justify-content: center;
     background-color: var(--background-secondary-color);
 
     display: flex;
@@ -23,6 +24,7 @@
     &__answer-options {
         display: flex;
         flex-direction: row;
+        justify-content: space-between;
         gap: 1em;
     }
 
@@ -31,8 +33,12 @@
     }
 
     &__option-label {
-        display: inline-block;
-        padding: 0.6em 1em;
+        display: flex;
+        width: 32px;
+        height: 32px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 4px;
         background-color: var(--background-tertiary-color);
         color: var(--text-muted-color);
         cursor: pointer;
@@ -46,6 +52,7 @@
     &__options-subscription {
         display: flex;
         flex-direction: row;
+        justify-content: space-between;
         color: var( --text-main-color);
     }
 
