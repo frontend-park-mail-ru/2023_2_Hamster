@@ -106,10 +106,10 @@ export class CsatView extends BaseComponent {
         const answerInputs = document.querySelector('.csat__answer-options')?.querySelectorAll('input');
         if (answerInputs) {
             const answerInputsArray = Array.from(answerInputs);
-            const answer = answerInputs?.reduce((prev, cur) => {
-                if (prev.checked) {
+            const answer = answerInputsArray?.reduce((prev, cur) => {
+                if (prev && prev.checked) {
                     return prev.getAttribute('data-answer');
-                } else if (cur.checked) {
+                } else if (cur && cur.checked) {
                     return cur.getAttribute('data-answer');
                 }
             });
