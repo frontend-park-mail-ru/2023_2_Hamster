@@ -34,12 +34,12 @@ export const actions = [
         method: userStore.logout,
     },
     {
-      type: USER_ACTIONS_TYPES.API_FEED,
-      method: userStore.feed,
+        type: USER_ACTIONS_TYPES.API_FEED,
+        method: userStore.feed,
     },
     {
-      type: USER_ACTIONS_TYPES.VALIDATE_LOGIN,
-      method: userStore.isLoginValid,
+        type: USER_ACTIONS_TYPES.VALIDATE_LOGIN,
+        method: userStore.isLoginValid,
     },
     {
         type: USER_ACTIONS_TYPES.VALIDATE_USERNAME,

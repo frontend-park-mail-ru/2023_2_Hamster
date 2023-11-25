@@ -3,8 +3,8 @@ import { Card } from '@molecules';
 import { userStore } from '@stores/userStore';
 import { userActions } from '@actions/userActions';
 
-import template from './dashboard.hbs';
 import { USER_STORE } from '@constants/constants';
+import template from './dashboard.hbs';
 
 /**
  * Dashboard class extends BaseComponent.
@@ -34,9 +34,9 @@ export class DashboardView extends BaseComponent {
     renderTemplateToParent = () => {
         userActions.getFeed();
 
-        const balance = userStore.storage.user.balance;
-        const plannedBudget = userStore.storage.user.plannedBudget;
-        const actualBudget = userStore.storage.user.actualBudget;
+        const { balance } = userStore.storage.user;
+        const { plannedBudget } = userStore.storage.user;
+        const { actualBudget } = userStore.storage.user;
 
         if (balance) {
             this.#cardBalance.setState({ cardSubhead: balance });
@@ -72,9 +72,9 @@ export class DashboardView extends BaseComponent {
     render = () => {
         userActions.getFeed();
 
-        const balance = userStore.storage.user.balance;
-        const plannedBudget = userStore.storage.user.plannedBudget;
-        const actualBudget = userStore.storage.user.actualBudget;
+        const { balance } = userStore.storage.user;
+        const { plannedBudget } = userStore.storage.user;
+        const { actualBudget } = userStore.storage.user;
 
         if (balance) {
             this.#cardBalance.setState({ cardSubhead: balance });

@@ -18,8 +18,8 @@ export const userActions = {
 
     getFeed() {
         dispatcher.dispatch({
-           type: USER_ACTIONS_TYPES.API_FEED,
-           data: {},
+            type: USER_ACTIONS_TYPES.API_FEED,
+            data: {},
         });
     },
 
