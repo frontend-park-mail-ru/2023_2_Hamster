@@ -43,6 +43,7 @@ export class CsatView extends BaseComponent {
         return {
             optionId: `option_${a}`,
             optionText: String(a),
+            answer: a,
         };
     });
     
@@ -66,6 +67,7 @@ export class CsatView extends BaseComponent {
             templateData.rejectButton = this.rejectButton.render();
         } else {
             templateData.questionText = csatStore.storage.questions[this.currentQuestionIndex].questionText;
+            answerOptions[answerOptions.length - 1].checked = true;
             templateData.answerOptions = answerOptions;
             templateData.subscriptionLeft = csatStore.storage.questions[this.currentQuestionIndex].subscriptionLeft;
             templateData.subscriptionRight = csatStore.storage.questions[this.currentQuestionIndex].subscriptionRight;
@@ -94,7 +96,19 @@ export class CsatView extends BaseComponent {
         // await csatActions.saveAnswer();
         // await csatActions.nextQuestion();
 
-        csatStore.saveAnswer(this.currentQuestionIndex);
+        const answerInputs = Array.from(document.querySelector('.csat__answer-options').querySelectorAll('input'));
+        const answer = answerInputs.reduce((prev, cur) => {
+            if (prev.checked) {
+                return prev.getAttribute('data-answer');
+            } else if (cur.checked) {
+                return cur.getAttribute('data-answer');
+            }
+        });
+
+        if (answer) {
+            csatStore.saveAnswer(this.currentQuestionIndex);
+        }
+
         if (++this.currentQuestionIndex === csatStore.storage.questions.length) {
             this.closeCsat();
         } else {
@@ -103,7 +117,7 @@ export class CsatView extends BaseComponent {
     }
 
     closeCsat = async (event) => {
-        
+
         // send message to window.top
     }
 }
