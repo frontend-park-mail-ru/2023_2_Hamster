@@ -64,7 +64,7 @@ export class CsatView extends BaseComponent {
             await csatStore.getQuestions();
         }
 
-        const answerOptions = this.createAnswerOptions(csatStore.storage.questions);
+        const answerOptions = this.createAnswerOptions(csatStore.storage.questions[this.currentQuestionIndex].answers);
         const templateData = {
             nextButton: this.nextButton.render(),
         };
@@ -120,17 +120,21 @@ export class CsatView extends BaseComponent {
         }
 
         console.log('go next answer');
-        if (++this.currentQuestionIndex === csatStore.storage.questions.length) {
+        if (++this.currentQuestionIndex >= csatStore.storage.questions.length) {
             this.closeCsat();
         } else {
             console.log('next question');
+            if (!csatStore.storage.started) {
+                csatStore.storage.started = true;
+                --this.currentQuestionIndex;
+            }
             csatStore.nextQuestion();
         }
     }
 
     closeCsat = async (event) => {
         csatStore.sendAnswers();
-
+        console.log('close csat');
         // send message to window.top
     }
 }

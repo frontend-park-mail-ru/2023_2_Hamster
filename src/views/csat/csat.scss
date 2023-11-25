@@ -46,7 +46,7 @@
     &__options-subscription {
         display: flex;
         flex-direction: row;
-
+        color: var( --text-main-color);
     }
 
     &__subscription-left {
@@ -54,7 +54,7 @@
     }
 
     &__subscription-right {
-        align-self: end;
+        align-self: flex-end;
     }
 
     &__buttons {
@@ -66,6 +66,6 @@
         margin-right: auto;
     }
     &__next-button-div {
-        align-self: end;
+        align-self: flex-end;
     }
 }
