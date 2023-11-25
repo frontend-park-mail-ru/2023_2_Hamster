@@ -48,6 +48,15 @@ const DEFAULT_STATE = {
                             },
                         ],
                     },
+                    {
+                        menuSectionHeading: 'Дополнительно',
+                        menuItems: [
+                            {
+                                menuItemText: 'Статистика',
+                                menuItemID: 'stats',
+                            },
+                        ],
+                    },
                 ],
             },
         },
@@ -190,18 +199,27 @@ export class Layout extends BaseComponent {
             menuProfile.addEventListener('click', this.navigateProfile);
         }
 
+        const menuStats = document.querySelector('#stats');
+        if (menuStats) {
+            menuStats.addEventListener('click', this.navigateStats);
+        }
+
         this.#contentElement.setHandlers();
     }
 
     navigateHome = async () => {
-       await router.navigateTo(ROUTE_CONSTANTS.HOME_ROUTE);
+       await router.navigateTo(ROUTE_CONSTANTS.HOME_ROUTE, false);
     };
 
     navigateTransaction = async () => {
-        await router.navigateTo(ROUTE_CONSTANTS.TRANSACTIONS);
+        await router.navigateTo(ROUTE_CONSTANTS.TRANSACTIONS, false);
     };
 
     navigateProfile = async () => {
-        await router.navigateTo(ROUTE_CONSTANTS.PROFILE);
+        await router.navigateTo(ROUTE_CONSTANTS.PROFILE, false);
+    };
+
+    navigateStats = async () => {
+        await router.navigateTo(ROUTE_CONSTANTS.STATS, false);
     };
 }

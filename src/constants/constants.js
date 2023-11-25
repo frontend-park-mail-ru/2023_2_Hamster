@@ -9,6 +9,7 @@ export const ROUTE_CONSTANTS = {
     HOME_ROUTE: '',
     CATEGORIES: '/categories',
     TRANSACTIONS: '/transactions',
+    STATS: '/stats',
     NOT_FOUND: '/404',
 };
 
@@ -35,8 +36,8 @@ export const API_CONSTANTS = {
     FEED: `${SERVER_PREFIX}/api/user/feed`,
     UPDATE: `${SERVER_PREFIX}/api/user/update`,
 
-    GET_CSAT: '',
-    POST_CSAT: ''
+    GET_CSAT: 'GET_CSAT',
+    POST_CSAT: 'POST_CSAT'
 };
 
 export const getTagURL = (id) => `${SERVER_PREFIX}/api/tag/${id}`;
