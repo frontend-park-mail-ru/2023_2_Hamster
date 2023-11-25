@@ -1,4 +1,4 @@
-<div class="input-container">
+<div class="input__container">
     {{#if this.inputLabelText}}
         <div class="input__label font-caption">{{this.inputLabelText}}</div>
     {{/if}}
@@ -39,9 +39,9 @@
     {{/if}}
 
     {{#if this.inputHelperText}}
-        <div class="input-helper font-caption
+        <div class="input__helper font-caption
             {{#if this.isError}}
-                input-helper_error
+                input__helper_error
             {{/if}}">
             {{this.inputHelperText}}
         </div>

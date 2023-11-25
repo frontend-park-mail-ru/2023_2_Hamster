@@ -8,12 +8,12 @@
     flex-direction: row;
     align-items: center;
     padding: 12px;
-    height: 64px;
     width: auto;
     border-radius: var(--radius-size-medium);
 
     &:hover{
       background-color: var(--background-secondary-color);
+      cursor: pointer;
     }
   }
 
@@ -27,12 +27,29 @@
     margin-right: 40px;
   }
 
-  &__text{
+  &__category-info{
     display: flex;
+    flex-direction: column;
     width: auto;
     height: auto;
     margin-right: 40px;
+    gap: var(--small-gap);
+  }
+
+  &__category{
     color: var(--text-main-color);
+  }
+
+  &__place{
+    display: flex;
+    gap: var(--small-gap);
+    color: var(--text-muted-color);
+  }
+
+  &__message{
+    display: flex;
+    gap: var(--small-gap);
+    color: var(--text-muted-color);
   }
 
   &__value{

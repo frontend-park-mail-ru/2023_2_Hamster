@@ -3,22 +3,24 @@
     <div class="page404__background-image"></div>
 
     {{#if textAbove}}
-    <span class="page404__text-above font-h1-bold">
-        {{ textAbove }}
-    </span>
+        <span class="page404__text-above font-h1-bold">
+            {{ textAbove }}
+        </span>
     {{/if}}
 
     {{#if textCenter}}
-    <span class="page404__text-center font-h1-medium">
-        {{ textCenter }}
-    </span>
+        <span class="page404__text-center font-h1-medium">
+            {{ textCenter }}
+        </span>
     {{/if}}
 
     {{#if textBelow}}
-    <span class="page404__text-below font-h3-regular">
-        {{ textBelow }}
-    </span>
+        <span class="page404__text-below font-h3-regular">
+            {{ textBelow }}
+        </span>
     {{/if}}
 
-    {{{ returnButton }}}
+    <div class="page404__button-container">
+        {{{ returnButton }}}
+    </div>
 </div>

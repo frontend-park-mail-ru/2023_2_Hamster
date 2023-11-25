@@ -28,10 +28,12 @@
 }
 
 .button {
+  flex: 1;
+  display: inline-block;
+  width: auto;
   border: none;
   outline: none;
   text-align: center;
-  display: inline-block;
   transition: 0.2s;
 
   &__text {

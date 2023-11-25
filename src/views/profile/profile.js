@@ -236,7 +236,7 @@ export class ProfileView extends BaseComponent {
 
     categoriesButtonHandler = async () => {
         await categoryActions.getCategories();
-        await router.navigateTo(ROUTE_CONSTANTS.CATEGORIES)
+        await router.navigateTo(ROUTE_CONSTANTS.CATEGORIES, false)
     };
 
     saveButtonHandler = () => {

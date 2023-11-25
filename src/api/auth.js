@@ -26,9 +26,9 @@ class AuthApi {
      * @example
      * signIn({username: 'test', password: 'password'})
      */
-    signIn = (userInput) => {
+    signIn = async (userInput) => {
         const url = API_CONSTANTS.SIGN_IN;
-        return post(url, userInput);
+        return await post(url, userInput);
     };
 
     /**
@@ -42,9 +42,9 @@ class AuthApi {
      * @example
      * signUp({username: 'test', password: 'password'})
      */
-    signUp = (userInput) => {
+    signUp = async (userInput) => {
         const url = API_CONSTANTS.SIGN_UP;
-        return post(url, userInput);
+        return await post(url, userInput);
     };
 
     /**

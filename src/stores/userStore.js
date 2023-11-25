@@ -83,10 +83,17 @@ class UserStore extends BaseStore {
      * @param {Object} data - The user's credentials.
      */
     login = async (data) => {
-        let response;
+        if (this.validator(data.login, LOGIN_RULES).isError
+            || this.validator(data.password, PASSWORD_RULES).isError) {
+
+            this.isLoginValid(data);
+            this.isPasswordValid(data);
+
+            return;
+        }
 
         try {
-            response = await authApi.signIn(data);
+            const response = await authApi.signIn(data);
 
             switch (response.status) {
             case STATUS_CODES.ACCEPTED:
@@ -103,14 +110,30 @@ class UserStore extends BaseStore {
                 break;
 
             case STATUS_CODES.TOO_MANY_REQUESTS:
-                this.storage.error = 'Неверное имя пользователя или пароль';
+                this.storage = {
+                    ...this.storage,
+                    loginInputState: {
+                        login: data.login,
+                        isError: true,
+                        inputHelperText: 'Неверное логин или пароль',
+                    },
+                };
+
                 this.storeChanged = true;
 
                 this.emitChange(EVENT_TYPES.LOGIN_ERROR);
                 break;
 
             case STATUS_CODES.INTERNAL_SERVER_ERROR:
-                this.storage.error = 'Непредвиденная ошибка';
+                this.storage = {
+                    ...this.storage,
+                    loginInputState: {
+                        login: data.login,
+                        isError: true,
+                        inputHelperText: 'Непредвиденная ошибка',
+                    },
+                };
+
                 this.storeChanged = true;
 
                 this.emitChange(EVENT_TYPES.LOGIN_ERROR);
@@ -132,10 +155,21 @@ class UserStore extends BaseStore {
      * @param {Object} data - The new user's information.
      */
     registration = async (data) => {
-        let response;
+        if (this.validator(data.login, LOGIN_RULES).isError
+            || this.validator(data.password, PASSWORD_RULES).isError
+            || this.validator(data.username, USERNAME_RULES).isError
+            || this.validator(data.passwordRepeat, PASSWORD_RULES).isError) {
+
+            this.isLoginValid(data);
+            this.isPasswordValid(data);
+            this.isUsernameValid(data);
+            this.isPasswordRepeat(data);
+
+            return;
+        }
 
         try {
-            response = await authApi.signUp(data);
+            const response = await authApi.signUp(data);
 
             switch (response.status) {
             case STATUS_CODES.ACCEPTED:
@@ -152,14 +186,37 @@ class UserStore extends BaseStore {
                 break;
 
             case STATUS_CODES.UNAUTHORISED:
-                this.storage.error = 'Данное имя пользователя уже занято';
+                this.storage.error = 'Данное логин пользователя уже занят';
+                this.storeChanged = true;
+
+                this.emitChange(EVENT_TYPES.REGISTRATION_ERROR);
+                break;
+
+            case STATUS_CODES.TOO_MANY_REQUESTS:
+                this.storage = {
+                    ...this.storage,
+                    loginInputState: {
+                        login: data.login,
+                        isError: true,
+                        inputHelperText: 'Данный логин уже занят',
+                    },
+                };
+
                 this.storeChanged = true;
 
                 this.emitChange(EVENT_TYPES.REGISTRATION_ERROR);
                 break;
 
             case STATUS_CODES.INTERNAL_SERVER_ERROR:
-                this.storage.error = 'Непредвиденная ошибка';
+                this.storage = {
+                    ...this.storage,
+                    loginInputState: {
+                        login: data.login,
+                        isError: true,
+                        inputHelperText: 'Непредвиденная ошибка, уже работаем над этим',
+                    },
+                };
+
                 this.storeChanged = true;
 
                 this.emitChange(EVENT_TYPES.REGISTRATION_ERROR);
@@ -219,7 +276,7 @@ class UserStore extends BaseStore {
                 console.log('Undefined status code', response.status);
             }
 
-            await router.navigateTo(ROUTE_CONSTANTS.LOGIN_ROUTE);
+            await router.navigateTo(ROUTE_CONSTANTS.LOGIN_ROUTE, false);
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);
         }
@@ -274,8 +331,8 @@ class UserStore extends BaseStore {
      * @param {RegExp} rules.regex - The regex to test the data against.
      * @param {string} rules.message - The message to return if the data fails the validation.
      * @returns {Object} The validation result.
-     * @returns {boolean} result.isError - Indicates if there was an error during validation.
-     * @returns {string|null} result.message - The validation message.
+     * isError - Indicates if there was an error during validation.
+     * message - The validation message.
      */
     validator(data, rules) {
         const failedRule = rules.find((condition) => !condition.regex.test(data));
@@ -371,18 +428,18 @@ class UserStore extends BaseStore {
      * @function
      * @param {Object} data - The passwords to check.
      * @param {string} data.password - The original password.
-     * @param {string} data.repeatPassword - The repeated password.
+     * @param {string} data.passwordRepeat - The repeated password.
      */
     isPasswordRepeat = ({
         password,
-        repeatPassword,
+        passwordRepeat,
     }) => {
-        const result = password === repeatPassword;
+        const result = password === passwordRepeat;
 
         this.storage = {
             ...this.storage,
             repeatState: {
-                passwordRepeat: repeatPassword,
+                passwordRepeat: passwordRepeat,
                 isError: result ? null : true,
                 inputHelperText: result ? null : 'Пароли не совпадают',
             },

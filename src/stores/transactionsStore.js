@@ -1,7 +1,6 @@
 import BaseStore from './baseStore.js';
 import { transactionsApi } from '@api/transaction';
-import { router } from '@router';
-import { EVENT_TYPES, ROUTE_CONSTANTS, STATUS_CODES } from '@constants/constants';
+import { EVENT_TYPES, STATUS_CODES } from '@constants/constants';
 import { categoriesStore } from '@stores/categoriesStore';
 
 /**
@@ -61,6 +60,8 @@ class CategoriesStore extends BaseStore {
                 id: 'id' + data.id,
                 transactionName: this.findName(data.categories)
                     .pop().name,
+                transactionPlace: data.payer,
+                transactionMessage: data.description,
                 value: data.income - data.outcome,
                 account: 'Карта',
                 deleteId: 'delete_' + data.id,

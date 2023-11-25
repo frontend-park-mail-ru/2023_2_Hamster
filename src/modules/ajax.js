@@ -1,4 +1,4 @@
-import { API_CONSTANTS, getBaseURL } from '@constants/constants.js';
+import { API_CONSTANTS } from '@constants/constants.js';
 import { csrfApi } from '@api/csrf';
 
 /**
@@ -54,10 +54,10 @@ export const post = async (url, data) => {
         });
     }
 
-    if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message}`);
-    }
+    // if (!response.ok) {
+    //     const errorData = await response.json();
+    //     throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message}`);
+    // }
 
     return await response.json();
 };

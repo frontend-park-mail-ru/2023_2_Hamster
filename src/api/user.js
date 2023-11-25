@@ -15,9 +15,9 @@ class UserApi {
         return await get(url);
     };
 
-    putUpdate = (userInfo) => {
+    putUpdate = async (userInfo) => {
         const url = API_CONSTANTS.UPDATE;
-        return put(url, userInfo);
+        return await put(url, userInfo);
     };
 }
 

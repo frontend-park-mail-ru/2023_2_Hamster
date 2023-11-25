@@ -7,7 +7,7 @@ import template from './page404.hbs';
 
 /**
  * Class representing 404 Page.
- * 
+ *
  * @extends BaseComponent
  */
 export class Page404 extends BaseComponent {
@@ -18,10 +18,12 @@ export class Page404 extends BaseComponent {
 
     constructor(parent) {
         super({}, template, parent);
-        const buttonState = { 
+
+        const buttonState = {
             buttonText: 'Вернуться на главную',
             id: 'page404-return-button',
         };
+
         this.#returnButton = new Button(null, buttonState, this.navigateToHome);
     }
 
@@ -30,8 +32,8 @@ export class Page404 extends BaseComponent {
      *
      * @function
      */
-    navigateToHome = () => {
-        router.navigateTo(ROUTE_CONSTANTS.HOME_ROUTE);
+    navigateToHome = async () => {
+       await router.navigateTo(ROUTE_CONSTANTS.HOME_ROUTE);
     }
 
     /**
@@ -68,7 +70,7 @@ export class Page404 extends BaseComponent {
     }
 
     /**
-     * Remove listeners from inputs and then set them up.
+     * Remove listeners from element and then set them up.
      *
      * @function
      */

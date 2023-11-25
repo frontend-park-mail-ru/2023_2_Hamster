@@ -73,12 +73,12 @@ export const userActions = {
         });
     },
 
-    validateRepeatPassword(password, repeatPassword) {
+    validateRepeatPassword(password, passwordRepeat) {
         dispatcher.dispatch({
             type: USER_ACTIONS_TYPES.VALIDATE_REPEAT,
             data: {
                 password,
-                repeatPassword,
+                passwordRepeat,
             },
         });
     },

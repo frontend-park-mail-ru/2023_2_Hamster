@@ -4,10 +4,6 @@
   border-radius: $border-radius;
 }
 
-.input-container {
-  background-color: var(--input-primary-color);
-}
-
 .input {
   color: var(--text-main-color);
   display: flex;
@@ -18,19 +14,19 @@
   border: 1px solid var(--input-border-color);
   transition: border-color 0.3s ease;
 
-  &_number {
-    /* Chrome, Safari, Edge, Opera */
-    &::-webkit-outer-spin-button,
-    &::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
+  &__container {
+  }
 
-    /* Firefox */
-    &[type=number] {
-      -moz-appearance: textfield;
-    }
+  /* Chrome, Safari, Edge, Opera */
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 
+  /* Firefox */
+  &[type=number] {
+    -moz-appearance: textfield;
   }
 
   &:focus-within {
@@ -101,10 +97,10 @@
   &::placeholder {
     color: var(--text-muted-color);
   }
-}
 
-.input-helper {
-  &_error {
-    color: var(--error-color)
+  &__helper {
+    &_error {
+      color: var(--error-color)
+    }
   }
 }

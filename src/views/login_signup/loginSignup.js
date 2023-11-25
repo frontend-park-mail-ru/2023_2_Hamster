@@ -42,11 +42,11 @@ export class LoginSignupView extends BaseComponent {
 
         if (isLogin) {
             userStore.registerListener(EVENT_TYPES.LOGIN_SUCCESS, this.navigateToHome.bind(this));
-
+            userStore.registerListener(EVENT_TYPES.LOGIN_ERROR, this.renderLoginInput.bind(this));
             userStore.registerListener(EVENT_TYPES.RENDER_LOGIN_VIEW, this.renderTemplateToParent.bind(this));
         } else {
             userStore.registerListener(EVENT_TYPES.REGISTRATION_SUCCESS, this.navigateToHome.bind(this));
-
+            userStore.registerListener(EVENT_TYPES.REGISTRATION_ERROR, this.renderLoginInput.bind(this));
             userStore.registerListener(EVENT_TYPES.RENDER_REGISTRATION_VIEW, this.renderTemplateToParent.bind(this));
         }
 
@@ -193,8 +193,8 @@ export class LoginSignupView extends BaseComponent {
      *
      * @function
      */
-    switchLoginSignup = () => {
-        this.#isLogin ? router.navigateTo(ROUTE_CONSTANTS.REGISTRATION_ROUTE) : router.navigateTo(ROUTE_CONSTANTS.LOGIN_ROUTE);
+    switchLoginSignup = async () => {
+        this.#isLogin ? await router.navigateTo(ROUTE_CONSTANTS.REGISTRATION_ROUTE) : await router.navigateTo(ROUTE_CONSTANTS.LOGIN_ROUTE);
     };
 
     /**

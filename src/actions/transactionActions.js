@@ -1,7 +1,5 @@
 import { TRANSACTION_ACTIONS } from '@constants/actions';
 import { dispatcher } from '../modules/dispatcher.js';
-import { userStore } from '@stores/userStore';
-import { transactionsStore } from '@stores/transactionsStore';
 
 export const transactionActions = {
     async getTransactions() {

@@ -1,13 +1,13 @@
 .profile {
   display: flex;
   flex-direction: column;
-  gap: 48px;
+  gap: var(--big-gap);
   grid-column: span 12;
   grid-row: span 3;
 
   &__cards-container {
     display: flex;
-    gap: 24px;
+    gap: var(--meduim-gap);
   }
 
   &__edit-container {
@@ -15,14 +15,12 @@
     justify-content: space-between;
   }
 
-  &__button-container {
-    display: flex;
-  }
+  &__button-container {}
 
   &__form {
     display: flex;
     flex-direction: column;
-    gap: 48px;
+    gap: var(--big-gap);
     width: 50%;
   }
 
@@ -42,7 +40,7 @@
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: var(--meduim-gap);
   margin: 0;
 
   &__heading {
@@ -52,7 +50,7 @@
   &__input {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: var(--meduim-gap);
     margin: 0;
   }
 }

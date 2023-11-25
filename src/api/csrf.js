@@ -10,9 +10,9 @@ class CsrfAPI{
      * @returns {Promise<Object>} Returns a Promise that resolves to the data in JSON format.
      * @throws {Error} If an error occurs during the request, an error object is thrown.
      */
-    getCsrfToken = () => {
+    getCsrfToken = async () => {
         const url = API_CONSTANTS.CSRF;
-        return get(url);
+        return await get(url);
     };
 }
 

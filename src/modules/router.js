@@ -45,22 +45,23 @@ class Router {
      * @function
      */
     start = async () => {
-        try {
-            await userStore.checkAuth();
-        } catch (e) {
-            console.error('Error: ', e);
-        }
+        await userStore.checkAuth();
 
-        await router.navigateTo(window.location.pathname);
+        await this.navigateTo(window.location.pathname, true);
+
+        window.onpopstate = async () => {
+            await this.navigateTo(window.location.pathname, true);
+        };
     };
 
     /**
      * Navigate to a specified route.
      *
      * @param {string} path - The path of the route to navigate to.
+     * @param {boolean} replaceState - Is state should be replaced, true - replace state in history, false - push state to history.
      * @function
      */
-    navigateTo = async (path) => {
+    navigateTo = async (path, replaceState) => {
         const routeTrimmed = path.at(-1) === '/'
             ? path.slice(0, -1)
             : path;
@@ -82,10 +83,13 @@ class Router {
 
         if (!view) {
             view = this.routes[ROUTE_CONSTANTS.NOT_FOUND];
-            console.error(`No route found for ${routeResult}`);
         }
 
-        window.history.pushState({}, null, window.location.origin + routeResult);
+        if (replaceState) {
+            window.history.replaceState({}, null, window.location.origin + routeResult);
+        } else {
+            window.history.pushState({}, null, window.location.origin + routeResult);
+        }
 
         await view.view.renderTemplateToParent();
     };

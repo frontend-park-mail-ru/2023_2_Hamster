@@ -9,6 +9,6 @@
     margin: 24px 0 48px 0;
     display: flex;
     flex-direction: row;
-    gap: 24px;
+    gap: var(--meduim-gap)
   }
 }

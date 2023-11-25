@@ -2,14 +2,14 @@ import { API_CONSTANTS, getTagURL } from '@constants/constants';
 import { deleteRequest, get, post, put } from '@ajax';
 
 class CategoryApi {
-    getTags = () => {
+    getTags = async () => {
         const url = API_CONSTANTS.GET_TAGS;
-        return get(url);
+        return await get(url);
     };
 
-    createTag = (data) => {
+    createTag = async (data) => {
         const url = API_CONSTANTS.CREATE_TAG;
-        return post(url, data);
+        return await post(url, data);
     };
 
     deleteTag = async (id) => {
