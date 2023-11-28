@@ -32,6 +32,18 @@
         color: var(--text-muted-color);
     }
 
+    &__balance-input-wrap {
+        position: relative;
+    }
+
+    &__balance-input-currency {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 0.5em;
+        color: var(--text-muted-color);
+    }
+
     &__account {
         padding: 1.5em;
         display: flex;
