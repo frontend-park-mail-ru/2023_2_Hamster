@@ -1,9 +1,9 @@
-import { BaseComponent } from '@components/baseComponent.js';
-import { Card } from '@molecules';
-import { userStore } from '@stores/userStore';
-import { userActions } from '@actions/userActions';
+import {BaseComponent} from '@components/baseComponent.js';
+import {Card} from '@molecules';
+import {userStore} from '@stores/userStore';
+import {userActions} from '@actions/userActions';
 
-import { USER_STORE } from '@constants/constants';
+import {USER_STORE} from '@constants/constants';
 import template from './dashboard.hbs';
 
 /**
@@ -34,20 +34,20 @@ export class DashboardView extends BaseComponent {
     renderTemplateToParent = () => {
         userActions.getFeed();
 
-        const { balance } = userStore.storage.user;
-        const { plannedBudget } = userStore.storage.user;
-        const { actualBudget } = userStore.storage.user;
+        const {balance} = userStore.storage.user;
+        const {plannedBudget} = userStore.storage.user;
+        const {actualBudget} = userStore.storage.user;
 
         if (balance) {
-            this.#cardBalance.setState({ cardSubhead: balance });
+            this.#cardBalance.setState({cardSubhead: balance});
         }
 
         if (plannedBudget) {
-            this.#cardPlannedBudget.setState({ cardSubhead: plannedBudget });
+            this.#cardPlannedBudget.setState({cardSubhead: plannedBudget});
         }
 
         if (actualBudget) {
-            this.#cardActualBudget.setState({ cardSubhead: actualBudget });
+            this.#cardActualBudget.setState({cardSubhead: actualBudget});
         }
 
         const cardBalanceHTML = this.#cardBalance.render();
@@ -72,14 +72,23 @@ export class DashboardView extends BaseComponent {
     render = async () => {
         await userStore.feed();
 
-        if (userStore.storage.user.feed) {
-            const balance = userStore.storage.user.feed.balance;
-            const plannedBudget = userStore.storage.user.feed.plannedBudget;
-            const actualBudget = userStore.storage.user.feed.actualBudget;
+        if (userStore.storage.feed) {
+            const accounts = userStore.storage.feed.accounts;
+            const balance = userStore.storage.feed.balance;
+            const plannedBudget = userStore.storage.feed.plannedBudget;
+            const actualBudget = userStore.storage.feed.actualBudget;
 
-            this.#cardBalance.setState({ cardSubhead: parseFloat(balance) });
-            this.#cardPlannedBudget.setState({ cardSubhead: parseFloat(plannedBudget) });
-            this.#cardActualBudget.setState({ cardSubhead: parseFloat(actualBudget) });
+            accounts
+                ? this.#cardBalance.setState({cardSubhead: parseFloat(balance)})
+                : this.#cardBalance.setState({cardSubhead: 'У вас нет счетов, добавьте их, чтобы видеть свой баланс'});
+
+            plannedBudget
+                ? this.#cardPlannedBudget.setState({cardSubhead: parseFloat(plannedBudget)})
+                : this.#cardPlannedBudget.setState({cardSubhead: 'Ваш бюджет не запланирован, вы можете сделать это в настройках'});
+
+            plannedBudget
+                ? this.#cardActualBudget.setState({cardSubhead: parseFloat(actualBudget)})
+                : this.#cardActualBudget.setState({cardSubhead: 'Не можем расчитать фактический бюджет, задайте бюджет в настройках'});
         }
 
         const cardBalanceHTML = this.#cardBalance.render();

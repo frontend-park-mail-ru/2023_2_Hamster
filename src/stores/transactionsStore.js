@@ -8,13 +8,13 @@ import { categoriesStore } from '@stores/categoriesStore';
  * @class
  * @extends BaseStore
  */
-class CategoriesStore extends BaseStore {
+class TransactionsStore extends BaseStore {
 
     /**
-     * Creates an instance of UserStore.
+     * Creates an instance of TransactionsStore.
      *
      * @constructor
-     * @property {Object} storage - An object that contains the state of the user.
+     * @property {Object} storage - An object that contains the state of the transactions.
      * @property {string|null} storage.error - An error message, if any.
      */
     constructor() {
@@ -28,9 +28,9 @@ class CategoriesStore extends BaseStore {
      * @async
      * @function
      */
-    getTransaction = async () => {
+    getTransaction = async (qString) => {
         try {
-            const response = await transactionsApi.getTransaction();
+            const response = await transactionsApi.getTransaction(qString);
 
             switch (response.status) {
             case STATUS_CODES.OK:
@@ -55,6 +55,9 @@ class CategoriesStore extends BaseStore {
 
     transformArray = (arr) => {
         return arr.map(data => {
+            if (!this.findName(data.categories).pop().name) {
+                return
+            }
             return {
                 raw: data.id,
                 id: 'id' + data.id,
@@ -84,7 +87,7 @@ class CategoriesStore extends BaseStore {
     getNameById(id) {
         const obj = this.categories.find(item => item.id === id);
 
-        return obj ? obj.name : 'Позже пофиксим';
+        return obj ? obj.name : null;
     }
 
     getIdByName(name) {
@@ -98,9 +101,11 @@ class CategoriesStore extends BaseStore {
             const response = await transactionsApi.createTransaction(data);
 
             this.storage.states.push({
-                raw: response.transaction_id,
-                id: 'id' + response.transaction_id,
+                raw: response.body.transaction_id,
+                id: 'id' + response.body.transaction_id,
                 transactionName: this.getNameById(data.categories.pop()),
+                transactionPlace: data.payer,
+                transactionMessage: data.description,
                 value: data.income - data.outcome,
                 account: 'Карта',
                 deleteId: 'delete_' + response.transaction_id,
@@ -154,6 +159,12 @@ class CategoriesStore extends BaseStore {
             console.log('Unable to connect to the server, error: ', error);
         }
     };
+
+    rerenderTransaction = async () => {
+        this.storeChanged = true;
+
+        this.emitChange(EVENT_TYPES.RERENDER_TRANSACTIONS);
+    }
 }
 
-export const transactionsStore = new CategoriesStore();
+export const transactionsStore = new TransactionsStore();

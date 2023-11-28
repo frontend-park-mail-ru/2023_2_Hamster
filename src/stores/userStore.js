@@ -1,10 +1,10 @@
 import {
     STATUS_CODES, EVENT_TYPES, USER_STORE, ROUTE_CONSTANTS
 } from '@constants/constants';
-import { LOGIN_RULES, PASSWORD_RULES, USERNAME_RULES } from '@constants/validation';
-import { authApi } from '@api/auth';
-import { userApi } from '@api/user';
-import { router } from '@router';
+import {LOGIN_RULES, PASSWORD_RULES, USERNAME_RULES} from '@constants/validation';
+import {authApi} from '@api/auth';
+import {userApi} from '@api/user';
+import {router} from '@router';
 import BaseStore from './baseStore.js';
 
 /**
@@ -52,25 +52,25 @@ class UserStore extends BaseStore {
             response = await authApi.checkAuth();
 
             switch (response.status) {
-            case STATUS_CODES.OK:
-                this.storage.user = {
-                    login: response.body.login,
-                    username: response.body.username,
-                    id: response.body.id,
-                    isAuthorised: true,
-                };
-                this.storage.error = null;
-                this.storeChanged = true;
+                case STATUS_CODES.OK:
+                    this.storage.user = {
+                        login: response.body.login,
+                        username: response.body.username,
+                        id: response.body.id,
+                        isAuthorised: true,
+                    };
+                    this.storage.error = null;
+                    this.storeChanged = true;
 
-                break;
+                    break;
 
-            case STATUS_CODES.UNAUTHORISED:
-                this.storage.error = 'Не авторизован';
-                this.storeChanged = true;
-                break;
+                case STATUS_CODES.UNAUTHORISED:
+                    this.storage.error = 'Не авторизован';
+                    this.storeChanged = true;
+                    break;
 
-            default:
-                console.log('Undefined status code', response.status);
+                default:
+                    console.log('Undefined status code', response.status);
             }
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);
@@ -98,51 +98,51 @@ class UserStore extends BaseStore {
             const response = await authApi.signIn(data);
 
             switch (response.status) {
-            case STATUS_CODES.ACCEPTED:
-                this.storage.user = {
-                    login: response.body.login,
-                    username: response.body.username,
-                    id: response.body.id,
-                    isAuthorised: true,
-                };
-                this.storage.error = null;
-                this.storeChanged = true;
-
-                await this.emitChange(EVENT_TYPES.LOGIN_SUCCESS);
-                break;
-
-            case STATUS_CODES.TOO_MANY_REQUESTS:
-                this.storage = {
-                    ...this.storage,
-                    loginInputState: {
+                case STATUS_CODES.ACCEPTED:
+                    this.storage.user = {
                         login: data.login,
-                        isError: true,
-                        inputHelperText: 'Неверное логин или пароль',
-                    },
-                };
+                        username: response.body.username,
+                        id: response.body.id,
+                        isAuthorised: true,
+                    };
+                    this.storage.error = null;
+                    this.storeChanged = true;
 
-                this.storeChanged = true;
+                    await this.emitChange(EVENT_TYPES.LOGIN_SUCCESS);
+                    break;
 
-                this.emitChange(EVENT_TYPES.LOGIN_ERROR);
-                break;
+                case STATUS_CODES.TOO_MANY_REQUESTS:
+                    this.storage = {
+                        ...this.storage,
+                        loginInputState: {
+                            login: data.login,
+                            isError: true,
+                            inputHelperText: 'Неверное логин или пароль',
+                        },
+                    };
 
-            case STATUS_CODES.INTERNAL_SERVER_ERROR:
-                this.storage = {
-                    ...this.storage,
-                    loginInputState: {
-                        login: data.login,
-                        isError: true,
-                        inputHelperText: 'Непредвиденная ошибка',
-                    },
-                };
+                    this.storeChanged = true;
 
-                this.storeChanged = true;
+                    this.emitChange(EVENT_TYPES.LOGIN_ERROR);
+                    break;
 
-                this.emitChange(EVENT_TYPES.LOGIN_ERROR);
-                break;
+                case STATUS_CODES.INTERNAL_SERVER_ERROR:
+                    this.storage = {
+                        ...this.storage,
+                        loginInputState: {
+                            login: data.login,
+                            isError: true,
+                            inputHelperText: 'Непредвиденная ошибка',
+                        },
+                    };
 
-            default:
-                console.log('Undefined status code', response.status);
+                    this.storeChanged = true;
+
+                    this.emitChange(EVENT_TYPES.LOGIN_ERROR);
+                    break;
+
+                default:
+                    console.log('Undefined status code', response.status);
             }
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);
@@ -174,58 +174,58 @@ class UserStore extends BaseStore {
             const response = await authApi.signUp(data);
 
             switch (response.status) {
-            case STATUS_CODES.ACCEPTED:
-                this.storage.user = {
-                    login: response.body.login,
-                    username: response.body.username,
-                    id: response.body.id,
-                    isAuthorised: true,
-                };
-                this.storage.error = null;
-                this.storeChanged = true;
-
-                await this.emitChange(EVENT_TYPES.REGISTRATION_SUCCESS);
-                break;
-
-            case STATUS_CODES.UNAUTHORISED:
-                this.storage.error = 'Данное логин пользователя уже занят';
-                this.storeChanged = true;
-
-                this.emitChange(EVENT_TYPES.REGISTRATION_ERROR);
-                break;
-
-            case STATUS_CODES.TOO_MANY_REQUESTS:
-                this.storage = {
-                    ...this.storage,
-                    loginInputState: {
+                case STATUS_CODES.ACCEPTED:
+                    this.storage.user = {
                         login: data.login,
-                        isError: true,
-                        inputHelperText: 'Данный логин уже занят',
-                    },
-                };
+                        username: response.body.username,
+                        id: response.body.id,
+                        isAuthorised: true,
+                    };
+                    this.storage.error = null;
+                    this.storeChanged = true;
 
-                this.storeChanged = true;
+                    await this.emitChange(EVENT_TYPES.REGISTRATION_SUCCESS);
+                    break;
 
-                this.emitChange(EVENT_TYPES.REGISTRATION_ERROR);
-                break;
+                case STATUS_CODES.UNAUTHORISED:
+                    this.storage.error = 'Данное логин пользователя уже занят';
+                    this.storeChanged = true;
 
-            case STATUS_CODES.INTERNAL_SERVER_ERROR:
-                this.storage = {
-                    ...this.storage,
-                    loginInputState: {
-                        login: data.login,
-                        isError: true,
-                        inputHelperText: 'Непредвиденная ошибка, уже работаем над этим',
-                    },
-                };
+                    this.emitChange(EVENT_TYPES.REGISTRATION_ERROR);
+                    break;
 
-                this.storeChanged = true;
+                case STATUS_CODES.TOO_MANY_REQUESTS:
+                    this.storage = {
+                        ...this.storage,
+                        loginInputState: {
+                            login: data.login,
+                            isError: true,
+                            inputHelperText: 'Данный логин уже занят',
+                        },
+                    };
 
-                this.emitChange(EVENT_TYPES.REGISTRATION_ERROR);
-                break;
+                    this.storeChanged = true;
 
-            default:
-                console.log('Undefined status code', response.status);
+                    this.emitChange(EVENT_TYPES.REGISTRATION_ERROR);
+                    break;
+
+                case STATUS_CODES.INTERNAL_SERVER_ERROR:
+                    this.storage = {
+                        ...this.storage,
+                        loginInputState: {
+                            login: data.login,
+                            isError: true,
+                            inputHelperText: 'Непредвиденная ошибка, уже работаем над этим',
+                        },
+                    };
+
+                    this.storeChanged = true;
+
+                    this.emitChange(EVENT_TYPES.REGISTRATION_ERROR);
+                    break;
+
+                default:
+                    console.log('Undefined status code', response.status);
             }
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);
@@ -248,34 +248,34 @@ class UserStore extends BaseStore {
             response = await authApi.logOut();
 
             switch (response.status) {
-            case STATUS_CODES.OK:
-                this.storage.user = {
-                    username: response.body.username,
-                    id: response.body.id,
-                    isAuthorised: false,
-                };
-                this.storage.error = null;
-                this.storeChanged = true;
-                break;
+                case STATUS_CODES.OK:
+                    this.storage.user = {
+                        username: response.body.username,
+                        id: response.body.id,
+                        isAuthorised: false,
+                    };
+                    this.storage.error = null;
+                    this.storeChanged = true;
+                    break;
 
-            case STATUS_CODES.BAD_REQUEST:
-                this.storage.user = {
-                    isAuthorised: false,
-                };
-                this.storage.error = response.message;
-                this.storeChanged = true;
-                break;
+                case STATUS_CODES.BAD_REQUEST:
+                    this.storage.user = {
+                        isAuthorised: false,
+                    };
+                    this.storage.error = response.message;
+                    this.storeChanged = true;
+                    break;
 
-            case STATUS_CODES.INTERNAL_SERVER_ERROR:
-                this.storage.user = {
-                    isAuthorised: false,
-                };
-                this.storage.error = 'Ошибка на сервере';
-                this.storeChanged = true;
-                break;
+                case STATUS_CODES.INTERNAL_SERVER_ERROR:
+                    this.storage.user = {
+                        isAuthorised: false,
+                    };
+                    this.storage.error = 'Ошибка на сервере';
+                    this.storeChanged = true;
+                    break;
 
-            default:
-                console.log('Undefined status code', response.status);
+                default:
+                    console.log('Undefined status code', response.status);
             }
 
             await router.navigateTo(ROUTE_CONSTANTS.LOGIN_ROUTE, false);
@@ -295,29 +295,28 @@ class UserStore extends BaseStore {
             const response = await userApi.getFeed();
 
             switch (response.status) {
-            case STATUS_CODES.OK:
-                if (response.body.accounts !== null) {
-                    console.log(response.body);
-                    this.storage.user.feed = {
+                case STATUS_CODES.OK:
+                    this.storage.feed = {
+                        accounts: response.body.accounts,
                         balance: response.body.balance,
                         actualBudget: response.body.actual_budget,
                         plannedBudget: response.body.planned_budget,
                     };
-                }
-                this.storage.error = null;
-                this.storeChanged = true;
-                break;
 
-            case STATUS_CODES.BAD_REQUEST:
-            case STATUS_CODES.UNAUTHORISED:
-            case STATUS_CODES.FORBIDDEN:
-            case STATUS_CODES.INTERNAL_SERVER_ERROR:
-                this.storage.error = response.message;
-                this.storeChanged = true;
-                break;
+                    this.storage.error = null;
+                    this.storeChanged = true;
+                    break;
 
-            default:
-                console.log('Undefined status code', response.status);
+                case STATUS_CODES.BAD_REQUEST:
+                case STATUS_CODES.UNAUTHORISED:
+                case STATUS_CODES.FORBIDDEN:
+                case STATUS_CODES.INTERNAL_SERVER_ERROR:
+                    this.storage.error = response.message;
+                    this.storeChanged = true;
+                    break;
+
+                default:
+                    console.log('Undefined status code', response.status);
             }
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);
@@ -433,9 +432,9 @@ class UserStore extends BaseStore {
      * @param {string} data.passwordRepeat - The repeated password.
      */
     isPasswordRepeat = ({
-        password,
-        passwordRepeat,
-    }) => {
+                            password,
+                            passwordRepeat,
+                        }) => {
         const result = password === passwordRepeat;
 
         this.storage = {
@@ -463,22 +462,22 @@ class UserStore extends BaseStore {
             const response = await userApi.putUpdate(data);
 
             switch (response.status) {
-            case STATUS_CODES.OK:
-                this.storage.user.feed.plannedBudget = data.planned_budget;
-                this.storage.error = null;
-                this.storeChanged = true;
-                break;
+                case STATUS_CODES.OK:
+                    this.storage.feed.plannedBudget = data.planned_budget;
+                    this.storage.error = null;
+                    this.storeChanged = true;
+                    break;
 
-            case STATUS_CODES.BAD_REQUEST:
-            case STATUS_CODES.UNAUTHORISED:
-            case STATUS_CODES.FORBIDDEN:
-            case STATUS_CODES.INTERNAL_SERVER_ERROR:
-                this.storage.error = response.message;
-                this.storeChanged = true;
-                break;
+                case STATUS_CODES.BAD_REQUEST:
+                case STATUS_CODES.UNAUTHORISED:
+                case STATUS_CODES.FORBIDDEN:
+                case STATUS_CODES.INTERNAL_SERVER_ERROR:
+                    this.storage.error = response.message;
+                    this.storeChanged = true;
+                    break;
 
-            default:
-                console.log('Undefined status code', response.status);
+                default:
+                    console.log('Undefined status code', response.status);
             }
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);

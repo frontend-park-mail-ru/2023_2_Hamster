@@ -38,6 +38,13 @@ class AccountStore extends BaseStore {
                 this.storage.states = this.transformArray(response.body.accounts);
                 this.accounts = response.body.accounts;
 
+                this.accountsValues = this.accounts.map(account => {
+                    return {
+                        value: account.id,
+                        valueName: account.mean_payment
+                    };
+                });
+
                 break;
 
             case STATUS_CODES.NO_CONTENT:
@@ -53,7 +60,7 @@ class AccountStore extends BaseStore {
         }
     };
 
-    
+
     createAccount = async (data) => {
         try {
             const response = (await accountApi.createAccount(data)).body;

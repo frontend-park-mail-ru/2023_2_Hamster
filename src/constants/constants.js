@@ -1,5 +1,5 @@
 import IMAGE_URL from '@images/peopleLoginReg.svg';
-import { SVG_ICONS } from '@icons/icons';
+import {SVG_ICONS} from '@icons/icons';
 
 export const ROUTE_CONSTANTS = {
     PROFILE: '/profile',
@@ -115,7 +115,7 @@ export const USER_STORE = {
         cardBalance: {
             cardSize: 'card_small',
             cardHeadline: 'Баланс',
-            cardSubhead: 'У вас еще нет счетов',
+            cardSubhead: 'У вас нет счетов, добавьте их, чтобы видеть свой баланс',
         },
         cardPlannedBudget: {
             cardSize: 'card_small',
@@ -125,7 +125,7 @@ export const USER_STORE = {
         cardActualBudget: {
             cardSize: 'card_small',
             cardHeadline: 'Фактический бюджет',
-            cardSubhead: 'Не можем расчитать фактический бюджет',
+            cardSubhead: 'Не можем расчитать фактический бюджет, задайте бюджет в настройках',
         },
     },
 };
@@ -190,11 +190,12 @@ export const PROFILE_STATE = {
         inputSize: 'input_small',
         typeOfInput: 'number',
         inputPlaceholder: 'Ваш бюджет на месяц',
+        units: 'руб.',
     },
 
     AVATAR: {
         avatar: null,
-        textFallback: 'ИП',
+        textFallback: '',
         svg: null,
         imageSize: 'image-container_large',
     },

@@ -1,15 +1,17 @@
-import { TRANSACTION_ACTIONS } from '@constants/actions';
-import { dispatcher } from '../modules/dispatcher.js';
+import {TRANSACTION_ACTIONS} from '@constants/actions';
+import {dispatcher} from '../modules/dispatcher.js';
 
 export const transactionActions = {
-    async getTransactions() {
+    async getTransactions(qString) {
         await dispatcher.dispatch({
             type: TRANSACTION_ACTIONS.GET_TRANSACTIONS,
-            data: {},
+            data: {
+                qString
+            },
         });
     },
 
-    async createTransaction(account, categories, income, outcome) {
+    async createTransaction(account, categories, description, income, outcome, payer) {
         await dispatcher.dispatch({
             type: TRANSACTION_ACTIONS.CREATE_TRANSACTION,
             data: {
@@ -17,15 +19,15 @@ export const transactionActions = {
                 account_outcome: account,
                 categories,
                 date: '2023-11-13T04:11:38.113227Z',
-                description: 'sorry, not now :(',
+                description,
                 income,
                 outcome,
-                payer: 'sorry, not now :(',
+                payer,
             },
         });
     },
 
-    async updateTransaction(account, transaction_id, categories, income, outcome) {
+    async updateTransaction(account, transaction_id, categories, income, outcome, description, payer) {
         await dispatcher.dispatch({
             type: TRANSACTION_ACTIONS.UPDATE_TRANSACTION,
             data: {
@@ -34,10 +36,10 @@ export const transactionActions = {
                 transaction_id,
                 categories,
                 date: '2023-11-13T04:11:38.113227Z',
-                description: 'sorry, not now :(',
+                description,
                 income,
                 outcome,
-                payer: 'sorry, not now :(',
+                payer,
             },
         });
     },
@@ -50,5 +52,12 @@ export const transactionActions = {
             },
         });
     },
+
+    async rerenderTransactions() {
+        await dispatcher.dispatch({
+            type: TRANSACTION_ACTIONS.RERENDER_TRANSACTION,
+            data: {},
+        });
+    }
 
 };

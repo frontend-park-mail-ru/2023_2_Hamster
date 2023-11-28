@@ -1,0 +1,40 @@
+.select{
+  background: var(--input-primary-color);
+
+  &__label{
+    color: var(--text-main-color);
+  }
+
+  &__list{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    outline: none;
+    background: none;
+    box-shadow: none;
+    color: var(--text-main-color);
+    display: flex;
+    background: var(--input-primary-color);
+    height: 100%;
+    width: 100%;
+    border: 1px solid var(--input-border-color);
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+    border-radius: var(--radius-size-small);
+    padding: var(--input-padding-small);
+    cursor: pointer;
+
+    &::-ms-expand {
+      display: none;
+      cursor: pointer;
+      background: var(--input-primary-color);
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  &__item{
+    background: var(--input-primary-color);
+    color: var(--text-main-color);
+  }
+}

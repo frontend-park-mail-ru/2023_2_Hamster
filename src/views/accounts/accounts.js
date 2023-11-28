@@ -26,7 +26,7 @@ const SAVE_BUTTON_STATE = {
 const DELETE_BUTTON_STATE = {
     id: 'delete-account-button',
     buttonText: 'Удалить',
-    buttonColor: 'button_secondary-color',
+    buttonColor: 'button_delete',
     buttonSize: 'button_small',
     buttonType: 'button',
 };
@@ -44,15 +44,15 @@ const NAME_INPUT_STATE = {
     inputSize: 'input_small',
     typeOfInput: 'text',
     inputPlaceholder: 'Хомячьи щечки',
+    units: 'руб.'
 };
 
 const BALANCE_INPUT_STATE = {
     id: 'balance-account-input',
     inputSize: 'input_small',
-    typeOfInput: 'text',
     inputPlaceholder: '100500',
-    maxLength: '10',
     typeOfInput: 'number',
+    units: 'руб.'
 };
 
 /**
@@ -73,13 +73,13 @@ export class AccountsView extends BaseComponent {
         this.saveButton = new Button(null, SAVE_BUTTON_STATE);
         this.deleteButton = new Button(null, DELETE_BUTTON_STATE);
         this.cancelButton = new Button(null, CANCEL_BUTTON_STATE);
-    
+
         this.nameInput = new Input(null, NAME_INPUT_STATE);
         this.balanceInput = new Input(null, BALANCE_INPUT_STATE);
-    
-        // this.accountSelected = 
+
+        // this.accountSelected =
     }
-    
+
     /**
      * Renders the AccountsView template to the parent element.
      * This method is responsible for rendering the profile setting page.
@@ -158,7 +158,7 @@ export class AccountsView extends BaseComponent {
         if (createButton) {
             createButton.addEventListener('click', this.createButtonHandler.bind(this));
         }
-        
+
         const cancelButton = document.querySelector(`#${this.cancelButton.getState().id}`);
         if (cancelButton) {
             cancelButton.addEventListener('click', this.cancelButtonHandler.bind(this));
@@ -182,7 +182,7 @@ export class AccountsView extends BaseComponent {
 
         this.setHandlers();
     }
-    
+
     updateButtonHandler = async () => {
         let nameInputValue = document.querySelector(`#${this.nameInput.getState().id}`)?.value;
         let balanceInputValue = document.querySelector(`#${this.balanceInput.getState().id}`)?.value;

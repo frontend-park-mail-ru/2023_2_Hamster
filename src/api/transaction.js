@@ -3,15 +3,19 @@ import { deleteRequest, get, post, put } from '@ajax';
 
 class TransactionApi {
 
-    // TODO: remove hardcode url
-    getTransaction = async () => {
-        const url = API_CONSTANTS.GET_TRANSACTIONS + '?page=1&page_size=10';
-        return await get(url);
-    };
-
     createTransaction = async (data) => {
         const url = API_CONSTANTS.CREATE_TRANSACTION;
         return await post(url, data);
+    };
+
+    getTransaction = async (qString) => {
+        if (!qString) {
+            const url = API_CONSTANTS.GET_TRANSACTIONS
+            return await get(url);
+        } else {
+            const url = API_CONSTANTS.GET_TRANSACTIONS + qString;
+            return await get(url);
+        }
     };
 
     deleteTransaction = async (transaction_id) => {

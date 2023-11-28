@@ -7,6 +7,7 @@ import template from './profile.hbs';
 import { PROFILE_STATE, ROUTE_CONSTANTS } from '@constants/constants';
 import { categoryActions } from '@actions/categoryActions';
 import { router } from '@router';
+import {Select} from "@atoms/select/select";
 
 /**
  * ProfileView class extends BaseComponent.
@@ -53,32 +54,6 @@ export class ProfileView extends BaseComponent {
 
         this.#saveButton = new Button(null, PROFILE_STATE.BUTTON_STATE, null);
     }
-
-    /**
-     * Renders the Profile template to the parent element.
-     * This method is responsible for rendering the profile setting page to the parent element.
-     *
-     * @function
-     */
-    renderTemplateToParent = () => {
-        const templates = [
-            template({
-                planCard: this.#buttonCardPlan.render(),
-                shareCard: this.#buttonCardShare.render(),
-                categoriesCard: this.#buttonCardCategories.render(),
-                profileNameInput: this.#profileNameInput.render(),
-                // currentPasswordInput: this.#currentPasswordInput.render(),
-                // newPasswordInput: this.#newPasswordInput.render(),
-                // repeatPasswordInput: this.#repeatPasswordInput.render(),
-                budgetInput: this.#budgetInput.render(),
-                login: userStore.storage.user.login,
-                avatar: this.#avatar.render(),
-                saveButton: this.#saveButton.render(),
-            }),
-        ];
-
-        return super.renderTemplateToParent(templates);
-    };
 
     /**
      * Remove listeners from inputs and then set them up.
