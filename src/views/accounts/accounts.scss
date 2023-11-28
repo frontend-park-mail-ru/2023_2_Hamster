@@ -67,10 +67,12 @@
                 align-self: flex-end;
             }
         }
-
+        
         &-inputs {
+            display: flex;
+            flex-direction: row;
             gap: var(--meduim-gap);
-
+            width: 45%;
         }
     }
 
