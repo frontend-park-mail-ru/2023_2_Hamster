@@ -3,11 +3,18 @@
     color: var(--text-main-color);
     grid-column: span 12;
     gap: var(--big-gap);
+    width: 100%;
     
     &__yours {
         display: flex;
         flex-direction: column;
         width: 50%;
+        row-gap: var(--big-gap);
+    }
+
+    &__yours-list {
+        display: flex;
+        flex-direction: column;
         row-gap: var(--meduim-gap);
     }
 
