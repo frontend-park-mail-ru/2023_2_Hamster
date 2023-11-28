@@ -99,6 +99,8 @@ export class AccountsView extends BaseComponent {
             return account;
         });
 
+        console.log('this.accounts', this.accounts);
+
         const templates = [
             template({
                 accounts: accounts,
@@ -161,6 +163,7 @@ export class AccountsView extends BaseComponent {
         //     return;
         // }
         // TODO через action и стору
+        console.log('this.accountSelected', this.accountSelected);
         this.accountSelected = account.id;
         accountStore.rerenderAccounts();
 
