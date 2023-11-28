@@ -1,6 +1,7 @@
 .accounts {
     display: flex;
-    color: var(--text-main-color)
+    color: var(--text-main-color);
+    grid-column: span 12;
     
     &__yours {
         display: flex;
@@ -10,11 +11,11 @@
     }
 
     &__yours-header {
-        color: var(--text-main-color)
+        // color: var(--text-main-color)
     }
     
     &__configure-header {
-        color: var(--text-main-color)
+        // color: var(--text-main-color)
     }
 
     &__account {
@@ -27,16 +28,17 @@
     }
     
     &__account-name {
-        color: var(--text-main-color)
+        // color: var(--text-main-color)
     }
     
     &__account-balance {
-        color: var(--text-main-color)
+        // color: var(--text-main-color)
     }
 
     &__configure-account {
         display: flex;
         flex-direction: column;
+        gap: var(--meduim-gap);
     }
 
     &__create-account {
