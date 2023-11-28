@@ -183,8 +183,8 @@ export class AccountsView extends BaseComponent {
     }
     
     updateButtonHandler = async () => {
-        const nameInputValue = document.querySelector(`#${this.nameInput.getState().id}`)?.value;
-        const balanceInputValue = document.querySelector(`#${this.balanceInput.getState().id}`)?.value;
+        let nameInputValue = document.querySelector(`#${this.nameInput.getState().id}`)?.value;
+        let balanceInputValue = document.querySelector(`#${this.balanceInput.getState().id}`)?.value;
         const account = this.getSelectedAccount();
 
         nameInputValue = nameInputValue ? nameInputValue : account.name;

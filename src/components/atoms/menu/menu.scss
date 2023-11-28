@@ -33,7 +33,6 @@
 
         &_color {
             color: var(--text-muted-color);
-            transition: background-color 0.1s ease;
 
             &:hover {
                 color: var(--text-main-color);
