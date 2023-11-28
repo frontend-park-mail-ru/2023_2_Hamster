@@ -66,8 +66,8 @@ export class CategoriesView extends BaseComponent {
             template({
                 name: this.name.render(),
                 button: this.button.render(),
-                income: this.incomeCheckbox.render(),
-                outcome: this.outcomeCheckbox.render(),
+                // income: this.incomeCheckbox.render(),
+                // outcome: this.outcomeCheckbox.render(),
                 categoriesList: this.renderedCategories,
             }),
         ];

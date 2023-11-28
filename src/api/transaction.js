@@ -5,7 +5,7 @@ class TransactionApi {
 
     // TODO: remove hardcode url
     getTransaction = async () => {
-        const url = API_CONSTANTS.GET_TRANSACTIONS + '?page=1&page_size=10';
+        const url = API_CONSTANTS.GET_TRANSACTIONS;
         return await get(url);
     };
 
