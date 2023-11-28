@@ -189,6 +189,7 @@ export class AccountsView extends BaseComponent {
 
     deleteButtonHandler = async () => {
         const account = this.getSelectedAccount();
+        this.accountSelected = null;
         await accountActions.deleteAccount(account.raw);
     };
 

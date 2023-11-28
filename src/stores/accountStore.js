@@ -58,7 +58,7 @@ class AccountStore extends BaseStore {
     
     createAccount = async (data) => {
         try {
-            const response = await accountApi.createAccount(data);
+            const response = (await accountApi.createAccount(data)).body;
 
             console.log('create account response', response);
 
