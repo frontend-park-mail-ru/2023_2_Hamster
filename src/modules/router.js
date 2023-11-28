@@ -80,6 +80,8 @@ class Router {
         }
 
         let view = this.routes[routeResult];
+        console.log('route result', routeResult);
+        console.log('view', view);
 
         if (!view) {
             view = this.routes[ROUTE_CONSTANTS.NOT_FOUND];
