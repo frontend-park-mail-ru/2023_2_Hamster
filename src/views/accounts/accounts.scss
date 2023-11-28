@@ -51,6 +51,7 @@
         display: flex;
         gap: var(--big-gap);
         width: 50%;
+        flex-direction: column;
     }
 
     &__configure-account {
@@ -68,6 +69,7 @@
         }
 
         &-inputs {
+            gap: var(--meduim-gap);
 
         }
     }
