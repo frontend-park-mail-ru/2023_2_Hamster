@@ -107,7 +107,7 @@ export class AccountsView extends BaseComponent {
                 accountBalanceInput: this.balanceInput.render(),
                 saveAccountButton: this.saveButton.render(),
                 cancelAccountButton: this.cancelButton.render(),
-                deleteAccountButton: this.deleteButtonButton.render(),
+                deleteAccountButton: this.deleteButton.render(),
                 createAccountButton: this.createButton.render(),
             }),
         ];
