@@ -1,7 +1,7 @@
 import { BaseComponent } from '@components/baseComponent.js';
 
 import template from './transaction.hbs';
-import { Button, Image, Input } from '@atoms';
+import {Button, Image, Input, Select} from '@atoms';
 import { SVG_ICONS } from '@icons/icons';
 
 const DEFAULT_TRANSACTION = {
@@ -37,17 +37,11 @@ const SUM_INPUT_STATE = {
 };
 
 const TAG_INPUT_STATE = {
-    id: 'tag_input',
-    inputSize: 'input_small',
-    typeOfInput: 'text',
-    inputPlaceholder: 'Категория',
+    hidden: 'Категория',
 };
 
 const ACCOUNT_INPUT_STATE = {
-    id: 'account_input',
-    inputSize: 'input_small',
-    typeOfInput: 'text',
-    inputPlaceholder: 'Счет',
+    hidden: 'Счет',
 };
 
 /**
@@ -78,8 +72,8 @@ export class Transaction extends BaseComponent {
 
         this.icon = new Image(null, ICON, undefined);
         this.sumInput = new Input(null, {...SUM_INPUT_STATE, id: 'sum_'+ state.id});
-        this.tagInput = new Input(null, {...TAG_INPUT_STATE, id: 'tag_'+ state.id});
-        this.accountInput = new Input(null, {...ACCOUNT_INPUT_STATE, id: 'account_'+ state.id});
+        this.tagInput = new Select(null, {TAG_INPUT_STATE, id: 'tag_'+ state.id});
+        this.accountInput = new Select(null, {ACCOUNT_INPUT_STATE, id: 'account_'+ state.id});
         this.button = new Button(null, buttonState)
 
         if (typeof clickHandler === 'function') {

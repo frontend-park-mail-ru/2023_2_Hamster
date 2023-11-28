@@ -27,6 +27,7 @@ const SUM_INPUT_STATE = {
 };
 
 const TAG_INPUT_STATE = {
+    id: 'tag_input_id',
     hidden: 'Категория',
 };
 
@@ -45,6 +46,7 @@ const DESCRIPTION = {
 };
 
 const ACCOUNT_INPUT_STATE = {
+    id: 'account_input_id',
     hidden: 'Счет',
 };
 
