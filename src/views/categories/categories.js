@@ -3,9 +3,9 @@ import { BaseComponent } from '@components/baseComponent.js';
 import template from './categories.hbs';
 import { Button, Category, Input } from '@atoms';
 import { categoriesStore } from '@stores/categoriesStore';
-import { EVENT_TYPES } from '@constants/constants';
 import { categoryActions } from '@actions/categoryActions';
 import { userStore } from '@stores/userStore';
+import {Checkbox} from "@atoms/checkbox/checkbox";
 
 const BUTTON_STATE = {
     id: 'button',
@@ -34,6 +34,7 @@ export class CategoriesView extends BaseComponent {
 
         this.input = new Input(null, INPUT_STATE);
         this.button = new Button(null, BUTTON_STATE);
+        this.checkbox = new Checkbox(null, undefined, null);
     }
 
     /**
@@ -54,6 +55,7 @@ export class CategoriesView extends BaseComponent {
             template({
                 input: this.input.render(),
                 button: this.button.render(),
+                income: this.checkbox.render(),
                 categoriesList: this.renderedCategories,
             }),
         ];
