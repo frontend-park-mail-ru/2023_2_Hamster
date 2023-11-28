@@ -163,7 +163,7 @@ export class AccountsView extends BaseComponent {
         //     return;
         // }
         // TODO через action и стору
-        this.accountSelected = account.id;
+        this.accountSelected = account.elementId;
         console.log('this.accountSelected', this.accountSelected);
         accountStore.rerenderAccounts();
 
