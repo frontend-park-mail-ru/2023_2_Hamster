@@ -37,6 +37,10 @@ const DEFAULT_STATE = {
                                 menuItemText: 'Транзакции',
                                 menuItemID: 'transactions',
                             },
+                            {
+                                menuItemText: 'Счета',
+                                menuItemID: 'accounts',
+                            },
                         ],
                     },
                     {
