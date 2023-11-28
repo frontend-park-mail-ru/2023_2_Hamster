@@ -199,6 +199,11 @@ export class Layout extends BaseComponent {
             menuProfile.addEventListener('click', this.navigateProfile);
         }
 
+        const menuAccounts = document.querySelector('#accounts');
+        if (menuAccounts) {
+            menuAccounts.addEventListener('click', this.navigateAccounts);
+        }
+
         this.#contentElement.setHandlers();
     }
 
@@ -212,5 +217,9 @@ export class Layout extends BaseComponent {
 
     navigateProfile = async () => {
         await router.navigateTo(ROUTE_CONSTANTS.PROFILE);
+    };
+ 
+    navigateAccounts = async () => {
+        await router.navigateTo(ROUTE_CONSTANTS.ACCOUNTS);
     };
 }
