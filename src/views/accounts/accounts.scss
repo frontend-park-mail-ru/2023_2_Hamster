@@ -11,11 +11,9 @@
     }
 
     &__yours-header {
-        // color: var(--text-main-color)
     }
     
     &__configure-header {
-        // color: var(--text-main-color)
     }
 
     &__account {
@@ -25,14 +23,18 @@
         &_selected {
             background-color: var(--background-secondary-color);
         }
+
+        &:hover {
+            background-color: var(--background-secondary-color);
+        }
+
+        border-radius: ;
     }
     
     &__account-name {
-        // color: var(--text-main-color)
     }
     
     &__account-balance {
-        // color: var(--text-main-color)
     }
 
     &__configure-account {

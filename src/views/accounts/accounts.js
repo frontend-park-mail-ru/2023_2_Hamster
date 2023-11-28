@@ -191,7 +191,7 @@ export class AccountsView extends BaseComponent {
         const nameInputValue = document.querySelector(`#${this.nameInput.getState().id}`)?.value;
         const balanceInputValue = document.querySelector(`#${this.balanceInput.getState().id}`)?.value;
         if (nameInputValue && balanceInputValue) {
-            await accountActions.createAccount(nameInputValue, balanceInputValue);
+            await accountActions.createAccount(nameInputValue, Number(balanceInputValue));
         }
     };
 
