@@ -24,8 +24,15 @@
     width: 50%;
   }
 
-  &__avatar {
-    width: 25%;
+  &__avatar{
+
+  }
+
+  &__avatar-container {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--meduim-gap);
   }
 
   &__avatar-heading {

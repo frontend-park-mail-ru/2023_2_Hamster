@@ -184,7 +184,7 @@ export const PROFILE_STATE = {
 
     AVATAR: {
         avatar: null,
-        textFallback: 'ИП',
+        textFallback: '',
         svg: null,
         imageSize: 'image-container_large',
     },
