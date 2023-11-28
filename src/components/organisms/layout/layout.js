@@ -4,6 +4,7 @@ import { Sidebar } from '@molecules/sidebar/sidebar.js';
 import { Button } from '@atoms/button/button.js';
 import { router } from '@router';
 import { API_CONSTANTS, EVENT_TYPES, ROUTE_CONSTANTS } from '@constants/constants.js';
+import { accountStore } from '@stores/accountStore';
 
 import sidebarTemplate from '@molecules/sidebar/sidebar.hbs';
 
@@ -125,7 +126,7 @@ export class Layout extends BaseComponent {
         }
 
         if (context === 'accounts') {
-            categoriesStore.registerListener(EVENT_TYPES.RERENDER_ACCOUNTS, this.renderTemplateToParent.bind(this));
+            accountStore.registerListener(EVENT_TYPES.RERENDER_ACCOUNTS, this.renderTemplateToParent.bind(this));
         }
     }
 
