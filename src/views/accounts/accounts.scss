@@ -47,22 +47,35 @@
     &__account-balance {
     }
 
+    &__configure {
+        display: flex;
+        gap: var(--big-gap);
+        width: 50%;
+    }
+
     &__configure-account {
         display: flex;
         flex-direction: column;
         gap: var(--big-gap);
-
+        
         &-buttons {
+            gap: var(--meduim-gap)
+            display: flex;
             flex-direction: row;
             &:last-child {
                 align-self: flex-end;
             }
+        }
+
+        &-inputs {
+
         }
     }
 
     &__create-account {
         display: flex;
         flex-direction: column;
+        gap: var(--big-gap);
     }
 
 

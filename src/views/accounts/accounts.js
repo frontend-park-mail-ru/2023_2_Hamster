@@ -91,7 +91,10 @@ export class AccountsView extends BaseComponent {
         }
 
         const accounts = accountStore.storage.states.map((account) => {
-            account.balance = account.balance + ' руб.';
+            accounta = {
+                ...account,
+                balance: account.balance + ' руб.',
+            }
             if (this.accountSelected && this.accountSelected == account.elementId) {
                 return {
                     ...account,
