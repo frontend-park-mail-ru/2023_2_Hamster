@@ -2,9 +2,9 @@ import { BaseComponent } from '@components/baseComponent.js';
 
 import template from './accounts.hbs';
 import { Button, Input } from '@atoms';
-import { accountsStore } from '@stores/accountsStore';
+import { accountStore } from '@stores/accountStore';
 import { EVENT_TYPES } from '@constants/constants';
-import { accountActions } from '@actions/accountActions';
+import { accountActions } from '@actions/accountAction';
 import { userStore } from '@stores/userStore';
 
 const CREATE_BUTTON_STATE = {
@@ -85,11 +85,11 @@ export class AccountsView extends BaseComponent {
      * @function
      */
     async render() {
-        if (!accountsStore.storage.states) {
-            await accountsStore.getAccounts();
+        if (!accountStore.storage.states) {
+            await accountStore.getAccounts();
         }
 
-        const accounts = accountsStore.storage.states.map((account) => {
+        const accounts = accountStore.storage.states.map((account) => {
             if (this.accountSelected && this.accountSelected == account.id) {
                 return {
                     ...account,
@@ -162,7 +162,7 @@ export class AccountsView extends BaseComponent {
         // }
         // TODO через action
         this.accountSelected = account.id;
-        accountsStore.rerenderAccounts();
+        accountStore.rerenderAccounts();
 
         // const isSettingsOpen = category.getState().settingsOpen;
         // category.setState({ settingsOpen: !isSettingsOpen });
@@ -198,6 +198,6 @@ export class AccountsView extends BaseComponent {
     cancelButtonHandler = async () => {
         // TODO через action
         this.accountSelected = null;
-        accountsStore.rerenderAccounts();
+        accountStore.rerenderAccounts();
     };
 }

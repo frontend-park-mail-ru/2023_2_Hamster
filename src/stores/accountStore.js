@@ -1,5 +1,5 @@
 import BaseStore from './baseStore.js';
-import { accountApi } from '@api/category';
+import { accountApi } from '@api/account';
 import { EVENT_TYPES } from '@constants/constants';
 
 /**
@@ -120,4 +120,4 @@ class AccountStore extends BaseStore {
     }
 };
 
-export const accountsStore = new AccountStore();
+export const accountStore = new AccountStore();
