@@ -181,7 +181,7 @@ export class AccountsView extends BaseComponent {
         const balanceInputValue = document.querySelector(`#${this.balanceInput.getState().id}`)?.value;
         const account = this.getSelectedAccount();
         if (nameInputValue && balanceInputValue) {
-            await accountActions.updateAccount(account.raw, nameInputValue, balanceInputValue);
+            await accountActions.updateAccount(account.raw, nameInputValue, Number(balanceInputValue));
         }
     };
 
