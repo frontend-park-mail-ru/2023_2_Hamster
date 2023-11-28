@@ -90,7 +90,7 @@ export class AccountsView extends BaseComponent {
         }
 
         const accounts = accountStore.storage.states.map((account) => {
-            if (this.accountSelected && this.accountSelected == account.id) {
+            if (this.accountSelected && this.accountSelected == account.elementId) {
                 return {
                     ...account,
                     selected: true,
