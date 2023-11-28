@@ -1,12 +1,20 @@
 .accounts {
     display: flex;
     color: var(--text-main-color)
-
+    
     &__yours {
         display: flex;
         flex-direction: column;
         width: 50%;
         margin: 1em;
+    }
+
+    &__yours-header {
+        color: var(--text-main-color)
+    }
+    
+    &__configure-header {
+        color: var(--text-main-color)
     }
 
     &__account {
@@ -17,13 +25,13 @@
             background-color: var(--background-secondary-color);
         }
     }
-
+    
     &__account-name {
-
+        color: var(--text-main-color)
     }
-
+    
     &__account-balance {
-
+        color: var(--text-main-color)
     }
 
     &__configure-account {

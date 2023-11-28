@@ -1,6 +1,6 @@
 <div class="accounts">
     <div>
-        <h3 class="font-h3-regular">Твои счета</h3>
+        <h3 class="font-h3-regular accounts__yours-header">Твои счета</h3>
         <div class="accounts__yours">
             {{#if accounts}}
             {{#each accounts}}
@@ -17,7 +17,7 @@
         </div>
     </div>
     {{#if accountSelected}}
-        <h3 class="font-h3-regular">Измените счет</h3>
+        <h3 class="font-h3-regular accounts__configure-header">Измените счет</h3>
         <div class="accounts__configure-account">
             <div>
                 {{{accountNameInput}}}
