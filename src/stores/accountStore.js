@@ -99,11 +99,9 @@ class AccountStore extends BaseStore {
                 }
                 return {
                     raw: data.id,
-                    id: 'id' + data.id,
+                    elementId: 'id' + data.id,
                     name: data.mean_payment,
                     balance: data.balance,
-                    // deleteId: 'delete_' + data.account_id,
-                    // cardId: 'card_' + data.account_id,
                 };
             });
 

@@ -63,6 +63,7 @@
             gap: var(--meduim-gap);
             display: flex;
             flex-direction: row;
+            align-items: center;
             &:last-child {
                 align-self: flex-end;
             }
@@ -74,6 +75,10 @@
             gap: var(--meduim-gap);
             width: 45%;
         }
+    }
+
+    &__delete-account-button {
+        align-self: flex-end;
     }
 
     &__create-account {
