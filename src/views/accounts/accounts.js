@@ -51,6 +51,7 @@ const BALANCE_INPUT_STATE = {
     inputSize: 'input_small',
     typeOfInput: 'text',
     inputPlaceholder: '100500',
+    typeOfInput: 'number',
 };
 
 /**
