@@ -41,7 +41,6 @@
     font-style: normal;
     font-size: 14px;
     letter-spacing: 0.03em;
-    color: var(--text-main-color);
     margin-left: 8px;
     margin-right: 8px;
   }
@@ -76,10 +75,48 @@
   }
 
   &.button_primary-color {
+    color: var(--text-main-color);
     @include button-state(var(--button-primary-default-color), var(--button-primary-hover-color), var(--button-primary-focus-color), var(--button-primary-active-color), var(--button-primary-disabled-color));
   }
 
   &.button_secondary-color {
-    @include button-state(var(--button-secondary-default-color), var(--button-secondary-hover-color), var(--button-secondary-focus-color), var(--button-secondary-active-color), var(--button-secondary-disabled-color));
+    background-color: #ffffff00;
+    border: 2px solid var(--primary-color);
+    color: var(--text-main-color);
+
+    &:focus,
+    &:hover {
+      background: var(--primary-color);
+      cursor: pointer;
+    }
+
+    &:active {
+      outline: none;
+      background: var(--primary-color);
+      box-shadow: 0 0 0 4px var(--primary-color);;
+    }
+  }
+
+  &.button_delete {
+    background-color: #ffffff00;
+    border: 2px solid var(--error-color);
+    color: var(--error-color);
+
+    &:hover {
+      background: var(--error-color);
+      cursor: pointer;
+      color: var(--text-main-color);
+    }
+
+    &:focus {
+      background: var(--error-color);
+      color: var(--text-main-color);
+    }
+
+    &:active {
+      outline: none;
+      background: var(--error-color);
+      box-shadow: 0 0 0 4px var(--error-color);;
+    }
   }
 }

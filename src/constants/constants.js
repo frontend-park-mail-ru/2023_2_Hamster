@@ -1,5 +1,5 @@
 import IMAGE_URL from '@images/peopleLoginReg.svg';
-import { SVG_ICONS } from '@icons/icons';
+import {SVG_ICONS} from '@icons/icons';
 
 export const ROUTE_CONSTANTS = {
     PROFILE: '/profile',
@@ -98,7 +98,7 @@ export const USER_STORE = {
             id: 'switch_login_signup_button',
             buttonText: 'Вход',
             buttonSize: 'button_small',
-            buttonColor: 'button_primary-color',
+            buttonColor: 'button_delete',
         },
     },
     FEED_STATE: {
@@ -180,6 +180,7 @@ export const PROFILE_STATE = {
         inputSize: 'input_small',
         typeOfInput: 'number',
         inputPlaceholder: 'Ваш бюджет на месяц',
+        units: 'руб.',
     },
 
     AVATAR: {

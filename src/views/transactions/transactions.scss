@@ -15,4 +15,10 @@
     flex-direction: column;
     gap: var(--meduim-gap);
   }
+
+  &__list{
+    display: flex;
+    flex-direction: column;
+    gap: var(--meduim-gap);
+  }
 }
