@@ -1,6 +1,7 @@
 import { userStore } from '@stores/userStore.js';
 import { categoriesStore } from '@stores/categoriesStore';
 import { transactionsStore } from '@stores/transactionsStore';
+import { accountStore } from '@stores/accountStore';
 
 export const USER_ACTIONS_TYPES = {
     API_CHECK_AUTH: 'USER_CHECK_AUTH',
@@ -32,6 +33,13 @@ export const TRANSACTION_ACTIONS = {
     CREATE_TRANSACTION: 'CREATE_TRANSACTION',
     UPDATE_TRANSACTION: 'UPDATE_TRANSACTION',
     DELETE_TRANSACTION: 'DELETE_TRANSACTION',
+};
+
+export const ACCOUNT_ACTIONS = {
+    GET_ACCOUNTS: 'GET_ACCOUNTS',
+    CREATE_ACCOUNT: 'CREATE_ACCOUNT',
+    UPDATE_ACCOUNT: 'UPDATE_ACCOUNT',
+    DELETE_ACCOUNT: 'DELETE_ACCOUNT',
 };
 
 export const actions = [
@@ -117,5 +125,22 @@ export const actions = [
     {
         type: TRANSACTION_ACTIONS.DELETE_TRANSACTION,
         method: transactionsStore.deleteTransaction,
+    },
+
+    {
+        type: ACCOUNT_ACTIONS.GET_ACCOUNTS,
+        method: accountStore.getAccounts,
+    },
+    {
+        type: ACCOUNT_ACTIONS.CREATE_ACCOUNT,
+        method: accountStore.createAccount,
+    },
+    {
+        type: ACCOUNT_ACTIONS.UPDATE_ACCOUNT,
+        method: accountStore.updateAccount,
+    },
+    {
+        type: ACCOUNT_ACTIONS.DELETE_ACCOUNT,
+        method: accountStore.deleteAccount,
     },
 ];

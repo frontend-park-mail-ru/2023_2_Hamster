@@ -15,6 +15,9 @@
             {{#if autocompleteOff}}
                 autocomplete="off"
             {{/if}}
+            {{#if maxLength}}
+                maxlength="{{maxLength}}"
+            {{/if}}
             name="{{nameOfField}}"
             placeholder="{{this.inputPlaceholder}}"
             class="input font-caption

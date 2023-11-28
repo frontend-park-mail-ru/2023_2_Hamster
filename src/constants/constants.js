@@ -10,6 +10,7 @@ export const ROUTE_CONSTANTS = {
     CATEGORIES: '/categories',
     TRANSACTIONS: '/transactions',
     NOT_FOUND: '/404',
+    ACCOUNTS: '/accounts',
 };
 
 const SERVER_PREFIX = 'https://hammywallet.ru';
@@ -34,11 +35,18 @@ export const API_CONSTANTS = {
 
     FEED: `${SERVER_PREFIX}/api/user/feed`,
     UPDATE: `${SERVER_PREFIX}/api/user/update`,
+
+    GET_ACCOUNTS: `${SERVER_PREFIX}/api/user/account/all`,
+    CREATE_ACCOUNT: `${SERVER_PREFIX}/api/account/create`,
+    UPDATE_ACCOUNT: `${SERVER_PREFIX}/api/account/update`,
+    DELETE_ACCOUNT_TAIL: `/delete`,
 };
 
 export const getTagURL = (id) => `${SERVER_PREFIX}/api/tag/${id}`;
 
 export const getTransactionURL = (id) => `${SERVER_PREFIX}/api/transaction/${id}`;
+
+export const getAccountURL = (id) => `${SERVER_PREFIX}/api/account/${id}`;
 
 export const STATUS_CODES = {
     OK: 200,
@@ -74,6 +82,8 @@ export const EVENT_TYPES = {
     RERENDER_CATEGORIES: 'RERENDER_CATEGORIES',
 
     RERENDER_TRANSACTIONS: 'RERENDER_TRANSACTIONS',
+
+    RERENDER_ACCOUNTS: 'RERENDER_ACCOUNTS'
 };
 
 export const USER_STORE = {

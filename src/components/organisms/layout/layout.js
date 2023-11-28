@@ -4,6 +4,7 @@ import { Sidebar } from '@molecules/sidebar/sidebar.js';
 import { Button } from '@atoms/button/button.js';
 import { router } from '@router';
 import { API_CONSTANTS, EVENT_TYPES, ROUTE_CONSTANTS } from '@constants/constants.js';
+import { accountStore } from '@stores/accountStore';
 
 import sidebarTemplate from '@molecules/sidebar/sidebar.hbs';
 
@@ -36,6 +37,10 @@ const DEFAULT_STATE = {
                             {
                                 menuItemText: 'Транзакции',
                                 menuItemID: 'transactions',
+                            },
+                            {
+                                menuItemText: 'Счета',
+                                menuItemID: 'accounts',
                             },
                         ],
                     },
@@ -119,6 +124,10 @@ export class Layout extends BaseComponent {
         if (context === 'transactions') {
             categoriesStore.registerListener(EVENT_TYPES.RERENDER_TRANSACTIONS, this.renderTemplateToParent.bind(this));
         }
+
+        if (context === 'accounts') {
+            accountStore.registerListener(EVENT_TYPES.RERENDER_ACCOUNTS, this.renderTemplateToParent.bind(this));
+        }
     }
 
     /**
@@ -190,6 +199,11 @@ export class Layout extends BaseComponent {
             menuProfile.addEventListener('click', this.navigateProfile);
         }
 
+        const menuAccounts = document.querySelector('#accounts');
+        if (menuAccounts) {
+            menuAccounts.addEventListener('click', this.navigateAccounts);
+        }
+
         this.#contentElement.setHandlers();
     }
 
@@ -203,5 +217,9 @@ export class Layout extends BaseComponent {
 
     navigateProfile = async () => {
         await router.navigateTo(ROUTE_CONSTANTS.PROFILE);
+    };
+ 
+    navigateAccounts = async () => {
+        await router.navigateTo(ROUTE_CONSTANTS.ACCOUNTS);
     };
 }

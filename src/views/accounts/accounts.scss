@@ -1,0 +1,111 @@
+.accounts {
+    display: flex;
+    color: var(--text-main-color);
+    grid-column: span 12;
+    gap: var(--big-gap);
+    width: 100%;
+    
+    &__yours {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+        row-gap: var(--big-gap);
+    }
+
+    &__yours-list {
+        display: flex;
+        flex-direction: column;
+        row-gap: var(--meduim-gap);
+    }
+
+    &__yours-header {
+    }
+    
+    &__configure-header {
+    }
+
+    &__balance-input-label {
+        color: var(--text-muted-color);
+    }
+
+    &__name-input-label {
+        color: var(--text-muted-color);
+    }
+
+    &__balance-input-wrap {
+        position: relative;
+    }
+
+    &__balance-input-currency {
+        position: absolute;
+        top: 50%;
+        right: 0.5em;
+        color: var(--text-muted-color);
+    }
+
+    &__account {
+        padding: 1.5em;
+        display: flex;
+        justify-content: space-between;
+        gap: 1em;
+        border-radius: var(--radius-size-medium);
+        transition: background-color 0.1s ease;
+
+        &_selected {
+            background-color: var(--background-secondary-color);
+        }
+
+        &:hover {
+            background-color: var(--background-secondary-color);
+            cursor: pointer;
+        }
+
+        border-radius: 1em;
+    }
+    
+    &__account-name {
+    }
+    
+    &__account-balance {
+    }
+
+    &__configure {
+        display: flex;
+        gap: var(--big-gap);
+        width: 50%;
+        flex-direction: column;
+    }
+
+    &__configure-account {
+        display: flex;
+        flex-direction: column;
+        gap: var(--big-gap);
+        
+        &-buttons {
+            gap: var(--meduim-gap);
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        
+        &-inputs {
+            display: flex;
+            flex-direction: column;
+            gap: var(--meduim-gap);
+            width: 45%;
+        }
+    }
+
+    &__delete-account-button {
+        align-self: flex-end;
+        margin-left: auto;
+    }
+
+    &__create-account {
+        display: flex;
+        flex-direction: column;
+        gap: var(--big-gap);
+    }
+
+
+}
