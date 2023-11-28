@@ -1,6 +1,6 @@
 import BaseStore from './baseStore.js';
 import { accountApi } from '@api/account';
-import { EVENT_TYPES } from '@constants/constants';
+import { EVENT_TYPES, STATUS_CODES } from '@constants/constants';
 
 /**
  *
