@@ -26,8 +26,6 @@ class AccountStore extends BaseStore {
             elementId: 'id' + data.id,
             name: data.mean_payment,
             balance: data.balance,
-            // deleteId: 'delete_' + data.id,
-            // cardId: 'card_' + data.id,
         }));
     };
 
@@ -96,12 +94,12 @@ class AccountStore extends BaseStore {
             await accountApi.updateAccount(data);
             this.storage.states = this.storage.states.map(item => {
                 console.log('data item', data, item);
-                if (item.raw !== data.account_id) {
+                if (item.raw !== data.id) {
                     return item;
                 }
                 return {
-                    raw: data.account_id,
-                    id: 'id' + data.account_id,
+                    raw: data.id,
+                    id: 'id' + data.id,
                     name: data.mean_payment,
                     balance: data.balance,
                     // deleteId: 'delete_' + data.account_id,

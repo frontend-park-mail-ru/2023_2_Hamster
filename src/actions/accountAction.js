@@ -28,7 +28,7 @@ export const accountActions = {
                 accumulation: true,
                 balance: balance,
                 balance_enabled: true,
-                account_id: accountId,
+                id: accountId,
                 mean_payment: name,
             },
         });
