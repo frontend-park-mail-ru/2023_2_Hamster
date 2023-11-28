@@ -60,6 +60,8 @@ class AccountStore extends BaseStore {
         try {
             const response = await accountApi.createAccount(data);
 
+            console.log('create account response', response);
+
             this.storage.states.push({
                 raw: response.account_id,
                 elementId: 'id' + response.account_id,

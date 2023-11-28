@@ -100,7 +100,7 @@ export class AccountsView extends BaseComponent {
             return account;
         });
 
-        // console.log('this.accounts', accounts);
+        console.log('this.accounts', accounts);
 
         const templates = [
             template({
