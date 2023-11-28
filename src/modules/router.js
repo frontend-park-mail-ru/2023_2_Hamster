@@ -79,6 +79,7 @@ class Router {
                 : routeTrimmed;
         }
 
+        routeResult = routeTrimmed;
         let view = this.routes[routeResult];
 
         if (!view) {

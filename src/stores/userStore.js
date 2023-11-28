@@ -296,14 +296,13 @@ class UserStore extends BaseStore {
 
             switch (response.status) {
             case STATUS_CODES.OK:
-                if (response.body.accounts !== null) {
-                    console.log(response.body);
-                    this.storage.user.feed = {
-                        balance: response.body.balance,
-                        actualBudget: response.body.actual_budget,
-                        plannedBudget: response.body.planned_budget,
-                    };
-                }
+                this.storage.user.feed = {
+                    accounts: response.body.accounts,
+                    balance: response.body.balance,
+                    actualBudget: response.body.actual_budget,
+                    plannedBudget: response.body.planned_budget,
+                };
+
                 this.storage.error = null;
                 this.storeChanged = true;
                 break;

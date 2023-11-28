@@ -105,7 +105,7 @@ export const USER_STORE = {
         cardBalance: {
             cardSize: 'card_small',
             cardHeadline: 'Баланс',
-            cardSubhead: 'У вас еще нет счетов',
+            cardSubhead: 'У вас нет счетов, добавьте их, чтобы видеть свой баланс',
         },
         cardPlannedBudget: {
             cardSize: 'card_small',
@@ -115,7 +115,7 @@ export const USER_STORE = {
         cardActualBudget: {
             cardSize: 'card_small',
             cardHeadline: 'Фактический бюджет',
-            cardSubhead: 'Не можем расчитать фактический бюджет',
+            cardSubhead: 'Не можем расчитать фактический бюджет, задайте бюджет в настройках',
         },
     },
 };
