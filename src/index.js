@@ -7,6 +7,7 @@ import { Layout } from '@organisms/layout/layout';
 import { ProfileView } from '@views/profile/profile';
 import { CategoriesView } from '@views/categories/categories';
 import { TransactionsView } from '@views/transactions/transactions';
+import { AccountsView } from '@views/accounts/accounts';
 
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./sw.js', { scope: '/' })
