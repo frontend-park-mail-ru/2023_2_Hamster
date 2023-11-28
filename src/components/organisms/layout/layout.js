@@ -123,6 +123,10 @@ export class Layout extends BaseComponent {
         if (context === 'transactions') {
             categoriesStore.registerListener(EVENT_TYPES.RERENDER_TRANSACTIONS, this.renderTemplateToParent.bind(this));
         }
+
+        if (context === 'accounts') {
+            categoriesStore.registerListener(EVENT_TYPES.RERENDER_ACCOUNTS, this.renderTemplateToParent.bind(this));
+        }
     }
 
     /**
