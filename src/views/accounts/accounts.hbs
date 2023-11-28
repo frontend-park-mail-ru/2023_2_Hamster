@@ -4,7 +4,11 @@
         <div class="accounts__yours">
             {{#if accounts}}
             {{#each accounts}}
-                <div class="accounts__account" id="{{this.elementId}}">
+                <div class="accounts__account
+                {{#if this.selected}}
+                    accounts__account_selected
+                {{/if}}
+                " id="{{this.elementId}}">
                     <span class="accounts__account-name">{{this.name}}</span>
                     <span class="accounts__account-balance">{{this.balance}}</span>
                 </div>

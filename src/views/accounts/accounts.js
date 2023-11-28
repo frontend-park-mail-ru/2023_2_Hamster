@@ -115,6 +115,15 @@ export class AccountsView extends BaseComponent {
         return super.render(templates);
     }
 
+    getSelectedAccount = () => {
+        return accountStore.storage.states.reduce((res, elem) => {
+            const accountItem = document.querySelector(`#${elem.elementId}`);
+            if (accountItem?.classList.contains('accounts__account_selected')) {
+                return elem;
+            }
+        }, null);
+    }
+
     // TODO: add input validation
     setHandlers() {
         if (accountStore?.storage?.states) {
@@ -123,40 +132,35 @@ export class AccountsView extends BaseComponent {
                 if (accountItem) {
                     accountItem.addEventListener('click', this.handleAccountClick.bind(this, account));
                 }
-
-                const saveButton = document.querySelector(`#${this.createButton.getState().id}`);
-                if (saveButton) {
-                    saveButton.addEventListener('click', this.updateButtonHandler.bind(this, category));
-                }
-
-                const deleteButton = document.querySelector(`#${this.deleteButton.getState().id}`);
-                if (deleteButton) {
-                    deleteButton.addEventListener('click', this.deleteButtonHandler.bind(this, category));
-                }
-
-                const createButton = document.querySelector(`#${this.createButton.getState().id}`);
-                if (createButton) {
-                    deleteButton.addEventListener('click', this.createButtonHandler.bind(this, category));
-                }
-                
-                const cancelButton = document.querySelector(`#${this.cancelButton.getState().id}`);
-                if (cancelButton) {
-                    deleteButton.addEventListener('click', this.cancelButtonHandler.bind(this));
-                }
-
             });
         }
 
-        // const createButton = document.querySelector('#button');
-        // if (createButton) {
-        //     createButton.addEventListener('click', this.createButtonHandler.bind(this));
-        // }
+        const saveButton = document.querySelector(`#${this.createButton.getState().id}`);
+        if (saveButton) {
+            saveButton.addEventListener('click', this.updateButtonHandler.bind(this));
+        }
+
+        const deleteButton = document.querySelector(`#${this.deleteButton.getState().id}`);
+        if (deleteButton) {
+            deleteButton.addEventListener('click', this.deleteButtonHandler.bind(this));
+        }
+
+        const createButton = document.querySelector(`#${this.createButton.getState().id}`);
+        if (createButton) {
+            deleteButton.addEventListener('click', this.createButtonHandler.bind(this));
+        }
+        
+        const cancelButton = document.querySelector(`#${this.cancelButton.getState().id}`);
+        if (cancelButton) {
+            deleteButton.addEventListener('click', this.cancelButtonHandler.bind(this));
+        }
     }
 
     handleAccountClick = (account, event) => {
         // if (event.target.classList.contains('account__delete')) {
         //     return;
         // }
+        // TODO через action
         this.accountSelected = account.id;
         accountsStore.rerenderAccounts();
 
@@ -169,15 +173,17 @@ export class AccountsView extends BaseComponent {
         this.setHandlers();
     }
     
-    updateButtonHandler = async (account) => {
+    updateButtonHandler = async () => {
         const nameInputValue = document.querySelector(`#${this.nameInput.getState().id}`)?.value;
         const balanceInputValue = document.querySelector(`#${this.balanceInput.getState().id}`)?.value;
+        const account = this.getSelectedAccount();
         if (nameInputValue && balanceInputValue) {
             await accountActions.updateAccount(account.raw, nameInputValue, balanceInputValue);
         }
     };
 
-    deleteButtonHandler = async (account) => {
+    deleteButtonHandler = async () => {
+        const account = this.getSelectedAccount();
         await accountActions.deleteAccount(account.id);
     };
 
@@ -190,6 +196,7 @@ export class AccountsView extends BaseComponent {
     };
 
     cancelButtonHandler = async () => {
+        // TODO через action
         this.accountSelected = null;
         accountsStore.rerenderAccounts();
     };
