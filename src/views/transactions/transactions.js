@@ -156,7 +156,7 @@ export class TransactionsView extends BaseComponent {
                 income = sumInput;
                 outcome = 0;
             } else {
-                outcome = sumInput;
+                outcome = Math.abs(sumInput);
                 income = 0;
             }
 
