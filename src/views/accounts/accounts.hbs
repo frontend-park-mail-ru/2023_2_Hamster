@@ -16,35 +16,38 @@
             {{/if}}
         </div>
     </div>
-    {{#if accountSelected}}
-        <h3 class="font-h3-regular accounts__configure-header">Измените счет</h3>
-        <div class="accounts__configure-account">
-            <div>
-                {{{accountNameInput}}}
-                {{{accountBalanceInput}}}
+    <div>
+
+        {{#if accountSelected}}
+            <h3 class="font-h3-regular accounts__configure-header">Измените счет</h3>
+            <div class="accounts__configure-account">
+                <div>
+                    {{{accountNameInput}}}
+                    {{{accountBalanceInput}}}
+                </div>
+                <div>
+                    {{{saveAccountButton}}}
+                </div>
+                <span>или</span>
+                <div>
+                    {{{cancelAccountButton}}}
+                </div>
+                <div>
+                    {{{deleteAccountButton}}}
+                </div>
             </div>
-            <div>
-                {{{saveAccountButton}}}
+        {{else}}
+            <h3 class="font-h3-regular">Создайте счет accounts__configure-header</h3>
+            <div class="accounts__create-account">
+                <div>
+                    {{{accountNameInput}}}
+                    {{{accountBalanceInput}}}
+                </div>
+                <div>
+                    {{{createAccountButton}}}
+                </div>
             </div>
-            <span>или</span>
-            <div>
-                {{{cancelAccountButton}}}
-            </div>
-            <div>
-                {{{deleteAccountButton}}}
-            </div>
-        </div>
-    {{else}}
-        <h3 class="font-h3-regular">Создайте счет</h3>
-        <div class="accounts__create-account">
-            <div>
-                {{{accountNameInput}}}
-                {{{accountBalanceInput}}}
-            </div>
-            <div>
-                {{{createAccountButton}}}
-            </div>
-        </div>
-    {{/if}}
-    
+        {{/if}}
+        
+    </div>
 </div>
