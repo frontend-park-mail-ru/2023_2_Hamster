@@ -34,6 +34,13 @@ export const TRANSACTION_ACTIONS = {
     DELETE_TRANSACTION: 'DELETE_TRANSACTION',
 };
 
+export const ACCOUNT_ACTIONS = {
+    GET_ACCOUNTS: 'GET_ACCOUNTS',
+    CREATE_ACCOUNT: 'CREATE_ACCOUNT',
+    UPDATE_ACCOUNT: 'UPDATE_ACCOUNT',
+    DELETE_ACCOUNT: 'DELETE_ACCOUNT',
+};
+
 export const actions = [
     {
         type: USER_ACTIONS_TYPES.API_CHECK_AUTH,
@@ -117,5 +124,22 @@ export const actions = [
     {
         type: TRANSACTION_ACTIONS.DELETE_TRANSACTION,
         method: transactionsStore.deleteTransaction,
+    },
+
+    {
+        type: ACCOUNT_ACTIONS.GET_ACCOUNTS,
+        method: accountStore.getAccounts,
+    },
+    {
+        type: ACCOUNT_ACTIONS.CREATE_ACCOUNT,
+        method: accountStore.createAccount,
+    },
+    {
+        type: ACCOUNT_ACTIONS.UPDATE_ACCOUNT,
+        method: accountStore.updateAccount,
+    },
+    {
+        type: ACCOUNT_ACTIONS.DELETE_ACCOUNT,
+        method: accountStore.deleteAccount,
     },
 ];

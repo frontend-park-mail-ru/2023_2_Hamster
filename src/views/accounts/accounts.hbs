@@ -1,0 +1,46 @@
+<div class="accounts">
+    <div>
+        <h3 class="font-h3-regular">Твои счета</h3>
+        <div class="accounts__yours">
+            {{#if accounts}}
+            {{#each accounts}}
+                <div class="accounts__account" id="{{this.elementId}}">
+                    <span class="accounts__account-name">{{this.name}}</span>
+                    <span class="accounts__account-balance">{{this.balance}}</span>
+                </div>
+            {{/each}}
+            {{/if}}
+        </div>
+    </div>
+    {{#if accountSelected}}
+        <h3 class="font-h3-regular">Измените счет</h3>
+        <div class="accounts__configure-account">
+            <div>
+                {{{accountNameInput}}}
+                {{{accountBalanceInput}}}
+            </div>
+            <div>
+                {{{saveAccountButton}}}
+            </div>
+            <span>или</span>
+            <div>
+                {{{cancelAccountButton}}}
+            </div>
+            <div>
+                {{{deleteAccountButton}}}
+            </div>
+        </div>
+    {{else}}
+        <h3 class="font-h3-regular">Создайте счет</h3>
+        <div class="accounts__create-account">
+            <div>
+                {{{accountNameInput}}}
+                {{{accountBalanceInput}}}
+            </div>
+            <div>
+                {{{createAccountButton}}}
+            </div>
+        </div>
+    {{/if}}
+    
+</div>

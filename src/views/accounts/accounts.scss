@@ -1,0 +1,39 @@
+.accounts {
+    display: flex;
+    // color: var(--)
+
+    &__yours {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+    }
+
+    &__account {
+        display: flex;
+        justify-content: space-between;
+
+        &_selected {
+            background-color: var(--background-secondary-color);
+        }
+    }
+
+    &__account-name {
+
+    }
+
+    &__account-balance {
+
+    }
+
+    &__configure-account {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__create-account {
+        display: flex;
+        flex-direction: column;
+    }
+
+
+}

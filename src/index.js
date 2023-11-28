@@ -46,6 +46,9 @@ const routes = {
     [ROUTE_CONSTANTS.TRANSACTIONS]: {
         view: new Layout(root, undefined, new TransactionsView(null), 'transactions'),
     },
+    [ROUTE_CONSTANTS.ACCOUNTS]: {
+        view: new Layout(root, undefined, new AccountsView(null), 'accounts'),
+    },
 };
 
 router.addRoutes(routes);
