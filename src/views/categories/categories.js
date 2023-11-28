@@ -22,6 +22,16 @@ const INPUT_STATE = {
     inputPlaceholder: 'Название категории',
 };
 
+const INCOME = {
+    id: 'income',
+    label: 'В доходах',
+}
+
+const OUTCOME = {
+    id: 'outcome',
+    label: 'В расходах',
+}
+
 /**
  * CategoriesView class extends BaseComponent.
  *
@@ -32,14 +42,15 @@ export class CategoriesView extends BaseComponent {
     constructor(parent) {
         super(undefined, template, parent);
 
-        this.input = new Input(null, INPUT_STATE);
+        this.name = new Input(null, INPUT_STATE);
         this.button = new Button(null, BUTTON_STATE);
-        this.checkbox = new Checkbox(null, undefined, null);
+        this.incomeCheckbox = new Checkbox(null, INCOME, null);
+        this.outcomeCheckbox = new Checkbox(null, OUTCOME, null);
     }
 
     /**
      * Renders the CategoriesView template to the parent element.
-     * This method is responsible for rendering the profile setting page.
+     * This method is responsible for rendering the categories page.
      *
      * @function
      */
@@ -53,9 +64,10 @@ export class CategoriesView extends BaseComponent {
 
         const templates = [
             template({
-                input: this.input.render(),
+                name: this.name.render(),
                 button: this.button.render(),
-                income: this.checkbox.render(),
+                income: this.incomeCheckbox.render(),
+                outcome: this.outcomeCheckbox.render(),
                 categoriesList: this.renderedCategories,
             }),
         ];
@@ -132,7 +144,7 @@ export class CategoriesView extends BaseComponent {
     };
 
     createButtonHandler = async () => {
-        const inputValue = document.querySelector(this.input.getState().id).value;
+        const inputValue = document.querySelector(this.name.getState().id).value;
         if (inputValue) {
             await categoryActions.createCategory(inputValue, userStore.storage.user.id);
         }
