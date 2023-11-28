@@ -147,12 +147,12 @@ export class AccountsView extends BaseComponent {
 
         const createButton = document.querySelector(`#${this.createButton.getState().id}`);
         if (createButton) {
-            deleteButton.addEventListener('click', this.createButtonHandler.bind(this));
+            createButton.addEventListener('click', this.createButtonHandler.bind(this));
         }
         
         const cancelButton = document.querySelector(`#${this.cancelButton.getState().id}`);
         if (cancelButton) {
-            deleteButton.addEventListener('click', this.cancelButtonHandler.bind(this));
+            cancelButton.addEventListener('click', this.cancelButtonHandler.bind(this));
         }
     }
 
