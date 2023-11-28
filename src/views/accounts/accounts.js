@@ -99,7 +99,7 @@ export class AccountsView extends BaseComponent {
             return account;
         });
 
-        console.log('this.accounts', this.accounts);
+        console.log('this.accounts', accounts);
 
         const templates = [
             template({
@@ -163,8 +163,8 @@ export class AccountsView extends BaseComponent {
         //     return;
         // }
         // TODO через action и стору
-        console.log('this.accountSelected', this.accountSelected);
         this.accountSelected = account.id;
+        console.log('this.accountSelected', this.accountSelected);
         accountStore.rerenderAccounts();
 
         // const isSettingsOpen = category.getState().settingsOpen;
