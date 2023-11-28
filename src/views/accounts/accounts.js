@@ -160,7 +160,7 @@ export class AccountsView extends BaseComponent {
         // if (event.target.classList.contains('account__delete')) {
         //     return;
         // }
-        // TODO через action
+        // TODO через action и стору
         this.accountSelected = account.id;
         accountStore.rerenderAccounts();
 
