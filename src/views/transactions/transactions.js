@@ -32,6 +32,20 @@ const TAG_INPUT_STATE = {
     inputPlaceholder: 'Категория',
 };
 
+const PAYER = {
+    id: 'payer_input',
+    inputSize: 'input_small',
+    typeOfInput: 'text',
+    inputPlaceholder: 'Место платежа',
+};
+
+const DESCRIPTION = {
+    id: 'description_input',
+    inputSize: 'input_small',
+    typeOfInput: 'text',
+    inputPlaceholder: 'Описание',
+};
+
 const ACCOUNT_INPUT_STATE = {
     id: 'account_input',
     inputSize: 'input_small',
@@ -51,6 +65,8 @@ export class TransactionsView extends BaseComponent {
 
         this.sumInput = new Input(null, SUM_INPUT_STATE);
         this.tagInput = new Input(null, TAG_INPUT_STATE);
+        this.payerInput = new Input(null, PAYER);
+        this.descriptionInput = new Input(null, DESCRIPTION);
         this.accountInput = new Input(null, ACCOUNT_INPUT_STATE);
         this.button = new Button(null, BUTTON_STATE);
     }
@@ -77,7 +93,9 @@ export class TransactionsView extends BaseComponent {
             template({
                 sumInput: this.sumInput.render(),
                 tagInput: this.tagInput.render(),
-                // accountInput: this.accountInput.render(),
+                payer: this.payerInput.render(),
+                description: this.descriptionInput.render(),
+                accountInput: this.accountInput.render(),
                 button: this.button.render(),
                 transactionsList: this.renderedTransactions,
             }),

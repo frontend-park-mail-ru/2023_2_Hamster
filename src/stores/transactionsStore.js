@@ -8,13 +8,13 @@ import { categoriesStore } from '@stores/categoriesStore';
  * @class
  * @extends BaseStore
  */
-class CategoriesStore extends BaseStore {
+class TransactionsStore extends BaseStore {
 
     /**
-     * Creates an instance of UserStore.
+     * Creates an instance of TransactionsStore.
      *
      * @constructor
-     * @property {Object} storage - An object that contains the state of the user.
+     * @property {Object} storage - An object that contains the state of the transactions.
      * @property {string|null} storage.error - An error message, if any.
      */
     constructor() {
@@ -101,6 +101,8 @@ class CategoriesStore extends BaseStore {
                 raw: response.transaction_id,
                 id: 'id' + response.transaction_id,
                 transactionName: this.getNameById(data.categories.pop()),
+                transactionPlace: data.payer,
+                transactionMessage: data.description,
                 value: data.income - data.outcome,
                 account: 'Карта',
                 deleteId: 'delete_' + response.transaction_id,
@@ -156,4 +158,4 @@ class CategoriesStore extends BaseStore {
     };
 }
 
-export const transactionsStore = new CategoriesStore();
+export const transactionsStore = new TransactionsStore();
