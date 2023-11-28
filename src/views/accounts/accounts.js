@@ -123,6 +123,7 @@ export class AccountsView extends BaseComponent {
             if (accountItem?.classList.contains('accounts__account_selected')) {
                 return elem;
             }
+            return res;
         }, null);
     }
 
