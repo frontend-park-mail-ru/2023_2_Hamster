@@ -17,7 +17,7 @@ const CREATE_BUTTON_STATE = {
 
 const SAVE_BUTTON_STATE = {
     id: 'save-account-button',
-    buttonText: 'Создать',
+    buttonText: 'Сохранить',
     buttonColor: 'button_primary-color',
     buttonSize: 'button_small',
     buttonType: 'button',
@@ -187,7 +187,7 @@ export class AccountsView extends BaseComponent {
 
     deleteButtonHandler = async () => {
         const account = this.getSelectedAccount();
-        await accountActions.deleteAccount(account.id);
+        await accountActions.deleteAccount(account.raw);
     };
 
     createButtonHandler = async () => {
