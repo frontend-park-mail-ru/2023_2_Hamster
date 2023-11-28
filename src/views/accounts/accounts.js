@@ -135,7 +135,7 @@ export class AccountsView extends BaseComponent {
             });
         }
 
-        const saveButton = document.querySelector(`#${this.createButton.getState().id}`);
+        const saveButton = document.querySelector(`#${this.saveButton.getState().id}`);
         if (saveButton) {
             saveButton.addEventListener('click', this.updateButtonHandler.bind(this));
         }
