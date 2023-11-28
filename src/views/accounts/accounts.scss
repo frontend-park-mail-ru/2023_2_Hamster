@@ -2,11 +2,13 @@
     display: flex;
     color: var(--text-main-color);
     grid-column: span 12;
+    gap: var(--big-gap);
     
     &__yours {
         display: flex;
         flex-direction: column;
         width: 50%;
+        row-gap: var(--meduim-gap);
     }
 
     &__yours-header {
@@ -19,6 +21,7 @@
         display: flex;
         justify-content: space-between;
         gap: 1em;
+        border-radius: var(--radius-size-medium);
 
         &_selected {
             background-color: var(--background-secondary-color);
@@ -40,7 +43,7 @@
     &__configure-account {
         display: flex;
         flex-direction: column;
-        gap: var(--meduim-gap);
+        gap: var(--big-gap);
     }
 
     &__create-account {

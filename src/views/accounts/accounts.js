@@ -94,6 +94,7 @@ export class AccountsView extends BaseComponent {
             if (this.accountSelected && this.accountSelected == account.elementId) {
                 return {
                     ...account,
+                    balance: account.balance + ' руб.',
                     selected: true,
                 }
             }
