@@ -54,7 +54,7 @@ class CategoriesStore extends BaseStore {
 
     createTag = async (data) => {
         try {
-            const response = await categoryApi.createTag(data);
+            const response = await categoryApi.createTag(data).body;
 
             this.storage.states.push({
                 id: 'id' + response.category_id,

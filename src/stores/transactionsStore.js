@@ -84,7 +84,7 @@ class TransactionsStore extends BaseStore {
     getNameById(id) {
         const obj = this.categories.find(item => item.id === id);
 
-        return obj ? obj.name : 'Позже пофиксим';
+        return obj ? obj.name : null;
     }
 
     getIdByName(name) {
@@ -95,7 +95,7 @@ class TransactionsStore extends BaseStore {
 
     createTransaction = async (data) => {
         try {
-            const response = await transactionsApi.createTransaction(data);
+            const response = await transactionsApi.createTransaction(data).body;
 
             this.storage.states.push({
                 raw: response.transaction_id,

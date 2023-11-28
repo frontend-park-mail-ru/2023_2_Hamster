@@ -100,7 +100,7 @@ class UserStore extends BaseStore {
             switch (response.status) {
             case STATUS_CODES.ACCEPTED:
                 this.storage.user = {
-                    login: response.body.login,
+                    login: data.login,
                     username: response.body.username,
                     id: response.body.id,
                     isAuthorised: true,
@@ -176,7 +176,7 @@ class UserStore extends BaseStore {
             switch (response.status) {
             case STATUS_CODES.ACCEPTED:
                 this.storage.user = {
-                    login: response.body.login,
+                    login: data.login,
                     username: response.body.username,
                     id: response.body.id,
                     isAuthorised: true,
