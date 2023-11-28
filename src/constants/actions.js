@@ -1,6 +1,7 @@
 import { userStore } from '@stores/userStore.js';
 import { categoriesStore } from '@stores/categoriesStore';
 import { transactionsStore } from '@stores/transactionsStore';
+import { accountStore  } from '@stores/accountStore ';
 
 export const USER_ACTIONS_TYPES = {
     API_CHECK_AUTH: 'USER_CHECK_AUTH',
