@@ -5,48 +5,50 @@
 
     {{#if this.inputImageLeft}}
         <img
-            class="input__icon input__icon-left"
-            src="{{this.inputImageLeft}}"
-            alt="left icon">
+                class="input__icon input__icon-left"
+                src="{{this.inputImageLeft}}"
+                alt="left icon">
     {{/if}}
 
     <input {{#if id}} id="{{id}}" {{/if}}
-            type="{{typeOfInput}}"
-            {{#if autocompleteOff}}
-                autocomplete="off"
-            {{/if}}
-            {{#if maxLength}}
-                maxlength="{{maxLength}}"
-            {{/if}}
-            name="{{nameOfField}}"
-            placeholder="{{this.inputPlaceholder}}"
-            class="input font-caption
+                      type="{{typeOfInput}}"
+        {{#if autocompleteOff}}
+                      autocomplete="off"
+        {{/if}}
+                      name="{{nameOfField}}"
+                      placeholder="{{this.inputPlaceholder}}"
+                      class="input font-caption
                 {{this.inputSize}}
-                {{this.inputRadiusSize}}
-                {{#if this.isError}}
+                          {{this.inputRadiusSize}}
+                          {{#if this.isError}}
                     input_error
                 {{/if}}
-                {{#if this.inputImageLeft}}
+                          {{#if this.inputImageLeft}}
                     input__text-left
                 {{/if}}"
     >
 
+    {{#if units}}
+        <span class="input__units font-caption">
+            {{units}}
+        </span>
+    {{/if}}
+
     {{#if this.inputImageRight}}
         {{#unless this.inputImageLeft}}
             <img
-                class="input__icon input__icon-right"
-                src="{{this.inputImageRight}}"
-                alt="right icon"
+                    class="input__icon input__icon-right"
+                    src="{{this.inputImageRight}}"
+                    alt="right icon"
             >
         {{/unless}}
     {{/if}}
-
-    {{#if this.inputHelperText}}
-        <div class="input__helper font-caption
+</div>
+{{#if this.inputHelperText}}
+    <div class="input__helper font-caption
             {{#if this.isError}}
                 input__helper_error
             {{/if}}">
-            {{this.inputHelperText}}
-        </div>
-    {{/if}}
-</div>
+        {{this.inputHelperText}}
+    </div>
+{{/if}}
