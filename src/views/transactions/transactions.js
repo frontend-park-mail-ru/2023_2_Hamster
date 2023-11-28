@@ -1,14 +1,14 @@
-import { BaseComponent } from '@components/baseComponent.js';
+import {BaseComponent} from '@components/baseComponent.js';
 
 import template from './transactions.hbs';
 
-import { Button, Input } from '@atoms';
-import { EVENT_TYPES } from '@constants/constants';
-import { Transaction } from '@atoms/transaction/transaction';
-import { transactionsStore } from '@stores/transactionsStore';
-import { categoriesStore } from '@stores/categoriesStore';
-import { transactionActions } from '@actions/transactionActions';
-import { categoryActions } from '@actions/categoryActions';
+import {Button, Input, Select} from '@atoms';
+import {EVENT_TYPES} from '@constants/constants';
+import {Transaction} from '@atoms/transaction/transaction';
+import {transactionsStore} from '@stores/transactionsStore';
+import {categoriesStore} from '@stores/categoriesStore';
+import {transactionActions} from '@actions/transactionActions';
+import {categoryActions} from '@actions/categoryActions';
 
 const BUTTON_STATE = {
     id: 'button',
@@ -27,10 +27,7 @@ const SUM_INPUT_STATE = {
 };
 
 const TAG_INPUT_STATE = {
-    id: 'tag_input',
-    inputSize: 'input_small',
-    typeOfInput: 'text',
-    inputPlaceholder: 'Категория',
+    hidden: 'Категория',
 };
 
 const PAYER = {
@@ -48,10 +45,7 @@ const DESCRIPTION = {
 };
 
 const ACCOUNT_INPUT_STATE = {
-    id: 'account_input',
-    inputSize: 'input_small',
-    typeOfInput: 'text',
-    inputPlaceholder: 'Счет',
+    hidden: 'Счет',
 };
 
 /**
@@ -65,10 +59,10 @@ export class TransactionsView extends BaseComponent {
         super(undefined, template, parent);
 
         this.sumInput = new Input(null, SUM_INPUT_STATE);
-        this.tagInput = new Input(null, TAG_INPUT_STATE);
+        this.tagInput = new Select(null, TAG_INPUT_STATE);
         this.payerInput = new Input(null, PAYER);
         this.descriptionInput = new Input(null, DESCRIPTION);
-        this.accountInput = new Input(null, ACCOUNT_INPUT_STATE);
+        this.accountInput = new Select(null, ACCOUNT_INPUT_STATE);
         this.button = new Button(null, BUTTON_STATE);
     }
 
@@ -116,7 +110,7 @@ export class TransactionsView extends BaseComponent {
     renderTransactions = (arr) => {
         if (arr) {
             return arr.map(item => {
-                return { transaction: item.render() };
+                return {transaction: item.render()};
             });
         }
     };
@@ -154,7 +148,7 @@ export class TransactionsView extends BaseComponent {
         }
 
         const isSettingsOpen = transaction.getState().settingsOpen;
-        transaction.setState({ settingsOpen: !isSettingsOpen });
+        transaction.setState({settingsOpen: !isSettingsOpen});
 
         const categoryCard = document.querySelector(`#${transaction.getState().id}`);
         categoryCard.outerHTML = transaction.render();

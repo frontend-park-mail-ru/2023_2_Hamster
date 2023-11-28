@@ -7,3 +7,4 @@ export * from './button_card/buttonCard.js';
 export * from './category/category'
 export * from './pieChart/pieChart.js';
 export * from './checkbox/checkbox'
+export * from './select/select'

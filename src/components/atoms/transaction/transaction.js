@@ -33,6 +33,7 @@ const SUM_INPUT_STATE = {
     inputSize: 'input_small',
     typeOfInput: 'text',
     inputPlaceholder: 'Сумма',
+    units: 'руб.',
 };
 
 const TAG_INPUT_STATE = {

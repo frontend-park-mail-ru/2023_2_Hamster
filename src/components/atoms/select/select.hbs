@@ -1,0 +1,11 @@
+<div class="select">
+    <select class="select__list font-caption" id="{{id}}">
+        {{#if hidden}}
+            <option class="select__item font-caption" value="hidden">{{hidden}}</option>
+        {{/if}}
+
+        {{# each values}}
+            <option class="select__item font-caption" value="{{value}}">{{value}}</option>
+        {{/each}}
+    </select>
+</div>
