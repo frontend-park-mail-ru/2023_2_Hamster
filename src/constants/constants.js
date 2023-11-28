@@ -36,7 +36,7 @@ export const API_CONSTANTS = {
     FEED: `${SERVER_PREFIX}/api/user/feed`,
     UPDATE: `${SERVER_PREFIX}/api/user/update`,
 
-    GET_ACCOUNTS: `${SERVER_PREFIX}/api/user/accounts/all`,
+    GET_ACCOUNTS: `${SERVER_PREFIX}/api/user/account/all`,
     CREATE_ACCOUNT: `${SERVER_PREFIX}/api/account/create`,
     UPDATE_ACCOUNT: `${SERVER_PREFIX}/api/account/update`,
     DELETE_ACCOUNT_TAIL: `/delete`,
