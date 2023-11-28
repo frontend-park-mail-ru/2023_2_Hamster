@@ -9,7 +9,7 @@ import { userStore } from '@stores/userStore';
 
 const CREATE_BUTTON_STATE = {
     id: 'create-account-button',
-    buttonText: 'Создать',
+    buttonText: 'Создайте',
     buttonColor: 'button_primary-color',
     buttonSize: 'button_small',
     buttonType: 'button',
