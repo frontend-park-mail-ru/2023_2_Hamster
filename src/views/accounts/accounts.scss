@@ -24,7 +24,16 @@
     &__configure-header {
     }
 
+    &__balance-input-label {
+        color: var(--text-muted-color);
+    }
+
+    &__name-input-label {
+        color: var(--text-muted-color);
+    }
+
     &__account {
+        padding: 2em;
         display: flex;
         justify-content: space-between;
         gap: 1em;
@@ -76,6 +85,7 @@
 
     &__delete-account-button {
         align-self: flex-end;
+        margin-left: auto;
     }
 
     &__create-account {
