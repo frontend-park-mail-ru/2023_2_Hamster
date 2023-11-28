@@ -38,6 +38,7 @@
         justify-content: space-between;
         gap: 1em;
         border-radius: var(--radius-size-medium);
+        transition: background-color 0.1s ease;
 
         &_selected {
             background-color: var(--background-secondary-color);
@@ -45,6 +46,7 @@
 
         &:hover {
             background-color: var(--background-secondary-color);
+            cursor: pointer;
         }
 
         border-radius: 1em;
