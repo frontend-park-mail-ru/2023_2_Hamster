@@ -79,16 +79,16 @@ export class DashboardView extends BaseComponent {
             const actualBudget = userStore.storage.feed.actualBudget;
 
             accounts
-                ? this.#cardBalance.setState({cardSubhead: parseFloat(balance)})
+                ? this.#cardBalance.setState({cardSubhead: parseFloat(balance) + ' руб.'})
                 : this.#cardBalance.setState({cardSubhead: 'У вас нет счетов, добавьте их, чтобы видеть свой баланс'});
 
             plannedBudget
-                ? this.#cardPlannedBudget.setState({cardSubhead: parseFloat(plannedBudget)})
-                : this.#cardPlannedBudget.setState({cardSubhead: 'Ваш бюджет не запланирован, вы можете сделать это в настройках'});
+                ? this.#cardPlannedBudget.setState({cardSubhead: parseFloat(plannedBudget) + ' руб.'})
+                : this.#cardPlannedBudget.setState({cardSubhead: 'Ваш бюджет не запланирован, вы можете сделать это в профиле'});
 
             plannedBudget
-                ? this.#cardActualBudget.setState({cardSubhead: parseFloat(actualBudget)})
-                : this.#cardActualBudget.setState({cardSubhead: 'Не можем расчитать фактический бюджет, задайте бюджет в настройках'});
+                ? this.#cardActualBudget.setState({cardSubhead: parseFloat(actualBudget) + ' руб.'})
+                : this.#cardActualBudget.setState({cardSubhead: 'Не можем расчитать фактический бюджет, задайте бюджет в профиле'});
         }
 
         const cardBalanceHTML = this.#cardBalance.render();

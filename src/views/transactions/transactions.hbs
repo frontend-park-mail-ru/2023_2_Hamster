@@ -2,12 +2,20 @@
     <h3 class="font-h3-regular"> Новая транзакция</h3>
     <div class="transactions__create-container">
         <div class="transactions__inputs">
-            {{{sumInput}}}
-            {{{tagInput}}}
-            {{{payer}}}
-            {{{place}}}
-            {{{description}}}
-            {{{accountInput}}}
+            <div class="transactions__filter-column">
+                {{{sumInput}}}
+                {{{payer}}}
+                {{{tagInput}}}
+            </div>
+            <div class="transactions__filter-column">
+                <div>
+                    <span class="font-caption">Конец периода</span>
+                    {{{date}}}
+                </div>
+                {{{place}}}
+                {{{description}}}
+                {{{accountInput}}}
+            </div>
         </div>
         <div class="transactions__create-button">
             {{{button}}}

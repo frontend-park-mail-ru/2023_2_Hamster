@@ -104,6 +104,8 @@ export class ProfileView extends BaseComponent {
      * @function
      */
     render() {
+        this.#profileNameInput.setState({value: userStore.storage.user.username});
+
         const templates = [
             template({
                 planCard: this.#buttonCardPlan.render(),

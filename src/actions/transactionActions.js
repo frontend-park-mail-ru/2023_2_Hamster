@@ -11,14 +11,14 @@ export const transactionActions = {
         });
     },
 
-    async createTransaction(account, categories, description, income, outcome, payer) {
+    async createTransaction(account, categories, date, description, income, outcome, payer) {
         await dispatcher.dispatch({
             type: TRANSACTION_ACTIONS.CREATE_TRANSACTION,
             data: {
                 account_income: account,
                 account_outcome: account,
                 categories,
-                date: '2023-11-13T04:11:38.113227Z',
+                date,
                 description,
                 income,
                 outcome,

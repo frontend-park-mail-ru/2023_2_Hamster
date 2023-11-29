@@ -39,8 +39,9 @@
 
   &__inputs{
     display: flex;
-    flex-direction: column;
-    gap: var(--meduim-gap);
+    flex-direction: row;
+    width: 100%;
+    gap: var(--big-gap);
   }
 
   &__list{
