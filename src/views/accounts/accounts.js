@@ -139,7 +139,7 @@ export class AccountsView extends BaseComponent {
             accountStore.storage.states.forEach(account => {
                 const accountItem = document.querySelector(`#${account.elementId}`);
                 if (accountItem) {
-                    accountItem.addEventListener('click', this.handleAccountClick.bind(this, account));
+                    accountItem.addEventListener('click', this.accountClickHandler.bind(this, account));
                 }
             });
         }
@@ -163,15 +163,22 @@ export class AccountsView extends BaseComponent {
         if (cancelButton) {
             cancelButton.addEventListener('click', this.cancelButtonHandler.bind(this));
         }
+
+        const layout = document.querySelector('.layout');
+        if (layout) {
+            layout.addEventListener('click', this.layoutClickHandler(this));
+        }
     }
 
-    handleAccountClick = (account, event) => {
+    accountClickHandler = (account, event) => {
         // if (event.target.classList.contains('account__delete')) {
         //     return;
         // }
         // TODO через action и стору
         this.accountSelected = account.elementId;
         console.log('this.accountSelected', this.accountSelected);
+        this.nameInput.setState({inputPlaceholder: account.name});
+        this.balanceInput.setState({inputPlaceholder: account.balance});
         accountStore.rerenderAccounts();
 
         // const isSettingsOpen = category.getState().settingsOpen;
@@ -214,5 +221,9 @@ export class AccountsView extends BaseComponent {
         // TODO через action
         this.accountSelected = null;
         accountStore.rerenderAccounts();
+    };
+
+    layoutClickHandler = async () => {
+        console.log('click layout', e);
     };
 }
