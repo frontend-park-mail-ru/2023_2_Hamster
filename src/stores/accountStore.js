@@ -100,7 +100,7 @@ class AccountStore extends BaseStore {
         try {
             await accountApi.updateAccount(data);
             this.storage.states = this.storage.states.map(item => {
-                console.log('data item', data, item);
+                // console.log('data item', data, item);
                 if (item.raw !== data.id) {
                     return item;
                 }

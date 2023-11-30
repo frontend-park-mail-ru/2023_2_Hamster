@@ -105,7 +105,12 @@ export class AccountsView extends BaseComponent {
             return account;
         });
 
-        console.log('this.accounts', accounts);
+        if (!this.accountSelected) {
+            this.nameInput.setState({inputPlaceholder: NAME_INPUT_STATE.inputPlaceholder});
+            this.balanceInput.setState({inputPlaceholder: BALANCE_INPUT_STATE.inputPlaceholder});
+        }
+
+        // console.log('this.accounts', accounts);
 
         const templates = [
             template({
@@ -166,27 +171,17 @@ export class AccountsView extends BaseComponent {
 
         const layout = document.querySelector('.layout');
         if (layout) {
-            layout.addEventListener('click', this.layoutClickHandler(this));
+            layout.addEventListener('click', this.layoutClickHandler);
         }
     }
 
     accountClickHandler = (account, event) => {
-        // if (event.target.classList.contains('account__delete')) {
-        //     return;
-        // }
         // TODO через action и стору
         this.accountSelected = account.elementId;
-        console.log('this.accountSelected', this.accountSelected);
+        // console.log('this.accountSelected', this.accountSelected);
         this.nameInput.setState({inputPlaceholder: account.name});
         this.balanceInput.setState({inputPlaceholder: account.balance});
         accountStore.rerenderAccounts();
-
-        // const isSettingsOpen = category.getState().settingsOpen;
-        // category.setState({ settingsOpen: !isSettingsOpen });
-
-        // const categoryCard = document.querySelector(`#${category.getState().id}`);
-        // categoryCard.outerHTML = category.render();
-
         this.setHandlers();
     }
 
@@ -194,11 +189,11 @@ export class AccountsView extends BaseComponent {
         let nameInputValue = document.querySelector(`#${this.nameInput.getState().id}`)?.value;
         let balanceInputValue = document.querySelector(`#${this.balanceInput.getState().id}`)?.value;
         const account = this.getSelectedAccount();
-
+        
         nameInputValue = nameInputValue ? nameInputValue : account.name;
         balanceInputValue = balanceInputValue ? balanceInputValue : account.balance;
-
-        if (nameInputValue && balanceInputValue) {
+        
+        if (nameInputValue && balanceInputValue !== undefined) {
             await accountActions.updateAccount(account.raw, nameInputValue, Number(balanceInputValue));
         }
     };
@@ -223,7 +218,19 @@ export class AccountsView extends BaseComponent {
         accountStore.rerenderAccounts();
     };
 
-    layoutClickHandler = async () => {
-        console.log('click layout', e);
+    layoutClickHandler = async (e) => {
+        // areas which treated as 'empty space' and click on them can deselect account
+        const emptySpaces = [
+            '.layout',
+            '.grid', 
+            '.accounts__yours', 
+            '.accounts__configure-account', 
+            '.accounts__configure'
+        ].map((e) => document.querySelector(e));
+
+        if (this.accountSelected && (e.target == e.currentTarget || emptySpaces.includes(e.target))) {
+            this.accountSelected = null;
+            accountStore.rerenderAccounts();
+        }
     };
 }
