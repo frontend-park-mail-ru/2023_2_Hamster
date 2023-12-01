@@ -24,4 +24,4 @@ export const validator = (data, rules) => {
         isError: false,
         message: null,
     };
-}
+};

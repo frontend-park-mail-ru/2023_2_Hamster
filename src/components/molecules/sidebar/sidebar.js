@@ -45,6 +45,7 @@ export class Sidebar extends BaseComponent {
     #menuElement;
 
     #avatar;
+
     /**
      * Create a Sidebar component.
      * @param {HTMLElement} parent - The parent HTML element where the Sidebar will be rendered.
@@ -63,7 +64,7 @@ export class Sidebar extends BaseComponent {
 
         this.#button = new Button(null, BUTTON_STATE, this.onLogout);
 
-        this.#avatar = new Image(null, IMAGE_STATE)
+        this.#avatar = new Image(null, IMAGE_STATE);
     }
 
     /**

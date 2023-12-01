@@ -34,6 +34,8 @@
     }
 
     &__header-text {
+        color: var(--text-main-color);
+        text-decoration: none;
         text-align: center;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -70,16 +72,15 @@
         white-space: nowrap;
         text-overflow: ellipsis;
         display: flex;
-        justify-content: space-between;
         border-top: 2px solid var(--background-secondary-color);
     }
 
     &__footer-profile-img {
-        object-fit: cover;
-        object-position: center;
+        display: flex;
+        min-height: var(--sidebar-footer-profile-size);
+        min-width: var(--sidebar-footer-profile-size);
         height: var(--sidebar-footer-profile-size);
         width: var(--sidebar-footer-profile-size);
-        border-radius: var(--sidebar-footer-profile-radius);
         margin-right: var(--sidebar-footer-profile-margin);
     }
 
@@ -87,7 +88,7 @@
         color: var(--text-halftoned-color);
         overflow: hidden;
         text-overflow: ellipsis;
-        margin-right: 40px;
+        margin-right: var(--sidebar-footer-profile-margin);
     }
 }
 

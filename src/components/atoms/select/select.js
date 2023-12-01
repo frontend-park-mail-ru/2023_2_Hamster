@@ -5,9 +5,9 @@ import template from './select.hbs';
 const DEFAULT = {
     hidden: 'choose something',
     values: [
-        {value: 'value 1'},
-        {value: 'value 2'},
-        {value: 'value 3'},
+        { value: 'value 1' },
+        { value: 'value 2' },
+        { value: 'value 3' },
     ]
 };
 

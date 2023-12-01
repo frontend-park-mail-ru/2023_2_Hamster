@@ -1,19 +1,16 @@
 import { BaseComponent } from '@components/baseComponent.js';
-import { Menu } from '@atoms/menu/menu.js';
+import { Image, Button, Menu } from '@atoms';
 import { Sidebar } from '@molecules/sidebar/sidebar.js';
-import { Button } from '@atoms/button/button.js';
+import { EVENT_TYPES, ROUTE_CONSTANTS } from '@constants/constants.js';
 import { router } from '@router';
-import { API_CONSTANTS, EVENT_TYPES, ROUTE_CONSTANTS } from '@constants/constants.js';
+import { userStore } from '@stores/userStore';
 import { accountStore } from '@stores/accountStore';
-
-import sidebarTemplate from '@molecules/sidebar/sidebar.hbs';
+import { categoriesStore } from '@stores/categoriesStore';
+import { userActions } from '@actions/userActions';
 
 import LOG_OUT_IMAGE from '@icons/logout.svg';
-import { userStore } from '@stores/userStore';
-import { userActions } from '@actions/userActions';
-import { transactionActions } from '@actions/transactionActions';
-import { categoriesStore } from '@stores/categoriesStore';
 
+import sidebarTemplate from '@molecules/sidebar/sidebar.hbs';
 import layoutTemplate from './layout.hbs';
 
 /**
@@ -23,48 +20,54 @@ import layoutTemplate from './layout.hbs';
  * @property {string} layout - The layout of the Layout.
  */
 const DEFAULT_STATE = {
-        sidebar: {
-            profileName: 'Имя профиля',
-            menu: {
-                menuSections: [
-                    {
-                        menuSectionHeading: 'Главное',
-                        menuItems: [
-                            {
-                                menuItemText: 'Доска',
-                                menuItemID: 'home',
-                            },
-                            {
-                                menuItemText: 'Транзакции',
-                                menuItemID: 'transactions',
-                            },
-                            {
-                                menuItemText: 'Счета',
-                                menuItemID: 'accounts',
-                            },
-                        ],
-                    },
-                    {
-                        menuSectionHeading: 'Настройки',
-                        menuItems: [
-                            {
-                                menuItemText: 'Профиль',
-                                menuItemID: 'profile',
-                            },
-                        ],
-                    },
-                ],
-            },
+    sidebar: {
+        profileName: 'Имя профиля',
+        menu: {
+            menuSections: [
+                {
+                    menuSectionHeading: 'Главное',
+                    menuItems: [
+                        {
+                            menuItemText: 'Доска',
+                            menuItemID: 'home',
+                        },
+                        {
+                            menuItemText: 'Транзакции',
+                            menuItemID: 'transactions',
+                        },
+                        {
+                            menuItemText: 'Счета',
+                            menuItemID: 'accounts',
+                        },
+                    ],
+                },
+                {
+                    menuSectionHeading: 'Настройки',
+                    menuItems: [
+                        {
+                            menuItemText: 'Профиль',
+                            menuItemID: 'profile',
+                        },
+                    ],
+                },
+            ],
         },
-    }
-;
-
+    },
+};
 const BUTTON_STATE = {
     id: 'logout_button',
     buttonSize: 'button_small',
     buttonColor: 'button_secondary-color',
     buttonImageLeft: LOG_OUT_IMAGE,
     buttonText: '',
+};
+
+const IMAGE_STATE = {
+    id: 'sidebar_avatar',
+    imageSize: 'image-container_big',
+    withBorder: true,
+    isClickable: true,
+    avatar: '../images/homyak.png',
 };
 
 /**
@@ -100,6 +103,8 @@ export class Layout extends BaseComponent {
      */
     #sidebar;
 
+    #avatar;
+
     /**
      * Create a Layout component.
      * @param {HTMLElement} parent - The parent HTML element where the Layout will be rendered.
@@ -114,6 +119,8 @@ export class Layout extends BaseComponent {
         this.#button = new Button(null, BUTTON_STATE, this.onLogout);
 
         this.#contentElement = contentElement;
+
+        this.#avatar = new Image(null, IMAGE_STATE);
 
         this.#sidebar = new Sidebar(parent, this.getState().sidebar);
 
@@ -139,11 +146,15 @@ export class Layout extends BaseComponent {
      * @async
      */
     async renderTemplateToParent() {
-        const username = userStore.storage.user.username;
-        const avatar = userStore.storage.user.avatarPath;
+        const { avatarPath } = userStore.storage.user;
+        if (avatarPath === '00000000-0000-0000-0000-000000000000') {
+            this.#avatar.setState({ avatar: '../images/homyak.png' });
+        } else {
+            this.#avatar.setState({ avatar: `../images/${avatarPath}.jpg` });
+        }
 
-        this.setState({ sidebar: { profileName: username ? username : 'Имя профиля' } });
-        this.setState({ sidebar: { sidebarAvatar: {avatar: `../images/${userStore.storage.user.avatarPath}.jpg`} } });
+        const { username } = userStore.storage.user;
+        this.setState({ sidebar: { profileName: username || 'Имя профиля' } });
 
         const contentHTML = await this.#contentElement.render();
 
@@ -157,6 +168,7 @@ export class Layout extends BaseComponent {
                     ...this.getState().sidebar,
                     menu: menuHTML,
                     logoutButton: logoutButtonHTML,
+                    sidebarAvatar: this.#avatar.render(),
                 }),
                 content: contentHTML,
             }),
@@ -210,11 +222,16 @@ export class Layout extends BaseComponent {
             menuAccounts.addEventListener('click', this.navigateAccounts);
         }
 
+        const avatar = document.querySelector(`#${this.#avatar.getState().id}`);
+        if (avatar) {
+            avatar.addEventListener('click', this.navigateProfile);
+        }
+
         this.#contentElement.setHandlers();
     }
 
     navigateHome = async () => {
-       await router.navigateTo(ROUTE_CONSTANTS.HOME_ROUTE);
+        await router.navigateTo(ROUTE_CONSTANTS.HOME_ROUTE);
     };
 
     navigateTransaction = async () => {
@@ -224,7 +241,7 @@ export class Layout extends BaseComponent {
     navigateProfile = async () => {
         await router.navigateTo(ROUTE_CONSTANTS.PROFILE);
     };
- 
+
     navigateAccounts = async () => {
         await router.navigateTo(ROUTE_CONSTANTS.ACCOUNTS);
     };

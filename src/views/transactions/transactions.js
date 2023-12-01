@@ -1,17 +1,15 @@
 import {BaseComponent} from '@components/baseComponent.js';
-
-import template from './transactions.hbs';
-
-import {Button, Checkbox, Input, Select} from '@atoms';
-import {Transaction} from '@atoms/transaction/transaction';
+import {
+    Button, Checkbox, Input, Select, Transaction
+} from '@atoms';
 import {transactionsStore} from '@stores/transactionsStore';
 import {categoriesStore} from '@stores/categoriesStore';
+import {accountStore} from '@stores/accountStore';
 import {transactionActions} from '@actions/transactionActions';
-import FILTER_IMAGE from "@icons/filter.svg";
-import {EVENT_TYPES} from "@constants/constants";
-import {accountStore} from "@stores/accountStore";
-import {AccountsView} from "@views";
 
+import FILTER_IMAGE from '@icons/filter.svg';
+
+import template from './transactions.hbs';
 
 const BUTTON_STATE = {
     id: 'button',
@@ -29,11 +27,6 @@ const SUM_INPUT_STATE = {
     units: 'руб.',
 };
 
-const TAG_INPUT_STATE = {
-    id: 'tag_create_select',
-    hidden: 'Выберете категорию',
-};
-
 const PAYER = {
     id: 'payer_input',
     inputSize: 'input_small',
@@ -48,28 +41,23 @@ const DESCRIPTION = {
     inputPlaceholder: 'Описание',
 };
 
-const ACCOUNT_INPUT_STATE = {
-    id: 'account_create_id',
-    hidden: 'Выберете счет',
-};
-
 const FILTER_BUTTON = {
     id: 'filter_open',
     buttonSize: 'button_small',
     buttonColor: 'button_secondary-color',
     buttonImageLeft: FILTER_IMAGE,
     buttonText: '',
-}
+};
 
 const INCOME = {
     id: 'income',
     label: 'В доходах'
-}
+};
 
 const OUTCOME = {
     id: 'outcome',
     label: 'В расходах',
-}
+};
 
 const SUBMIT_BUTTON = {
     id: 'filter_submit',
@@ -77,35 +65,31 @@ const SUBMIT_BUTTON = {
     buttonColor: 'button_primary-color',
     buttonSize: 'button_small',
     buttonType: 'button',
-}
+};
 
 const DATE_START = {
     id: 'start_start_input',
     inputSize: 'input_small',
     typeOfInput: 'date',
-}
+    min: '2000-01-01',
+    max: '2100-01-01',
+};
 
 const DATE_END = {
     id: 'end_date_input',
     inputSize: 'input_small',
     typeOfInput: 'date',
-}
-
-const ACCOUNT_SELECT = {
-    id: 'account_select',
-    hidden: 'Выберете счет',
-}
-
-const TAG_SELECT = {
-    id: 'tag_select',
-    hidden: 'Выберете категорию',
-}
+    min: '2000-01-01',
+    max: '2100-01-01',
+};
 
 const DATE_CREATE = {
     id: 'date_create_input',
     inputSize: 'input_small',
     typeOfInput: 'date',
-}
+    min: '2000-01-01',
+    max: '2100-01-01',
+};
 
 /**
  * TransactionsView class extends BaseComponent.
@@ -119,16 +103,16 @@ export class TransactionsView extends BaseComponent {
 
         this.date = new Input(null, DATE_CREATE);
         this.sumInput = new Input(null, SUM_INPUT_STATE);
-        this.tagInput = new Select(null, TAG_INPUT_STATE);
+        this.tagInput = new Select(null, {id: 'tag_create_select'});
         this.payerInput = new Input(null, PAYER);
         this.descriptionInput = new Input(null, DESCRIPTION);
-        this.accountInput = new Select(null, ACCOUNT_INPUT_STATE);
+        this.accountInput = new Select(null, {id: 'account_create_id'});
         this.button = new Button(null, BUTTON_STATE);
 
         this.isFilterOpen = false;
         this.filterButton = new Button(null, FILTER_BUTTON);
-        this.tagFilter = new Select(null, TAG_SELECT);
-        this.accountFilter = new Select(null, ACCOUNT_SELECT);
+        this.tagFilter = new Select(null, {id: 'tag_select'});
+        this.accountFilter = new Select(null, {id: 'account_select'});
         this.incomeFilter = new Checkbox(null, INCOME);
         this.outcomeFilter = new Checkbox(null, OUTCOME);
         this.submitFilter = new Button(null, SUBMIT_BUTTON);
@@ -143,37 +127,54 @@ export class TransactionsView extends BaseComponent {
      * @function
      */
     async render() {
-        if (!categoriesStore.storage.tags) {
-            await categoriesStore.getTags();
-            this.tagFilter.setState({values: categoriesStore.categoriesValues});
-            this.tagInput.setState({values: categoriesStore.categoriesValues});
-        }
+        // if (!accountStore.storage.feed) {
+        await accountStore.getAccounts();
+        this.accountFilter.setState({values: accountStore.accountsValues});
+        this.accountInput.setState({values: accountStore.accountsValues});
+        // }
+
+        // if (!categoriesStore.storage.tags) {
+        await categoriesStore.getTags();
+        this.tagFilter.setState({values: categoriesStore.categoriesValues});
+        this.tagInput.setState({values: categoriesStore.categoriesValues});
+        // }
 
         if (!transactionsStore.transactions) {
             await transactionsStore.getTransaction();
         }
 
-        if (!accountStore.storage.feed) {
-            await accountStore.getAccounts();
-            this.accountFilter.setState({values: accountStore.accountsValues});
-            this.accountInput.setState({values: accountStore.accountsValues});
-        }
+        if (transactionsStore.storage.error) {
+            if (transactionsStore.storage.error.type === 'create') {
+                const {description, payer, sum, account, tag} = transactionsStore.storage.error;
 
-        if (transactionsStore.storage.error){
-            if (transactionsStore.storage.error.position === 'create') {
-                const description = transactionsStore.storage.error.description
-                this.descriptionInput.setState({inputHelperText: description.message, isError: description.isError})
-
-                const payer = transactionsStore.storage.error.payer
-                this.payerInput.setState({inputHelperText: payer.message, isError: payer.isError})
-
-                const sum = transactionsStore.storage.error.money
-                this.sumInput.setState({inputHelperText: sum.message, isError: sum.isError})
+                this.descriptionInput.setState({
+                    inputHelperText: description.message,
+                    isError: description.isError,
+                    value: description.value
+                });
+                this.payerInput.setState({
+                    inputHelperText: payer.message,
+                    isError: payer.isError,
+                    value: payer.value
+                });
+                this.sumInput.setState({
+                    inputHelperText: sum.message,
+                    isError: sum.isError,
+                    value: sum.value
+                });
+                this.accountInput.setState({
+                    values: this.changeOrder(accountStore.accountsValues, account),
+                });
+                this.tagInput.setState({
+                    values: this.changeOrder(categoriesStore.categoriesValues, tag.pop()),
+                });
             }
         }
 
         this.transactions = this.createTransactions(transactionsStore.storage.states);
         this.renderedTransactions = this.renderTransactions(this.transactions);
+
+        this.date.setState({value: this.getTodayDate});
 
         const templates = [
             template({
@@ -201,26 +202,89 @@ export class TransactionsView extends BaseComponent {
         return super.render(templates);
     }
 
+    getTodayDate = () => {
+        const now = new Date();
+        const timezoneOffset = now.getTimezoneOffset() * 60 * 1000; // получить смещение в миллисекундах
+        const localNow = new Date(now.getTime() - timezoneOffset);
+
+        const day = (`0${localNow.getDate()}`).slice(-2);
+        const month = (`0${localNow.getMonth() + 1}`).slice(-2);
+
+        return `${localNow.getFullYear()}-${month}-${day}`;
+    };
+
     createTransactions = (arr) => {
         if (arr) {
-            return arr.map(item => {
-                return new Transaction(null, item, null);
+            return arr.map((item) => {
+                const transaction = new Transaction(null, item, null);
+
+                const date = new Date(transaction.date);
+                const day = date.getDate();
+                const month = date.toLocaleString('ru', {month: 'long'});
+                const dayOfWeek = date.toLocaleString('ru', {weekday: 'long'});
+
+                transaction.setState({date: `${day} ${month}`, dayOfWeek});
+
+                transaction.sumInput.setState({value: item.value});
+                transaction.accountInput.setState({values: this.changeOrder(accountStore.accountsValues, item.account_income)});
+                transaction.tagInput.setState({values: this.changeOrder(categoriesStore.categoriesValues, item.tag)});
+                transaction.descriptionInput.setState({value: item.transactionMessage});
+                transaction.payerInput.setState({value: item.transactionPlace});
+
+                if (transactionsStore.storage.error) {
+                    if (transactionsStore.storage.error.type === 'update' && transactionsStore.storage.error.raw === item.raw) {
+                        transaction.setState({settingsOpen: true});
+
+                        const {description, payer, sum, account, tag} = transactionsStore.storage.error;
+
+                        transaction.descriptionInput.setState({
+                            inputHelperText: description.message,
+                            isError: description.isError,
+                            value: description.value
+                        });
+                        transaction.payerInput.setState({
+                            inputHelperText: payer.message,
+                            isError: payer.isError,
+                            value: payer.value
+                        });
+                        transaction.sumInput.setState({
+                            inputHelperText: sum.message,
+                            isError: sum.isError,
+                            value: sum.value
+                        });
+                        transaction.accountInput.setState({
+                            values: this.changeOrder(accountStore.accountsValues, account),
+                        });
+                        transaction.tagInput.setState({
+                            values: this.changeOrder(categoriesStore.categoriesValues, tag.pop()),
+                        });
+                    }
+                }
+
+                return transaction;
             });
         }
     };
 
+    changeOrder = (array, id) => {
+        const copy = [...array];
+        return copy.sort((a, b) => {
+            if (a.value === id) return -1;
+            if (b.value === id) return 1;
+            return 0;
+        });
+    };
+
     renderTransactions = (arr) => {
         if (arr) {
-            return arr.map(item => {
-                return {transaction: item.render()};
-            });
+            return arr.map((item) => ({transaction: item.render()}));
         }
     };
 
     // TODO: add input validation
     setHandlers() {
         if (this.transactions) {
-            this.transactions.forEach(transaction => {
+            this.transactions.forEach((transaction) => {
                 const categoryCard = document.querySelector(`#${transaction.getState().cardId}`);
                 if (categoryCard) {
                     categoryCard.addEventListener('click', this.handleCardClick.bind(this, transaction));
@@ -231,7 +295,7 @@ export class TransactionsView extends BaseComponent {
                     button.addEventListener('click', this.updateButtonHandler.bind(this, transaction));
                 }
 
-                const deleteButton = document.querySelector(`#${transaction.getState().deleteId}`);
+                const deleteButton = document.querySelector(`#${transaction.delete.getState().id}`);
                 if (deleteButton) {
                     deleteButton.addEventListener('click', this.deleteButtonHandler.bind(this, transaction));
                 }
@@ -243,15 +307,23 @@ export class TransactionsView extends BaseComponent {
             createButton.addEventListener('click', this.createButtonHandler.bind(this));
         }
 
-        const filterButton = document.querySelector(`#${this.filterButton.getState().id}`)
+        const filterButton = document.querySelector(`#${this.filterButton.getState().id}`);
         if (filterButton) {
             filterButton.addEventListener('click', this.filterButtonHandler.bind(this));
         }
 
-        const submitFilter = document.querySelector(`#${this.submitFilter.getState().id}`)
+        const submitFilter = document.querySelector(`#${this.submitFilter.getState().id}`);
         if (submitFilter) {
             submitFilter.addEventListener('click', this.submitFilterHandler.bind(this));
         }
+
+        // const dateCreate = document.querySelector(`#${this.date.getState().id}`);
+        // dateCreate.addEventListener('blur', this.validateTransaction(dateCreate.value));
+        // const sumCreate = document.querySelector(`#${this.sumInput.getState().id}`);
+        // const tagCreate = document.querySelector(`#${this.tagInput.getState().id}`);
+        // const descriptionCreate = document.querySelector(`#${this.descriptionInput.getState().id}`);
+        // const payerCreate = document.querySelector(`#${this.payerInput.getState().id}`);
+        // const accountCreate = document.querySelector(`#${this.accountInput.getState().id}`);
     }
 
     // TODO: 1) Add validation; 2)Add new handler in transaction store special for filter;
@@ -280,7 +352,7 @@ export class TransactionsView extends BaseComponent {
         this.isFilterOpen = false;
         await transactionsStore.getTransaction(`?${qString}`);
         await transactionActions.rerenderTransactions();
-    }
+    };
 
     buildQueryString = (account, category, startDate, endDate, income, outcome) => {
         let queryString = '';
@@ -307,13 +379,13 @@ export class TransactionsView extends BaseComponent {
         queryString = queryString.slice(0, -1);
 
         return queryString;
-    }
+    };
 
     filterButtonHandler = async () => {
         this.isFilterOpen = !this.isFilterOpen;
 
         await transactionActions.rerenderTransactions();
-    }
+    };
 
     handleCardClick = (transaction, event) => {
         if (event.target.classList.contains('transaction__delete')) {
@@ -323,35 +395,33 @@ export class TransactionsView extends BaseComponent {
         const isSettingsOpen = transaction.getState().settingsOpen;
         transaction.setState({settingsOpen: !isSettingsOpen});
 
-        const categoryCard = document.querySelector(`#${transaction.getState().id}`);
-        categoryCard.outerHTML = transaction.render();
+        const transactionCard = document.querySelector(`#${transaction.getState().id}`);
+        transactionCard.outerHTML = transaction.render();
 
         this.setHandlers();
     };
 
     updateButtonHandler = async (transaction) => {
-        const sumInput = document.querySelector(`#${transaction.sumInput.getState().id}`).value;
-        const tagInput = document.querySelector(`#${transaction.tagInput.getState().id}`).value;
-        const description = document.querySelector(`#${this.descriptionInput.getState().id}`).value;
-        const payer = document.querySelector(`#${this.payerInput.getState().id}`).value;
-        const accountInput = document.querySelector(`#${transaction.accountInput.getState().id}`).value;
+        const dateValue = document.querySelector(`#${transaction.dateInput.getState().id}`).value;
+        const sumValue = document.querySelector(`#${transaction.sumInput.getState().id}`).value;
+        const tagValue = document.querySelector(`#${transaction.tagInput.getState().id}`).value;
+        const descriptionValue = document.querySelector(`#${transaction.descriptionInput.getState().id}`).value;
+        const payerValue = document.querySelector(`#${transaction.payerInput.getState().id}`).value;
+        const accountValue = document.querySelector(`#${transaction.accountInput.getState().id}`).value;
 
-        if (sumInput && tagInput) {
-            let income;
-            let outcome;
+        const startDateObj = new Date(dateValue?dateValue:this.getTodayDate());
+        const date = startDateObj.toISOString();
 
-            if (sumInput > 0) {
-                income = Math.abs(sumInput);
-                outcome = 0;
-            } else {
-                outcome = Math.abs(sumInput);
-                income = 0;
-            }
+        let income = 0;
+        let outcome = 0;
 
-            const account = transactionsStore.account;
-
-            await transactionActions.updateTransaction(account, transaction.getState().raw, [transactionsStore.getIdByName(tagInput)], parseFloat(income), parseFloat(outcome), description, payer);
+        if (sumValue > 0) {
+            income = Math.abs(sumValue);
+        } else {
+            outcome = Math.abs(sumValue);
         }
+
+        await transactionActions.updateTransaction(accountValue, transaction.getState().raw, [tagValue], date, parseFloat(income), parseFloat(outcome), descriptionValue, payerValue);
     };
 
     deleteButtonHandler = async (transaction) => {
@@ -366,25 +436,20 @@ export class TransactionsView extends BaseComponent {
         const payer = document.querySelector(`#${this.payerInput.getState().id}`).value;
         const accountId = document.querySelector(`#${this.accountInput.getState().id}`).value;
 
-        let date = null;
-        if (dateValue) {
-            const startDateObj = new Date(dateValue);
-            date = startDateObj.toISOString();
+        const startDateObj = new Date(dateValue?dateValue:this.getTodayDate());
+        const date = startDateObj.toISOString();
+
+        let income;
+        let outcome;
+
+        if (sumInput > 0) {
+            income = Math.abs(sumInput);
+            outcome = 0;
+        } else {
+            outcome = Math.abs(sumInput);
+            income = 0;
         }
 
-        if (sumInput && tagId && accountId && dateValue) {
-            let income;
-            let outcome;
-
-            if (sumInput > 0) {
-                income = Math.abs(sumInput);
-                outcome = 0;
-            } else {
-                outcome = Math.abs(sumInput);
-                income = 0;
-            }
-
-            await transactionActions.createTransaction(accountId, [tagId], date, description, parseFloat(income), parseFloat(outcome), payer);
-        }
+        await transactionActions.createTransaction(accountId, [tagId], date, description, parseFloat(income), parseFloat(outcome), payer);
     };
 }

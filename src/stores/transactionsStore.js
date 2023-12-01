@@ -1,13 +1,10 @@
+import { transactionsApi } from '@api/transaction';
+import { EVENT_TYPES, STATUS_CODES } from '@constants/constants';
+import { categoriesStore } from '@stores/categoriesStore';
+import { DESCRIPTION_RULES, MONEY_RULES, PAYER_RULES } from '@constants/validation';
+import { accountStore } from '@stores/accountStore';
 import BaseStore from './baseStore.js';
-import {transactionsApi} from '@api/transaction';
-import {EVENT_TYPES, STATUS_CODES} from '@constants/constants';
-import {categoriesStore} from '@stores/categoriesStore';
-import {
-    DESCRIPTION_RULES, LOGIN_RULES,
-    MONEY_RULES,
-    PAYER_RULES
-} from "@constants/validation";
-import {validator} from "../modules/validator";
+import { validator } from '../modules/validator';
 
 /**
  *
@@ -39,95 +36,81 @@ class TransactionsStore extends BaseStore {
             const response = await transactionsApi.getTransaction(qString);
 
             switch (response.status) {
-                case STATUS_CODES.OK:
-                    this.storage.states = this.transformArray(response.body.transactions);
-                    this.transactions = response.body.transactions;
-                    this.account = response.body.transactions.pop().account_income;
+            case STATUS_CODES.OK:
+                this.storage.states = this.transformArray(response.body.transactions);
+                this.transactions = response.body.transactions;
 
-                    break;
+                break;
 
-                case STATUS_CODES.NO_CONTENT:
-                    this.storage.states = null;
+            case STATUS_CODES.NO_CONTENT:
+                this.storage.states = null;
 
-                    break;
+                break;
 
-                default:
-                    console.log('Undefined status code', response.status);
+            default:
+                console.log('Undefined status code', response.status);
             }
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);
         }
     };
 
-    transformArray = (arr) => {
-        return arr.map(data => {
-            if (!this.findName(data.categories).pop().name) {
-                return
-            }
-            return {
-                raw: data.id,
-                id: 'id' + data.id,
-                transactionName: this.findName(data.categories)
-                    .pop().name,
-                transactionPlace: data.payer,
-                transactionMessage: data.description,
-                value: data.income - data.outcome,
-                account: 'Карта',
-                deleteId: 'delete_' + data.id,
-                cardId: 'card_' + data.id,
-            };
-        });
-    };
+    transformArray = (arr) => arr.map((data) => ({
+        raw: data.id,
+        id: `id${data.id}`,
+        rawDate: data.date,
+        transactionName: this.findName(data.categories).pop().name,
+        tag: this.findName(data.categories).pop().id,
+        transactionPlace: data.payer,
+        transactionMessage: data.description,
+        value: data.income - data.outcome,
+        account: accountStore.accounts.find((account) => account.id === data.account_income).mean_payment,
+        account_income: data.account_income,
+        account_outcome: data.account_outcome,
+        cardId: `card_${data.id}`,
+    }));
 
     findName = (categories) => {
-        this.categories = categoriesStore.storage.tags.map(obj => {
-            return {
-                id: obj.id,
-                name: obj.name,
-            };
-        });
+        this.categories = categoriesStore.storage.tags.map((obj) => ({
+            id: obj.id,
+            name: obj.name,
+        }));
 
-        return this.categories.filter(obj => categories.includes(obj.id));
+        return this.categories.filter((obj) => categories.includes(obj.id));
     };
 
     getNameById(id) {
-        const obj = this.categories.find(item => item.id === id);
+        const obj = this.categories.find((item) => item.id === id);
 
         return obj ? obj.name : null;
     }
 
-    getIdByName(name) {
-        const obj = this.categories.find(item => item.name === name);
-
-        return obj ? obj.id : '00000000-0000-0000-0000-000000000000';
-    }
-
     createTransaction = async (data) => {
         if (validator(data.description, DESCRIPTION_RULES).isError
-            || validator(data.income, MONEY_RULES).isError
-            || validator(data.outcome, MONEY_RULES).isError
+            || validator(data.income - data.outcome, MONEY_RULES).isError
             || validator(data.payer, PAYER_RULES).isError) {
 
-            console.log(validator(data.description, DESCRIPTION_RULES), validator(data.income, MONEY_RULES), validator(data.outcome, MONEY_RULES), validator(data.payer, PAYER_RULES))
+            this.validateCreateTransaction(data, 'create');
 
-            this.validateCreateTransaction(data);
-
-            return null;
+            return;
         }
 
         try {
             const response = await transactionsApi.createTransaction(data);
 
-            this.storage.states.push({
+            const index = this.storage.states.findIndex((obj) => new Date(obj.rawDate) <= new Date(data.date));
+
+            this.storage.states.splice(index, 0, {
                 raw: response.body.transaction_id,
-                id: 'id' + response.body.transaction_id,
+                id: `id${response.body.transaction_id}`,
+                rawDate: data.date,
                 transactionName: this.getNameById(data.categories.pop()),
                 transactionPlace: data.payer,
                 transactionMessage: data.description,
                 value: data.income - data.outcome,
-                account: 'Карта',
-                deleteId: 'delete_' + response.transaction_id,
-                cardId: 'card_' + response.transaction_id,
+                account: accountStore.accounts.find((account) => account.id === data.account_income).mean_payment,
+                deleteId: `delete_${response.transaction_id}`,
+                cardId: `card_${response.transaction_id}`,
             });
 
             this.storage.error = null;
@@ -140,37 +123,38 @@ class TransactionsStore extends BaseStore {
         }
     };
 
-    validateCreateTransaction = (data) => {
+    validateCreateTransaction = (data, type) => {
         const resultDescription = validator(data.description, DESCRIPTION_RULES);
         const resultPayer = validator(data.payer, PAYER_RULES);
-        const resultIncome = validator(data.income, MONEY_RULES);
-        const resultOutcome = validator(data.outcome, MONEY_RULES);
+        const resultSum = validator(data.income - data.outcome, MONEY_RULES);
 
-        let resultSum = null;
-        if (resultIncome.isError) {
-            resultSum = resultIncome
-        }
-        if (resultOutcome.isError) {
-            resultSum = resultOutcome
-        }
+        resultDescription.value = data.description;
+        resultPayer.value = data.payer;
+        resultSum.value = data.income - data.outcome;
 
         this.storage.error = {
-            position: 'create',
+            type,
             description: resultDescription,
             payer: resultPayer,
-            money: resultSum,
+            sum: resultSum,
+            tag: data.categories,
+            account: data.account_income,
         };
+
+        if (type === 'update') {
+            this.storage.error.raw = data.transaction_id;
+        }
 
         this.storeChanged = true;
 
-        this.emitChange(EVENT_TYPES.RERENDER_LOGIN_INPUT);
-    }
+        this.emitChange(EVENT_TYPES.RERENDER_TRANSACTIONS);
+    };
 
     deleteTransaction = async (data) => {
         try {
             await transactionsApi.deleteTransaction(data.transaction_id);
 
-            this.storage.states = this.storage.states.filter(item => item.raw !== data.transaction_id);
+            this.storage.states = this.storage.states.filter((item) => item.raw !== data.transaction_id);
 
             this.storeChanged = true;
 
@@ -181,18 +165,32 @@ class TransactionsStore extends BaseStore {
     };
 
     updateTransaction = async (data) => {
+        if (validator(data.description, DESCRIPTION_RULES).isError
+            || validator(data.income - data.outcome, MONEY_RULES).isError
+            || validator(data.payer, PAYER_RULES).isError) {
+
+            console.log(validator(data.description, DESCRIPTION_RULES), validator(data.income, MONEY_RULES), validator(data.outcome, MONEY_RULES), validator(data.payer, PAYER_RULES));
+
+            this.validateCreateTransaction(data, 'update');
+
+            return;
+        }
         try {
             await transactionsApi.updateTransaction(data);
-            this.storage.states = this.storage.states.map(item => {
+
+            this.storage.states = this.storage.states.map((item) => {
                 if (item.raw === data.transaction_id) {
                     return {
                         raw: data.transaction_id,
-                        id: 'id' + data.transaction_id,
+                        id: `id${data.transaction_id}`,
+                        rawDate: data.date,
                         transactionName: this.getNameById(data.categories.pop()),
                         value: data.income - data.outcome,
-                        account: 'Карта',
-                        deleteId: 'delete_' + data.transaction_id,
-                        cardId: 'card_' + data.transaction_id,
+                        account: accountStore.accounts.find((account) => account.id === data.account_income).mean_payment,
+                        transactionPlace: data.payer,
+                        transactionMessage: data.description,
+                        deleteId: `delete_${data.transaction_id}`,
+                        cardId: `card_${data.transaction_id}`,
                     };
                 }
                 return item;
@@ -210,7 +208,7 @@ class TransactionsStore extends BaseStore {
         this.storeChanged = true;
 
         this.emitChange(EVENT_TYPES.RERENDER_TRANSACTIONS);
-    }
+    };
 }
 
 export const transactionsStore = new TransactionsStore();

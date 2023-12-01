@@ -33,8 +33,8 @@ export class Page404 extends BaseComponent {
      * @function
      */
     navigateToHome = async () => {
-       await router.navigateTo(ROUTE_CONSTANTS.HOME_ROUTE);
-    }
+        await router.navigateTo(ROUTE_CONSTANTS.HOME_ROUTE);
+    };
 
     /**
      * Render template to parent.

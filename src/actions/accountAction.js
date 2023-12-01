@@ -14,7 +14,7 @@ export const accountActions = {
             type: ACCOUNT_ACTIONS.CREATE_ACCOUNT,
             data: {
                 accumulation: true,
-                balance: balance,
+                balance,
                 balance_enabled: true,
                 mean_payment: name
             }
@@ -26,7 +26,7 @@ export const accountActions = {
             type: ACCOUNT_ACTIONS.UPDATE_ACCOUNT,
             data: {
                 accumulation: true,
-                balance: balance,
+                balance,
                 balance_enabled: true,
                 id: accountId,
                 mean_payment: name,

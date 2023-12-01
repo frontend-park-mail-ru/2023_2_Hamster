@@ -31,7 +31,7 @@ export const get = async (url) => {
  */
 export const post = async (url, data) => {
     let response;
-    if(url === API_CONSTANTS.SIGN_IN || url === API_CONSTANTS.SIGN_UP || url === API_CONSTANTS.CHECK_AUTH) {
+    if (url === API_CONSTANTS.SIGN_IN || url === API_CONSTANTS.SIGN_UP || url === API_CONSTANTS.CHECK_AUTH) {
         response = await fetch(url, {
             method: 'POST',
             headers: {
@@ -150,7 +150,6 @@ export const put = async (url, data) => {
     return await response.json();
 };
 
-
 export const putMulti = async (url, data) => {
     const csrfToken = await csrfApi.getCsrfToken();
 
@@ -161,7 +160,7 @@ export const putMulti = async (url, data) => {
         },
         credentials: 'include',
         body: data,
-    })
+    });
 
     if (!response.ok) {
         const errorData = await response.json();
@@ -169,5 +168,4 @@ export const putMulti = async (url, data) => {
     }
 
     return await response.json();
-}
-
+};

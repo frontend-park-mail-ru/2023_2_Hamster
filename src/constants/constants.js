@@ -25,23 +25,23 @@ export const API_CONSTANTS = {
 
     GET_TAGS: `${SERVER_PREFIX}/api/tag/all`,
     CREATE_TAG: `${SERVER_PREFIX}/api/tag/create`,
-    UPDATE_TAG_TAIL: `/update`,
+    UPDATE_TAG_TAIL: '/update',
     DELETE_TAG: `${SERVER_PREFIX}/api/tag/delete`,
 
     CREATE_TRANSACTION: `${SERVER_PREFIX}/api/transaction/create`,
     GET_TRANSACTIONS: `${SERVER_PREFIX}/api/transaction/feed`,
     UPDATE_TRANSACTION: `${SERVER_PREFIX}/api/transaction/update`,
-    DELETE_TRANSACTION_TAIL: `/delete`,
+    DELETE_TRANSACTION_TAIL: '/delete',
 
     GET_USER: `${SERVER_PREFIX}/api/user/`,
     GET_ACCOUNTS: `${SERVER_PREFIX}/api/user/account/all`,
     FEED: `${SERVER_PREFIX}/api/user/feed`,
     UPDATE: `${SERVER_PREFIX}/api/user/update`,
     UPDATE_AVATAR: `${SERVER_PREFIX}/api/user/updatePhoto`,
-    
+
     CREATE_ACCOUNT: `${SERVER_PREFIX}/api/account/create`,
     UPDATE_ACCOUNT: `${SERVER_PREFIX}/api/account/update`,
-    DELETE_ACCOUNT_TAIL: `/delete`,
+    DELETE_ACCOUNT_TAIL: '/delete',
 };
 
 export const getTagURL = (id) => `${SERVER_PREFIX}/api/tag/${id}`;
@@ -141,12 +141,14 @@ export const PROFILE_STATE = {
         description: 'Ваш план',
         text: 'Базовый',
         path: SVG_ICONS.box.path,
+        notAllowed: true,
     },
 
     SHARE_CARD_STATE: {
         cardColor: 'button-card_default-color',
         text: 'Совместный доступ',
         path: SVG_ICONS.people.path,
+        notAllowed: true,
     },
 
     CATEGORIES_CARD_STATE: {
@@ -199,10 +201,11 @@ export const PROFILE_STATE = {
     },
 
     AVATAR: {
-        avatar: null,
+        avatar: '../images/homyak.png',
         textFallback: '',
         svg: null,
         imageSize: 'image-container_large',
+        withBorder: true,
     },
 
     BUTTON_STATE: {
@@ -219,5 +222,6 @@ export const PROFILE_STATE = {
         inputPlaceholder: 'Выбрать картинку',
         inputSize: 'input_small',
         typeOfInput: 'file',
+        accept: '.jpg'
     },
-}
+};

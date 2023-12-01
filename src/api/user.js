@@ -17,7 +17,7 @@ class UserApi {
 
     getUser = async () => {
         const url = API_CONSTANTS.GET_USER;
-        return await get(url)
+        return await get(url);
     };
 
     putUpdate = async (userInfo) => {
@@ -26,14 +26,14 @@ class UserApi {
     };
 
     putAvatar = async (photo, avatarPath) => {
-        const url = API_CONSTANTS.UPDATE_AVATAR
+        const url = API_CONSTANTS.UPDATE_AVATAR;
 
         const formData = new FormData();
         formData.append('upload', photo);
         formData.append('path', avatarPath);
-        
-        return await putMulti(url, formData)
-    }
+
+        return await putMulti(url, formData);
+    };
 }
 
 export const userApi = new UserApi();

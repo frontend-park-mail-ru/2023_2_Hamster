@@ -1,6 +1,6 @@
-import BaseStore from './baseStore.js';
 import { categoryApi } from '@api/category';
 import { EVENT_TYPES } from '@constants/constants';
+import BaseStore from './baseStore.js';
 
 /**
  *
@@ -35,39 +35,34 @@ class CategoriesStore extends BaseStore {
                 this.storage.states = this.transformArray(response.body);
                 this.storage.tags = response.body;
 
-                this.categoriesValues = this.storage.tags.map(item => {
-                    return {
-                        value: item.id,
-                        valueName: item.name,
-                    };
-                });
+                this.categoriesValues = this.storage.tags.map((item) => ({
+                    value: item.id,
+                    valueName: item.name,
+                }));
             }
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);
         }
     };
 
-    transformArray = (arr) => {
-        return arr.map(data => {
-            return {
-                raw: data.id,
-                id: 'id' + data.id,
-                categoryName: data.name,
-                deleteId: 'delete_' + data.id,
-                cardId: 'card_' + data.id,
-            };
-        });
-    };
+    transformArray = (arr) => arr.map((data) => ({
+        raw: data.id,
+        id: `id${data.id}`,
+        categoryName: data.name,
+        deleteId: `delete_${data.id}`,
+        cardId: `card_${data.id}`,
+    }));
 
     createTag = async (data) => {
         try {
-            const response = await categoryApi.createTag(data).body;
+            const response = await categoryApi.createTag(data);
 
             this.storage.states.push({
-                id: 'id' + response.category_id,
+                raw: response.body.category_id,
+                id: `id${response.body.category_id}`,
                 categoryName: data.name,
-                deleteId: 'delete_' + response.category_id,
-                cardId: 'card_' + response.category_id,
+                deleteId: `delete_${response.body.category_id}`,
+                cardId: `card_${response.body.category_id}`,
             });
             this.storeChanged = true;
 
@@ -81,7 +76,7 @@ class CategoriesStore extends BaseStore {
         try {
             await categoryApi.deleteTag(data);
 
-            this.storage.states = this.storage.states.filter(item => item.raw !== data.id);
+            this.storage.states = this.storage.states.filter((item) => item.raw !== data.id);
 
             this.storeChanged = true;
 
@@ -95,14 +90,14 @@ class CategoriesStore extends BaseStore {
         try {
             const response = await categoryApi.updateTag(this.storage.tags[0].id, data);
 
-            this.storage.states = this.storage.states.map(item => {
+            this.storage.states = this.storage.states.map((item) => {
                 if (item.raw === response.body.id) {
                     return {
                         raw: response.body.id,
-                        id: 'id' + response.body.id,
+                        id: `id${response.body.id}`,
                         categoryName: response.body.name,
-                        deleteId: 'delete_' + response.body.id,
-                        cardId: 'card_' + response.body.id,
+                        deleteId: `delete_${response.body.id}`,
+                        cardId: `card_${response.body.id}`,
                     };
                 }
                 return item;

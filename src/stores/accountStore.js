@@ -1,6 +1,6 @@
+import { accountApi } from '@api/account';
+import { EVENT_TYPES, STATUS_CODES } from '@constants/constants';
 import BaseStore from './baseStore.js';
-import {accountApi} from '@api/account';
-import {EVENT_TYPES, STATUS_CODES} from '@constants/constants';
 
 /**
  *
@@ -20,46 +20,41 @@ class AccountStore extends BaseStore {
         this.storage = {};
     }
 
-    transformArray = (arr) => {
-        return arr.map(data => ({
-            raw: data.id,
-            elementId: 'id' + data.id,
-            name: data.mean_payment,
-            balance: data.balance,
-        }));
-    };
+    transformArray = (arr) => arr.map((data) => ({
+        raw: data.id,
+        elementId: `id${data.id}`,
+        name: data.mean_payment,
+        balance: data.balance,
+    }));
 
     getAccounts = async () => {
         try {
             const response = await accountApi.getAccounts();
 
             switch (response.status) {
-                case STATUS_CODES.OK:
-                    this.storage.states = this.transformArray(response.body.accounts);
-                    this.accounts = response.body.accounts;
+            case STATUS_CODES.OK:
+                this.storage.states = this.transformArray(response.body.accounts);
+                this.accounts = response.body.accounts;
 
-                    this.accountsValues = this.accounts.map(account => {
-                        return {
-                            value: account.id,
-                            valueName: account.mean_payment
-                        };
-                    });
+                this.accountsValues = this.accounts.map((account) => ({
+                    value: account.id,
+                    valueName: account.mean_payment
+                }));
 
-                    break;
+                break;
 
-                case STATUS_CODES.NO_CONTENT:
-                    this.storage.states = null;
+            case STATUS_CODES.NO_CONTENT:
+                this.storage.states = null;
 
-                    break;
+                break;
 
-                default:
-                    console.log('Undefined status code', response.status);
+            default:
+                console.log('Undefined status code', response.status);
             }
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);
         }
     };
-
 
     createAccount = async (data) => {
         try {
@@ -69,7 +64,7 @@ class AccountStore extends BaseStore {
 
             this.storage.states.push({
                 raw: response.account_id,
-                elementId: 'id' + response.account_id,
+                elementId: `id${response.account_id}`,
                 name: data.mean_payment,
                 balance: data.balance,
             });
@@ -86,7 +81,7 @@ class AccountStore extends BaseStore {
         try {
             await accountApi.deleteAccount(data.account_id);
 
-            this.storage.states = this.storage.states.filter(item => item.raw !== data.account_id);
+            this.storage.states = this.storage.states.filter((item) => item.raw !== data.account_id);
 
             this.storeChanged = true;
 
@@ -99,14 +94,14 @@ class AccountStore extends BaseStore {
     updateAccount = async (data) => {
         try {
             await accountApi.updateAccount(data);
-            this.storage.states = this.storage.states.map(item => {
+            this.storage.states = this.storage.states.map((item) => {
                 // console.log('data item', data, item);
                 if (item.raw !== data.id) {
                     return item;
                 }
                 return {
                     raw: data.id,
-                    elementId: 'id' + data.id,
+                    elementId: `id${data.id}`,
                     name: data.mean_payment,
                     balance: data.balance,
                 };
@@ -123,7 +118,7 @@ class AccountStore extends BaseStore {
     rerenderAccounts = async () => {
         this.storeChanged = true;
         this.emitChange(EVENT_TYPES.RERENDER_ACCOUNTS);
-    }
+    };
 }
 
 export const accountStore = new AccountStore();

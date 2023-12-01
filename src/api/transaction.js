@@ -1,5 +1,7 @@
 import { API_CONSTANTS, getTransactionURL } from '@constants/constants';
-import { deleteRequest, get, post, put } from '@ajax';
+import {
+    deleteRequest, get, post, put
+} from '@ajax';
 
 class TransactionApi {
 
@@ -10,16 +12,16 @@ class TransactionApi {
 
     getTransaction = async (qString) => {
         if (!qString) {
-            const url = API_CONSTANTS.GET_TRANSACTIONS
-            return await get(url);
-        } else {
-            const url = API_CONSTANTS.GET_TRANSACTIONS + qString;
+            const url = API_CONSTANTS.GET_TRANSACTIONS;
             return await get(url);
         }
+        const url = API_CONSTANTS.GET_TRANSACTIONS + qString;
+        return await get(url);
+
     };
 
-    deleteTransaction = async (transaction_id) => {
-        const url = getTransactionURL(transaction_id) + API_CONSTANTS.DELETE_TRANSACTION_TAIL;
+    deleteTransaction = async (transactionId) => {
+        const url = getTransactionURL(transactionId) + API_CONSTANTS.DELETE_TRANSACTION_TAIL;
         return await deleteRequest(url, null);
     };
 

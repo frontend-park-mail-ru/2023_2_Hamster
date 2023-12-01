@@ -30,7 +30,9 @@
   }
 
   &__avatar{
-
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   &__avatar-container {

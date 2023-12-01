@@ -18,8 +18,8 @@ export const userActions = {
 
     async getFeed() {
         await dispatcher.dispatch({
-           type: USER_ACTIONS_TYPES.API_FEED,
-           data: {},
+            type: USER_ACTIONS_TYPES.API_FEED,
+            data: {},
         });
     },
 
@@ -83,11 +83,11 @@ export const userActions = {
         });
     },
 
-    updateProfile(planned_budget, username) {
+    updateProfile(plannedBudget, username) {
         dispatcher.dispatch({
             type: USER_ACTIONS_TYPES.UPDATE_PROFILE,
             data: {
-                planned_budget,
+                planned_budget: plannedBudget,
                 username,
             },
         });

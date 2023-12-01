@@ -8,9 +8,9 @@
                         alt="Site logo"
                 >
             {{/if}}
-            <span class="sidebar__header-text font-h1-bold">
+            <a href="https://hammywallet.ru/" class="sidebar__header-text font-h1-bold">
                 Hammy wallet
-            </span>
+            </a>
         </div>
     </div>
 
@@ -28,7 +28,9 @@
         {{/if}}
         <div class="sidebar__footer-profile-container">
             {{#if this.sidebarAvatar}}
-                {{{sidebarAvatar}}}
+                <div class="sidebar__footer-profile-img">
+                    {{{sidebarAvatar}}}
+                </div>
             {{/if}}
             {{#if this.profileName}}
                 <span class="sidebar__footer-profile-name font-base-text">

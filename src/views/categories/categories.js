@@ -1,11 +1,11 @@
 import { BaseComponent } from '@components/baseComponent.js';
 
-import template from './categories.hbs';
 import { Button, Category, Input } from '@atoms';
 import { categoriesStore } from '@stores/categoriesStore';
 import { categoryActions } from '@actions/categoryActions';
 import { userStore } from '@stores/userStore';
-import {Checkbox} from "@atoms/checkbox/checkbox";
+import { Checkbox } from '@atoms/checkbox/checkbox';
+import template from './categories.hbs';
 
 const BUTTON_STATE = {
     id: 'button',
@@ -25,12 +25,12 @@ const INPUT_STATE = {
 const INCOME = {
     id: 'income',
     label: 'В доходах',
-}
+};
 
 const OUTCOME = {
     id: 'outcome',
     label: 'В расходах',
-}
+};
 
 /**
  * CategoriesView class extends BaseComponent.
@@ -77,24 +77,20 @@ export class CategoriesView extends BaseComponent {
 
     createCategories = (arr) => {
         if (arr) {
-            return arr.map(item => {
-                return new Category(null, item, null);
-            });
+            return arr.map((item) => new Category(null, item, null));
         }
     };
 
     renderCategories = (arr) => {
         if (arr) {
-            return arr.map(item => {
-                return { category: item.render() };
-            });
+            return arr.map((item) => ({ category: item.render() }));
         }
     };
 
     // TODO: add input validation
     setHandlers() {
         if (this.categories) {
-            this.categories.forEach(category => {
+            this.categories.forEach((category) => {
                 const categoryCard = document.querySelector(`#${category.getState().cardId}`);
                 if (categoryCard) {
                     categoryCard.addEventListener('click', this.handleCardClick.bind(this, category));

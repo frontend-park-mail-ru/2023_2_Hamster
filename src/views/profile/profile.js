@@ -1,12 +1,14 @@
 import { BaseComponent } from '@components/baseComponent.js';
 import { userStore } from '@stores/userStore';
-import { Button, ButtonCard, Image, Input } from '@atoms';
+import {
+    Button, ButtonCard, Image, Input
+} from '@atoms';
 import { userActions } from '@actions/userActions';
 
-import template from './profile.hbs';
 import { PROFILE_STATE, ROUTE_CONSTANTS } from '@constants/constants';
 import { categoryActions } from '@actions/categoryActions';
 import { router } from '@router';
+import template from './profile.hbs';
 
 /**
  * ProfileView class extends BaseComponent.
@@ -24,7 +26,9 @@ export class ProfileView extends BaseComponent {
     #profileNameInput;
 
     #currentPasswordInput;
+
     #newPasswordInput;
+
     #repeatPasswordInput;
 
     #budgetInput;
@@ -112,8 +116,15 @@ export class ProfileView extends BaseComponent {
      * @function
      */
     render() {
-        this.#profileNameInput.setState({value: userStore.storage.user.username});
-        this.#avatar.setState({avatar: `../images/${userStore.storage.user.avatarPath}.jpg`});
+        const { avatarPath } = userStore.storage.user;
+        if (avatarPath === '00000000-0000-0000-0000-000000000000') {
+            this.#avatar.setState({ avatar: '../images/homyak.png' });
+        } else {
+            this.#avatar.setState({ avatar: `../images/${avatarPath}.jpg` });
+        }
+
+        const { username } = userStore.storage.user;
+        this.#profileNameInput.setState({ value: userStore.storage.user.username });
 
         const templates = [
             template({
@@ -229,24 +240,24 @@ export class ProfileView extends BaseComponent {
 
     categoriesButtonHandler = async () => {
         await categoryActions.getCategories();
-        await router.navigateTo(ROUTE_CONSTANTS.CATEGORIES, false)
+        await router.navigateTo(ROUTE_CONSTANTS.CATEGORIES, false);
     };
 
     saveButtonHandler = () => {
         const username = document.querySelector('#username_input').value;
         const budget = document.querySelector('#budget_input').value;
         userActions.updateProfile(parseFloat(budget), username);
-    }
+    };
 
     changeImageHandler = () => {
-        const fileInput = document.getElementById("image_profile_input");
+        const fileInput = document.getElementById('image_profile_input');
         fileInput.click();
-        fileInput.onchange = function() {
-            let file = fileInput.files[0];
-            let selectName = document.getElementsByClassName("upload-form__filename")[0];
-            selectName.innerHTML = file.name
-            userActions.updateAvatar(file)
-            console.log(file)
-        }
-    }
+        fileInput.onchange = function () {
+            const file = fileInput.files[0];
+            const selectName = document.getElementsByClassName('upload-form__filename')[0];
+            selectName.innerHTML = file.name;
+            userActions.updateAvatar(file);
+            console.log(file);
+        };
+    };
 }

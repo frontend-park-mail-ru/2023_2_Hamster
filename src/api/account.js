@@ -1,5 +1,7 @@
 import { API_CONSTANTS, getAccountURL } from '@constants/constants';
-import { deleteRequest, get, post, put } from '@ajax';
+import {
+    deleteRequest, get, post, put
+} from '@ajax';
 
 class AccountApi {
     getAccounts = async () => {
@@ -21,6 +23,6 @@ class AccountApi {
         const url = API_CONSTANTS.UPDATE_ACCOUNT;
         return await put(url, data);
     };
-};
+}
 
 export const accountApi = new AccountApi();

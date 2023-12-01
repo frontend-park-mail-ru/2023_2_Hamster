@@ -9,7 +9,7 @@ export const categoryActions = {
         });
     },
 
-    async createCategory(name, user_id) {
+    async createCategory(name, userId) {
         await dispatcher.dispatch({
             type: CATEGORY_ACTIONS.CREATE_CATEGORY,
             data: {
@@ -18,12 +18,12 @@ export const categoryActions = {
                 regular: false,
                 show_income: true,
                 show_outcome: true,
-                user_id,
+                user_id: userId,
             },
         });
     },
 
-    async updateCategory(id, name, user_id) {
+    async updateCategory(id, name, userId) {
         await dispatcher.dispatch({
             type: CATEGORY_ACTIONS.UPDATE_CATEGORY,
             data: {
@@ -33,7 +33,7 @@ export const categoryActions = {
                 regular: false,
                 show_income: true,
                 show_outcome: true,
-                user_id,
+                user_id: userId,
             },
         });
     },
