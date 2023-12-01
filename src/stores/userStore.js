@@ -45,10 +45,11 @@ class UserStore extends BaseStore {
      * @function
      */
     checkAuth = async () => {
-        let response;
+        // let response;
 
         try {
-            response = await authApi.checkAuth();
+            const response = await authApi.checkAuth();
+            const getUser = await userApi.getUser();
 
             switch (response.status) {
                 case STATUS_CODES.OK:
@@ -57,6 +58,7 @@ class UserStore extends BaseStore {
                         username: response.body.username,
                         id: response.body.id,
                         isAuthorised: true,
+                        avatarPath: getUser.body.avatar_url,
                     };
                     this.storage.error = null;
                     this.storeChanged = true;
@@ -95,6 +97,7 @@ class UserStore extends BaseStore {
 
         try {
             const response = await authApi.signIn(data);
+            const getUser = await userApi.getUser();
 
             switch (response.status) {
                 case STATUS_CODES.ACCEPTED:
@@ -103,6 +106,7 @@ class UserStore extends BaseStore {
                         username: response.body.username,
                         id: response.body.id,
                         isAuthorised: true,
+                        avatarPath: getUser.body.avatar_url,
                     };
                     this.storage.error = null;
                     this.storeChanged = true;
@@ -171,6 +175,7 @@ class UserStore extends BaseStore {
 
         try {
             const response = await authApi.signUp(data);
+            const getUser = await userApi.getUser();
 
             switch (response.status) {
                 case STATUS_CODES.CREATED:
@@ -179,6 +184,7 @@ class UserStore extends BaseStore {
                         username: response.body.username,
                         id: response.body.id,
                         isAuthorised: true,
+                        avatarPath: getUser.body.avatar_url,
                     };
                     this.storage.error = null;
                     this.storeChanged = true;
@@ -458,7 +464,7 @@ class UserStore extends BaseStore {
 
     updateAvatar = async (data) => {
         try {
-            const response = await userApi.putAvatar(data.file, this.storage.user.id);
+            const response = await userApi.putAvatar(data.file, this.storage.user.avatarPath);
 
             switch (response.status) {
             case STATUS_CODES.OK:
@@ -483,6 +489,8 @@ class UserStore extends BaseStore {
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);
         }
+        this.storeChanged = true;
+        this.emitChange(EVENT_TYPES.RERENDER_PROFILE);
     };
 }
 

@@ -33,11 +33,12 @@ export const API_CONSTANTS = {
     UPDATE_TRANSACTION: `${SERVER_PREFIX}/api/transaction/update`,
     DELETE_TRANSACTION_TAIL: `/delete`,
 
+    GET_USER: `${SERVER_PREFIX}/api/user/`,
+    GET_ACCOUNTS: `${SERVER_PREFIX}/api/user/account/all`,
     FEED: `${SERVER_PREFIX}/api/user/feed`,
     UPDATE: `${SERVER_PREFIX}/api/user/update`,
     UPDATE_AVATAR: `${SERVER_PREFIX}/api/user/updatePhoto`,
-
-    GET_ACCOUNTS: `${SERVER_PREFIX}/api/user/account/all`,
+    
     CREATE_ACCOUNT: `${SERVER_PREFIX}/api/account/create`,
     UPDATE_ACCOUNT: `${SERVER_PREFIX}/api/account/update`,
     DELETE_ACCOUNT_TAIL: `/delete`,
@@ -85,7 +86,9 @@ export const EVENT_TYPES = {
 
     RERENDER_TRANSACTIONS: 'RERENDER_TRANSACTIONS',
 
-    RERENDER_ACCOUNTS: 'RERENDER_ACCOUNTS'
+    RERENDER_ACCOUNTS: 'RERENDER_ACCOUNTS',
+
+    RERENDER_PROFILE: 'RERENDER_PROFILE',
 };
 
 export const USER_STORE = {

@@ -128,6 +128,10 @@ export class Layout extends BaseComponent {
         if (context === 'accounts') {
             accountStore.registerListener(EVENT_TYPES.RERENDER_ACCOUNTS, this.renderTemplateToParent.bind(this));
         }
+
+        if (context === 'profile') {
+            userStore.registerListener(EVENT_TYPES.RERENDER_PROFILE, this.renderTemplateToParent.bind(this));
+        }
     }
 
     /**
@@ -136,8 +140,10 @@ export class Layout extends BaseComponent {
      */
     async renderTemplateToParent() {
         const username = userStore.storage.user.username;
+        const avatar = userStore.storage.user.avatarPath;
 
         this.setState({ sidebar: { profileName: username ? username : 'Имя профиля' } });
+        this.setState({ sidebar: { sidebarAvatar: {avatar: `../images/${userStore.storage.user.avatarPath}.jpg`} } });
 
         const contentHTML = await this.#contentElement.render();
 

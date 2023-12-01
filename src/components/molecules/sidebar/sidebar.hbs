@@ -27,12 +27,8 @@
             </div>
         {{/if}}
         <div class="sidebar__footer-profile-container">
-            {{#if this.profilePic}}
-                <img
-                        class="sidebar__footer-profile-img"
-                        src="{{this.profilePic}}"
-                        alt="Profile image"
-                >
+            {{#if this.sidebarAvatar}}
+                {{{sidebarAvatar}}}
             {{/if}}
             {{#if this.profileName}}
                 <span class="sidebar__footer-profile-name font-base-text">

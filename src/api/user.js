@@ -15,18 +15,24 @@ class UserApi {
         return await get(url);
     };
 
+    getUser = async () => {
+        const url = API_CONSTANTS.GET_USER;
+        return await get(url)
+    };
+
     putUpdate = async (userInfo) => {
         const url = API_CONSTANTS.UPDATE;
         return await put(url, userInfo);
     };
 
-    putAvatar = (photo, userId) => {
+    putAvatar = async (photo, avatarPath) => {
         const url = API_CONSTANTS.UPDATE_AVATAR
+
         const formData = new FormData();
-        formData.append('userID', userId);
         formData.append('upload', photo);
-        formData.append('path', '');
-        return putMulti(url, formData)
+        formData.append('path', avatarPath);
+        
+        return await putMulti(url, formData)
     }
 }
 

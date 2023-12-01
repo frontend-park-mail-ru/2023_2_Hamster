@@ -113,6 +113,7 @@ export class ProfileView extends BaseComponent {
      */
     render() {
         this.#profileNameInput.setState({value: userStore.storage.user.username});
+        this.#avatar.setState({avatar: `../images/${userStore.storage.user.avatarPath}.jpg`});
 
         const templates = [
             template({
