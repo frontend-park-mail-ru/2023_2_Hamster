@@ -1,7 +1,13 @@
 import BaseStore from './baseStore.js';
-import { transactionsApi } from '@api/transaction';
-import { EVENT_TYPES, STATUS_CODES } from '@constants/constants';
-import { categoriesStore } from '@stores/categoriesStore';
+import {transactionsApi} from '@api/transaction';
+import {EVENT_TYPES, STATUS_CODES} from '@constants/constants';
+import {categoriesStore} from '@stores/categoriesStore';
+import {
+    DESCRIPTION_RULES, LOGIN_RULES,
+    MONEY_RULES,
+    PAYER_RULES
+} from "@constants/validation";
+import {validator} from "../modules/validator";
 
 /**
  *
@@ -33,20 +39,20 @@ class TransactionsStore extends BaseStore {
             const response = await transactionsApi.getTransaction(qString);
 
             switch (response.status) {
-            case STATUS_CODES.OK:
-                this.storage.states = this.transformArray(response.body.transactions);
-                this.transactions = response.body.transactions;
-                this.account = response.body.transactions.pop().account_income;
+                case STATUS_CODES.OK:
+                    this.storage.states = this.transformArray(response.body.transactions);
+                    this.transactions = response.body.transactions;
+                    this.account = response.body.transactions.pop().account_income;
 
-                break;
+                    break;
 
-            case STATUS_CODES.NO_CONTENT:
-                this.storage.states = null;
+                case STATUS_CODES.NO_CONTENT:
+                    this.storage.states = null;
 
-                break;
+                    break;
 
-            default:
-                console.log('Undefined status code', response.status);
+                default:
+                    console.log('Undefined status code', response.status);
             }
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);
@@ -97,6 +103,18 @@ class TransactionsStore extends BaseStore {
     }
 
     createTransaction = async (data) => {
+        if (validator(data.description, DESCRIPTION_RULES).isError
+            || validator(data.income, MONEY_RULES).isError
+            || validator(data.outcome, MONEY_RULES).isError
+            || validator(data.payer, PAYER_RULES).isError) {
+
+            console.log(validator(data.description, DESCRIPTION_RULES), validator(data.income, MONEY_RULES), validator(data.outcome, MONEY_RULES), validator(data.payer, PAYER_RULES))
+
+            this.validateCreateTransaction(data);
+
+            return null;
+        }
+
         try {
             const response = await transactionsApi.createTransaction(data);
 
@@ -112,6 +130,8 @@ class TransactionsStore extends BaseStore {
                 cardId: 'card_' + response.transaction_id,
             });
 
+            this.storage.error = null;
+
             this.storeChanged = true;
 
             this.emitChange(EVENT_TYPES.RERENDER_TRANSACTIONS);
@@ -119,6 +139,32 @@ class TransactionsStore extends BaseStore {
             console.log('Unable to connect to the server, error: ', error);
         }
     };
+
+    validateCreateTransaction = (data) => {
+        const resultDescription = validator(data.description, DESCRIPTION_RULES);
+        const resultPayer = validator(data.payer, PAYER_RULES);
+        const resultIncome = validator(data.income, MONEY_RULES);
+        const resultOutcome = validator(data.outcome, MONEY_RULES);
+
+        let resultSum = null;
+        if (resultIncome.isError) {
+            resultSum = resultIncome
+        }
+        if (resultOutcome.isError) {
+            resultSum = resultOutcome
+        }
+
+        this.storage.error = {
+            position: 'create',
+            description: resultDescription,
+            payer: resultPayer,
+            money: resultSum,
+        };
+
+        this.storeChanged = true;
+
+        this.emitChange(EVENT_TYPES.RERENDER_LOGIN_INPUT);
+    }
 
     deleteTransaction = async (data) => {
         try {

@@ -159,6 +159,19 @@ export class TransactionsView extends BaseComponent {
             this.accountInput.setState({values: accountStore.accountsValues});
         }
 
+        if (transactionsStore.storage.error){
+            if (transactionsStore.storage.error.position === 'create') {
+                const description = transactionsStore.storage.error.description
+                this.descriptionInput.setState({inputHelperText: description.message, isError: description.isError})
+
+                const payer = transactionsStore.storage.error.payer
+                this.payerInput.setState({inputHelperText: payer.message, isError: payer.isError})
+
+                const sum = transactionsStore.storage.error.money
+                this.sumInput.setState({inputHelperText: sum.message, isError: sum.isError})
+            }
+        }
+
         this.transactions = this.createTransactions(transactionsStore.storage.states);
         this.renderedTransactions = this.renderTransactions(this.transactions);
 
@@ -359,7 +372,7 @@ export class TransactionsView extends BaseComponent {
             date = startDateObj.toISOString();
         }
 
-        if (sumInput && tagId) {
+        if (sumInput && tagId && accountId && dateValue) {
             let income;
             let outcome;
 

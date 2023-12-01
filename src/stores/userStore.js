@@ -1,11 +1,10 @@
-import {
-    STATUS_CODES, EVENT_TYPES, USER_STORE, ROUTE_CONSTANTS
-} from '@constants/constants';
+import {STATUS_CODES, EVENT_TYPES, USER_STORE, ROUTE_CONSTANTS} from '@constants/constants';
 import {LOGIN_RULES, PASSWORD_RULES, USERNAME_RULES} from '@constants/validation';
 import {authApi} from '@api/auth';
 import {userApi} from '@api/user';
 import {router} from '@router';
 import BaseStore from './baseStore.js';
+import {validator} from "../modules/validator.js";
 
 /**
  * UserStore is a class for managing user state of the site. It extends the BaseStore class and
@@ -85,8 +84,8 @@ class UserStore extends BaseStore {
      * @param {Object} data - The user's credentials.
      */
     login = async (data) => {
-        if (this.validator(data.login, LOGIN_RULES).isError
-            || this.validator(data.password, PASSWORD_RULES).isError) {
+        if (validator(data.login, LOGIN_RULES).isError
+            || validator(data.password, PASSWORD_RULES).isError) {
 
             this.isLoginValid(data);
             this.isPasswordValid(data);
@@ -157,10 +156,10 @@ class UserStore extends BaseStore {
      * @param {Object} data - The new user's information.
      */
     registration = async (data) => {
-        if (this.validator(data.login, LOGIN_RULES).isError
-            || this.validator(data.password, PASSWORD_RULES).isError
-            || this.validator(data.username, USERNAME_RULES).isError
-            || this.validator(data.passwordRepeat, PASSWORD_RULES).isError) {
+        if (validator(data.login, LOGIN_RULES).isError
+            || validator(data.password, PASSWORD_RULES).isError
+            || validator(data.username, USERNAME_RULES).isError
+            || validator(data.passwordRepeat, PASSWORD_RULES).isError) {
 
             this.isLoginValid(data);
             this.isPasswordValid(data);
@@ -324,34 +323,6 @@ class UserStore extends BaseStore {
     };
 
     /**
-     * Validates a data against a set of rules.
-     *
-     * @function
-     * @param {string} data - The data to be validated.
-     * @param {Array.<Object>} rules - The validation rules.
-     * @param {RegExp} rules.regex - The regex to test the data against.
-     * @param {string} rules.message - The message to return if the data fails the validation.
-     * @returns {Object} The validation result.
-     * isError - Indicates if there was an error during validation.
-     * message - The validation message.
-     */
-    validator(data, rules) {
-        const failedRule = rules.find((condition) => !condition.regex.test(data));
-
-        if (failedRule) {
-            return {
-                isError: true,
-                message: failedRule.message,
-            };
-        }
-
-        return {
-            isError: false,
-            message: null,
-        };
-    }
-
-    /**
      * Checks if a login is valid.
      *
      * @function
@@ -359,7 +330,7 @@ class UserStore extends BaseStore {
      * @param {string} data.login - The username to validate.
      */
     isLoginValid = (data) => {
-        const result = this.validator(data.login, LOGIN_RULES);
+        const result = validator(data.login, LOGIN_RULES);
 
         this.storage = {
             ...this.storage,
@@ -383,7 +354,7 @@ class UserStore extends BaseStore {
      * @param {string} data.username - The username to validate.
      */
     isUsernameValid = (data) => {
-        const result = this.validator(data.username, USERNAME_RULES);
+        const result = validator(data.username, USERNAME_RULES);
 
         this.storage = {
             ...this.storage,
@@ -407,7 +378,7 @@ class UserStore extends BaseStore {
      * @param {string} data.password - The password to validate.
      */
     isPasswordValid = (data) => {
-        const result = this.validator(data.password, PASSWORD_RULES);
+        const result = validator(data.password, PASSWORD_RULES);
 
         this.storage = {
             ...this.storage,
@@ -476,8 +447,38 @@ class UserStore extends BaseStore {
                     this.storeChanged = true;
                     break;
 
-                default:
-                    console.log('Undefined status code', response.status);
+            default:
+                console.log('Undefined status code', response.status);
+            }
+        } catch (error) {
+            console.log('Unable to connect to the server, error: ', error);
+        }
+    }
+
+
+    updateAvatar = async (data) => {
+        try {
+            const response = await userApi.putAvatar(data.file, this.storage.user.id);
+
+            switch (response.status) {
+            case STATUS_CODES.OK:
+                this.storage.body = {
+                    path: response.body.path,
+                };
+                this.storage.error = null;
+                this.storeChanged = true;
+                break;
+
+            case STATUS_CODES.BAD_REQUEST:
+            case STATUS_CODES.UNAUTHORISED:
+            case STATUS_CODES.FORBIDDEN:
+            case STATUS_CODES.INTERNAL_SERVER_ERROR:
+                this.storage.error = response.message;
+                this.storeChanged = true;
+                break;
+
+            default:
+                console.log('Undefined status code', response.status);
             }
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);

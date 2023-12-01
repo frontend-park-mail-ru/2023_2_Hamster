@@ -149,3 +149,36 @@ export const put = async (url, data) => {
 
     return await response.json();
 };
+
+
+export const putMulti = async (url, data) => {
+    console.log(data)
+    const csrfToken = await csrfApi.getCsrfToken();
+
+    let body;
+    const boundary = String(Math.random()).slice(2);
+    const boundaryMiddle = `--${boundary}\r\n`;
+    const boundaryLast = `--${boundary}--\r\n`;
+    body = ['\r\n'];
+    for (let key in data.filename) {
+        body.push(`Content-Disposition: form-data; name="${key}"\r\n\r\n${data[key]}\r\n`);
+    }
+
+    const response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+            'Content-type': `multipart/form-data; boundary=${boundary}`,
+            'X-CSRF-Token': csrfToken.body.csrf,
+        },
+        body: data,
+        credentials: 'include',
+    })
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message}`);
+    }
+
+    return await response.json();
+}
+

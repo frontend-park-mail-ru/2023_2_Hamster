@@ -1,5 +1,5 @@
 import IMAGE_URL from '@images/peopleLoginReg.svg';
-import {SVG_ICONS} from '@icons/icons';
+import { SVG_ICONS } from '@icons/icons';
 
 export const ROUTE_CONSTANTS = {
     PROFILE: '/profile',
@@ -10,7 +10,7 @@ export const ROUTE_CONSTANTS = {
     CATEGORIES: '/categories',
     TRANSACTIONS: '/transactions',
     NOT_FOUND: '/404',
-    ACCOUNTS: '/accounts',
+    ACCOUNTS: '/accounts'
 };
 
 const SERVER_PREFIX = 'https://hammywallet.ru';
@@ -35,6 +35,7 @@ export const API_CONSTANTS = {
 
     FEED: `${SERVER_PREFIX}/api/user/feed`,
     UPDATE: `${SERVER_PREFIX}/api/user/update`,
+    UPDATE_AVATAR: `${SERVER_PREFIX}/api/user/updatePhoto`,
 
     GET_ACCOUNTS: `${SERVER_PREFIX}/api/user/account/all`,
     CREATE_ACCOUNT: `${SERVER_PREFIX}/api/account/create`,
@@ -208,4 +209,12 @@ export const PROFILE_STATE = {
         buttonSize: 'button_small',
         buttonType: 'button',
     },
-};
+
+    IMAGE_INPUT_STATE: {
+        isError: '',
+        id: 'image_profile_input',
+        inputPlaceholder: 'Выбрать картинку',
+        inputSize: 'input_small',
+        typeOfInput: 'file',
+    },
+}

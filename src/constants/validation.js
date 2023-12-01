@@ -50,3 +50,32 @@ export const PASSWORD_RULES = [
         regex: /[0-9]+/,
     },
 ];
+
+export const MONEY_RULES = [
+    {
+        message: 'Можно ввести только число',
+        regex: /^\d+$/,
+    },
+    {
+        message: 'Поле не может быть пустым',
+        regex: /.+/,
+    },
+    {
+        message: 'Максимальная длина числа - 8 символов',
+        regex: /^.{1,8}$/,
+    },
+];
+
+export const PAYER_RULES = [
+    {
+        message: 'Максимальная длина - 20 символов',
+        regex: /^.{1,20}$/,
+    },
+];
+
+export const DESCRIPTION_RULES = [
+    {
+        message: 'Максимальная длина - 100 символов',
+        regex: /^.{1,100}$/,
+    },
+];

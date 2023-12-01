@@ -1,6 +1,6 @@
 import BaseStore from './baseStore.js';
-import { accountApi } from '@api/account';
-import { EVENT_TYPES, STATUS_CODES } from '@constants/constants';
+import {accountApi} from '@api/account';
+import {EVENT_TYPES, STATUS_CODES} from '@constants/constants';
 
 /**
  *
@@ -34,26 +34,26 @@ class AccountStore extends BaseStore {
             const response = await accountApi.getAccounts();
 
             switch (response.status) {
-            case STATUS_CODES.OK:
-                this.storage.states = this.transformArray(response.body.accounts);
-                this.accounts = response.body.accounts;
+                case STATUS_CODES.OK:
+                    this.storage.states = this.transformArray(response.body.accounts);
+                    this.accounts = response.body.accounts;
 
-                this.accountsValues = this.accounts.map(account => {
-                    return {
-                        value: account.id,
-                        valueName: account.mean_payment
-                    };
-                });
+                    this.accountsValues = this.accounts.map(account => {
+                        return {
+                            value: account.id,
+                            valueName: account.mean_payment
+                        };
+                    });
 
-                break;
+                    break;
 
-            case STATUS_CODES.NO_CONTENT:
-                this.storage.states = null;
+                case STATUS_CODES.NO_CONTENT:
+                    this.storage.states = null;
 
-                break;
+                    break;
 
-            default:
-                console.log('Undefined status code', response.status);
+                default:
+                    console.log('Undefined status code', response.status);
             }
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);
@@ -124,6 +124,6 @@ class AccountStore extends BaseStore {
         this.storeChanged = true;
         this.emitChange(EVENT_TYPES.RERENDER_ACCOUNTS);
     }
-};
+}
 
 export const accountStore = new AccountStore();

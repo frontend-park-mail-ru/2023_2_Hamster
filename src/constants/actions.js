@@ -19,6 +19,7 @@ export const USER_ACTIONS_TYPES = {
     ROUTE_REGISTRATION: 'ROUTE_REGISTRATION',
 
     UPDATE_PROFILE: 'UPDATE_PROFILE',
+    UPDATE_AVATAR: 'UPDATE_AVATAR',
 };
 
 export const CATEGORY_ACTIONS = {
@@ -92,6 +93,11 @@ export const actions = [
     {
         type: USER_ACTIONS_TYPES.UPDATE_PROFILE,
         method: userStore.updateProfile,
+    },
+
+    {
+        type: USER_ACTIONS_TYPES.UPDATE_AVATAR,
+        method: userStore.updateAvatar,
     },
 
     {
