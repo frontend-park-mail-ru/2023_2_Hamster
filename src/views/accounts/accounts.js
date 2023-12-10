@@ -73,8 +73,6 @@ export class AccountsView extends BaseComponent {
 
         this.nameInput = new Input(null, NAME_INPUT_STATE);
         this.balanceInput = new Input(null, BALANCE_INPUT_STATE);
-
-        // this.accountSelected =
     }
 
     /**
@@ -88,12 +86,13 @@ export class AccountsView extends BaseComponent {
             await accountStore.getAccounts();
         }
 
-        const accounts = accountStore.storage.states.map((account) => {
+        const selectedAccount = accountStore.storage.selectedAccount;
+        let accounts = accountStore.storage.states?.map((account) => {
             account = {
                 ...account,
                 balance: `${account.balance} руб.`,
             };
-            if (this.accountSelected && this.accountSelected == account.elementId) {
+            if (selectedAccount && selectedAccount == account.elementId) {
                 return {
                     ...account,
                     selected: true,
@@ -102,17 +101,19 @@ export class AccountsView extends BaseComponent {
             return account;
         });
 
-        if (!this.accountSelected) {
+        if (!accounts) {
+            accounts = [];
+        }
+
+        if (!selectedAccount) {
             this.nameInput.setState({ inputPlaceholder: NAME_INPUT_STATE.inputPlaceholder, value: '' });
             this.balanceInput.setState({ inputPlaceholder: BALANCE_INPUT_STATE.inputPlaceholder, value: '' });
         }
 
-        // console.log('this.accounts', accounts);
-
         const templates = [
             template({
                 accounts,
-                accountSelected: this.accountSelected,
+                isAccountSelected: !!selectedAccount,
                 accountNameInput: this.nameInput.render(),
                 accountBalanceInput: this.balanceInput.render(),
                 saveAccountButton: this.saveButton.render(),
@@ -125,13 +126,16 @@ export class AccountsView extends BaseComponent {
         return super.render(templates);
     }
 
-    getSelectedAccount = () => accountStore.storage.states.reduce((res, elem) => {
-        const accountItem = document.querySelector(`#${elem.elementId}`);
-        if (accountItem?.classList.contains('accounts__account_selected')) {
-            return elem;
-        }
-        return res;
-    }, null);
+    getSelectedAccount = () => {
+        return accountStore.storage.states?.reduce((res, elem) => {
+            const accountItem = document.querySelector(`#${elem.elementId}`);
+            if (accountItem?.classList.contains('accounts__account_selected')) {
+                return elem;
+            }
+            return res;
+        }, null);
+    }
+    
 
     // TODO: add input validation
     setHandlers() {
@@ -170,14 +174,10 @@ export class AccountsView extends BaseComponent {
         }
     }
 
-    accountClickHandler = (account, event) => {
-        // TODO через action и стору
-        this.accountSelected = account.elementId;
-        // console.log('this.accountSelected', this.accountSelected);
+    accountClickHandler = async (account, event) => {
         this.nameInput.setState({ inputPlaceholder: account.name, value: account.name });
         this.balanceInput.setState({ inputPlaceholder: account.balance, value: account.balance });
-        accountStore.rerenderAccounts();
-        this.setHandlers();
+        await accountActions.selectAccount(account.elementId);
     };
 
     updateButtonHandler = async () => {
@@ -197,8 +197,7 @@ export class AccountsView extends BaseComponent {
 
     deleteButtonHandler = async () => {
         const account = this.getSelectedAccount();
-        this.accountSelected = null;
-        await accountActions.deleteAccount(account.raw);
+        await accountActions.deleteAccount(account.raw, account.elementId);
     };
 
     createButtonHandler = async () => {
@@ -210,9 +209,7 @@ export class AccountsView extends BaseComponent {
     };
 
     cancelButtonHandler = async () => {
-        // TODO через action
-        this.accountSelected = null;
-        accountStore.rerenderAccounts();
+        await accountActions.selectAccount(null);
     };
 
     layoutClickHandler = async (e) => {
@@ -225,9 +222,8 @@ export class AccountsView extends BaseComponent {
             '.accounts__configure'
         ].map((e) => document.querySelector(e));
 
-        if (this.accountSelected && (e.target == e.currentTarget || emptySpaces.includes(e.target))) {
-            this.accountSelected = null;
-            accountStore.rerenderAccounts();
+        if (accountStore.storage.selectedAccount && (e.target == e.currentTarget || emptySpaces.includes(e.target))) {
+            await accountActions.selectAccount(null);
         }
     };
 }

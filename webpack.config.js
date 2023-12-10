@@ -74,6 +74,18 @@ module.exports = {
                     from: path.resolve(__dirname, 'src/sw.js'),
                     to: path.resolve(__dirname, 'dist'),
                 },
+                {
+                    from: path.resolve(__dirname, 'manifest.json'),
+                    to: path.resolve(__dirname, 'dist'),
+                },
+                {
+                    from: path.resolve(__dirname, 'hamster-icon.svg'),
+                    to: path.resolve(__dirname, 'dist'),
+                },
+                {
+                    from: path.resolve(__dirname, 'hamster-icon.png'),
+                    to: path.resolve(__dirname, 'dist'),
+                },
             ],
         }),
     ],

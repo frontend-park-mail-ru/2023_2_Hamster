@@ -2,6 +2,15 @@ import { ACCOUNT_ACTIONS } from '@constants/actions';
 import { dispatcher } from '../modules/dispatcher.js';
 
 export const accountActions = {
+    async selectAccount(accountElementId) {
+        await dispatcher.dispatch({
+            type: ACCOUNT_ACTIONS.SELECT_ACCOUNT,
+            data: {
+                accountElementId: accountElementId,
+            },
+        });
+    },
+
     async getAccounts() {
         await dispatcher.dispatch({
             type: ACCOUNT_ACTIONS.GET_ACCOUNTS,
@@ -34,11 +43,12 @@ export const accountActions = {
         });
     },
 
-    async deleteAccount(accountId) {
+    async deleteAccount(accountId, accountElementId) {
         await dispatcher.dispatch({
             type: ACCOUNT_ACTIONS.DELETE_ACCOUNT,
             data: {
                 account_id: accountId,
+                accountElementId: accountElementId,
             },
         });
     },

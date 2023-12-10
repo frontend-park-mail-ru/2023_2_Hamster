@@ -63,16 +63,16 @@ class Dispatcher {
             console.error(action);
             throw new Error('Dispatcher: dispatch method must be run when Dispatcher is off');
         }
-
+        
         this.isDispatching = true;
-
+        
         try {
             const reducer = this.callbacks[action.type];
-
+            
             if (!reducer) {
                 return;
             }
-
+            
             await reducer(action.data);
         } catch (error) {
             throw new Error(error.message);

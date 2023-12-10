@@ -39,6 +39,7 @@ export const TRANSACTION_ACTIONS = {
 };
 
 export const ACCOUNT_ACTIONS = {
+    SELECT_ACCOUNT: 'SELECT_ACCOUNT',
     GET_ACCOUNTS: 'GET_ACCOUNTS',
     CREATE_ACCOUNT: 'CREATE_ACCOUNT',
     UPDATE_ACCOUNT: 'UPDATE_ACCOUNT',
@@ -139,6 +140,10 @@ export const actions = [
         method: transactionsStore.rerenderTransaction,
     },
 
+    {
+        type: ACCOUNT_ACTIONS.SELECT_ACCOUNT,
+        method: accountStore.selectAccount,
+    },
     {
         type: ACCOUNT_ACTIONS.GET_ACCOUNTS,
         method: accountStore.getAccounts,

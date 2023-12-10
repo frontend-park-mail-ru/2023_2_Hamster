@@ -27,6 +27,12 @@ class AccountStore extends BaseStore {
         balance: data.balance,
     }));
 
+    selectAccount = async (data) => {
+        this.storage.selectedAccount = data.accountElementId;
+        this.storeChanged = true;
+        this.emitChange(EVENT_TYPES.RERENDER_ACCOUNTS);
+    }
+
     getAccounts = async () => {
         try {
             const response = await accountApi.getAccounts();
@@ -83,6 +89,10 @@ class AccountStore extends BaseStore {
 
             this.storage.states = this.storage.states.filter((item) => item.raw !== data.account_id);
 
+            if (this.storage.selectedAccount === data.accountElementId) {
+                this.storage.selectedAccount = null;
+            }
+
             this.storeChanged = true;
 
             this.emitChange(EVENT_TYPES.RERENDER_ACCOUNTS);
@@ -95,7 +105,6 @@ class AccountStore extends BaseStore {
         try {
             await accountApi.updateAccount(data);
             this.storage.states = this.storage.states.map((item) => {
-                // console.log('data item', data, item);
                 if (item.raw !== data.id) {
                     return item;
                 }
@@ -115,10 +124,6 @@ class AccountStore extends BaseStore {
         }
     };
 
-    rerenderAccounts = async () => {
-        this.storeChanged = true;
-        this.emitChange(EVENT_TYPES.RERENDER_ACCOUNTS);
-    };
 }
 
 export const accountStore = new AccountStore();
