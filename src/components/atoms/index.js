@@ -6,3 +6,4 @@ export * from './menu/menu.js';
 export * from './button_card/buttonCard.js';
 export * from './category/category'
 export * from './pieChart/pieChart.js';
+export * from './barChart/barChart.js';

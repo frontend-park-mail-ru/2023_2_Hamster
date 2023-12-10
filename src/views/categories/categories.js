@@ -69,7 +69,7 @@ export class CategoriesView extends BaseComponent {
         }
     };
 
-    renderCategories = (arr) => {
+    renderCategories = async (arr) => {
         if (arr) {
             return arr.map(item => {
                 return { category: item.render() };
