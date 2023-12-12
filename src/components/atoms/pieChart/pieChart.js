@@ -283,14 +283,14 @@ export class PieChart extends BaseComponent {
 
     /**
      * Creates element from string.
-     * @param {string} html - Representing a single element.
+     * @param {string} htmlString - Representing a single element.
      * @return {HTMLElement} - Element from given string.
      */
     htmlToElement = (htmlString) => {
-        const template = document.createElement('template');
+        const htmlTemplateElement = document.createElement('template');
         htmlString = htmlString.trim();
-        template.innerHTML = htmlString;
-        return template.content.firstChild;
+        htmlTemplateElement.innerHTML = htmlString;
+        return htmlTemplateElement.content.firstChild;
     };
 
     /**

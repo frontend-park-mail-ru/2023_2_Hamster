@@ -1,11 +1,11 @@
-import {BaseComponent} from '@components/baseComponent.js';
+import { BaseComponent } from '@components/baseComponent.js';
 import {
     Button, Checkbox, Input, Select, Transaction
 } from '@atoms';
-import {transactionsStore} from '@stores/transactionsStore';
-import {categoriesStore} from '@stores/categoriesStore';
-import {accountStore} from '@stores/accountStore';
-import {transactionActions} from '@actions/transactionActions';
+import { transactionsStore } from '@stores/transactionsStore';
+import { categoriesStore } from '@stores/categoriesStore';
+import { accountStore } from '@stores/accountStore';
+import { transactionActions } from '@actions/transactionActions';
 
 import FILTER_IMAGE from '@icons/filter.svg';
 
@@ -103,16 +103,16 @@ export class TransactionsView extends BaseComponent {
 
         this.date = new Input(null, DATE_CREATE);
         this.sumInput = new Input(null, SUM_INPUT_STATE);
-        this.tagInput = new Select(null, {id: 'tag_create_select'});
+        this.tagInput = new Select(null, { id: 'tag_create_select' });
         this.payerInput = new Input(null, PAYER);
         this.descriptionInput = new Input(null, DESCRIPTION);
-        this.accountInput = new Select(null, {id: 'account_create_id'});
+        this.accountInput = new Select(null, { id: 'account_create_id' });
         this.button = new Button(null, BUTTON_STATE);
 
         this.isFilterOpen = false;
         this.filterButton = new Button(null, FILTER_BUTTON);
-        this.tagFilter = new Select(null, {id: 'tag_select'});
-        this.accountFilter = new Select(null, {id: 'account_select'});
+        this.tagFilter = new Select(null, { hidden: 'Категория не выбрана', id: 'tag_select' });
+        this.accountFilter = new Select(null, { hidden: 'Счет не выбран', id: 'account_select' });
         this.incomeFilter = new Checkbox(null, INCOME);
         this.outcomeFilter = new Checkbox(null, OUTCOME);
         this.submitFilter = new Button(null, SUBMIT_BUTTON);
@@ -129,14 +129,14 @@ export class TransactionsView extends BaseComponent {
     async render() {
         // if (!accountStore.storage.feed) {
         await accountStore.getAccounts();
-        this.accountFilter.setState({values: accountStore.accountsValues});
-        this.accountInput.setState({values: accountStore.accountsValues});
+        this.accountFilter.setState({ values: accountStore.accountsValues });
+        this.accountInput.setState({ values: accountStore.accountsValues });
         // }
 
         // if (!categoriesStore.storage.tags) {
         await categoriesStore.getTags();
-        this.tagFilter.setState({values: categoriesStore.categoriesValues});
-        this.tagInput.setState({values: categoriesStore.categoriesValues});
+        this.tagFilter.setState({ values: categoriesStore.categoriesValues });
+        this.tagInput.setState({ values: categoriesStore.categoriesValues });
         // }
 
         if (!transactionsStore.transactions) {
@@ -145,7 +145,9 @@ export class TransactionsView extends BaseComponent {
 
         if (transactionsStore.storage.error) {
             if (transactionsStore.storage.error.type === 'create') {
-                const {description, payer, sum, account, tag} = transactionsStore.storage.error;
+                const {
+                    description, payer, sum, account, tag
+                } = transactionsStore.storage.error;
 
                 this.descriptionInput.setState({
                     inputHelperText: description.message,
@@ -174,7 +176,7 @@ export class TransactionsView extends BaseComponent {
         this.transactions = this.createTransactions(transactionsStore.storage.states);
         this.renderedTransactions = this.renderTransactions(this.transactions);
 
-        this.date.setState({value: this.getTodayDate});
+        this.date.setState({ value: this.getTodayDate });
 
         const templates = [
             template({
@@ -220,22 +222,24 @@ export class TransactionsView extends BaseComponent {
 
                 const date = new Date(transaction.date);
                 const day = date.getDate();
-                const month = date.toLocaleString('ru', {month: 'long'});
-                const dayOfWeek = date.toLocaleString('ru', {weekday: 'long'});
+                const month = date.toLocaleString('ru', { month: 'long' });
+                const dayOfWeek = date.toLocaleString('ru', { weekday: 'long' });
 
-                transaction.setState({date: `${day} ${month}`, dayOfWeek});
+                transaction.setState({ date: `${day} ${month}`, dayOfWeek });
 
-                transaction.sumInput.setState({value: item.value});
-                transaction.accountInput.setState({values: this.changeOrder(accountStore.accountsValues, item.account_income)});
-                transaction.tagInput.setState({values: this.changeOrder(categoriesStore.categoriesValues, item.tag)});
-                transaction.descriptionInput.setState({value: item.transactionMessage});
-                transaction.payerInput.setState({value: item.transactionPlace});
+                transaction.sumInput.setState({ value: item.value });
+                transaction.accountInput.setState({ values: this.changeOrder(accountStore.accountsValues, item.account_income) });
+                transaction.tagInput.setState({ values: this.changeOrder(categoriesStore.categoriesValues, item.tag) });
+                transaction.descriptionInput.setState({ value: item.transactionMessage });
+                transaction.payerInput.setState({ value: item.transactionPlace });
 
                 if (transactionsStore.storage.error) {
                     if (transactionsStore.storage.error.type === 'update' && transactionsStore.storage.error.raw === item.raw) {
-                        transaction.setState({settingsOpen: true});
+                        transaction.setState({ settingsOpen: true });
 
-                        const {description, payer, sum, account, tag} = transactionsStore.storage.error;
+                        const {
+                            description, payer, sum, account, tag
+                        } = transactionsStore.storage.error;
 
                         transaction.descriptionInput.setState({
                             inputHelperText: description.message,
@@ -264,6 +268,8 @@ export class TransactionsView extends BaseComponent {
                 return transaction;
             });
         }
+
+        return [];
     };
 
     changeOrder = (array, id) => {
@@ -277,8 +283,10 @@ export class TransactionsView extends BaseComponent {
 
     renderTransactions = (arr) => {
         if (arr) {
-            return arr.map((item) => ({transaction: item.render()}));
+            return arr.map((item) => ({ transaction: item.render() }));
         }
+
+        return [];
     };
 
     // TODO: add input validation
@@ -393,7 +401,7 @@ export class TransactionsView extends BaseComponent {
         }
 
         const isSettingsOpen = transaction.getState().settingsOpen;
-        transaction.setState({settingsOpen: !isSettingsOpen});
+        transaction.setState({ settingsOpen: !isSettingsOpen });
 
         const transactionCard = document.querySelector(`#${transaction.getState().id}`);
         transactionCard.outerHTML = transaction.render();
@@ -409,7 +417,7 @@ export class TransactionsView extends BaseComponent {
         const payerValue = document.querySelector(`#${transaction.payerInput.getState().id}`).value;
         const accountValue = document.querySelector(`#${transaction.accountInput.getState().id}`).value;
 
-        const startDateObj = new Date(dateValue?dateValue:this.getTodayDate());
+        const startDateObj = new Date(dateValue || this.getTodayDate());
         const date = startDateObj.toISOString();
 
         let income = 0;
@@ -436,7 +444,7 @@ export class TransactionsView extends BaseComponent {
         const payer = document.querySelector(`#${this.payerInput.getState().id}`).value;
         const accountId = document.querySelector(`#${this.accountInput.getState().id}`).value;
 
-        const startDateObj = new Date(dateValue?dateValue:this.getTodayDate());
+        const startDateObj = new Date(dateValue || this.getTodayDate());
         const date = startDateObj.toISOString();
 
         let income;

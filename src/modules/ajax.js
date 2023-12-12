@@ -127,7 +127,7 @@ export const deleteRequest = async (url, data) => {
  * @param {string} url - The URL to which the request will be made.
  * @param {Object} data - The data to be sent in the body of the request.
  * @returns {Promise<Object>} - Returns a Promise that resolves to the data in JSON format.
- * @throws {Error} - If an error occurs during the request, an error object is thrown.
+ * @throws {Response} - If an error occurs during the request, an error object is thrown.
  */
 export const put = async (url, data) => {
     const csrfToken = await csrfApi.getCsrfToken();
@@ -143,8 +143,7 @@ export const put = async (url, data) => {
     });
 
     if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message}`);
+        throw response;
     }
 
     return await response.json();

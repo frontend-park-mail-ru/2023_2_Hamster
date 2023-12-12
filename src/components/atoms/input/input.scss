@@ -17,7 +17,7 @@
   &__container {
   }
 
-  &__units{
+  &__units {
     position: relative;
     bottom: 35px;
     left: calc(100% - 13px - 35px);
@@ -76,6 +76,17 @@
     border: 1px solid var(--error-color);
   }
 
+  &_success {
+    border: 1px solid var(--succes-color);
+    animation: fadeOut 3s ease-in forwards;
+  }
+
+  @keyframes fadeOut {
+    to {
+      border: 1px solid var(--input-border-color);
+    }
+  }
+
   &__icon {
     position: absolute;
     top: 50%;
@@ -107,7 +118,21 @@
 
   &__helper {
     &_error {
-      color: var(--error-color)
+      color: var(--error-color);
+    }
+
+    &_success {
+      color: var(--succes-color);
+      animation: fadeOutText 3s ease-in forwards;
+    }
+
+    @keyframes fadeOutText {
+      to {
+        color: transparent;
+        visibility: hidden;
+        height: 0;
+        width: 0;
+      }
     }
   }
 }

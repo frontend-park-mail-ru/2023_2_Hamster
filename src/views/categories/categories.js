@@ -60,6 +60,15 @@ export class CategoriesView extends BaseComponent {
         }
 
         this.categories = this.createCategories(categoriesStore.storage.states);
+        if (categoriesStore.nameInput) {
+            if (categoriesStore.nameInput.idError) {
+                const category = this.categories.find((tag) => tag.getState().raw === categoriesStore.nameInput.idError);
+                category.setState({ settingsOpen: true });
+                category.input.setState(categoriesStore.nameInput);
+            } else {
+                this.name.setState(categoriesStore.nameInput);
+            }
+        }
         this.renderedCategories = this.renderCategories(this.categories);
 
         const templates = [
@@ -79,12 +88,16 @@ export class CategoriesView extends BaseComponent {
         if (arr) {
             return arr.map((item) => new Category(null, item, null));
         }
+
+        return [];
     };
 
     renderCategories = (arr) => {
         if (arr) {
             return arr.map((item) => ({ category: item.render() }));
         }
+
+        return [];
     };
 
     // TODO: add input validation

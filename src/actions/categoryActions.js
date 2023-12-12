@@ -1,4 +1,5 @@
 import { CATEGORY_ACTIONS } from '@constants/actions';
+import { NULL_UUID } from '@constants/constants';
 import { dispatcher } from '../modules/dispatcher.js';
 
 export const categoryActions = {
@@ -14,7 +15,7 @@ export const categoryActions = {
             type: CATEGORY_ACTIONS.CREATE_CATEGORY,
             data: {
                 name,
-                parent_id: '00000000-0000-0000-0000-000000000000',
+                parent_id: NULL_UUID,
                 regular: false,
                 show_income: true,
                 show_outcome: true,
@@ -29,7 +30,7 @@ export const categoryActions = {
             data: {
                 id,
                 name,
-                parent_id: '00000000-0000-0000-0000-000000000000',
+                parent_id: NULL_UUID,
                 regular: false,
                 show_income: true,
                 show_outcome: true,

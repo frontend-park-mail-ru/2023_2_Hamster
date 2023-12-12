@@ -1,6 +1,8 @@
 import { accountApi } from '@api/account';
 import { EVENT_TYPES, STATUS_CODES } from '@constants/constants';
+import { ACCOUNT_NAME_RULES, BUDGET_RULES } from '@constants/validation';
 import BaseStore from './baseStore.js';
+import { validator } from '../modules/validator';
 
 /**
  *
@@ -28,10 +30,11 @@ class AccountStore extends BaseStore {
     }));
 
     selectAccount = async (data) => {
+        this.nameInput = { isError: false, inputHelperText: '' };
+        this.balanceInput = { isError: false, inputHelperText: '' };
         this.storage.selectedAccount = data.accountElementId;
-        this.storeChanged = true;
         this.emitChange(EVENT_TYPES.RERENDER_ACCOUNTS);
-    }
+    };
 
     getAccounts = async () => {
         try {
@@ -63,24 +66,25 @@ class AccountStore extends BaseStore {
     };
 
     createAccount = async (data) => {
-        try {
-            const response = (await accountApi.createAccount(data)).body;
+        if (!this.isError(data)) {
+            try {
+                const response = await accountApi.createAccount({ ...data, balance: parseFloat(data.balance) });
 
-            console.log('create account response', response);
+                this.nameInput = { isError: false, inputHelperText: '' };
+                this.balanceInput = { isError: false, inputHelperText: '' };
 
-            this.storage.states.push({
-                raw: response.account_id,
-                elementId: `id${response.account_id}`,
-                name: data.mean_payment,
-                balance: data.balance,
-            });
-
-            this.storeChanged = true;
-
-            this.emitChange(EVENT_TYPES.RERENDER_ACCOUNTS);
-        } catch (error) {
-            console.log('Unable to connect to the server, error: ', error);
+                this.storage.states.push({
+                    raw: response.body.account_id,
+                    elementId: `id${response.body.account_id}`,
+                    name: data.mean_payment,
+                    balance: data.balance,
+                });
+            } catch (error) {
+                console.log('Unable to connect to the server, error: ', error);
+            }
         }
+
+        this.emitChange(EVENT_TYPES.RERENDER_ACCOUNTS);
     };
 
     deleteAccount = async (data) => {
@@ -93,8 +97,6 @@ class AccountStore extends BaseStore {
                 this.storage.selectedAccount = null;
             }
 
-            this.storeChanged = true;
-
             this.emitChange(EVENT_TYPES.RERENDER_ACCOUNTS);
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);
@@ -102,26 +104,50 @@ class AccountStore extends BaseStore {
     };
 
     updateAccount = async (data) => {
-        try {
-            await accountApi.updateAccount(data);
-            this.storage.states = this.storage.states.map((item) => {
-                if (item.raw !== data.id) {
-                    return item;
-                }
-                return {
-                    raw: data.id,
-                    elementId: `id${data.id}`,
-                    name: data.mean_payment,
-                    balance: data.balance,
-                };
-            });
+        if (!this.isError(data)) {
+            try {
+                await accountApi.updateAccount({ ...data, balance: parseFloat(data.balance) });
 
-            this.storeChanged = true;
+                this.nameInput = { isError: false, inputHelperText: '' };
+                this.balanceInput = { isError: false, inputHelperText: '' };
 
-            this.emitChange(EVENT_TYPES.RERENDER_ACCOUNTS);
-        } catch (error) {
-            console.log('Unable to connect to the server, error: ', error);
+                this.storage.states = this.storage.states.map((item) => {
+                    if (item.raw !== data.id) {
+                        return item;
+                    }
+                    return {
+                        raw: data.id,
+                        elementId: `id${data.id}`,
+                        name: data.mean_payment,
+                        balance: data.balance,
+                    };
+                });
+
+            } catch (error) {
+                console.log('Unable to connect to the server, error: ', error);
+            }
         }
+
+        this.emitChange(EVENT_TYPES.RERENDER_ACCOUNTS);
+    };
+
+    isError = (data) => {
+        const nameValidation = validator(data.mean_payment, ACCOUNT_NAME_RULES);
+        const balance = validator(data.balance, BUDGET_RULES);
+
+        this.nameInput = {
+            value: data.mean_payment,
+            isError: nameValidation.isError,
+            inputHelperText: nameValidation.message,
+        };
+
+        this.balanceInput = {
+            value: data.balance,
+            isError: balance.isError,
+            inputHelperText: balance.message,
+        };
+
+        return nameValidation.isError || balance.isError;
     };
 
 }

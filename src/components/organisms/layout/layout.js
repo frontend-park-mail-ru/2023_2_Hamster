@@ -1,7 +1,9 @@
 import { BaseComponent } from '@components/baseComponent.js';
 import { Image, Button, Menu } from '@atoms';
 import { Sidebar } from '@molecules/sidebar/sidebar.js';
-import { EVENT_TYPES, ROUTE_CONSTANTS } from '@constants/constants.js';
+import {
+    DEFAULT_AVATAR, EVENT_TYPES, NULL_UUID, ROUTE_CONSTANTS
+} from '@constants/constants.js';
 import { router } from '@router';
 import { userStore } from '@stores/userStore';
 import { accountStore } from '@stores/accountStore';
@@ -147,8 +149,8 @@ export class Layout extends BaseComponent {
      */
     async renderTemplateToParent() {
         const { avatarPath } = userStore.storage.user;
-        if (avatarPath === '00000000-0000-0000-0000-000000000000') {
-            this.#avatar.setState({ avatar: '../images/homyak.png' });
+        if (avatarPath === NULL_UUID) {
+            this.#avatar.setState({ avatar: DEFAULT_AVATAR });
         } else {
             this.#avatar.setState({ avatar: `../images/${avatarPath}.jpg` });
         }

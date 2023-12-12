@@ -1,6 +1,10 @@
 import IMAGE_URL from '@images/peopleLoginReg.svg';
 import { SVG_ICONS } from '@icons/icons';
 
+export const DEFAULT_AVATAR = '../images/homyak.png';
+
+export const NULL_UUID = '00000000-0000-0000-0000-000000000000';
+
 export const ROUTE_CONSTANTS = {
     PROFILE: '/profile',
     LOGIN_ROUTE: '/login',
@@ -20,6 +24,7 @@ export const API_CONSTANTS = {
     SIGN_UP: `${SERVER_PREFIX}/api/auth/signup`,
     LOG_OUT: `${SERVER_PREFIX}/api/auth/logout`,
     CHECK_AUTH: `${SERVER_PREFIX}/api/auth/checkAuth`,
+    CHANGE_PASSWORD: `${SERVER_PREFIX}/api/auth/password/`,
 
     CSRF: `${SERVER_PREFIX}/api/csrf/`,
 
@@ -57,6 +62,7 @@ export const STATUS_CODES = {
     NO_CONTENT: 204,
     BAD_REQUEST: 400,
     UNAUTHORISED: 401,
+    CONFLICT: 409,
     FORBIDDEN: 403,
     TOO_MANY_REQUESTS: 429,
     INTERNAL_SERVER_ERROR: 500,
@@ -195,7 +201,7 @@ export const PROFILE_STATE = {
         isError: '',
         id: 'budget_input',
         inputSize: 'input_small',
-        typeOfInput: 'number',
+        typeOfInput: 'text',
         inputPlaceholder: 'Ваш бюджет на месяц',
         units: 'руб.',
     },

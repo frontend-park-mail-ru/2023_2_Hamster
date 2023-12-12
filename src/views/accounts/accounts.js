@@ -7,7 +7,7 @@ import template from './accounts.hbs';
 
 const CREATE_BUTTON_STATE = {
     id: 'create-account-button',
-    buttonText: 'Создайте',
+    buttonText: 'Создать',
     buttonColor: 'button_primary-color',
     buttonSize: 'button_small',
     buttonType: 'button',
@@ -48,7 +48,7 @@ const BALANCE_INPUT_STATE = {
     id: 'balance-account-input',
     inputSize: 'input_small',
     inputPlaceholder: '100500',
-    typeOfInput: 'number',
+    typeOfInput: 'text',
     units: 'руб.'
 };
 
@@ -86,13 +86,13 @@ export class AccountsView extends BaseComponent {
             await accountStore.getAccounts();
         }
 
-        const selectedAccount = accountStore.storage.selectedAccount;
+        const { selectedAccount } = accountStore.storage;
         let accounts = accountStore.storage.states?.map((account) => {
             account = {
                 ...account,
                 balance: `${account.balance} руб.`,
             };
-            if (selectedAccount && selectedAccount == account.elementId) {
+            if (selectedAccount && selectedAccount === account.elementId) {
                 return {
                     ...account,
                     selected: true,
@@ -108,6 +108,14 @@ export class AccountsView extends BaseComponent {
         if (!selectedAccount) {
             this.nameInput.setState({ inputPlaceholder: NAME_INPUT_STATE.inputPlaceholder, value: '' });
             this.balanceInput.setState({ inputPlaceholder: BALANCE_INPUT_STATE.inputPlaceholder, value: '' });
+        }
+
+        if (accountStore.nameInput) {
+            this.nameInput.setState(accountStore.nameInput);
+        }
+
+        if (accountStore.balanceInput) {
+            this.balanceInput.setState(accountStore.balanceInput);
         }
 
         const templates = [
@@ -126,18 +134,14 @@ export class AccountsView extends BaseComponent {
         return super.render(templates);
     }
 
-    getSelectedAccount = () => {
-        return accountStore.storage.states?.reduce((res, elem) => {
-            const accountItem = document.querySelector(`#${elem.elementId}`);
-            if (accountItem?.classList.contains('accounts__account_selected')) {
-                return elem;
-            }
-            return res;
-        }, null);
-    }
-    
+    getSelectedAccount = () => accountStore.storage.states?.reduce((res, elem) => {
+        const accountItem = document.querySelector(`#${elem.elementId}`);
+        if (accountItem?.classList.contains('accounts__account_selected')) {
+            return elem;
+        }
+        return res;
+    }, null);
 
-    // TODO: add input validation
     setHandlers() {
         if (accountStore?.storage?.states) {
             accountStore.storage.states.forEach((account) => {
@@ -176,23 +180,16 @@ export class AccountsView extends BaseComponent {
 
     accountClickHandler = async (account, event) => {
         this.nameInput.setState({ inputPlaceholder: account.name, value: account.name });
-        this.balanceInput.setState({ inputPlaceholder: account.balance, value: account.balance });
+        this.balanceInput.setState({ inputPlaceholder: account.balance, value: String(account.balance) });
         await accountActions.selectAccount(account.elementId);
     };
 
     updateButtonHandler = async () => {
-        let nameInputValue = document.querySelector(`#${this.nameInput.getState().id}`)?.value;
-        let balanceInputValue = document.querySelector(`#${this.balanceInput.getState().id}`)?.value;
+        const nameInputValue = document.querySelector(`#${this.nameInput.getState().id}`)?.value;
+        const balanceInputValue = document.querySelector(`#${this.balanceInput.getState().id}`)?.value;
         const account = this.getSelectedAccount();
 
-        nameInputValue = nameInputValue || account.name;
-        balanceInputValue = balanceInputValue || account.balance;
-
-        if (nameInputValue && balanceInputValue !== undefined) {
-            this.nameInput.setState({ value: nameInputValue });
-            this.balanceInput.setState({ value: balanceInputValue });
-            await accountActions.updateAccount(account.raw, nameInputValue, Number(balanceInputValue));
-        }
+        await accountActions.updateAccount(account.raw, nameInputValue, balanceInputValue);
     };
 
     deleteButtonHandler = async () => {
@@ -203,9 +200,8 @@ export class AccountsView extends BaseComponent {
     createButtonHandler = async () => {
         const nameInputValue = document.querySelector(`#${this.nameInput.getState().id}`)?.value;
         const balanceInputValue = document.querySelector(`#${this.balanceInput.getState().id}`)?.value;
-        if (nameInputValue && balanceInputValue) {
-            await accountActions.createAccount(nameInputValue, Number(balanceInputValue));
-        }
+
+        await accountActions.createAccount(nameInputValue, balanceInputValue);
     };
 
     cancelButtonHandler = async () => {
@@ -220,9 +216,9 @@ export class AccountsView extends BaseComponent {
             '.accounts__yours',
             '.accounts__configure-account',
             '.accounts__configure'
-        ].map((e) => document.querySelector(e));
+        ].map((event) => document.querySelector(event));
 
-        if (accountStore.storage.selectedAccount && (e.target == e.currentTarget || emptySpaces.includes(e.target))) {
+        if (accountStore.storage.selectedAccount && (e.target === e.currentTarget || emptySpaces.includes(e.target))) {
             await accountActions.selectAccount(null);
         }
     };

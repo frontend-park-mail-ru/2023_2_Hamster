@@ -3,14 +3,19 @@ import { BaseComponent } from '@components/baseComponent.js';
 import template from './input.hbs';
 
 const DEFAULT_INPUT = {
-    Error: '',
-    inputLabelText: '',
+    inputValue: undefined,
+    min: undefined,
+    max: undefined,
     inputSize: 'input_small',
+    inputRadiusSize: '',
     inputImageLeft: '',
     inputImageRight: '',
     typeOfInput: 'text',
+    inputLabelText: 'Label',
     inputPlaceholder: 'Enter text...',
-    inputHelperText: ''
+    inputHelperText: 'Helper',
+    isError: false,
+    isSuccess: false,
 };
 
 /**
@@ -29,11 +34,20 @@ export class Input extends BaseComponent {
      * @constructor
      * @param {HTMLElement} parent - The parent element where the input will be rendered.
      * @param {Object} [state=DEFAULT_INPUT] - The initial state of the input component. (optional)
-     * @param {string} state.inputValue - The current value of the input.
-     * @param {string} state.inputImageLeft - The path to the image file for the left icon.
-     * @param {string} state.inputImageRight - The path to the image file for the right icon
-     * @param {string} state.inputType - The type attribute of the input element (e.g., text, email, password).
-     * @param {string} state.inputPlaceholder - The placeholder text for the input.
+     * @param {string|undefined} state.id - The id attribute of the input element.
+     * @param {any} state.inputValue - The current value of the input.
+     * @param {number|undefined} state.min - The min attribute of the input.
+     * @param {number|undefined} state.max - The max attribute of the input.
+     * @param {string} state.inputSize - The size (paddings) of input. ['input' + '_small | _medium | _large']
+     * @param {string|undefined} state.inputRadiusSize - The radius size of the input element. ['input' + '_radius-small | _radius-medium | _radius-large'] (optional)
+     * @param {string|undefined} state.inputImageLeft - The path to the image file for the left icon.
+     * @param {string|undefined} state.inputImageRight - The path to the image file for the right icon
+     * @param {string|undefined} state.typeOfInput - The type attribute of the input element (e.g., text, email, password).
+     * @param {string|undefined} state.inputLabelText - The text above the input.
+     * @param {string|undefined} state.inputPlaceholder - The placeholder text for the input.
+     * @param {string|undefined} state.inputHelperText - The text under the input.
+     * @param {boolean|undefined} state.isError - Is error in this input.
+     * @param {boolean|undefined} state.isSuccess - Is success in this input.
      * @param {Function} [changeHandler=this.#changeHandler] - The function that will handle the input change event. (optional)
      */
     constructor(parent, state = DEFAULT_INPUT, changeHandler) {

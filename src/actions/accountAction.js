@@ -6,7 +6,7 @@ export const accountActions = {
         await dispatcher.dispatch({
             type: ACCOUNT_ACTIONS.SELECT_ACCOUNT,
             data: {
-                accountElementId: accountElementId,
+                accountElementId,
             },
         });
     },
@@ -48,7 +48,7 @@ export const accountActions = {
             type: ACCOUNT_ACTIONS.DELETE_ACCOUNT,
             data: {
                 account_id: accountId,
-                accountElementId: accountElementId,
+                accountElementId,
             },
         });
     },
