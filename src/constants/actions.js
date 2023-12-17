@@ -1,6 +1,7 @@
 import { userStore } from '@stores/userStore.js';
 import { categoriesStore } from '@stores/categoriesStore';
 import { transactionsStore } from '@stores/transactionsStore';
+import { accountStore } from '@stores/accountStore';
 
 export const USER_ACTIONS_TYPES = {
     API_CHECK_AUTH: 'USER_CHECK_AUTH',
@@ -18,6 +19,7 @@ export const USER_ACTIONS_TYPES = {
     ROUTE_REGISTRATION: 'ROUTE_REGISTRATION',
 
     UPDATE_PROFILE: 'UPDATE_PROFILE',
+    UPDATE_AVATAR: 'UPDATE_AVATAR',
 };
 
 export const CATEGORY_ACTIONS = {
@@ -32,6 +34,16 @@ export const TRANSACTION_ACTIONS = {
     CREATE_TRANSACTION: 'CREATE_TRANSACTION',
     UPDATE_TRANSACTION: 'UPDATE_TRANSACTION',
     DELETE_TRANSACTION: 'DELETE_TRANSACTION',
+    RERENDER_TRANSACTION: 'RERENDER_TRANSACTION_ACTION',
+    VALIDATE_TRANSACTION: 'VALIDATE_TRANSACTION',
+};
+
+export const ACCOUNT_ACTIONS = {
+    SELECT_ACCOUNT: 'SELECT_ACCOUNT',
+    GET_ACCOUNTS: 'GET_ACCOUNTS',
+    CREATE_ACCOUNT: 'CREATE_ACCOUNT',
+    UPDATE_ACCOUNT: 'UPDATE_ACCOUNT',
+    DELETE_ACCOUNT: 'DELETE_ACCOUNT',
 };
 
 export const actions = [
@@ -86,6 +98,11 @@ export const actions = [
     },
 
     {
+        type: USER_ACTIONS_TYPES.UPDATE_AVATAR,
+        method: userStore.updateAvatar,
+    },
+
+    {
         type: CATEGORY_ACTIONS.GET_CATEGORIES,
         method: categoriesStore.getTags,
     },
@@ -117,5 +134,30 @@ export const actions = [
     {
         type: TRANSACTION_ACTIONS.DELETE_TRANSACTION,
         method: transactionsStore.deleteTransaction,
+    },
+    {
+        type: TRANSACTION_ACTIONS.RERENDER_TRANSACTION,
+        method: transactionsStore.rerenderTransaction,
+    },
+
+    {
+        type: ACCOUNT_ACTIONS.SELECT_ACCOUNT,
+        method: accountStore.selectAccount,
+    },
+    {
+        type: ACCOUNT_ACTIONS.GET_ACCOUNTS,
+        method: accountStore.getAccounts,
+    },
+    {
+        type: ACCOUNT_ACTIONS.CREATE_ACCOUNT,
+        method: accountStore.createAccount,
+    },
+    {
+        type: ACCOUNT_ACTIONS.UPDATE_ACCOUNT,
+        method: accountStore.updateAccount,
+    },
+    {
+        type: ACCOUNT_ACTIONS.DELETE_ACCOUNT,
+        method: accountStore.deleteAccount,
     },
 ];

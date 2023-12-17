@@ -37,17 +37,6 @@ class Dispatcher {
     }
 
     /**
-     * Unregisters a callback for a given action type.
-     *
-     * @param {string} type - The type of the action to unregister.
-     */
-    unregister(type) {
-        if (this.callbacks.hasOwnProperty(type)) {
-            delete this.callbacks[type];
-        }
-    }
-
-    /**
      * Dispatches an action.
      * If the dispatcher is currently dispatching, it throws an error.
      *

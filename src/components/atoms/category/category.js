@@ -1,8 +1,8 @@
 import { BaseComponent } from '@components/baseComponent.js';
 
-import template from './category.hbs';
 import { Button, Image, Input } from '@atoms';
 import { SVG_ICONS } from '@icons/icons';
+import template from './category.hbs';
 
 const DEFAULT_CATEGORY = {
     id: 'tag1',
@@ -58,9 +58,8 @@ export class Category extends BaseComponent {
     constructor(parent, state = DEFAULT_CATEGORY, clickHandler) {
         super(state, null, parent);
 
-        const inputState = { ...INPUT_STATE, id: 'input_' + state.id };
-        const buttonState = { ...BUTTON_STATE, id: 'button_' + state.id };
-
+        const inputState = { ...INPUT_STATE, id: `input_${state.id}` };
+        const buttonState = { ...BUTTON_STATE, id: `button_${state.id}` };
 
         this.icon = new Image(null, ICON, undefined);
         this.input = new Input(null, inputState, undefined);
@@ -96,14 +95,14 @@ export class Category extends BaseComponent {
      */
     render() {
         return super.render([template(
-                {
-                    ...this.getState(),
-                    icon: this.icon.render(),
-                    input: this.input.render(),
-                    button: this.button.render(),
-                },
-            ),
-            ],
+            {
+                ...this.getState(),
+                icon: this.icon.render(),
+                input: this.input.render(),
+                button: this.button.render(),
+            },
+        ),
+        ],
         );
     }
 

@@ -3,6 +3,7 @@ import { Button } from '@atoms';
 
 import LOG_OUT_IMAGE from '@icons/logout.svg';
 import template from './sidebar.hbs';
+import { Image } from '../../atoms/image/image';
 
 /**
  * The default state for the Sidebar component.
@@ -21,6 +22,14 @@ const BUTTON_STATE = {
     buttonImageLeft: LOG_OUT_IMAGE,
 };
 
+const IMAGE_STATE = {
+    id: 'sidebar_avatar',
+    imageSize: 'image-conteiner_small',
+    withBorder: true,
+    isClickable: true,
+    avatar: '../images/homyak.png',
+};
+
 /**
  * Represents a Sidebar component that is a subclass of the BaseComponent.
  * @extends BaseComponent
@@ -34,6 +43,8 @@ export class Sidebar extends BaseComponent {
     #button;
 
     #menuElement;
+
+    #avatar;
 
     /**
      * Create a Sidebar component.
@@ -52,6 +63,8 @@ export class Sidebar extends BaseComponent {
         this.#menuElement = menuElement;
 
         this.#button = new Button(null, BUTTON_STATE, this.onLogout);
+
+        this.#avatar = new Image(null, IMAGE_STATE);
     }
 
     /**
@@ -70,6 +83,7 @@ export class Sidebar extends BaseComponent {
                 ...this.getState(),
                 menu: menuHTML,
                 logoutButton: logoutButtonHTML,
+                sidebarAvatar: this.#avatar.render(),
             }),
         ];
 

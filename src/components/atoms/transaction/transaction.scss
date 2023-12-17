@@ -6,10 +6,12 @@
   &__card{
     display: flex;
     flex-direction: row;
+    gap: var(--big-gap);
     align-items: center;
     padding: 12px;
     width: auto;
     border-radius: var(--radius-size-medium);
+    transition: background-color 0.1s ease;
 
     &:hover{
       background-color: var(--background-secondary-color);
@@ -17,22 +19,31 @@
     }
   }
 
+  &__date-details{
+    display: flex;
+    flex-direction: column;
+    gap: var(--small-gap);
+    width: 10%;
+  }
+
   &__date{
-    margin-right: 64px;
+    color: var(--text-main-color);
+  }
+
+  &__day-of-week{
+    color: var(--text-muted-color);
   }
 
   &__icon{
     height: 64px;
     width: 64px;
-    margin-right: 40px;
   }
 
   &__category-info{
     display: flex;
     flex-direction: column;
-    width: auto;
+    width: 50%;
     height: auto;
-    margin-right: 40px;
     gap: var(--small-gap);
   }
 
@@ -40,41 +51,46 @@
     color: var(--text-main-color);
   }
 
-  &__place{
+  &__additional{
     display: flex;
     gap: var(--small-gap);
     color: var(--text-muted-color);
-  }
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 
-  &__message{
-    display: flex;
-    gap: var(--small-gap);
-    color: var(--text-muted-color);
+    &-icon{
+      height: 24px;
+      width: 24px;
+    }
   }
 
   &__value{
     display: flex;
-    width: auto;
+    width: 20%;
     height: auto;
-    margin-right: 40px;
     color: var(--text-main-color);
   }
 
   &__account{
     display: flex;
-    width: auto;
+    width: 20%;
     height: auto;
     color: var(--text-main-color);
   }
 
   &__settings{
-    user-select: none;
-    cursor: pointer;
-    margin-left: auto;
-    width: auto;
     display: flex;
-    margin-right: 8px;
-    flex-direction: column;
+    flex-direction: row;
+    gap: var(--meduim-gap);
+    margin-top: var(--card-padding);
+    margin-bottom: var(--card-padding);
+
+    &-column{
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: var(--meduim-gap);
+    }
   }
 
   &__delete {
@@ -85,12 +101,4 @@
       color: var(--error-color);
     }
   }
-}
-
-.settings{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  margin-top: var(--card-padding);
-  margin-bottom: var(--card-padding);
 }

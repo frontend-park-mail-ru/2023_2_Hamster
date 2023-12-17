@@ -1,6 +1,10 @@
 import IMAGE_URL from '@images/peopleLoginReg.svg';
 import { SVG_ICONS } from '@icons/icons';
 
+export const DEFAULT_AVATAR = '../images/homyak.png';
+
+export const NULL_UUID = '00000000-0000-0000-0000-000000000000';
+
 export const ROUTE_CONSTANTS = {
     PROFILE: '/profile',
     LOGIN_ROUTE: '/login',
@@ -10,6 +14,7 @@ export const ROUTE_CONSTANTS = {
     CATEGORIES: '/categories',
     TRANSACTIONS: '/transactions',
     NOT_FOUND: '/404',
+    ACCOUNTS: '/accounts'
 };
 
 const SERVER_PREFIX = 'https://hammywallet.ru';
@@ -19,33 +24,45 @@ export const API_CONSTANTS = {
     SIGN_UP: `${SERVER_PREFIX}/api/auth/signup`,
     LOG_OUT: `${SERVER_PREFIX}/api/auth/logout`,
     CHECK_AUTH: `${SERVER_PREFIX}/api/auth/checkAuth`,
+    CHANGE_PASSWORD: `${SERVER_PREFIX}/api/auth/password/`,
 
     CSRF: `${SERVER_PREFIX}/api/csrf/`,
 
     GET_TAGS: `${SERVER_PREFIX}/api/tag/all`,
     CREATE_TAG: `${SERVER_PREFIX}/api/tag/create`,
-    UPDATE_TAG_TAIL: `/update`,
+    UPDATE_TAG_TAIL: '/update',
     DELETE_TAG: `${SERVER_PREFIX}/api/tag/delete`,
 
     CREATE_TRANSACTION: `${SERVER_PREFIX}/api/transaction/create`,
     GET_TRANSACTIONS: `${SERVER_PREFIX}/api/transaction/feed`,
     UPDATE_TRANSACTION: `${SERVER_PREFIX}/api/transaction/update`,
-    DELETE_TRANSACTION_TAIL: `/delete`,
+    DELETE_TRANSACTION_TAIL: '/delete',
 
+    GET_USER: `${SERVER_PREFIX}/api/user/`,
+    GET_ACCOUNTS: `${SERVER_PREFIX}/api/user/account/all`,
     FEED: `${SERVER_PREFIX}/api/user/feed`,
     UPDATE: `${SERVER_PREFIX}/api/user/update`,
+    UPDATE_AVATAR: `${SERVER_PREFIX}/api/user/updatePhoto`,
+
+    CREATE_ACCOUNT: `${SERVER_PREFIX}/api/account/create`,
+    UPDATE_ACCOUNT: `${SERVER_PREFIX}/api/account/update`,
+    DELETE_ACCOUNT_TAIL: '/delete',
 };
 
 export const getTagURL = (id) => `${SERVER_PREFIX}/api/tag/${id}`;
 
 export const getTransactionURL = (id) => `${SERVER_PREFIX}/api/transaction/${id}`;
 
+export const getAccountURL = (id) => `${SERVER_PREFIX}/api/account/${id}`;
+
 export const STATUS_CODES = {
     OK: 200,
+    CREATED: 201,
     ACCEPTED: 202,
     NO_CONTENT: 204,
     BAD_REQUEST: 400,
     UNAUTHORISED: 401,
+    CONFLICT: 409,
     FORBIDDEN: 403,
     TOO_MANY_REQUESTS: 429,
     INTERNAL_SERVER_ERROR: 500,
@@ -74,6 +91,10 @@ export const EVENT_TYPES = {
     RERENDER_CATEGORIES: 'RERENDER_CATEGORIES',
 
     RERENDER_TRANSACTIONS: 'RERENDER_TRANSACTIONS',
+
+    RERENDER_ACCOUNTS: 'RERENDER_ACCOUNTS',
+
+    RERENDER_PROFILE: 'RERENDER_PROFILE',
 };
 
 export const USER_STORE = {
@@ -105,7 +126,7 @@ export const USER_STORE = {
         cardBalance: {
             cardSize: 'card_small',
             cardHeadline: 'Баланс',
-            cardSubhead: 'У вас еще нет счетов',
+            cardSubhead: 'У вас нет счетов, добавьте их, чтобы видеть свой баланс',
         },
         cardPlannedBudget: {
             cardSize: 'card_small',
@@ -115,7 +136,7 @@ export const USER_STORE = {
         cardActualBudget: {
             cardSize: 'card_small',
             cardHeadline: 'Фактический бюджет',
-            cardSubhead: 'Не можем расчитать фактический бюджет',
+            cardSubhead: 'Не можем расчитать фактический бюджет, задайте бюджет в настройках',
         },
     },
 };
@@ -126,12 +147,14 @@ export const PROFILE_STATE = {
         description: 'Ваш план',
         text: 'Базовый',
         path: SVG_ICONS.box.path,
+        notAllowed: true,
     },
 
     SHARE_CARD_STATE: {
         cardColor: 'button-card_default-color',
         text: 'Совместный доступ',
         path: SVG_ICONS.people.path,
+        notAllowed: true,
     },
 
     CATEGORIES_CARD_STATE: {
@@ -178,15 +201,17 @@ export const PROFILE_STATE = {
         isError: '',
         id: 'budget_input',
         inputSize: 'input_small',
-        typeOfInput: 'number',
+        typeOfInput: 'text',
         inputPlaceholder: 'Ваш бюджет на месяц',
+        units: 'руб.',
     },
 
     AVATAR: {
-        avatar: null,
-        textFallback: 'ИП',
+        avatar: '../images/homyak.png',
+        textFallback: '',
         svg: null,
         imageSize: 'image-container_large',
+        withBorder: true,
     },
 
     BUTTON_STATE: {
@@ -195,5 +220,14 @@ export const PROFILE_STATE = {
         buttonColor: 'button_primary-color',
         buttonSize: 'button_small',
         buttonType: 'button',
+    },
+
+    IMAGE_INPUT_STATE: {
+        isError: '',
+        id: 'image_profile_input',
+        inputPlaceholder: 'Выбрать картинку',
+        inputSize: 'input_small',
+        typeOfInput: 'file',
+        accept: '.jpg'
     },
 };

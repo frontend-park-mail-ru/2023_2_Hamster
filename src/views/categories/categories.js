@@ -1,11 +1,11 @@
 import { BaseComponent } from '@components/baseComponent.js';
 
-import template from './categories.hbs';
 import { Button, Category, Input } from '@atoms';
 import { categoriesStore } from '@stores/categoriesStore';
-import { EVENT_TYPES } from '@constants/constants';
 import { categoryActions } from '@actions/categoryActions';
 import { userStore } from '@stores/userStore';
+import { Checkbox } from '@atoms/checkbox/checkbox';
+import template from './categories.hbs';
 
 const BUTTON_STATE = {
     id: 'button',
@@ -22,6 +22,16 @@ const INPUT_STATE = {
     inputPlaceholder: 'Название категории',
 };
 
+const INCOME = {
+    id: 'income',
+    label: 'В доходах',
+};
+
+const OUTCOME = {
+    id: 'outcome',
+    label: 'В расходах',
+};
+
 /**
  * CategoriesView class extends BaseComponent.
  *
@@ -32,13 +42,15 @@ export class CategoriesView extends BaseComponent {
     constructor(parent) {
         super(undefined, template, parent);
 
-        this.input = new Input(null, INPUT_STATE);
+        this.name = new Input(null, INPUT_STATE);
         this.button = new Button(null, BUTTON_STATE);
+        this.incomeCheckbox = new Checkbox(null, INCOME, null);
+        this.outcomeCheckbox = new Checkbox(null, OUTCOME, null);
     }
 
     /**
      * Renders the CategoriesView template to the parent element.
-     * This method is responsible for rendering the profile setting page.
+     * This method is responsible for rendering the categories page.
      *
      * @function
      */
@@ -48,12 +60,23 @@ export class CategoriesView extends BaseComponent {
         }
 
         this.categories = this.createCategories(categoriesStore.storage.states);
+        if (categoriesStore.nameInput) {
+            if (categoriesStore.nameInput.idError) {
+                const category = this.categories.find((tag) => tag.getState().raw === categoriesStore.nameInput.idError);
+                category.setState({ settingsOpen: true });
+                category.input.setState(categoriesStore.nameInput);
+            } else {
+                this.name.setState(categoriesStore.nameInput);
+            }
+        }
         this.renderedCategories = this.renderCategories(this.categories);
 
         const templates = [
             template({
-                input: this.input.render(),
+                name: this.name.render(),
                 button: this.button.render(),
+                // income: this.incomeCheckbox.render(),
+                // outcome: this.outcomeCheckbox.render(),
                 categoriesList: this.renderedCategories,
             }),
         ];
@@ -63,24 +86,24 @@ export class CategoriesView extends BaseComponent {
 
     createCategories = (arr) => {
         if (arr) {
-            return arr.map(item => {
-                return new Category(null, item, null);
-            });
+            return arr.map((item) => new Category(null, item, null));
         }
+
+        return [];
     };
 
     renderCategories = (arr) => {
         if (arr) {
-            return arr.map(item => {
-                return { category: item.render() };
-            });
+            return arr.map((item) => ({ category: item.render() }));
         }
+
+        return [];
     };
 
     // TODO: add input validation
     setHandlers() {
         if (this.categories) {
-            this.categories.forEach(category => {
+            this.categories.forEach((category) => {
                 const categoryCard = document.querySelector(`#${category.getState().cardId}`);
                 if (categoryCard) {
                     categoryCard.addEventListener('click', this.handleCardClick.bind(this, category));
@@ -130,7 +153,7 @@ export class CategoriesView extends BaseComponent {
     };
 
     createButtonHandler = async () => {
-        const inputValue = document.querySelector(this.input.getState().id).value;
+        const inputValue = document.querySelector(this.name.getState().id).value;
         if (inputValue) {
             await categoryActions.createCategory(inputValue, userStore.storage.user.id);
         }

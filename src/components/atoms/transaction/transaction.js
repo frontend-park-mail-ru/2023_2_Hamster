@@ -1,8 +1,10 @@
 import { BaseComponent } from '@components/baseComponent.js';
+import {
+    Button, Image, Input, Select
+} from '@atoms';
+import { SVG_ICONS } from '@icons/icons';
 
 import template from './transaction.hbs';
-import { Button, Image, Input } from '@atoms';
-import { SVG_ICONS } from '@icons/icons';
 
 const DEFAULT_TRANSACTION = {
     id: 'tag1',
@@ -28,25 +30,41 @@ const BUTTON_STATE = {
     buttonType: 'button',
 };
 
+const DELETE_STATE = {
+    buttonText: 'Удалить',
+    buttonColor: 'button_delete',
+    buttonSize: 'button_small',
+    buttonType: 'button',
+};
+
 const SUM_INPUT_STATE = {
     id: 'sum_input',
     inputSize: 'input_small',
     typeOfInput: 'text',
     inputPlaceholder: 'Сумма',
+    units: 'руб.',
 };
 
-const TAG_INPUT_STATE = {
-    id: 'tag_input',
+const PAYER = {
+    id: 'payer_input',
     inputSize: 'input_small',
     typeOfInput: 'text',
-    inputPlaceholder: 'Категория',
+    inputPlaceholder: 'Место платежа',
 };
 
-const ACCOUNT_INPUT_STATE = {
-    id: 'account_input',
+const DESCRIPTION = {
+    id: 'description_input',
     inputSize: 'input_small',
     typeOfInput: 'text',
-    inputPlaceholder: 'Счет',
+    inputPlaceholder: 'Описание',
+};
+
+const DATE = {
+    id: 'date_edit',
+    inputSize: 'input_small',
+    typeOfInput: 'date',
+    min: '2000-01-01',
+    max: '2100-01-01',
 };
 
 /**
@@ -73,13 +91,16 @@ export class Transaction extends BaseComponent {
     constructor(parent, state = DEFAULT_TRANSACTION, clickHandler) {
         super(state, null, parent);
 
-        const buttonState = { ...BUTTON_STATE, id: 'button_' + state.id };
-
+        this.date = state.rawDate;
         this.icon = new Image(null, ICON, undefined);
-        this.sumInput = new Input(null, {...SUM_INPUT_STATE, id: 'sum_'+ state.id});
-        this.tagInput = new Input(null, {...TAG_INPUT_STATE, id: 'tag_'+ state.id});
-        this.accountInput = new Input(null, {...ACCOUNT_INPUT_STATE, id: 'account_'+ state.id});
-        this.button = new Button(null, buttonState)
+        this.dateInput = new Input(null, { ...DATE, id: `date_${state.id}`, value: state.rawDate.split('T')[0] });
+        this.sumInput = new Input(null, { ...SUM_INPUT_STATE, id: `sum_${state.id}` });
+        this.tagInput = new Select(null, { id: `tag_${state.id}` });
+        this.payerInput = new Input(null, { ...PAYER, id: `payer_${state.id}` });
+        this.descriptionInput = new Input(null, { ...DESCRIPTION, id: `description_${state.id}` });
+        this.accountInput = new Select(null, { id: `account_${state.id}` });
+        this.button = new Button(null, { ...BUTTON_STATE, id: `button_${state.id}` });
+        this.delete = new Button(null, { ...DELETE_STATE, id: `delete_${state.id}` });
 
         if (typeof clickHandler === 'function') {
             this.#clickHandler = clickHandler;
@@ -94,16 +115,20 @@ export class Transaction extends BaseComponent {
      */
     render() {
         return super.render([template(
-                {
-                    ...this.getState(),
-                    icon: this.icon.render(),
-                    sumInput: this.sumInput.render(),
-                    // accountInput: this.accountInput.render(),
-                    tagInput: this.tagInput.render(),
-                    button: this.button.render(),
-                },
-            ),
-            ],
+            {
+                ...this.getState(),
+                icon: this.icon.render(),
+                dateInput: this.dateInput.render(),
+                sumInput: this.sumInput.render(),
+                payer: this.payerInput.render(),
+                tagInput: this.tagInput.render(),
+                description: this.descriptionInput.render(),
+                accountInput: this.accountInput.render(),
+                button: this.button.render(),
+                delete: this.delete.render(),
+            },
+        ),
+        ],
         );
     }
 

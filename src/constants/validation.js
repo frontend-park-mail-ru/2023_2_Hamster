@@ -1,3 +1,6 @@
+// eslint-disable-next-line no-control-regex
+const EMOJIS_REG_EXP = /^[\u0000-\u1F5FF\u1F680-\u1F6FF\u1F900-\u1F9FF]+$/;
+
 export const LOGIN_RULES = [
     {
         message: 'Логин должен содержать как минимум 4 символа',
@@ -9,12 +12,16 @@ export const LOGIN_RULES = [
     },
     {
         message: 'Логин не может содержать эмодзи',
-        regex: /^[\u0000-\u1F5FF\u1F680-\u1F6FF\u1F900-\u1F9FF]+$/,
+        regex: EMOJIS_REG_EXP,
     },
     {
-        message: 'Логин должен содержать только символы английского алфавита',
-        regex: /^[a-zA-Z]*$/,
+        message: 'Логин должен содержать только латинские буквы и цифры',
+        regex: /^[a-zA-Z0-9]*$/,
     },
+    {
+        message: 'Первый символ - обязательно буква',
+        regex: /^[a-zA-Z][a-zA-Z0-9]*$/,
+    }
 ];
 
 export const USERNAME_RULES = [
@@ -39,14 +46,102 @@ export const PASSWORD_RULES = [
     },
     {
         message: 'Пароль не может содержать эмодзи',
-        regex: /^[\u0000-\u1F5FF\u1F680-\u1F6FF\u1F900-\u1F9FF]+$/,
+        regex: EMOJIS_REG_EXP,
     },
     {
-        message: 'Пароль должен содержать хотя бы 1 символ английского алфавита',
-        regex: /[a-zA-Z]+/,
+        message: 'Пароль должен содержать только латинские буквы и цифры',
+        regex: /^[a-zA-Z0-9]*$/,
+    },
+];
+
+export const MONEY_RULES = [
+    {
+        message: 'Можно ввести только число',
+        regex: /^-?\d+(\.\d+)?$/,
     },
     {
-        message: 'Пароль должен содержать хотя бы 1 цифру',
-        regex: /[0-9]+/,
+        message: 'Поле не может быть пустым',
+        regex: /^(?!0+$)(?!-$)(?!^$)[-0-9]*\.*?$/,
+    },
+    {
+        message: 'Максимальная длина целой части числа - 8 символов',
+        regex: /^-?(\d{1,8})+(\.\d+)?$/,
+    },
+    {
+        message: 'Максимальная длина дробной части числа - 2 символа',
+        regex: /^-?\d+(\.\d{1,2})?$/,
+    },
+];
+
+export const PAYER_RULES = [
+    {
+        message: 'Максимальная длина - 20 символов',
+        regex: /^.{0,20}$/,
+    },
+];
+
+export const DESCRIPTION_RULES = [
+    {
+        message: 'Максимальная длина - 100 символов',
+        regex: /^.{0,100}$/,
+    },
+];
+
+export const ACCOUNT_NAME_RULES = [
+    {
+        message: 'Поле не может быть пустым',
+        regex: /.+/,
+    },
+    {
+        message: 'Максимальная длина - 30 символов',
+        regex: /^.{0,30}$/,
+    },
+];
+
+export const CATEGORY_NAME_RULES = [
+    {
+        message: 'Поле не может быть пустым',
+        regex: /.+/,
+    },
+    {
+        message: 'Максимальная длина - 20 символов',
+        regex: /^.{0,20}$/,
+    },
+];
+
+export const PROFILE_NAME_RULES = [
+    {
+        message: 'Поле не может быть пустым',
+        regex: /.+/,
+    },
+    {
+        message: 'Максимальная длина - 20 символов',
+        regex: /^.{0,20}$/,
+    },
+];
+
+export const BUDGET_RULES = [
+    {
+        message: 'Поле не может быть пустым',
+        regex: /.+/,
+    },
+    {
+        message: 'Можно ввести только число',
+        regex: /^-?\d+(\.\d+)?$/,
+    },
+    {
+        message: 'Максимальная длина целой части числа - 8 символов',
+        regex: /^-?(\d{1,8})+(\.\d+)?$/,
+    },
+    {
+        message: 'Максимальная длина дробной части числа - 2 символа',
+        regex: /^-?\d+(\.\d{1,2})?$/,
+    },
+];
+
+export const NOT_NULL_RULE = [
+    {
+        message: 'Поле не может быть пустым',
+        regex: /.+/,
     },
 ];

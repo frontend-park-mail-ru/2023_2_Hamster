@@ -97,13 +97,13 @@ export class PieChart extends BaseComponent {
         const textBelow = thisElement.querySelector('.pie-chart__inner-text-below');
         const valuesSum = this.getValuesSum();
 
-        if (textCenter){
+        if (textCenter) {
             textCenter.textContent = textCenter.textContent.replace(FORMAT_CHAR, String(valuesSum));
-        } 
-        if (textAbove){
+        }
+        if (textAbove) {
             textAbove.textContent = textAbove.textContent.replace(FORMAT_CHAR, String(valuesSum));
-        } 
-        if (textBelow){
+        }
+        if (textBelow) {
             textBelow.textContent = textBelow.textContent.replace(FORMAT_CHAR, String(valuesSum));
         }
     };
@@ -283,14 +283,14 @@ export class PieChart extends BaseComponent {
 
     /**
      * Creates element from string.
-     * @param {string} html - Representing a single element.
+     * @param {string} htmlString - Representing a single element.
      * @return {HTMLElement} - Element from given string.
      */
     htmlToElement = (htmlString) => {
-        const template = document.createElement('template');
+        const htmlTemplateElement = document.createElement('template');
         htmlString = htmlString.trim();
-        template.innerHTML = htmlString;
-        return template.content.firstChild;
+        htmlTemplateElement.innerHTML = htmlString;
+        return htmlTemplateElement.content.firstChild;
     };
 
     /**

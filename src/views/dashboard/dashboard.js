@@ -69,17 +69,26 @@ export class DashboardView extends BaseComponent {
      * Renders the Dashboard template and returns the rendered HTML.
      * This method is similar to `renderTemplateToParent` but returns the rendered HTML instead of rendering it to the parent element.
      */
-    render = () => {
+    render = async () => {
         await userStore.feed();
 
-        if (userStore.storage.user.feed) {
-            const balance = userStore.storage.user.feed.balance;
-            const plannedBudget = userStore.storage.user.feed.plannedBudget;
-            const actualBudget = userStore.storage.user.feed.actualBudget;
+        if (userStore.storage.feed) {
+            const { accounts } = userStore.storage.feed;
+            const { balance } = userStore.storage.feed;
+            const { plannedBudget } = userStore.storage.feed;
+            const { actualBudget } = userStore.storage.feed;
 
-            this.#cardBalance.setState({ cardSubhead: parseFloat(balance) });
-            this.#cardPlannedBudget.setState({ cardSubhead: parseFloat(plannedBudget) });
-            this.#cardActualBudget.setState({ cardSubhead: parseFloat(actualBudget) });
+            accounts
+                ? this.#cardBalance.setState({ cardSubhead: `${parseFloat(balance)} руб.` })
+                : this.#cardBalance.setState({ cardSubhead: 'У вас нет счетов, добавьте их, чтобы видеть свой баланс' });
+
+            plannedBudget
+                ? this.#cardPlannedBudget.setState({ cardSubhead: `${parseFloat(plannedBudget)} руб.` })
+                : this.#cardPlannedBudget.setState({ cardSubhead: 'Ваш бюджет не запланирован, вы можете сделать это в профиле' });
+
+            plannedBudget
+                ? this.#cardActualBudget.setState({ cardSubhead: `${parseFloat(actualBudget)} руб.` })
+                : this.#cardActualBudget.setState({ cardSubhead: 'Не можем расчитать фактический бюджет, задайте бюджет в профиле' });
         }
 
         const cardBalanceHTML = this.#cardBalance.render();

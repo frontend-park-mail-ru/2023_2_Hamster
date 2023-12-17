@@ -34,7 +34,7 @@ class Router {
     addRoutes = (routes) => {
         Object.entries(routes)
             .forEach(([key, value]) => {
-                router.addRoute(key, value);
+                this.addRoute(key, value);
             });
     };
 
@@ -69,10 +69,10 @@ class Router {
         let routeResult;
 
         // TODO: 1) Need to make better check of authenticated routes; 2) Make private routes (for subscription :D)
-        if (routeTrimmed === ROUTE_CONSTANTS.HOME_ROUTE || routeTrimmed === ROUTE_CONSTANTS.DASHBOARD_ROUTE || routeTrimmed === ROUTE_CONSTANTS.PROFILE || routeTrimmed === ROUTE_CONSTANTS.CATEGORIES || routeTrimmed === ROUTE_CONSTANTS.TRANSACTIONS) {
-            userStore.storage.user.isAuthorised
-                ? routeResult = routeTrimmed
-                : routeResult = ROUTE_CONSTANTS.LOGIN_ROUTE;
+        if (routeTrimmed === ROUTE_CONSTANTS.HOME_ROUTE || routeTrimmed === ROUTE_CONSTANTS.DASHBOARD_ROUTE || routeTrimmed === ROUTE_CONSTANTS.PROFILE || routeTrimmed === ROUTE_CONSTANTS.CATEGORIES || routeTrimmed === ROUTE_CONSTANTS.TRANSACTIONS || routeTrimmed === ROUTE_CONSTANTS.ACCOUNTS) {
+            routeResult = userStore.storage.user.isAuthorised
+                ? routeTrimmed
+                : ROUTE_CONSTANTS.LOGIN_ROUTE;
         } else {
             routeResult = userStore.storage.user.isAuthorised
                 ? ROUTE_CONSTANTS.DASHBOARD_ROUTE

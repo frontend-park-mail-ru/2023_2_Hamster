@@ -1,7 +1,7 @@
 import { BaseComponent } from '@components/baseComponent.js';
 
-import template from './buttonCard.hbs';
 import { SVG_ICONS } from '@icons/icons';
+import template from './buttonCard.hbs';
 
 const DEFAULT_CARD = {
     cardColor: 'button-card_accent-color',
