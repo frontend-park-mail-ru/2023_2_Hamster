@@ -87,16 +87,18 @@ class TransactionsStore extends BaseStore {
 
     createTransaction = async (data) => {
         if (validator(data.description, DESCRIPTION_RULES).isError
-            || validator(data.income - data.outcome, MONEY_RULES).isError
+            || validator(data.money, MONEY_RULES).isError
             || validator(data.payer, PAYER_RULES).isError) {
 
-            this.validateCreateTransaction(data, 'create');
+            this.validateTransaction(data, 'create');
 
             return;
         }
 
         try {
-            const response = await transactionsApi.createTransaction(data);
+            // eslint-disable-next-line no-unused-vars
+            const { money, ...newData } = data;
+            const response = await transactionsApi.createTransaction(newData);
 
             const index = this.storage.states.findIndex((obj) => new Date(obj.rawDate) <= new Date(data.date));
 
@@ -113,24 +115,20 @@ class TransactionsStore extends BaseStore {
                 cardId: `card_${response.transaction_id}`,
             });
 
-            this.storage.error = null;
-
-            this.storeChanged = true;
-
             this.emitChange(EVENT_TYPES.RERENDER_TRANSACTIONS);
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);
         }
     };
 
-    validateCreateTransaction = (data, type) => {
+    validateTransaction = (data, type) => {
         const resultDescription = validator(data.description, DESCRIPTION_RULES);
         const resultPayer = validator(data.payer, PAYER_RULES);
-        const resultSum = validator(data.income - data.outcome, MONEY_RULES);
+        const resultSum = validator(data.money, MONEY_RULES);
 
         resultDescription.value = data.description;
         resultPayer.value = data.payer;
-        resultSum.value = data.income - data.outcome;
+        resultSum.value = data.money;
 
         this.storage.error = {
             type,
@@ -145,8 +143,6 @@ class TransactionsStore extends BaseStore {
             this.storage.error.raw = data.transaction_id;
         }
 
-        this.storeChanged = true;
-
         this.emitChange(EVENT_TYPES.RERENDER_TRANSACTIONS);
     };
 
@@ -156,8 +152,6 @@ class TransactionsStore extends BaseStore {
 
             this.storage.states = this.storage.states.filter((item) => item.raw !== data.transaction_id);
 
-            this.storeChanged = true;
-
             this.emitChange(EVENT_TYPES.RERENDER_TRANSACTIONS);
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);
@@ -166,17 +160,17 @@ class TransactionsStore extends BaseStore {
 
     updateTransaction = async (data) => {
         if (validator(data.description, DESCRIPTION_RULES).isError
-            || validator(data.income - data.outcome, MONEY_RULES).isError
+            || validator(data.money, MONEY_RULES).isError
             || validator(data.payer, PAYER_RULES).isError) {
 
-            console.log(validator(data.description, DESCRIPTION_RULES), validator(data.income, MONEY_RULES), validator(data.outcome, MONEY_RULES), validator(data.payer, PAYER_RULES));
-
-            this.validateCreateTransaction(data, 'update');
+            this.validateTransaction(data, 'update');
 
             return;
         }
         try {
-            await transactionsApi.updateTransaction(data);
+            // eslint-disable-next-line no-unused-vars
+            const { money, ...newData } = data;
+            await transactionsApi.updateTransaction(newData);
 
             this.storage.states = this.storage.states.map((item) => {
                 if (item.raw === data.transaction_id) {
@@ -196,8 +190,6 @@ class TransactionsStore extends BaseStore {
                 return item;
             });
 
-            this.storeChanged = true;
-
             this.emitChange(EVENT_TYPES.RERENDER_TRANSACTIONS);
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);
@@ -205,8 +197,6 @@ class TransactionsStore extends BaseStore {
     };
 
     rerenderTransaction = async () => {
-        this.storeChanged = true;
-
         this.emitChange(EVENT_TYPES.RERENDER_TRANSACTIONS);
     };
 }

@@ -6,6 +6,7 @@ import { transactionsStore } from '@stores/transactionsStore';
 import { categoriesStore } from '@stores/categoriesStore';
 import { accountStore } from '@stores/accountStore';
 import { transactionActions } from '@actions/transactionActions';
+import { MONTH_NAMES } from '@constants/constants';
 
 import FILTER_IMAGE from '@icons/filter.svg';
 
@@ -127,17 +128,14 @@ export class TransactionsView extends BaseComponent {
      * @function
      */
     async render() {
-        // if (!accountStore.storage.feed) {
+
         await accountStore.getAccounts();
         this.accountFilter.setState({ values: accountStore.accountsValues });
         this.accountInput.setState({ values: accountStore.accountsValues });
-        // }
 
-        // if (!categoriesStore.storage.tags) {
         await categoriesStore.getTags();
         this.tagFilter.setState({ values: categoriesStore.categoriesValues });
         this.tagInput.setState({ values: categoriesStore.categoriesValues });
-        // }
 
         if (!transactionsStore.transactions) {
             await transactionsStore.getTransaction();
@@ -215,17 +213,22 @@ export class TransactionsView extends BaseComponent {
         return `${localNow.getFullYear()}-${month}-${day}`;
     };
 
+    textFormatDate = (transactionDate) => {
+        const date = new Date(transactionDate);
+        const day = date.getDate();
+        const monthIndex = date.getMonth();
+        const month = MONTH_NAMES[monthIndex];
+        const dayOfWeek = date.toLocaleString('ru', { weekday: 'long' });
+
+        return { date: `${day} ${month}`, dayOfWeek };
+    };
+
     createTransactions = (arr) => {
         if (arr) {
             return arr.map((item) => {
                 const transaction = new Transaction(null, item, null);
 
-                const date = new Date(transaction.date);
-                const day = date.getDate();
-                const month = date.toLocaleString('ru', { month: 'long' });
-                const dayOfWeek = date.toLocaleString('ru', { weekday: 'long' });
-
-                transaction.setState({ date: `${day} ${month}`, dayOfWeek });
+                transaction.setState(this.textFormatDate(transaction.date));
 
                 transaction.sumInput.setState({ value: item.value });
                 transaction.accountInput.setState({ values: this.changeOrder(accountStore.accountsValues, item.account_income) });
@@ -269,7 +272,11 @@ export class TransactionsView extends BaseComponent {
             });
         }
 
-        return [];
+        const transaction = new Transaction(null);
+
+        transaction.setState(this.textFormatDate(transaction.date));
+
+        return [transaction];
     };
 
     changeOrder = (array, id) => {
@@ -289,7 +296,6 @@ export class TransactionsView extends BaseComponent {
         return [];
     };
 
-    // TODO: add input validation
     setHandlers() {
         if (this.transactions) {
             this.transactions.forEach((transaction) => {
@@ -324,17 +330,8 @@ export class TransactionsView extends BaseComponent {
         if (submitFilter) {
             submitFilter.addEventListener('click', this.submitFilterHandler.bind(this));
         }
-
-        // const dateCreate = document.querySelector(`#${this.date.getState().id}`);
-        // dateCreate.addEventListener('blur', this.validateTransaction(dateCreate.value));
-        // const sumCreate = document.querySelector(`#${this.sumInput.getState().id}`);
-        // const tagCreate = document.querySelector(`#${this.tagInput.getState().id}`);
-        // const descriptionCreate = document.querySelector(`#${this.descriptionInput.getState().id}`);
-        // const payerCreate = document.querySelector(`#${this.payerInput.getState().id}`);
-        // const accountCreate = document.querySelector(`#${this.accountInput.getState().id}`);
     }
 
-    // TODO: 1) Add validation; 2)Add new handler in transaction store special for filter;
     submitFilterHandler = async () => {
         const categoryID = document.querySelector(`#${this.tagFilter.getState().id}`).value;
         const accountId = document.querySelector(`#${this.accountFilter.getState().id}`).value;
@@ -429,7 +426,7 @@ export class TransactionsView extends BaseComponent {
             outcome = Math.abs(sumValue);
         }
 
-        await transactionActions.updateTransaction(accountValue, transaction.getState().raw, [tagValue], date, parseFloat(income), parseFloat(outcome), descriptionValue, payerValue);
+        await transactionActions.updateTransaction(accountValue, transaction.getState().raw, [tagValue], date, parseFloat(income), parseFloat(outcome), descriptionValue, payerValue, sumValue);
     };
 
     deleteButtonHandler = async (transaction) => {
@@ -458,6 +455,6 @@ export class TransactionsView extends BaseComponent {
             income = 0;
         }
 
-        await transactionActions.createTransaction(accountId, [tagId], date, description, parseFloat(income), parseFloat(outcome), payer);
+        await transactionActions.createTransaction(accountId, [tagId], date, description, parseFloat(income), parseFloat(outcome), payer, sumInput);
     };
 }

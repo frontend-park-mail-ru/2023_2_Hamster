@@ -9,10 +9,13 @@ import template from './transaction.hbs';
 const DEFAULT_TRANSACTION = {
     id: 'tag1',
     transactionName: 'Тестовая категория',
-    value: -1000,
-    account: 'основной',
+    value: -100,
+    account: 'Тестовый счет',
     deleteId: 'tag1_delete',
-    cardId: 'tag1_card'
+    cardId: 'tag1_card',
+    rawDate: '0001-01-01T00:00:00.000000Z',
+    transactionPlace: 'HammyWallet',
+    transactionMessage: 'Хомяки заберут эту транзакцию, когда вы добавите свою'
 };
 
 const ICON = {

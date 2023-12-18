@@ -11,7 +11,7 @@ export const transactionActions = {
         });
     },
 
-    async createTransaction(account, categories, date, description, income, outcome, payer) {
+    async createTransaction(account, categories, date, description, income, outcome, payer, money) {
         await dispatcher.dispatch({
             type: TRANSACTION_ACTIONS.CREATE_TRANSACTION,
             data: {
@@ -23,11 +23,12 @@ export const transactionActions = {
                 income,
                 outcome,
                 payer,
+                money,
             },
         });
     },
 
-    async updateTransaction(account, transactionId, categories, date, income, outcome, description, payer) {
+    async updateTransaction(account, transactionId, categories, date, income, outcome, description, payer, money) {
         await dispatcher.dispatch({
             type: TRANSACTION_ACTIONS.UPDATE_TRANSACTION,
             data: {
@@ -40,6 +41,7 @@ export const transactionActions = {
                 income,
                 outcome,
                 payer,
+                money,
             },
         });
     },
