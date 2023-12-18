@@ -55,7 +55,7 @@
 .settings{
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-between;
   margin-top: var(--card-padding);
   margin-bottom: var(--card-padding);
 }

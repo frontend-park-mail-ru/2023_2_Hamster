@@ -32,6 +32,7 @@ const PAYER = {
     id: 'payer_input',
     inputSize: 'input_small',
     typeOfInput: 'text',
+    inputHelperText: '(опционально)',
     inputPlaceholder: 'Место платежа',
 };
 
@@ -39,6 +40,7 @@ const DESCRIPTION = {
     id: 'description_input',
     inputSize: 'input_small',
     typeOfInput: 'text',
+    inputHelperText: '(опционально)',
     inputPlaceholder: 'Описание',
 };
 
@@ -104,7 +106,7 @@ export class TransactionsView extends BaseComponent {
 
         this.date = new Input(null, DATE_CREATE);
         this.sumInput = new Input(null, SUM_INPUT_STATE);
-        this.tagInput = new Select(null, { id: 'tag_create_select' });
+        this.tagInput = new Select(null, { hidden: 'Без категории', id: 'tag_create_select' });
         this.payerInput = new Input(null, PAYER);
         this.descriptionInput = new Input(null, DESCRIPTION);
         this.accountInput = new Select(null, { id: 'account_create_id' });
@@ -112,7 +114,7 @@ export class TransactionsView extends BaseComponent {
 
         this.isFilterOpen = false;
         this.filterButton = new Button(null, FILTER_BUTTON);
-        this.tagFilter = new Select(null, { hidden: 'Категория не выбрана', id: 'tag_select' });
+        this.tagFilter = new Select(null, { hidden: 'Без категории', id: 'tag_select' });
         this.accountFilter = new Select(null, { hidden: 'Счет не выбран', id: 'account_select' });
         this.incomeFilter = new Checkbox(null, INCOME);
         this.outcomeFilter = new Checkbox(null, OUTCOME);
@@ -137,16 +139,24 @@ export class TransactionsView extends BaseComponent {
         this.tagFilter.setState({ values: categoriesStore.categoriesValues });
         this.tagInput.setState({ values: categoriesStore.categoriesValues });
 
-        if (!transactionsStore.transactions) {
+        if (!transactionsStore.transactions || categoriesStore.updated) {
             await transactionsStore.getTransaction();
+            categoriesStore.updated = false;
         }
+
+        this.date.setState({ value: this.getTodayDate });
 
         if (transactionsStore.storage.error) {
             if (transactionsStore.storage.error.type === 'create') {
                 const {
-                    description, payer, sum, account, tag
+                    description, payer, sum, account, tag, date
                 } = transactionsStore.storage.error;
 
+                this.date.setState({
+                    inputHelperText: date.message,
+                    isError: date.isError,
+                    value: date.value ? date.value.split('T')[0] : null,
+                });
                 this.descriptionInput.setState({
                     inputHelperText: description.message,
                     isError: description.isError,
@@ -160,21 +170,19 @@ export class TransactionsView extends BaseComponent {
                 this.sumInput.setState({
                     inputHelperText: sum.message,
                     isError: sum.isError,
-                    value: sum.value
+                    value: sum.value.replace(/\s/g, '')
                 });
                 this.accountInput.setState({
                     values: this.changeOrder(accountStore.accountsValues, account),
                 });
                 this.tagInput.setState({
-                    values: this.changeOrder(categoriesStore.categoriesValues, tag.pop()),
+                    values: this.changeOrder(categoriesStore.categoriesValues, tag),
                 });
             }
         }
 
         this.transactions = this.createTransactions(transactionsStore.storage.states);
         this.renderedTransactions = this.renderTransactions(this.transactions);
-
-        this.date.setState({ value: this.getTodayDate });
 
         const templates = [
             template({
@@ -199,18 +207,34 @@ export class TransactionsView extends BaseComponent {
             }),
         ];
 
+        if (transactionsStore.storage.error) {
+            const {
+                description, payer, sum, account, tag, date
+            } = transactionsStore.storage.error;
+
+            const clearError = (data) => {
+                data.message ? data.message = '' : null;
+                data.isError ? data.isError = false : null;
+                data.value ? data.value = '' : null;
+            };
+
+            clearError(description);
+            clearError(payer);
+            clearError(sum);
+            clearError(account);
+            clearError(tag);
+            clearError(date);
+        }
+
         return super.render(templates);
     }
 
     getTodayDate = () => {
         const now = new Date();
-        const timezoneOffset = now.getTimezoneOffset() * 60 * 1000; // получить смещение в миллисекундах
-        const localNow = new Date(now.getTime() - timezoneOffset);
+        const day = (`0${now.getDate()}`).slice(-2);
+        const month = (`0${now.getMonth() + 1}`).slice(-2);
 
-        const day = (`0${localNow.getDate()}`).slice(-2);
-        const month = (`0${localNow.getMonth() + 1}`).slice(-2);
-
-        return `${localNow.getFullYear()}-${month}-${day}`;
+        return `${now.getFullYear()}-${month}-${day}`;
     };
 
     textFormatDate = (transactionDate) => {
@@ -230,7 +254,7 @@ export class TransactionsView extends BaseComponent {
 
                 transaction.setState(this.textFormatDate(transaction.date));
 
-                transaction.sumInput.setState({ value: item.value });
+                transaction.sumInput.setState({ value: item.value.replace(/\s/g, '') });
                 transaction.accountInput.setState({ values: this.changeOrder(accountStore.accountsValues, item.account_income) });
                 transaction.tagInput.setState({ values: this.changeOrder(categoriesStore.categoriesValues, item.tag) });
                 transaction.descriptionInput.setState({ value: item.transactionMessage });
@@ -241,9 +265,14 @@ export class TransactionsView extends BaseComponent {
                         transaction.setState({ settingsOpen: true });
 
                         const {
-                            description, payer, sum, account, tag
+                            description, payer, sum, account, tag, date
                         } = transactionsStore.storage.error;
 
+                        transaction.dateInput.setState({
+                            inputHelperText: date.message,
+                            isError: date.isError,
+                            value: date.value ? date.value.split('T')[0] : null,
+                        });
                         transaction.descriptionInput.setState({
                             inputHelperText: description.message,
                             isError: description.isError,
@@ -257,13 +286,13 @@ export class TransactionsView extends BaseComponent {
                         transaction.sumInput.setState({
                             inputHelperText: sum.message,
                             isError: sum.isError,
-                            value: sum.value
+                            value: sum.value.replace(/\s/g, '')
                         });
                         transaction.accountInput.setState({
                             values: this.changeOrder(accountStore.accountsValues, account),
                         });
                         transaction.tagInput.setState({
-                            values: this.changeOrder(categoriesStore.categoriesValues, tag.pop()),
+                            values: this.changeOrder(categoriesStore.categoriesValues, tag),
                         });
                     }
                 }
@@ -274,7 +303,7 @@ export class TransactionsView extends BaseComponent {
 
         const transaction = new Transaction(null);
 
-        transaction.setState(this.textFormatDate(transaction.date));
+        transaction.setState({ ...this.textFormatDate(transaction.date), placer: true });
 
         return [transaction];
     };
@@ -299,18 +328,22 @@ export class TransactionsView extends BaseComponent {
     setHandlers() {
         if (this.transactions) {
             this.transactions.forEach((transaction) => {
+                if (transaction.getState().placer) {
+                    return;
+                }
+
                 const categoryCard = document.querySelector(`#${transaction.getState().cardId}`);
-                if (categoryCard) {
+                if (categoryCard && !transaction.getState().owner) {
                     categoryCard.addEventListener('click', this.handleCardClick.bind(this, transaction));
                 }
 
                 const button = document.querySelector(`#${transaction.button.getState().id}`);
-                if (button) {
+                if (button && !transaction.getState().owner) {
                     button.addEventListener('click', this.updateButtonHandler.bind(this, transaction));
                 }
 
                 const deleteButton = document.querySelector(`#${transaction.delete.getState().id}`);
-                if (deleteButton) {
+                if (deleteButton && !transaction.getState().owner) {
                     deleteButton.addEventListener('click', this.deleteButtonHandler.bind(this, transaction));
                 }
             });
@@ -340,13 +373,13 @@ export class TransactionsView extends BaseComponent {
         const startDateValue = document.querySelector(`#${this.startDate.getState().id}`).value;
         const endDateValue = document.querySelector(`#${this.endDate.getState().id}`).value;
 
-        let startDate = null;
+        let startDate = '';
         if (startDateValue) {
             const startDateObj = new Date(startDateValue);
             startDate = startDateObj.toISOString();
         }
 
-        let endDate = null;
+        let endDate = '';
         if (endDateValue) {
             const endDateObj = new Date(endDateValue);
             endDate = endDateObj.toISOString();
@@ -414,8 +447,11 @@ export class TransactionsView extends BaseComponent {
         const payerValue = document.querySelector(`#${transaction.payerInput.getState().id}`).value;
         const accountValue = document.querySelector(`#${transaction.accountInput.getState().id}`).value;
 
-        const startDateObj = new Date(dateValue || this.getTodayDate());
-        const date = startDateObj.toISOString();
+        let date = '';
+        if (dateValue) {
+            const startDateObj = new Date(dateValue);
+            date = startDateObj.toISOString();
+        }
 
         let income = 0;
         let outcome = 0;
@@ -426,7 +462,7 @@ export class TransactionsView extends BaseComponent {
             outcome = Math.abs(sumValue);
         }
 
-        await transactionActions.updateTransaction(accountValue, transaction.getState().raw, [tagValue], date, parseFloat(income), parseFloat(outcome), descriptionValue, payerValue, sumValue);
+        await transactionActions.updateTransaction(accountValue, transaction.getState().raw, [{ id: tagValue }], date, parseFloat(income), parseFloat(outcome), descriptionValue, payerValue, sumValue);
     };
 
     deleteButtonHandler = async (transaction) => {
@@ -441,8 +477,11 @@ export class TransactionsView extends BaseComponent {
         const payer = document.querySelector(`#${this.payerInput.getState().id}`).value;
         const accountId = document.querySelector(`#${this.accountInput.getState().id}`).value;
 
-        const startDateObj = new Date(dateValue || this.getTodayDate());
-        const date = startDateObj.toISOString();
+        let date = '';
+        if (dateValue) {
+            const startDateObj = new Date(dateValue);
+            date = startDateObj.toISOString();
+        }
 
         let income;
         let outcome;
@@ -455,6 +494,6 @@ export class TransactionsView extends BaseComponent {
             income = 0;
         }
 
-        await transactionActions.createTransaction(accountId, [tagId], date, description, parseFloat(income), parseFloat(outcome), payer, sumInput);
+        await transactionActions.createTransaction(accountId, [{ id: tagId }], date, description, parseFloat(income), parseFloat(outcome), payer, sumInput);
     };
 }

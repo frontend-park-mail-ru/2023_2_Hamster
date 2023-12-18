@@ -6,8 +6,16 @@
   &__create-container{
     margin: 24px 0 48px 0;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: var(--big-gap);
+  }
+
+  &__create-button {
+    margin-left: auto;
+  }
+
+  &__name-with-button{
+    margin-bottom: var(--meduim-gap);
   }
 
   &__filter-container{
@@ -15,6 +23,7 @@
     width: 100%;
     flex-direction: row;
     gap: var(--big-gap);
+    margin-bottom: var(--meduim-gap);
   }
 
   &__filter-column{
@@ -27,7 +36,11 @@
 
   &__filter-checkboxes{
     display: flex;
-    justify-content: space-between;
+    gap: var(--meduim-gap)
+  }
+
+  &__filter-submit{
+    margin-left: auto;
   }
 
   &__name-with-button{
@@ -48,5 +61,6 @@
     display: flex;
     flex-direction: column;
     gap: var(--meduim-gap);
+    padding-bottom: 80px;
   }
 }

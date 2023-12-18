@@ -8,8 +8,8 @@
     &__yours {
         display: flex;
         flex-direction: column;
-        width: 50%;
-        row-gap: var(--big-gap);
+        width: 70%;
+        row-gap: var(--meduim-gap);
     }
 
     &__yours-list {
@@ -36,6 +36,7 @@
         padding: 1.5em;
         display: flex;
         justify-content: space-between;
+        align-items: center;
         gap: 1em;
         border-radius: var(--radius-size-medium);
         transition: background-color 0.3s ease;
@@ -50,7 +51,17 @@
         }
     }
 
+    &__account-info{
+        display: flex;
+        flex-direction: column;
+        gap: var(--small-gap);
+    }
+
     &__account-name {
+    }
+
+    &__account-owner {
+        color: var(--text-muted-color);
     }
 
     &__account-balance {
@@ -58,8 +69,8 @@
 
     &__configure {
         display: flex;
-        gap: var(--big-gap);
-        width: 50%;
+        gap: var(--meduim-gap);
+        width: 30%;
         flex-direction: column;
     }
 
@@ -79,8 +90,11 @@
             display: flex;
             flex-direction: column;
             gap: var(--meduim-gap);
-            width: 45%;
         }
+    }
+
+    &__create-button{
+        margin-left: auto;
     }
 
     &__delete-account-button {

@@ -3,4 +3,12 @@
     <div class="grid">
         {{{content}}}
     </div>
+    {{#if notifierText}}
+        <div class="notifier {{#if error}} notifier_error {{/if}} {{#if warning}} notifier_warning {{/if}} {{#if
+                success}} notifier_success {{/if}}">
+            <span class="font-h4-regular">
+                {{notifierText}}
+            </span>
+        </div>
+    {{/if}}
 </div>

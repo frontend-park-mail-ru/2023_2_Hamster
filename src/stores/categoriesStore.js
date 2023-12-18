@@ -41,6 +41,8 @@ class CategoriesStore extends BaseStore {
                     value: item.id,
                     valueName: item.name,
                 }));
+
+                this.categoriesValues.push({ value: null, valueName: 'Без категории' });
             }
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);
@@ -105,6 +107,7 @@ class CategoriesStore extends BaseStore {
                     }
                     return item;
                 });
+                this.updated = true;
             } catch (error) {
                 console.log('Unable to connect to the server, error: ', error);
             }

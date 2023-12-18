@@ -1,4 +1,5 @@
 import { eventBus } from '../modules/eventBus';
+import {NULL} from "sass";
 
 /**
  * BaseStore class for managing application state.
@@ -16,6 +17,12 @@ export default class BaseStore {
      */
     constructor() {
         this.storage = {};
+        this.notify = {
+            notifierText: null,
+            error: null,
+            warning: null,
+            success: null,
+        };
     }
 
     /**

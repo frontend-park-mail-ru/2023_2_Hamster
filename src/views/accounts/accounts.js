@@ -37,6 +37,14 @@ const CANCEL_BUTTON_STATE = {
     buttonType: 'button',
 };
 
+const UNSUBSCRIBE_BUTTON_STATE = {
+    id: 'unsubscribe-account-button',
+    buttonText: 'Отписаться',
+    buttonColor: 'button_delete',
+    buttonSize: 'button_small',
+    buttonType: 'button',
+};
+
 const NAME_INPUT_STATE = {
     id: 'name-account-input',
     inputSize: 'input_small',
@@ -70,6 +78,7 @@ export class AccountsView extends BaseComponent {
         this.saveButton = new Button(null, SAVE_BUTTON_STATE);
         this.deleteButton = new Button(null, DELETE_BUTTON_STATE);
         this.cancelButton = new Button(null, CANCEL_BUTTON_STATE);
+        this.unsubscribeButton = new Button(null, UNSUBSCRIBE_BUTTON_STATE);
 
         this.nameInput = new Input(null, NAME_INPUT_STATE);
         this.balanceInput = new Input(null, BALANCE_INPUT_STATE);
@@ -93,6 +102,7 @@ export class AccountsView extends BaseComponent {
                 balance: `${account.balance} руб.`,
             };
             if (selectedAccount && selectedAccount === account.elementId) {
+                this.owner = account.owner;
                 return {
                     ...account,
                     selected: true,
@@ -128,6 +138,8 @@ export class AccountsView extends BaseComponent {
                 cancelAccountButton: this.cancelButton.render(),
                 deleteAccountButton: this.deleteButton.render(),
                 createAccountButton: this.createButton.render(),
+                unsubscribeButton: this.unsubscribeButton.render(),
+                owner: this.owner,
             }),
         ];
 
@@ -172,6 +184,10 @@ export class AccountsView extends BaseComponent {
             cancelButton.addEventListener('click', this.cancelButtonHandler.bind(this));
         }
 
+        const unsubscribeButton = document.querySelector(`#${this.unsubscribeButton.getState().id}`);
+        if (unsubscribeButton) {
+            unsubscribeButton.addEventListener('click', this.unsubscribeButtonHandler.bind(this));
+        }
         const layout = document.querySelector('.layout');
         if (layout) {
             layout.addEventListener('click', this.layoutClickHandler);
@@ -180,7 +196,7 @@ export class AccountsView extends BaseComponent {
 
     accountClickHandler = async (account, event) => {
         this.nameInput.setState({ inputPlaceholder: account.name, value: account.name });
-        this.balanceInput.setState({ inputPlaceholder: account.balance, value: String(account.balance) });
+        this.balanceInput.setState({ inputPlaceholder: account.balance, value: String(account.balance.replace(/\s/g, '')) });
         await accountActions.selectAccount(account.elementId);
     };
 
@@ -195,6 +211,11 @@ export class AccountsView extends BaseComponent {
     deleteButtonHandler = async () => {
         const account = this.getSelectedAccount();
         await accountActions.deleteAccount(account.raw, account.elementId);
+    };
+
+    unsubscribeButtonHandler = async () => {
+        const account = this.getSelectedAccount();
+        await accountActions.unsubscribeAccount(account.raw);
     };
 
     createButtonHandler = async () => {

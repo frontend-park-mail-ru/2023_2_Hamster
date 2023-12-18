@@ -14,7 +14,8 @@ export const ROUTE_CONSTANTS = {
     CATEGORIES: '/categories',
     TRANSACTIONS: '/transactions',
     NOT_FOUND: '/404',
-    ACCOUNTS: '/accounts'
+    ACCOUNTS: '/accounts',
+    SHARE: '/share',
 };
 
 const SERVER_PREFIX = 'https://hammywallet.ru';
@@ -44,6 +45,10 @@ export const API_CONSTANTS = {
     UPDATE: `${SERVER_PREFIX}/api/user/update`,
     UPDATE_AVATAR: `${SERVER_PREFIX}/api/user/updatePhoto`,
 
+    ADD_USER_IN_ACCOUNT: `${SERVER_PREFIX}/api/user/addUserInAccount`,
+    DELETE_USER_IN_ACCOUNT: `${SERVER_PREFIX}/api/user/deleteUserInAccount`,
+    UNSUBSCRIBE_ACCOUNT: `${SERVER_PREFIX}/api/user/unsubscribeAccount/`,
+
     CREATE_ACCOUNT: `${SERVER_PREFIX}/api/account/create`,
     UPDATE_ACCOUNT: `${SERVER_PREFIX}/api/account/update`,
     DELETE_ACCOUNT_TAIL: '/delete',
@@ -64,6 +69,7 @@ export const STATUS_CODES = {
     UNAUTHORISED: 401,
     CONFLICT: 409,
     FORBIDDEN: 403,
+    NOT_FOUND: 404,
     TOO_MANY_REQUESTS: 429,
     INTERNAL_SERVER_ERROR: 500,
 };
@@ -95,6 +101,8 @@ export const EVENT_TYPES = {
     RERENDER_ACCOUNTS: 'RERENDER_ACCOUNTS',
 
     RERENDER_PROFILE: 'RERENDER_PROFILE',
+
+    RERENDER_SHARE: 'RERENDER_SHARE',
 };
 
 export const USER_STORE = {
@@ -146,15 +154,15 @@ export const PROFILE_STATE = {
         cardColor: 'button-card_accent-color',
         description: 'Ваш план',
         text: 'Базовый',
-        path: SVG_ICONS.box.path,
+        path: SVG_ICONS.banknote.path,
         notAllowed: true,
     },
 
     SHARE_CARD_STATE: {
+        id: 'share_card',
         cardColor: 'button-card_default-color',
         text: 'Совместный доступ',
         path: SVG_ICONS.people.path,
-        notAllowed: true,
     },
 
     CATEGORIES_CARD_STATE: {
@@ -162,7 +170,7 @@ export const PROFILE_STATE = {
         cardColor: 'button-card_default-color',
         description: 'Настройте свои',
         text: 'Категории',
-        path: SVG_ICONS.bookmark.path,
+        path: SVG_ICONS.tag.path,
     },
 
     USERNAME_INPUT_STATE: {

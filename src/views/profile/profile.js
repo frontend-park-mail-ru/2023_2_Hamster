@@ -180,6 +180,12 @@ export class ProfileView extends BaseComponent {
             categoriesCard.addEventListener('click', this.#buttonCardCategories.getHandler().bind(this));
         }
 
+        const shareCard = document.querySelector(`#${this.#buttonCardShare.getState().id}`);
+        if (shareCard) {
+            this.#buttonCardShare.setHandler(this.shareButtonHandler);
+            shareCard.addEventListener('click', this.#buttonCardShare.getHandler().bind(this));
+        }
+
         const profileNameInput = document.querySelector('#username_input');
         if (profileNameInput) {
             this.#profileNameInput.setHandler();
@@ -226,6 +232,10 @@ export class ProfileView extends BaseComponent {
     categoriesButtonHandler = async () => {
         await categoryActions.getCategories();
         await router.navigateTo(ROUTE_CONSTANTS.CATEGORIES, false);
+    };
+
+    shareButtonHandler = async () => {
+        await router.navigateTo(ROUTE_CONSTANTS.SHARE, false);
     };
 
     saveButtonHandler = () => {

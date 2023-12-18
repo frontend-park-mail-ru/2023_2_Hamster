@@ -23,6 +23,21 @@ class AccountApi {
         const url = API_CONSTANTS.UPDATE_ACCOUNT;
         return await put(url, data);
     };
+
+    addUserInAccount = async (data) => {
+        const url = API_CONSTANTS.ADD_USER_IN_ACCOUNT;
+        return await post(url, data);
+    };
+
+    deleteUserInAccount = async (data) => {
+        const url = API_CONSTANTS.DELETE_USER_IN_ACCOUNT;
+        return await deleteRequest(url, data);
+    };
+
+    unsubscribeAccount = async (qString) => {
+        const url = API_CONSTANTS.UNSUBSCRIBE_ACCOUNT + qString;
+        return await put(url, null);
+    };
 }
 
 export const accountApi = new AccountApi();

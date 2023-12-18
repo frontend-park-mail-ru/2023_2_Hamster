@@ -1,7 +1,8 @@
+@import "accounts/accounts";
 @import "categories/categories";
-@import "dashboard/dashboard.scss";
-@import "login_signup/loginSignup.scss";
+@import "dashboard/dashboard";
+@import "login_signup/loginSignup";
+@import "page404/page404";
 @import "profile/profile";
+@import "share/share";
 @import "transactions/transactions";
-@import "page404/page404.scss";
-@import "accounts/accounts.scss";
