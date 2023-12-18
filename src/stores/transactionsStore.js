@@ -59,8 +59,8 @@ class TransactionsStore extends BaseStore {
         raw: data.id,
         id: `id${data.id}`,
         rawDate: data.date,
-        transactionName: this.findName(data.categories).pop().name,
-        tag: this.findName(data.categories).pop().id,
+        transactionName: data.categories[0].category_name,
+        tag: data.categories[0].id,
         transactionPlace: data.payer,
         transactionMessage: data.description,
         value: data.income - data.outcome,
@@ -70,17 +70,8 @@ class TransactionsStore extends BaseStore {
         cardId: `card_${data.id}`,
     }));
 
-    findName = (categories) => {
-        this.categories = categoriesStore.storage.tags.map((obj) => ({
-            id: obj.id,
-            name: obj.name,
-        }));
-
-        return this.categories.filter((obj) => categories.includes(obj.id));
-    };
-
     getNameById(id) {
-        const obj = this.categories.find((item) => item.id === id);
+        const obj = categoriesStore.storage.tags.find((item) => item.id === id);
 
         return obj ? obj.name : null;
     }
@@ -106,7 +97,7 @@ class TransactionsStore extends BaseStore {
                 raw: response.body.transaction_id,
                 id: `id${response.body.transaction_id}`,
                 rawDate: data.date,
-                transactionName: this.getNameById(data.categories.pop()),
+                transactionName: this.getNameById(data.categories[0].id),
                 transactionPlace: data.payer,
                 transactionMessage: data.description,
                 value: data.income - data.outcome,
@@ -114,11 +105,11 @@ class TransactionsStore extends BaseStore {
                 deleteId: `delete_${response.transaction_id}`,
                 cardId: `card_${response.transaction_id}`,
             });
-
-            this.emitChange(EVENT_TYPES.RERENDER_TRANSACTIONS);
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);
         }
+
+        this.emitChange(EVENT_TYPES.RERENDER_TRANSACTIONS);
     };
 
     validateTransaction = (data, type) => {
@@ -135,7 +126,7 @@ class TransactionsStore extends BaseStore {
             description: resultDescription,
             payer: resultPayer,
             sum: resultSum,
-            tag: data.categories,
+            tag: data.categories.id,
             account: data.account_income,
         };
 
@@ -178,7 +169,7 @@ class TransactionsStore extends BaseStore {
                         raw: data.transaction_id,
                         id: `id${data.transaction_id}`,
                         rawDate: data.date,
-                        transactionName: this.getNameById(data.categories.pop()),
+                        transactionName: this.getNameById(data.categories[0].id),
                         value: data.income - data.outcome,
                         account: accountStore.accounts.find((account) => account.id === data.account_income).mean_payment,
                         transactionPlace: data.payer,
@@ -190,10 +181,11 @@ class TransactionsStore extends BaseStore {
                 return item;
             });
 
-            this.emitChange(EVENT_TYPES.RERENDER_TRANSACTIONS);
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);
         }
+
+        this.emitChange(EVENT_TYPES.RERENDER_TRANSACTIONS);
     };
 
     rerenderTransaction = async () => {

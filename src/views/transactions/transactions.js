@@ -137,9 +137,7 @@ export class TransactionsView extends BaseComponent {
         this.tagFilter.setState({ values: categoriesStore.categoriesValues });
         this.tagInput.setState({ values: categoriesStore.categoriesValues });
 
-        if (!transactionsStore.transactions) {
-            await transactionsStore.getTransaction();
-        }
+        await transactionsStore.getTransaction();
 
         if (transactionsStore.storage.error) {
             if (transactionsStore.storage.error.type === 'create') {
@@ -426,7 +424,7 @@ export class TransactionsView extends BaseComponent {
             outcome = Math.abs(sumValue);
         }
 
-        await transactionActions.updateTransaction(accountValue, transaction.getState().raw, [tagValue], date, parseFloat(income), parseFloat(outcome), descriptionValue, payerValue, sumValue);
+        await transactionActions.updateTransaction(accountValue, transaction.getState().raw, [{ id: tagValue }], date, parseFloat(income), parseFloat(outcome), descriptionValue, payerValue, sumValue);
     };
 
     deleteButtonHandler = async (transaction) => {
@@ -455,6 +453,6 @@ export class TransactionsView extends BaseComponent {
             income = 0;
         }
 
-        await transactionActions.createTransaction(accountId, [tagId], date, description, parseFloat(income), parseFloat(outcome), payer, sumInput);
+        await transactionActions.createTransaction(accountId, [{ id: tagId }], date, description, parseFloat(income), parseFloat(outcome), payer, sumInput);
     };
 }

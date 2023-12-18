@@ -8,14 +8,14 @@ import template from './transaction.hbs';
 
 const DEFAULT_TRANSACTION = {
     id: 'tag1',
-    transactionName: 'Тестовая категория',
-    value: -100,
-    account: 'Тестовый счет',
+    transactionName: 'Хомячье',
+    value: 0,
+    account: 'Хомачьи щечки',
     deleteId: 'tag1_delete',
     cardId: 'tag1_card',
     rawDate: '0001-01-01T00:00:00.000000Z',
     transactionPlace: 'HammyWallet',
-    transactionMessage: 'Хомяки заберут эту транзакцию, когда вы добавите свою'
+    transactionMessage: 'Не бойтесь, хомяки сами заберут эту транзакцию, когда вы добавите новую'
 };
 
 const ICON = {
