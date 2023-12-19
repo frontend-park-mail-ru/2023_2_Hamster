@@ -1,13 +1,13 @@
 <div class="transaction" id="{{id}}">
-    <div class="transaction__card" id="{{cardId}}">
-            <div class="transaction__date-details">
+    <div class="transaction__card {{#unless owner}} transaction_hoverable {{/unless}}>" id="{{cardId}}">
+        <div class="transaction__date-details">
                 <span class="transaction__date font-base-text">
                     {{date}}
                 </span>
-                <span class="transaction__day-of-week font-caption">
-                    {{dayOfWeek}}
-                </span>
-            </div>
+            <span class="transaction__day-of-week font-caption">
+                {{dayOfWeek}}
+            </span>
+        </div>
         <div class="transaction__icon">
             {{{icon}}}
         </div>
@@ -46,9 +46,14 @@
             </span>
         </div>
         <div class="transaction__account">
-            <span class="font-base-text">
+            <span class="font-base-text transaction__account-name">
                 {{account}}
             </span>
+            {{#if owner}}
+                <span class="font-caption transaction__account-owner">
+                    Владелец: {{owner}}
+                </span>
+            {{/if}}
         </div>
     </div>
     {{#if settingsOpen}}

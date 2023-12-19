@@ -11,6 +11,9 @@
     padding: 12px;
     width: auto;
     border-radius: var(--radius-size-medium);
+  }
+
+  &_hoverable {
     transition: background-color 0.1s ease;
 
     &:hover{
@@ -73,9 +76,18 @@
 
   &__account{
     display: flex;
+    flex-direction: column;
+    gap: var(--small-gap);
     width: 20%;
     height: auto;
-    color: var(--text-main-color);
+
+    &-name{
+      color: var(--text-main-color);
+    }
+
+    &-owner{
+      color: var(--text-muted-color);
+    }
   }
 
   &__settings{

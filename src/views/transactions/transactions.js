@@ -298,17 +298,17 @@ export class TransactionsView extends BaseComponent {
         if (this.transactions) {
             this.transactions.forEach((transaction) => {
                 const categoryCard = document.querySelector(`#${transaction.getState().cardId}`);
-                if (categoryCard) {
+                if (categoryCard && !transaction.getState().owner) {
                     categoryCard.addEventListener('click', this.handleCardClick.bind(this, transaction));
                 }
 
                 const button = document.querySelector(`#${transaction.button.getState().id}`);
-                if (button) {
+                if (button && !transaction.getState().owner) {
                     button.addEventListener('click', this.updateButtonHandler.bind(this, transaction));
                 }
 
                 const deleteButton = document.querySelector(`#${transaction.delete.getState().id}`);
-                if (deleteButton) {
+                if (deleteButton && !transaction.getState().owner) {
                     deleteButton.addEventListener('click', this.deleteButtonHandler.bind(this, transaction));
                 }
             });

@@ -1,10 +1,10 @@
-import { transactionsApi } from '@api/transaction';
-import { EVENT_TYPES, STATUS_CODES } from '@constants/constants';
-import { categoriesStore } from '@stores/categoriesStore';
-import { DESCRIPTION_RULES, MONEY_RULES, PAYER_RULES } from '@constants/validation';
-import { accountStore } from '@stores/accountStore';
+import {transactionsApi} from '@api/transaction';
+import {EVENT_TYPES, STATUS_CODES} from '@constants/constants';
+import {categoriesStore} from '@stores/categoriesStore';
+import {DESCRIPTION_RULES, MONEY_RULES, PAYER_RULES} from '@constants/validation';
+import {accountStore} from '@stores/accountStore';
 import BaseStore from './baseStore.js';
-import { validator } from '../modules/validator';
+import {validator} from '../modules/validator';
 
 /**
  *
@@ -36,39 +36,43 @@ class TransactionsStore extends BaseStore {
             const response = await transactionsApi.getTransaction(qString);
 
             switch (response.status) {
-            case STATUS_CODES.OK:
-                this.storage.states = this.transformArray(response.body.transactions);
-                this.transactions = response.body.transactions;
+                case STATUS_CODES.OK:
+                    this.storage.states = this.transformArray(response.body.transactions);
+                    this.transactions = response.body.transactions;
 
-                break;
+                    break;
 
-            case STATUS_CODES.NO_CONTENT:
-                this.storage.states = null;
+                case STATUS_CODES.NO_CONTENT:
+                    this.storage.states = null;
 
-                break;
+                    break;
 
-            default:
-                console.log('Undefined status code', response.status);
+                default:
+                    console.log('Undefined status code', response.status);
             }
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);
         }
     };
 
-    transformArray = (arr) => arr.map((data) => ({
-        raw: data.id,
-        id: `id${data.id}`,
-        rawDate: data.date,
-        transactionName: data.categories[0].category_name,
-        tag: data.categories[0].id,
-        transactionPlace: data.payer,
-        transactionMessage: data.description,
-        value: data.income - data.outcome,
-        account: accountStore.accounts.find((account) => account.id === data.account_income).mean_payment,
-        account_income: data.account_income,
-        account_outcome: data.account_outcome,
-        cardId: `card_${data.id}`,
-    }));
+    transformArray = (arr) => arr.map((data) => {
+        const sharedAccount = accountStore.sharedAccounts.find((account) => account.accountId === data.account_income);
+        return {
+            raw: data.id,
+            id: `id${data.id}`,
+            rawDate: data.date,
+            transactionName: data.categories[0].category_name,
+            tag: data.categories[0].id,
+            transactionPlace: data.payer,
+            transactionMessage: data.description,
+            value: data.income - data.outcome,
+            account: accountStore.accounts.find((account) => account.id === data.account_income).mean_payment,
+            owner: sharedAccount ? sharedAccount.login : undefined,
+            account_income: data.account_income,
+            account_outcome: data.account_outcome,
+            cardId: `card_${data.id}`,
+        };
+    });
 
     getNameById(id) {
         const obj = categoriesStore.storage.tags.find((item) => item.id === id);
@@ -88,7 +92,7 @@ class TransactionsStore extends BaseStore {
 
         try {
             // eslint-disable-next-line no-unused-vars
-            const { money, ...newData } = data;
+            const {money, ...newData} = data;
             const response = await transactionsApi.createTransaction(newData);
 
             const index = this.storage.states.findIndex((obj) => new Date(obj.rawDate) <= new Date(data.date));
@@ -160,7 +164,7 @@ class TransactionsStore extends BaseStore {
         }
         try {
             // eslint-disable-next-line no-unused-vars
-            const { money, ...newData } = data;
+            const {money, ...newData} = data;
             await transactionsApi.updateTransaction(newData);
 
             this.storage.states = this.storage.states.map((item) => {
