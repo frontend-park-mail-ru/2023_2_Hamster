@@ -66,7 +66,7 @@ class TransactionsStore extends BaseStore {
             transactionPlace: data.payer,
             transactionMessage: data.description,
             value: data.income - data.outcome,
-            account: accountStore.accounts.find((account) => account.id === data.account_income).mean_payment,
+            account: accountStore.accounts?.find((account) => account.id === data.account_income).mean_payment,
             owner: sharedAccount ? sharedAccount.login : undefined,
             account_income: data.account_income,
             account_outcome: data.account_outcome,
