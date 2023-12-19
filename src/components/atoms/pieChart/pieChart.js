@@ -101,7 +101,6 @@ export class PieChart extends BaseComponent {
             textCenter.textContent = this.getState().textCenter.replace(FORMAT_CHAR, String(valuesSum));
         } 
         if (textAbove){
-            console.log('text above ', this.getState().textAbove);
             textAbove.textContent = this.getState().textAbove.replace(FORMAT_CHAR, String(valuesSum));
         } 
         if (textBelow){
@@ -142,6 +141,7 @@ export class PieChart extends BaseComponent {
             r: state.inShadowRad + (state.outShadowRad - state.inShadowRad) / 2,
             stroke: state.shadowColor,
             'stroke-width': state.outShadowRad - state.inShadowRad,
+            fill: 'transparent',
         });
         svg.appendChild(circle);
     };

@@ -41,6 +41,7 @@ export class DashboardView extends BaseComponent {
         this.#pieCostsByCategory.setState({
             textAbove: '',
             textCenter: '',
+            isPercents: false,
         });
     }
 
@@ -110,7 +111,11 @@ export class DashboardView extends BaseComponent {
            
         } else {
             this.#pieConsumedBudget.setState({
-                data: [],
+                data: [{
+                    title: 'Потраченный бюджет',
+                    value: 67,
+                    color: 'green',
+                }],
             });
         }
 
@@ -183,7 +188,10 @@ export class DashboardView extends BaseComponent {
         if (thisElement) {
             this.#pieCostsByCategory.parent = thisElement;
             this.#pieConsumedBudget.parent = thisElement;
-            this.#barCostsByMonth.parent = thisElement;
+            // this.#barCostsByMonth.parent = thisElement;
+            this.#pieCostsByCategory.setHandlers();
+            this.#pieConsumedBudget.setHandlers();
+            // this.#barCostsByMonth.setHandlers();
         }
     }
 
