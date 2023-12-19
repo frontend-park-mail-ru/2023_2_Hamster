@@ -52,4 +52,14 @@ export const accountActions = {
             },
         });
     },
+
+    async addUserInAccount(login, account_id) {
+        await dispatcher.dispatch({
+            type: ACCOUNT_ACTIONS.ADD_USER_IN_ACCOUNT,
+            data: {
+                account_id,
+                login,
+            },
+        });
+    }
 };

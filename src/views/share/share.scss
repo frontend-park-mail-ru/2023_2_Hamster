@@ -1,0 +1,44 @@
+.share {
+  grid-column: span 12;
+
+  &__text {
+    color: var(--text-main-color);
+  }
+
+  &__add-form {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--meduim-gap);
+    margin-top: var(--meduim-gap);
+    margin-bottom: var(--big-gap);
+  }
+
+  &__shared-accounts {
+    display: flex;
+    flex-direction: column;
+    gap: var(--meduim-gap);
+    margin-top: var(--meduim-gap);
+  }
+
+  &__card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--meduim-gap);
+  }
+
+  &__avatar {
+    width: var(--image-medium);
+    height: var(--image-medium);
+  }
+
+  &__user-login {
+    color: var(--text-main-color);
+    width: 30%;
+  }
+
+  &__shared-account {
+    color: var(--text-main-color);
+    width: 50%;
+  }
+}

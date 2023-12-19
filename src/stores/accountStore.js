@@ -1,6 +1,10 @@
 import { accountApi } from '@api/account';
-import { EVENT_TYPES, STATUS_CODES } from '@constants/constants';
+import {
+    DEFAULT_AVATAR, EVENT_TYPES, NULL_UUID, STATUS_CODES
+} from '@constants/constants';
 import { ACCOUNT_NAME_RULES, BUDGET_RULES } from '@constants/validation';
+import { userStore } from '@stores/userStore';
+import { Button, Image } from '@atoms';
 import BaseStore from './baseStore.js';
 import { validator } from '../modules/validator';
 
@@ -49,6 +53,27 @@ class AccountStore extends BaseStore {
                     value: account.id,
                     valueName: account.mean_payment
                 }));
+
+                this.sharedAccounts = [];
+                this.accounts.forEach((account) => {
+                    account.users.filter((user) => {
+                        let avatarSrc;
+                        user.avatar_url === NULL_UUID
+                            ? avatarSrc = `../images/${user.avatar_url}.jpg`
+                            : avatarSrc = DEFAULT_AVATAR;
+                        if (user.id === userStore.storage.user.id) {
+                            const avatar = new Image(null, { avatar: avatarSrc, imageSize: 'image-container_medium', withBorder: true });
+                            const button = new Button(null, { id: `delete${account.id}`, buttonText: 'Удалить', buttonColor: 'button_delete' });
+                            this.sharedAccounts.push({
+                                id: account.id,
+                                avatar: avatar.render(),
+                                login: user.login,
+                                account: account.mean_payment,
+                                delete: button.render(),
+                            });
+                        }
+                    });
+                });
 
                 break;
 
@@ -150,6 +175,13 @@ class AccountStore extends BaseStore {
         return nameValidation.isError || balance.isError;
     };
 
+    addUserInAccount = async (data) => {
+        try {
+            await accountApi.addUserInAccount({ data });
+        } catch (error) {
+            console.log('Unable to connect to the server, error: ', error);
+        }
+    };
 }
 
 export const accountStore = new AccountStore();

@@ -23,6 +23,11 @@ class AccountApi {
         const url = API_CONSTANTS.UPDATE_ACCOUNT;
         return await put(url, data);
     };
+
+    addUserInAccount = async (data) => {
+        const url = API_CONSTANTS.ADD_USER_IN_ACCOUNT;
+        return await post(url, data);
+    };
 }
 
 export const accountApi = new AccountApi();

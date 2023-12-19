@@ -44,6 +44,8 @@ export const ACCOUNT_ACTIONS = {
     CREATE_ACCOUNT: 'CREATE_ACCOUNT',
     UPDATE_ACCOUNT: 'UPDATE_ACCOUNT',
     DELETE_ACCOUNT: 'DELETE_ACCOUNT',
+
+    ADD_USER_IN_ACCOUNT: 'ADD_USER_IN_ACCOUNT',
 };
 
 export const actions = [
@@ -160,4 +162,8 @@ export const actions = [
         type: ACCOUNT_ACTIONS.DELETE_ACCOUNT,
         method: accountStore.deleteAccount,
     },
+    {
+        type: ACCOUNT_ACTIONS.ADD_USER_IN_ACCOUNT,
+        method: accountStore.addUserInAccount,
+    }
 ];

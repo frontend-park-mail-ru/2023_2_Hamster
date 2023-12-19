@@ -69,7 +69,6 @@ const IMAGE_STATE = {
     imageSize: 'image-container_big',
     withBorder: true,
     isClickable: true,
-    avatar: '../images/homyak.png',
 };
 
 /**
@@ -155,8 +154,7 @@ export class Layout extends BaseComponent {
             this.#avatar.setState({ avatar: `../images/${avatarPath}.jpg` });
         }
 
-        const { username } = userStore.storage.user;
-        this.setState({ sidebar: { profileName: username || 'Имя профиля' } });
+        this.setState({ sidebar: { profileName: userStore.storage.user.username } });
 
         const contentHTML = await this.#contentElement.render();
 

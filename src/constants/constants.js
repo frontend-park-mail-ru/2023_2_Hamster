@@ -14,7 +14,8 @@ export const ROUTE_CONSTANTS = {
     CATEGORIES: '/categories',
     TRANSACTIONS: '/transactions',
     NOT_FOUND: '/404',
-    ACCOUNTS: '/accounts'
+    ACCOUNTS: '/accounts',
+    SHARE: '/share',
 };
 
 const SERVER_PREFIX = 'https://hammywallet.ru';
@@ -43,6 +44,8 @@ export const API_CONSTANTS = {
     FEED: `${SERVER_PREFIX}/api/user/feed`,
     UPDATE: `${SERVER_PREFIX}/api/user/update`,
     UPDATE_AVATAR: `${SERVER_PREFIX}/api/user/updatePhoto`,
+
+    ADD_USER_IN_ACCOUNT: `${SERVER_PREFIX}/api/user/addUserInAccount`,
 
     CREATE_ACCOUNT: `${SERVER_PREFIX}/api/account/create`,
     UPDATE_ACCOUNT: `${SERVER_PREFIX}/api/account/update`,
@@ -146,15 +149,15 @@ export const PROFILE_STATE = {
         cardColor: 'button-card_accent-color',
         description: 'Ваш план',
         text: 'Базовый',
-        path: SVG_ICONS.box.path,
+        path: SVG_ICONS.banknote.path,
         notAllowed: true,
     },
 
     SHARE_CARD_STATE: {
+        id: 'share_card',
         cardColor: 'button-card_default-color',
         text: 'Совместный доступ',
         path: SVG_ICONS.people.path,
-        notAllowed: true,
     },
 
     CATEGORIES_CARD_STATE: {
@@ -162,7 +165,7 @@ export const PROFILE_STATE = {
         cardColor: 'button-card_default-color',
         description: 'Настройте свои',
         text: 'Категории',
-        path: SVG_ICONS.bookmark.path,
+        path: SVG_ICONS.tag.path,
     },
 
     USERNAME_INPUT_STATE: {
