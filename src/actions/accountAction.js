@@ -53,13 +53,32 @@ export const accountActions = {
         });
     },
 
-    async addUserInAccount(login, account_id) {
+    async addUserInAccount(login, accountId) {
         await dispatcher.dispatch({
             type: ACCOUNT_ACTIONS.ADD_USER_IN_ACCOUNT,
             data: {
-                account_id,
+                account_id: accountId,
                 login,
             },
         });
-    }
+    },
+
+    async deleteUserInAccount(userId, accountId) {
+        await dispatcher.dispatch({
+            type: ACCOUNT_ACTIONS.DELETE_USER_IN_ACCOUNT,
+            data: {
+                account_id: accountId,
+                user_id: userId,
+            },
+        });
+    },
+
+    async unsubscribeAccount(accountId) {
+        await dispatcher.dispatch({
+            type: ACCOUNT_ACTIONS.UNSUBSCRIBE_ACCOUNT,
+            data: {
+                account_id: accountId,
+            },
+        });
+    },
 };

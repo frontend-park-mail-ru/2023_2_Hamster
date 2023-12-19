@@ -59,13 +59,22 @@ class AccountStore extends BaseStore {
                     account.users.filter((user) => {
                         let avatarSrc;
                         user.avatar_url === NULL_UUID
-                            ? avatarSrc = `../images/${user.avatar_url}.jpg`
-                            : avatarSrc = DEFAULT_AVATAR;
-                        if (user.id === userStore.storage.user.id) {
-                            const avatar = new Image(null, { avatar: avatarSrc, imageSize: 'image-container_medium', withBorder: true });
-                            const button = new Button(null, { id: `delete${account.id}`, buttonText: 'Удалить', buttonColor: 'button_delete' });
+                            ? avatarSrc = DEFAULT_AVATAR
+                            : avatarSrc = `../images/${user.avatar_url}.jpg`;
+                        if (user.id !== userStore.storage.user.id) {
+                            const avatar = new Image(null, {
+                                avatar: avatarSrc,
+                                imageSize: 'image-container_medium',
+                                withBorder: true
+                            });
+                            const button = new Button(null, {
+                                id: `delete${account.id}`,
+                                buttonText: 'Удалить',
+                                buttonColor: 'button_delete'
+                            });
                             this.sharedAccounts.push({
-                                id: account.id,
+                                accountId: account.id,
+                                userId: user.id,
                                 avatar: avatar.render(),
                                 login: user.login,
                                 account: account.mean_payment,
@@ -177,7 +186,27 @@ class AccountStore extends BaseStore {
 
     addUserInAccount = async (data) => {
         try {
-            await accountApi.addUserInAccount({ data });
+            await accountApi.addUserInAccount(data);
+        } catch (error) {
+            console.log('Unable to connect to the server, error: ', error);
+        }
+
+        this.emitChange(EVENT_TYPES.RERENDER_SHARE);
+    };
+
+    deleteUserInAccount = async (data) => {
+        try {
+            await accountApi.deleteUserInAccount(data);
+        } catch (error) {
+            console.log('Unable to connect to the server, error: ', error);
+        }
+
+        this.emitChange(EVENT_TYPES.RERENDER_SHARE);
+    };
+
+    unsubscribeAccount = async (data) => {
+        try {
+            await accountApi.unsubscribeAccount(data.account_id);
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);
         }

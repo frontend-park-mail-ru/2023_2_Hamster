@@ -46,8 +46,6 @@ export class ShareView extends BaseComponent {
         await accountStore.getAccounts();
         this.select.setState({ values: accountStore.accountsValues });
 
-        console.log(accountStore.sharedAccounts)
-
         const templates = [
             template({
                 input: this.input.render(),
@@ -61,11 +59,11 @@ export class ShareView extends BaseComponent {
     }
 
     setHandlers() {
-        if (this.categories) {
-            this.categories.forEach((category) => {
-                const deleteButton = document.querySelector(`#${category.getState().deleteId}`);
+        if (accountStore.sharedAccounts) {
+            accountStore.sharedAccounts.forEach((account) => {
+                const deleteButton = document.querySelector(`#delete${account.accountId}`);
                 if (deleteButton) {
-                    deleteButton.addEventListener('click', this.deleteButtonHandler.bind(this, category));
+                    deleteButton.addEventListener('click', this.deleteButtonHandler.bind(this, account));
                 }
             });
         }
@@ -77,7 +75,7 @@ export class ShareView extends BaseComponent {
     }
 
     deleteButtonHandler = async (sharedAccount) => {
-        // await accountActions.deleteUserInAccount(sharedAccount.id.slice(2));
+        await accountActions.deleteUserInAccount(sharedAccount.userId, sharedAccount.accountId);
     };
 
     createButtonHandler = async () => {

@@ -125,20 +125,28 @@ export class Layout extends BaseComponent {
 
         this.#sidebar = new Sidebar(parent, this.getState().sidebar);
 
-        if (context === 'categories') {
+        switch (context) {
+        case 'categories':
             categoriesStore.registerListener(EVENT_TYPES.RERENDER_CATEGORIES, this.renderTemplateToParent.bind(this));
-        }
+            break;
 
-        if (context === 'transactions') {
+        case 'transactions':
             categoriesStore.registerListener(EVENT_TYPES.RERENDER_TRANSACTIONS, this.renderTemplateToParent.bind(this));
-        }
+            break;
 
-        if (context === 'accounts') {
+        case 'accounts':
             accountStore.registerListener(EVENT_TYPES.RERENDER_ACCOUNTS, this.renderTemplateToParent.bind(this));
-        }
+            break;
 
-        if (context === 'profile') {
+        case 'profile':
             userStore.registerListener(EVENT_TYPES.RERENDER_PROFILE, this.renderTemplateToParent.bind(this));
+            break;
+
+        case 'share':
+            userStore.registerListener(EVENT_TYPES.RERENDER_SHARE, this.renderTemplateToParent.bind(this));
+            break;
+
+        default:
         }
     }
 

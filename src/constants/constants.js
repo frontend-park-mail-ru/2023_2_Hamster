@@ -46,6 +46,8 @@ export const API_CONSTANTS = {
     UPDATE_AVATAR: `${SERVER_PREFIX}/api/user/updatePhoto`,
 
     ADD_USER_IN_ACCOUNT: `${SERVER_PREFIX}/api/user/addUserInAccount`,
+    DELETE_USER_IN_ACCOUNT: `${SERVER_PREFIX}/api/user/deleteUserInAccount`,
+    UNSUBSCRIBE_ACCOUNT: `${SERVER_PREFIX}/api/user/unsubscribeAccount/`,
 
     CREATE_ACCOUNT: `${SERVER_PREFIX}/api/account/create`,
     UPDATE_ACCOUNT: `${SERVER_PREFIX}/api/account/update`,
@@ -98,6 +100,8 @@ export const EVENT_TYPES = {
     RERENDER_ACCOUNTS: 'RERENDER_ACCOUNTS',
 
     RERENDER_PROFILE: 'RERENDER_PROFILE',
+
+    RERENDER_SHARE: 'RERENDER_SHARE',
 };
 
 export const USER_STORE = {
