@@ -201,6 +201,8 @@ export class DashboardView extends BaseComponent {
                 titles: ['Потрачено']
             }));
 
+            console.log('barData', barData, costsByDay);
+
             this.#barCostsByMonth.setState({
                 data: barData,
             });
