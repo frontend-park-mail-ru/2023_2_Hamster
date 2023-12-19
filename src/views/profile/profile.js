@@ -39,7 +39,9 @@ export class ProfileView extends BaseComponent {
 
     #imageInput;
 
-    #saveButton;
+    #saveProfileButton;
+
+    #savePasswordButton;
 
     constructor(parent) {
         super(undefined, template, parent);
@@ -60,7 +62,11 @@ export class ProfileView extends BaseComponent {
 
         this.#imageInput = new Input(null, PROFILE_STATE.IMAGE_INPUT_STATE, null);
 
-        this.#saveButton = new Button(null, PROFILE_STATE.BUTTON_STATE, null);
+        this.#saveProfileButton = new Button(null, PROFILE_STATE.BUTTON_STATE, null);
+        this.#savePasswordButton = new Button(null, PROFILE_STATE.SAVE_PASSWORD, null);
+
+        this.csvExport = new Button(null, { id: 'export', buttonText: 'Экспорт в csv', buttonColor: 'button_secondary-color' });
+        this.csvImport = new Input(null, PROFILE_STATE.CSV_INPUT_STATE, null);
     }
 
     /**
@@ -101,7 +107,12 @@ export class ProfileView extends BaseComponent {
 
         const saveProfileButton = document.querySelector('#save_profile_button');
         if (saveProfileButton) {
-            saveProfileButton.removeEventListener('click', this.#saveButton.getHandler());
+            saveProfileButton.removeEventListener('click', this.#saveProfileButton.getHandler());
+        }
+
+        const savePasswordButton = document.querySelector('#save_password_button');
+        if (savePasswordButton) {
+            savePasswordButton.removeEventListener('click', this.#savePasswordButton.getHandler());
         }
 
         const imageInput = document.querySelector('#image_profile_input');
@@ -164,7 +175,10 @@ export class ProfileView extends BaseComponent {
                 login: userStore.storage.user.login,
                 avatar: this.#avatar.render(),
                 imageInput: this.#imageInput.render(),
-                saveButton: this.#saveButton.render(),
+                saveProfileButton: this.#saveProfileButton.render(),
+                savePasswordButton: this.#savePasswordButton.render(),
+                csvExport: this.csvExport.render(),
+                csvImport: this.csvImport.render(),
             }),
         ];
 
@@ -218,8 +232,14 @@ export class ProfileView extends BaseComponent {
 
         const saveProfileButton = document.querySelector('#save_profile_button');
         if (saveProfileButton) {
-            this.#saveButton.setHandler(this.saveButtonHandler);
-            saveProfileButton.addEventListener('click', this.#saveButton.getHandler());
+            this.#saveProfileButton.setHandler(this.saveProfileHandler);
+            saveProfileButton.addEventListener('click', this.#saveProfileButton.getHandler());
+        }
+
+        const savePasswordButton = document.querySelector('#save_password_button');
+        if (savePasswordButton) {
+            this.#savePasswordButton.setHandler(this.savePasswordHandler);
+            savePasswordButton.addEventListener('click', this.#savePasswordButton.getHandler());
         }
 
         const imageInput = document.querySelector('#upload-form');
@@ -227,7 +247,39 @@ export class ProfileView extends BaseComponent {
             this.#imageInput.setHandler(this.changeImageHandler);
             imageInput.addEventListener('click', this.#imageInput.getHandler());
         }
+
+        const csvExport = document.querySelector('#export');
+        if (csvExport) {
+            csvExport.addEventListener('click', this.exportHandler);
+        }
+
+        const csvImport = document.querySelector('#upload-csv');
+        if (csvImport) {
+            csvImport.addEventListener('click', this.importHandler);
+        }
     }
+
+    exportHandler = () => {
+        userActions.csvExport();
+    };
+
+    importHandler = () => {
+        const fileInput = document.getElementById('import');
+        fileInput.click();
+        fileInput.onchange = () => {
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const csvData = event.target.result;
+                const lines = csvData.split('\n');
+                lines.shift();
+                const newCsv = lines.join('\n');
+                const newFile = new File([newCsv], 'transactions.csv', { type: 'text/csv' });
+                userActions.csvImport(newFile);
+            };
+            reader.readAsText(file);
+        };
+    };
 
     categoriesButtonHandler = async () => {
         await categoryActions.getCategories();
@@ -238,15 +290,19 @@ export class ProfileView extends BaseComponent {
         await router.navigateTo(ROUTE_CONSTANTS.SHARE, false);
     };
 
-    saveButtonHandler = () => {
+    saveProfileHandler = () => {
         const username = document.querySelector('#username_input').value;
         const budget = document.querySelector('#budget_input').value;
 
+        userActions.updateProfile(budget, username);
+    };
+
+    savePasswordHandler = () => {
         const newPassword = document.querySelector(`#${this.#newPasswordInput.getState().id}`).value;
         const oldPassword = document.querySelector(`#${this.#currentPasswordInput.getState().id}`).value;
         const repeatPassword = document.querySelector(`#${this.#repeatPasswordInput.getState().id}`).value;
 
-        userActions.updateProfile(budget, username, newPassword, oldPassword, repeatPassword);
+        userActions.updateProfile(newPassword, oldPassword, repeatPassword);
     };
 
     changeImageHandler = () => {

@@ -1,5 +1,5 @@
+import { NULL } from 'sass';
 import { eventBus } from '../modules/eventBus';
-import {NULL} from "sass";
 
 /**
  * BaseStore class for managing application state.
