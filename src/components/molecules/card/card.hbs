@@ -2,12 +2,12 @@
     <div class="card__heading">
         <div class="card__heading-text-container">
             {{#if this.units}}
-                <span class="card__headline-text font-base-text">{{this.cardHeadline}} {{this.units}}</span>
+                <span class="card__headline-text font-h2-medium">{{this.cardHeadline}} {{this.units}}</span>
             {{else}}
-                <span class="card__headline-text font-base-text">{{this.cardHeadline}}</span>
+                <span class="card__headline-text font-h2-medium">{{this.cardHeadline}}</span>
             {{/if}}
             {{#if this.cardSubhead}}
-                <span class="card__subhead-text font-caption">{{this.cardSubhead}}</span>
+                <span class="card__subhead-text font-base-text">{{this.cardSubhead}}</span>
             {{/if}}
         </div>
         {{#if this.cardStatus}}
