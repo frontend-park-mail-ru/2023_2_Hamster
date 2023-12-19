@@ -56,35 +56,43 @@ class AccountStore extends BaseStore {
                 }));
 
                 this.ownAccountsValues = this.accounts
-                    .filter((account) => account.users[0].login === userStore.storage.user.login)
+                    .filter((account) => account.sharing_id === userStore.storage.user.id)
                     .map((account) => ({ value: account.id, valueName: account.mean_payment }));
 
                 this.sharedAccounts = [];
+                this.sharingWith = [];
                 this.accounts.forEach((account) => {
                     account.users.filter((user) => {
-                        let avatarSrc;
-                        user.avatar_url === NULL_UUID
-                            ? avatarSrc = DEFAULT_AVATAR
-                            : avatarSrc = `../images/${user.avatar_url}.jpg`;
                         if (user.id !== userStore.storage.user.id) {
-                            const avatar = new Image(null, {
-                                avatar: avatarSrc,
-                                imageSize: 'image-container_medium',
-                                withBorder: true
-                            });
-                            const button = new Button(null, {
-                                id: `delete${account.id}`,
-                                buttonText: 'Удалить',
-                                buttonColor: 'button_delete'
-                            });
-                            this.sharedAccounts.push({
-                                accountId: account.id,
-                                userId: user.id,
-                                avatar: avatar.render(),
-                                login: user.login,
-                                account: account.mean_payment,
-                                delete: button.render(),
-                            });
+                            if (user.id !== account.sharing_id) {
+                                let avatarSrc;
+                                user.avatar_url === NULL_UUID
+                                    ? avatarSrc = DEFAULT_AVATAR
+                                    : avatarSrc = `../images/${user.avatar_url}.jpg`;
+                                const avatar = new Image(null, {
+                                    avatar: avatarSrc,
+                                    imageSize: 'image-container_medium',
+                                    withBorder: true
+                                });
+                                const button = new Button(null, {
+                                    id: `delete${account.id}`,
+                                    buttonText: 'Удалить',
+                                    buttonColor: 'button_delete'
+                                });
+                                this.sharedAccounts.push({
+                                    accountId: account.id,
+                                    userId: user.id,
+                                    avatar: avatar.render(),
+                                    login: user.login,
+                                    account: account.mean_payment,
+                                    delete: button.render(),
+                                });
+                            } else {
+                                this.sharingWith.push({
+                                    accountId: account.id,
+                                    login: user.login,
+                                });
+                            }
                         }
                     });
                 });
@@ -215,6 +223,8 @@ class AccountStore extends BaseStore {
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);
         }
+
+        this.emitChange(EVENT_TYPES.RERENDER_ACCOUNTS);
     };
 }
 
