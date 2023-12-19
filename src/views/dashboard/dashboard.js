@@ -40,11 +40,12 @@ export class DashboardView extends BaseComponent {
         this.#pieConsumedBudget.setState({
             data: [],
             textAbove: 'Бюджет:',
+            isPercents: true,
         });
         this.#pieCostsByCategory.setState({
             data: [],
-            textAbove: '',
-            textCenter: 'Траты по\nкатегориям',
+            textAbove: 'Траты по',
+            textCenter: 'категориям',
             isPercents: false,
         });
     }
@@ -122,12 +123,20 @@ export class DashboardView extends BaseComponent {
                 this.#pieConsumedBudget.setState({
                     data: [{
                         title: 'Потраченный бюджет',
-                        value: Math.max(relation, 100),
+                        value: Math.min(relation, 100),
                         color: relation > 100 ? 'red' : 'green',
                     }],
                 });
             }
         }
+
+        this.#pieConsumedBudget.setState({
+            data: [{
+                title: 'Потраченный бюджет',
+                value: 98,
+                color: 98 > 100 ? 'red' : 'green',
+            }],
+        });
 
 
         if (!transactionsStore.transactions) {
@@ -144,11 +153,16 @@ export class DashboardView extends BaseComponent {
                 costsByCategory[trans.transactionName] += trans.value;
             }
 
-            const pieData = Object.entries(costsByCategory).map(([k, v]) => ({
-                title: k,
-                value: v,
-                color: this.getRandomColor(),
-            }));
+            const pieData = [];
+            Object.entries(costsByCategory).map(([category, value]) => {
+                if (value < 0) {
+                    pieData.push({
+                        title: category,
+                        value: value,
+                        color: this.getRandomColor(),
+                    });
+                }
+            });
 
             console.log('costsByCategory', costsByCategory, pieData);
 
