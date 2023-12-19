@@ -38,6 +38,10 @@ export class DashboardView extends BaseComponent {
         this.#pieConsumedBudget.setState({
             textAbove: 'Бюджет:',
         });
+        this.#pieCostsByCategory.setState({
+            textAbove: '',
+            textCenter: '',
+        });
     }
 
     /**
@@ -106,13 +110,10 @@ export class DashboardView extends BaseComponent {
            
         } else {
             this.#pieConsumedBudget.setState({
-                data: [{
-                    title: 'Потраченный бюджет',
-                    value: 0,
-                    color: 'green',
-                }],
+                data: [],
             });
         }
+
 
         if (!transactionsStore.transactions) {
             await transactionsStore.getTransaction();
@@ -141,7 +142,6 @@ export class DashboardView extends BaseComponent {
                 data: pieData,
             });
         }
-
         
         
         const cardBalanceHTML = this.#cardBalance.render();
