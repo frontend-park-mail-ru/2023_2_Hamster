@@ -7,7 +7,6 @@ import { Layout } from '@organisms/layout/layout';
 import { ProfileView } from '@views/profile/profile';
 import { CategoriesView } from '@views/categories/categories';
 import { TransactionsView } from '@views/transactions/transactions';
-import { TestView } from '@views/testView/testView';
 
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./sw.js', { scope: '/' })
@@ -25,9 +24,6 @@ const root = document.querySelector('#root');
 const routes = {
     [ROUTE_CONSTANTS.NOT_FOUND]: {
         view: new Page404(root),
-    },
-    [ROUTE_CONSTANTS.TEST]: {
-        view: new TestView(root),
     },
     [ROUTE_CONSTANTS.LOGIN_ROUTE]: {
         view: new LoginSignupView(root, true),

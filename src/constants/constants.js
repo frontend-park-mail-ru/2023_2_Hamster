@@ -10,7 +10,6 @@ export const ROUTE_CONSTANTS = {
     CATEGORIES: '/categories',
     TRANSACTIONS: '/transactions',
     NOT_FOUND: '/404',
-    TEST: '/test',
 };
 
 const SERVER_PREFIX = 'https://hammywallet.ru';
