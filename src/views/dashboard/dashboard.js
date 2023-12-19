@@ -40,13 +40,14 @@ export class DashboardView extends BaseComponent {
         this.#pieConsumedBudget.setState({
             data: [],
             textAbove: 'Бюджет:',
-            isPercents: true,
+            hasTooltip: false,
         });
         this.#pieCostsByCategory.setState({
             data: [],
             textAbove: 'Траты по',
             textCenter: 'категориям',
             isPercents: false,
+            tooltipFormatter: (value, title) => `${title}: ${value}`,
         });
     }
 

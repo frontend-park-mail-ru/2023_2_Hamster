@@ -16,7 +16,8 @@ const DEFAULT_PIE_CHART = {
     sectionSpace: 0.3,
     isPercents: true,
     data: [],
-    tooltipText: `${FORMAT_CHAR}: ${FORMAT_CHAR}%`,
+    tooltipFormatter: (value, title) => `${title}: ${value}%`,
+    hasTooltip: true,
 };
 
 const FULL_CIRCLE_DEGREES = 360;
@@ -49,7 +50,8 @@ export class PieChart extends BaseComponent {
      * @param {string} state.textAbove - The text inside above the textCenter, the '@' char will be replaced with sum of values.
      * @param {string} state.textBelow - The text inside below the textCenter, the '@' char will be replaced with sum of values.
      * @param {string} state.id - The id of pie chart element.
-     * @param {string} state.tooltipText - Text of tooltip, the first '@' char will be replaced with 'title' of section and second with 'value' of section.
+     * @param {Function} state.tooltipFormatter -
+     * @param {boolean} state.hasTooltip -
      * @param {number} state.inRad - Inner radius of chart.
      * @param {number} state.outRad - Outer radius of chart.
      * @param {number} state.inShadowRad - Inner radius of background chart shadow.
@@ -309,15 +311,12 @@ export class PieChart extends BaseComponent {
             return;
         }
 
-        const { tooltipText } = this.getState();
+        const { tooltipFormatter } = this.getState();
         tooltip.style.display = 'block';
         console.log('e', e, e.pageX, e.pageY, e.x, e.y, e.clientX, e.clientY);
         tooltip.style.left = `${e.clientX - rekt.x}px`;
         tooltip.style.top = `${e.clientY - rekt.y}px`;
-        // tooltip.style.transform = `translate(${e.pageX}px, ${e.pageY}px)`;
-        tooltip.textContent = tooltipText
-            .replace(FORMAT_CHAR, path.getAttribute('data-title'))
-            .replace(FORMAT_CHAR, path.getAttribute('data-value'));
+        tooltip.textContent = tooltipFormatter(path.getAttribute('data-value'), path.getAttribute('data-title'));
     };
 
     /**
@@ -334,7 +333,7 @@ export class PieChart extends BaseComponent {
      * Setup handlers.
      */
     setHandlers() {
-        if (!this.getState().tooltipText) {
+        if (!this.getState().hasTooltip) {
             return;
         }
         const svg = this.parent.querySelector('.pie-chart__chart');
