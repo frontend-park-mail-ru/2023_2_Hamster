@@ -167,29 +167,29 @@ export class DashboardView extends BaseComponent {
             });
         }
         
-        this.#pieCostsByCategory.setState({
-            data: [
-                {
-                    title: 'Потраченный бюджет',
-                    value: 24,
-                    color: 'green',
-                },
-                {
-                    title: 'sdsdadбюджет',
-                    value: 56,
-                    color: 'blue',
-                },
-            ],
-        });
+        // this.#pieCostsByCategory.setState({
+        //     data: [
+        //         {
+        //             title: 'Потраченный бюджет',
+        //             value: 24,
+        //             color: 'green',
+        //         },
+        //         {
+        //             title: 'sdsdadбюджет',
+        //             value: 56,
+        //             color: 'blue',
+        //         },
+        //     ],
+        // });
 
         
-        this.#pieConsumedBudget.setState({
-            data: [{
-                title: 'Потраченный бюджет',
-                value: 63.980000000000004,
-                color: 'green',
-            }],
-        });
+        // this.#pieConsumedBudget.setState({
+        //     data: [{
+        //         title: 'Потраченный бюджет',
+        //         value: 63.980000000000004,
+        //         color: 'green',
+        //     }],
+        // });
         
         const cardBalanceHTML = this.#cardBalance.render();
         const cardPlannedBudgetHTML = this.#cardPlannedBudget.render();
