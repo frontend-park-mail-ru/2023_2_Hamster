@@ -1,3 +1,13 @@
-<div class="bar-chart">
-    
+<div class="bar-chart"
+    {{#if id}} id="{{id}}" {{/if}}
+    >
+    <svg class="bar-chart__chart" xmlns="http://www.w3.org/2000/svg">
+
+    </svg>
+
+    {{#if hasTooltip}}
+        <div class="bar-chart__tooltip">
+            
+        </div>
+    {{/if}}
 </div>

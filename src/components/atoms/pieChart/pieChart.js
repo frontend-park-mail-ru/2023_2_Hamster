@@ -41,7 +41,7 @@ const TOTAL_PERCENT = 100;
 export class PieChart extends BaseComponent {
 
     /**
-     * Creates an instance of Button.
+     * Creates an instance of Pie chart.
      * @constructor
      * @param {HTMLElement} parent - The parent element where the pie chart will be rendered.
      * @param {Object} [state = DEFAULT_PIE_CHART] - The initial state of the pie chart component. (optional)
