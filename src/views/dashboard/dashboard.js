@@ -197,8 +197,9 @@ export class DashboardView extends BaseComponent {
 
             const barData = Object.entries(costsByDay).map(([day, spendedMoney]) => ({
                 key: day,
-                values: [spendedMoney],
-                titles: ['Потрачено']
+                values: [Math.abs(spendedMoney)],
+                titles: [spendedMoney < 0 ? 'Потрачено' : 'Заработано'],
+                colors: [spendedMoney < 0 ? '#0b62a4' : 'green']
             }));
 
             console.log('barData', barData, costsByDay);
@@ -240,18 +241,27 @@ export class DashboardView extends BaseComponent {
         //     data: [
         //         {
         //             key: 1,
-        //             values: [324],
-        //             titles: ['Потрачено']
+        //             values: [228],
+        //             titles: ['Потрачено'],
+        //             colors: ['#0b62a4']
         //         },
         //         {
         //             key: 2,
-        //             values: [725],
-        //             titles: ['Потрачено']
+        //             values: [100],
+        //             titles: ['Заработано'],
+        //             colors: ['green']
+        //         },
+        //         {
+        //             key: 2.4,
+        //             values: [823],
+        //             titles: ['Потрачено'],
+        //             colors: ['#0b62a4']
         //         },
         //         {
         //             key: 3,
         //             values: [1123],
-        //             titles: ['Потрачено']
+        //             titles: ['Потрачено'],
+        //             colors: ['#0b62a4']
         //         },
         //     ]
         // });

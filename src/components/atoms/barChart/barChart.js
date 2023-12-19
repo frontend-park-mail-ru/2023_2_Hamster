@@ -16,7 +16,7 @@ const DEFAULT_BAR_CHART = {
     levelStep: null,
     levelOverhead: 1,
     levelCount: 4,
-    levelValueFixedDigits: 1,
+    levelValueFixedDigits: 0,
     levelValueMargin: 0.5,  // * font-size
     levelValueYShift: 0.5,  // * font-size
     textColor: '#ffffff',
