@@ -130,13 +130,13 @@ export class DashboardView extends BaseComponent {
             }
         }
 
-        this.#pieConsumedBudget.setState({
-            data: [{
-                title: 'Потраченный бюджет',
-                value: 98,
-                color: 98 > 100 ? 'red' : 'green',
-            }],
-        });
+        // this.#pieConsumedBudget.setState({
+        //     data: [{
+        //         title: 'Потраченный бюджет',
+        //         value: 98,
+        //         color: 98 > 100 ? 'red' : 'green',
+        //     }],
+        // });
 
 
         if (!transactionsStore.transactions) {
