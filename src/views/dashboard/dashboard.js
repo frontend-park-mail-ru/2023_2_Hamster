@@ -118,6 +118,7 @@ export class DashboardView extends BaseComponent {
 
             if (actualBudget && plannedBudget) {
                 const relation = actualBudget / plannedBudget * 100;
+                console.log('actualBudget', actualBudget, plannedBudget, relation);
                 this.#pieConsumedBudget.setState({
                     data: [{
                         title: 'Потраченный бюджет',
@@ -137,10 +138,10 @@ export class DashboardView extends BaseComponent {
         if (transactionsStore.storage.states) {
             const costsByCategory = {};
             for (const trans of transactionsStore.storage.states) {
-                if (!costsByCategory[trans.tag]) {
-                    costsByCategory[trans.tag] = 0;
+                if (!costsByCategory[trans.transactionName]) {
+                    costsByCategory[trans.transactionName] = 0;
                 }
-                costsByCategory[trans.tag] += trans.value;
+                costsByCategory[trans.transactionName] += trans.value;
             }
 
             const pieData = Object.entries(costsByCategory).map(([k, v]) => ({
@@ -205,7 +206,7 @@ export class DashboardView extends BaseComponent {
 
     getRandomColor() {
         // let letters = '0123456789ABCDEF';
-        const letters = '89ABCDEF';
+        const letters = '6789ABCDEF';
         let color = '#';
         for (let i = 0; i < 6; i++) {
             color += letters[Math.floor(Math.random() * letters.length)];

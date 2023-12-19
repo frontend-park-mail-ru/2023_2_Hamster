@@ -56,7 +56,7 @@ class TransactionsStore extends BaseStore {
     };
 
     transformArray = (arr) => arr.map((data) => {
-        const sharedAccount = accountStore.sharedAccounts.find((account) => account.accountId === data.account_income);
+        const sharedAccount = accountStore?.sharedAccounts?.find((account) => account.accountId === data.account_income);
         return {
             raw: data.id,
             id: `id${data.id}`,
