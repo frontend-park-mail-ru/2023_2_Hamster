@@ -39,6 +39,8 @@ export const API_CONSTANTS = {
     UPDATE_TRANSACTION: `${SERVER_PREFIX}/api/transaction/update`,
     DELETE_TRANSACTION_TAIL: '/delete',
 
+    CSV_EXPORT: `${SERVER_PREFIX}/api/transaction/export`,
+
     GET_USER: `${SERVER_PREFIX}/api/user/`,
     GET_ACCOUNTS: `${SERVER_PREFIX}/api/user/account/all`,
     FEED: `${SERVER_PREFIX}/api/user/feed`,
