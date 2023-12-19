@@ -575,10 +575,8 @@ class UserStore extends BaseStore {
     };
 
     csvExport = async () => {
-        const url = '/api/transaction/export';
-
         try {
-            const response = await fetch(`${url}`);
+            const response = await fetch('/api/transaction/export');
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);

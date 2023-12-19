@@ -28,6 +28,11 @@ class TransactionApi {
         const url = API_CONSTANTS.UPDATE_TRANSACTION;
         return await put(url, data);
     };
+
+    csvExport = async () => {
+        const url = API_CONSTANTS.CSV_EXPORT;
+        return await get(url);
+    };
 }
 
 export const transactionsApi = new TransactionApi();
