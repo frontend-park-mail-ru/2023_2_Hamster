@@ -4,6 +4,20 @@
   border-radius: $border-radius;
 }
 
+.wrapper{
+  position: relative;
+
+  &__with-currency::after {
+    content: 'руб.';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--background-tertiary-color);
+  }
+}
+
 .input {
   color: var(--text-main-color);
   display: flex;
@@ -15,13 +29,10 @@
   transition: border-color 0.3s ease;
 
   &__container {
-  }
-
-  &__units {
-    position: relative;
-    bottom: 35px;
-    left: calc(100% - 13px - 35px);
-    color: var(--background-tertiary-color);
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    gap: var(--small-gap);
   }
 
   /* Chrome, Safari, Edge, Opera */
@@ -50,6 +61,10 @@
 
   &_large {
     @include input-size(var(--input-padding-large), var(--inputs-minimal-width), var(--radius-size-large));
+  }
+
+  &__with-currency {
+    padding-right: 50px;
   }
 
   &__text-padding-right {
@@ -117,6 +132,8 @@
   }
 
   &__helper {
+    color: var(--text-halftoned-color);
+
     &_error {
       color: var(--error-color);
     }

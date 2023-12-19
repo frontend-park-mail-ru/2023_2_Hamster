@@ -32,6 +32,7 @@ const PAYER = {
     id: 'payer_input',
     inputSize: 'input_small',
     typeOfInput: 'text',
+    inputHelperText: '(опционально)',
     inputPlaceholder: 'Место платежа',
 };
 
@@ -39,6 +40,7 @@ const DESCRIPTION = {
     id: 'description_input',
     inputSize: 'input_small',
     typeOfInput: 'text',
+    inputHelperText: '(опционально)',
     inputPlaceholder: 'Описание',
 };
 
@@ -137,7 +139,9 @@ export class TransactionsView extends BaseComponent {
         this.tagFilter.setState({ values: categoriesStore.categoriesValues });
         this.tagInput.setState({ values: categoriesStore.categoriesValues });
 
-        await transactionsStore.getTransaction();
+        if (!transactionsStore.transactions) {
+            await transactionsStore.getTransaction();
+        }
 
         if (transactionsStore.storage.error) {
             if (transactionsStore.storage.error.type === 'create') {
@@ -164,7 +168,7 @@ export class TransactionsView extends BaseComponent {
                     values: this.changeOrder(accountStore.accountsValues, account),
                 });
                 this.tagInput.setState({
-                    values: this.changeOrder(categoriesStore.categoriesValues, tag.pop()),
+                    values: this.changeOrder(categoriesStore.categoriesValues, tag),
                 });
             }
         }
@@ -272,7 +276,7 @@ export class TransactionsView extends BaseComponent {
 
         const transaction = new Transaction(null);
 
-        transaction.setState(this.textFormatDate(transaction.date));
+        transaction.setState({ ...this.textFormatDate(transaction.date), placer: true });
 
         return [transaction];
     };
@@ -297,6 +301,10 @@ export class TransactionsView extends BaseComponent {
     setHandlers() {
         if (this.transactions) {
             this.transactions.forEach((transaction) => {
+                if (transaction.getState().placer) {
+                    return;
+                }
+
                 const categoryCard = document.querySelector(`#${transaction.getState().cardId}`);
                 if (categoryCard && !transaction.getState().owner) {
                     categoryCard.addEventListener('click', this.handleCardClick.bind(this, transaction));

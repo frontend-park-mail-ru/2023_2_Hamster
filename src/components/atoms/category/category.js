@@ -58,7 +58,7 @@ export class Category extends BaseComponent {
     constructor(parent, state = DEFAULT_CATEGORY, clickHandler) {
         super(state, null, parent);
 
-        const inputState = { ...INPUT_STATE, id: `input_${state.id}` };
+        const inputState = { ...INPUT_STATE, id: `input_${state.id}`, value: state.categoryName };
         const buttonState = { ...BUTTON_STATE, id: `button_${state.id}` };
 
         this.icon = new Image(null, ICON, undefined);

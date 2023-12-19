@@ -1,10 +1,10 @@
-import {transactionsApi} from '@api/transaction';
-import {EVENT_TYPES, STATUS_CODES} from '@constants/constants';
-import {categoriesStore} from '@stores/categoriesStore';
-import {DESCRIPTION_RULES, MONEY_RULES, PAYER_RULES} from '@constants/validation';
-import {accountStore} from '@stores/accountStore';
+import { transactionsApi } from '@api/transaction';
+import { EVENT_TYPES, STATUS_CODES } from '@constants/constants';
+import { categoriesStore } from '@stores/categoriesStore';
+import { DESCRIPTION_RULES, MONEY_RULES, PAYER_RULES } from '@constants/validation';
+import { accountStore } from '@stores/accountStore';
 import BaseStore from './baseStore.js';
-import {validator} from '../modules/validator';
+import { validator } from '../modules/validator';
 
 /**
  *
@@ -36,19 +36,19 @@ class TransactionsStore extends BaseStore {
             const response = await transactionsApi.getTransaction(qString);
 
             switch (response.status) {
-                case STATUS_CODES.OK:
-                    this.storage.states = this.transformArray(response.body.transactions);
-                    this.transactions = response.body.transactions;
+            case STATUS_CODES.OK:
+                this.storage.states = this.transformArray(response.body.transactions);
+                this.transactions = response.body.transactions;
 
-                    break;
+                break;
 
-                case STATUS_CODES.NO_CONTENT:
-                    this.storage.states = null;
+            case STATUS_CODES.NO_CONTENT:
+                this.storage.states = null;
 
-                    break;
+                break;
 
-                default:
-                    console.log('Undefined status code', response.status);
+            default:
+                console.log('Undefined status code', response.status);
             }
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);
@@ -92,7 +92,7 @@ class TransactionsStore extends BaseStore {
 
         try {
             // eslint-disable-next-line no-unused-vars
-            const {money, ...newData} = data;
+            const { money, ...newData } = data;
             const response = await transactionsApi.createTransaction(newData);
 
             const index = this.storage.states.findIndex((obj) => new Date(obj.rawDate) <= new Date(data.date));
@@ -125,12 +125,20 @@ class TransactionsStore extends BaseStore {
         resultPayer.value = data.payer;
         resultSum.value = data.money;
 
+        if (!resultPayer.message) {
+            resultPayer.message = '(опционально)';
+        }
+
+        if (!resultDescription.message) {
+            resultDescription.message = '(опционально)';
+        }
+
         this.storage.error = {
             type,
             description: resultDescription,
             payer: resultPayer,
             sum: resultSum,
-            tag: data.categories.id,
+            tag: data.categories[0].id,
             account: data.account_income,
         };
 
@@ -164,7 +172,7 @@ class TransactionsStore extends BaseStore {
         }
         try {
             // eslint-disable-next-line no-unused-vars
-            const {money, ...newData} = data;
+            const { money, ...newData } = data;
             await transactionsApi.updateTransaction(newData);
 
             this.storage.states = this.storage.states.map((item) => {
