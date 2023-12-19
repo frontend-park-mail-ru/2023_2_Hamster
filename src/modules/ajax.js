@@ -31,7 +31,7 @@ export const get = async (url) => {
  */
 export const post = async (url, data) => {
     let response;
-    if(url === API_CONSTANTS.SIGN_IN || url === API_CONSTANTS.SIGN_UP || url === API_CONSTANTS.CHECK_AUTH) {
+    if (url === API_CONSTANTS.SIGN_IN || url === API_CONSTANTS.SIGN_UP || url === API_CONSTANTS.CHECK_AUTH) {
         response = await fetch(url, {
             method: 'POST',
             headers: {
@@ -127,7 +127,7 @@ export const deleteRequest = async (url, data) => {
  * @param {string} url - The URL to which the request will be made.
  * @param {Object} data - The data to be sent in the body of the request.
  * @returns {Promise<Object>} - Returns a Promise that resolves to the data in JSON format.
- * @throws {Error} - If an error occurs during the request, an error object is thrown.
+ * @throws {Response} - If an error occurs during the request, an error object is thrown.
  */
 export const put = async (url, data) => {
     const csrfToken = await csrfApi.getCsrfToken();
@@ -140,6 +140,25 @@ export const put = async (url, data) => {
         },
         body: JSON.stringify(data),
         credentials: 'include',
+    });
+
+    if (!response.ok) {
+        throw response;
+    }
+
+    return await response.json();
+};
+
+export const putMulti = async (url, data) => {
+    const csrfToken = await csrfApi.getCsrfToken();
+
+    const response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+            'X-CSRF-Token': csrfToken.body.csrf,
+        },
+        credentials: 'include',
+        body: data,
     });
 
     if (!response.ok) {

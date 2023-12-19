@@ -10,7 +10,7 @@
     "rules": {
         "linebreak-style": "off",
         "indent": ["warn", 4],
-        "max-len": ["warn", {"code": 120, "comments": 200}],
+        "max-len": ["warn", {"code": 200, "comments": 200}],
         "function-paren-newline": "off",
         "import/prefer-default-export": "off",
         "comma-dangle": ["error", "only-multiline"],

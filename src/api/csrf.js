@@ -1,7 +1,7 @@
 import { API_CONSTANTS } from '@constants/constants';
 import { get } from '@ajax';
 
-class CsrfAPI{
+class CsrfAPI {
     /**
      * Makes a GET request to the get csrf token endpoint.
      *

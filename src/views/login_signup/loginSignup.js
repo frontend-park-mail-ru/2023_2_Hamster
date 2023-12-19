@@ -62,7 +62,7 @@ export class LoginSignupView extends BaseComponent {
      * @function
      */
     navigateToHome = async () => {
-        await router.navigateTo(ROUTE_CONSTANTS.HOME_ROUTE);
+        await router.navigateTo(ROUTE_CONSTANTS.HOME_ROUTE, false);
     };
 
     /**
@@ -194,7 +194,7 @@ export class LoginSignupView extends BaseComponent {
      * @function
      */
     switchLoginSignup = async () => {
-        this.#isLogin ? await router.navigateTo(ROUTE_CONSTANTS.REGISTRATION_ROUTE) : await router.navigateTo(ROUTE_CONSTANTS.LOGIN_ROUTE);
+        this.#isLogin ? await router.navigateTo(ROUTE_CONSTANTS.REGISTRATION_ROUTE, false) : await router.navigateTo(ROUTE_CONSTANTS.LOGIN_ROUTE, false);
     };
 
     /**

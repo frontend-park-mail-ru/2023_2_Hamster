@@ -5,8 +5,8 @@ import { userStore } from '@stores/userStore';
 import { userActions } from '@actions/userActions';
 
 import { USER_STORE } from '@constants/constants';
-import template from './dashboard.hbs';
 import { transactionsStore } from '@stores/transactionsStore';
+import template from './dashboard.hbs';
 
 /**
  * Dashboard class extends BaseComponent.
@@ -20,9 +20,11 @@ export class DashboardView extends BaseComponent {
 
     #cardActualBudget;
 
-    #pieCostsByCategory
-    #pieConsumedBudget
-    #barCostsByMonth
+    #pieCostsByCategory;
+
+    #pieConsumedBudget;
+
+    #barCostsByMonth;
 
     constructor(parent) {
         super(USER_STORE.FEED_STATE, template, parent);
@@ -32,8 +34,8 @@ export class DashboardView extends BaseComponent {
         this.#cardActualBudget = new Card(USER_STORE.FEED_STATE.cardActualBudget);
 
         this.#pieCostsByCategory = new PieChart();
-        this.#pieConsumedBudget  = new PieChart();
-        this.#barCostsByMonth   = new BarChart();
+        this.#pieConsumedBudget = new PieChart();
+        this.#barCostsByMonth = new BarChart();
 
         this.#pieConsumedBudget.setState({
             textAbove: 'Бюджет:',
@@ -72,7 +74,7 @@ export class DashboardView extends BaseComponent {
         const cardBalanceHTML = this.#cardBalance.render();
         const cardPlannedBudgetHTML = this.#cardPlannedBudget.render();
         const cardActualBudgetHTML = this.#cardActualBudget.render();
-        
+
         const templates = [
             template({
                 balance: cardBalanceHTML,
@@ -92,14 +94,23 @@ export class DashboardView extends BaseComponent {
     render = async () => {
         await userStore.feed();
 
-        if (userStore.storage.user.feed) {
-            const balance = userStore.storage.user.feed.balance;
-            const plannedBudget = userStore.storage.user.feed.plannedBudget;
-            const actualBudget = userStore.storage.user.feed.actualBudget;
+        if (userStore.storage.feed) {
+            const { accounts } = userStore.storage.feed;
+            const { balance } = userStore.storage.feed;
+            const { plannedBudget } = userStore.storage.feed;
+            const { actualBudget } = userStore.storage.feed;
 
-            this.#cardBalance.setState({ cardSubhead: parseFloat(balance) });
-            this.#cardPlannedBudget.setState({ cardSubhead: parseFloat(plannedBudget) });
-            this.#cardActualBudget.setState({ cardSubhead: parseFloat(actualBudget) });
+            accounts
+                ? this.#cardBalance.setState({ cardSubhead: `${parseFloat(balance)} руб.` })
+                : this.#cardBalance.setState({ cardSubhead: 'У вас нет счетов, добавьте их, чтобы видеть свой баланс' });
+
+            plannedBudget
+                ? this.#cardPlannedBudget.setState({ cardSubhead: `${parseFloat(plannedBudget)} руб.` })
+                : this.#cardPlannedBudget.setState({ cardSubhead: 'Ваш бюджет не запланирован, вы можете сделать это в профиле' });
+
+            plannedBudget
+                ? this.#cardActualBudget.setState({ cardSubhead: `${parseFloat(actualBudget)} руб.` })
+                : this.#cardActualBudget.setState({ cardSubhead: 'Не можем расчитать фактический бюджет, задайте бюджет в профиле' });
 
             this.#pieConsumedBudget.setState({
                 data: [{
@@ -108,7 +119,7 @@ export class DashboardView extends BaseComponent {
                     color: 'green',
                 }],
             });
-           
+
         } else {
             this.#pieConsumedBudget.setState({
                 data: [{
@@ -126,8 +137,8 @@ export class DashboardView extends BaseComponent {
 
         if (transactionsStore.transactions) {
             const costsByCategory = {};
-            for (let trans of transactionsStore.transactions) {
-                for (let cat of trans.categories) {
+            for (const trans of transactionsStore.transactions) {
+                for (const cat of trans.categories) {
                     if (!costsByCategory[cat.category_name]) {
                         costsByCategory[cat.category_name] = 0;
                     }
@@ -152,7 +163,7 @@ export class DashboardView extends BaseComponent {
         const cardBalanceHTML = this.#cardBalance.render();
         const cardPlannedBudgetHTML = this.#cardPlannedBudget.render();
         const cardActualBudgetHTML = this.#cardActualBudget.render();
-        
+
         const pieConsumedBudgetHTML = this.#pieConsumedBudget.render();
         const pieCostsByCategoryHTML = this.#pieCostsByCategory.render();
 
@@ -197,14 +208,13 @@ export class DashboardView extends BaseComponent {
 
     getRandomColor() {
         // let letters = '0123456789ABCDEF';
-        let letters = '89ABCDEF';
-        var color = '#';
-        for (var i = 0; i < 6; i++) {
-          color += letters[Math.floor(Math.random() * letters.length)];
+        const letters = '89ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * letters.length)];
         }
         return color;
     }
-      
 
     cleanUp() {
         // TODO
