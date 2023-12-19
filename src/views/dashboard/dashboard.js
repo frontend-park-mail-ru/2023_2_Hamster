@@ -50,7 +50,7 @@ export class DashboardView extends BaseComponent {
             textAboveFormatter: () => 'Траты по',
             textCenterFormatter: () => 'категориям',
             isPercents: false,
-            tooltipFormatter: (value, title) => `${title}: ${value}`,
+            tooltipFormatter: (value, title) => `${title}: ${value} руб.`,
         });
     }
 
@@ -124,13 +124,13 @@ export class DashboardView extends BaseComponent {
             if (actualBudget && plannedBudget) {
                 const relation = (plannedBudget - actualBudget) / plannedBudget;
 
-                console.log('actualBudget', actualBudget, plannedBudget, relation);
                 this.#pieConsumedBudget.setState({
                     data: [{
                         title: 'Потраченный бюджет',
-                        value: Math.min(relation, 1) * 100,
+                        value: relation * 100,
                         color: relation > 1 ? 'red' : 'green',
                     }],
+                    totalPercent: Math.max(relation * 100, 100),
                 });
             }
         }
@@ -183,12 +183,15 @@ export class DashboardView extends BaseComponent {
         // });
 
         
+        // const relation = 1.1;
+
         // this.#pieConsumedBudget.setState({
         //     data: [{
         //         title: 'Потраченный бюджет',
-        //         value: 63.980000000000004,
-        //         color: 'green',
+        //         value: relation * 100,
+        //         color: relation > 1 ? 'red' : 'green',
         //     }],
+        //     totalPercent: Math.max(relation * 100, 100),
         // });
         
         const cardBalanceHTML = this.#cardBalance.render();

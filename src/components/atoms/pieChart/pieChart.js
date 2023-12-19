@@ -156,7 +156,7 @@ export class PieChart extends BaseComponent {
      */
     getTotal = () => {
         const state = this.getState();
-        return state.isPercents ? TOTAL_PERCENT : this.getValuesSum();
+        return state.isPercents ? (state.totalPercent ? state.totalPercent : TOTAL_PERCENT) : this.getValuesSum();
     };
 
     /**
