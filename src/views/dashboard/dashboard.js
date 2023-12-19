@@ -156,7 +156,7 @@ export class DashboardView extends BaseComponent {
             console.log('costsByCategory', costsByCategory, pieData);
 
             this.#pieCostsByCategory.setState({
-                data: pieData,
+                // data: pieData,
             });
         }
         
@@ -165,16 +165,16 @@ export class DashboardView extends BaseComponent {
         const cardPlannedBudgetHTML = this.#cardPlannedBudget.render();
         const cardActualBudgetHTML = this.#cardActualBudget.render();
 
-        const pieConsumedBudgetHTML = this.#pieConsumedBudget.render();
-        const pieCostsByCategoryHTML = this.#pieCostsByCategory.render();
+        // const pieConsumedBudgetHTML = this.#pieConsumedBudget.render();
+        // const pieCostsByCategoryHTML = this.#pieCostsByCategory.render();
 
         const templates = [
             template({
                 balance: cardBalanceHTML,
                 plannedBudget: cardPlannedBudgetHTML,
                 actualBudget: cardActualBudgetHTML,
-                pieConsumedBudget: pieConsumedBudgetHTML,
-                pieCostsByCategory: pieCostsByCategoryHTML,
+                // pieConsumedBudget: pieConsumedBudgetHTML,
+                // pieCostsByCategory: pieCostsByCategoryHTML,
             }),
         ];
 
