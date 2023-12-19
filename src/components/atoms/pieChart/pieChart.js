@@ -302,6 +302,7 @@ export class PieChart extends BaseComponent {
         const path = e.target;
         const svg = e.currentTarget;
         const tooltip = svg.parentElement.querySelector('.pie-chart__tooltip');
+        const rekt = svg.getBoundingClientRect();
 
         if (!(path instanceof SVGPathElement)) {
             tooltip.style.display = 'none';
@@ -311,8 +312,9 @@ export class PieChart extends BaseComponent {
         const { tooltipText } = this.getState();
         tooltip.style.display = 'block';
         console.log('e', e, e.pageX, e.pageY, e.x, e.y, e.clientX, e.clientY);
-        tooltip.style.left = `${e.clientX}px`;
-        tooltip.style.top = `${e.clientY}px`;
+        tooltip.style.left = `${e.clientX - rekt.x}px`;
+        tooltip.style.top = `${e.clientY - rekt.y}px`;
+        // tooltip.style.transform = `translate(${e.pageX}px, ${e.pageY}px)`;
         tooltip.textContent = tooltipText
             .replace(FORMAT_CHAR, path.getAttribute('data-title'))
             .replace(FORMAT_CHAR, path.getAttribute('data-value'));

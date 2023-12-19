@@ -130,13 +130,6 @@ export class DashboardView extends BaseComponent {
             }
         }
 
-        // this.#pieConsumedBudget.setState({
-        //     data: [{
-        //         title: 'Потраченный бюджет',
-        //         value: 98,
-        //         color: 98 > 100 ? 'red' : 'green',
-        //     }],
-        // });
 
 
         if (!transactionsStore.transactions) {
@@ -171,6 +164,29 @@ export class DashboardView extends BaseComponent {
             });
         }
         
+        // this.#pieCostsByCategory.setState({
+        //     data: [
+        //         {
+        //             title: 'Потраченный бюджет',
+        //             value: 24,
+        //             color: 'green',
+        //         },
+        //         {
+        //             title: 'sdsdadбюджет',
+        //             value: 56,
+        //             color: 'blue',
+        //         },
+        //     ],
+        // });
+
+        
+        // this.#pieConsumedBudget.setState({
+        //     data: [{
+        //         title: 'Потраченный бюджет',
+        //         value: 98,
+        //         color: 98 > 100 ? 'red' : 'green',
+        //     }],
+        // });
         
         const cardBalanceHTML = this.#cardBalance.render();
         const cardPlannedBudgetHTML = this.#cardPlannedBudget.render();
@@ -207,20 +223,24 @@ export class DashboardView extends BaseComponent {
     }
 
     setHandlers() {
-        const thisElement = document.querySelector('.grid');
-        if (thisElement) {
-            this.#pieCostsByCategory.parent = thisElement;
-            this.#pieConsumedBudget.parent = thisElement;
-            // this.#barCostsByMonth.parent = thisElement;
-            this.#pieCostsByCategory.setHandlers();
+        const pieConsumedBudgetWrapper = document.getElementById('pie-conusmed-budget-wrapper');
+        if (pieConsumedBudgetWrapper) {
+            this.#pieConsumedBudget.parent = pieConsumedBudgetWrapper;
             this.#pieConsumedBudget.setHandlers();
-            // this.#barCostsByMonth.setHandlers();
         }
+        const pieCostsByCategoryWrapper = document.getElementById('pie-cost-by-category-wrapper');
+        if (pieCostsByCategoryWrapper) {
+            this.#pieCostsByCategory.parent = pieCostsByCategoryWrapper;
+            this.#pieCostsByCategory.setHandlers();
+        }
+
+        // this.#barCostsByMonth.parent = thisElement;
+        // this.#barCostsByMonth.setHandlers();
     }
 
     getRandomColor() {
         // let letters = '0123456789ABCDEF';
-        const letters = '6789ABCDEF';
+        const letters = '789ABCDEF';
         let color = '#';
         for (let i = 0; i < 6; i++) {
             color += letters[Math.floor(Math.random() * letters.length)];
