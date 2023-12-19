@@ -104,4 +104,11 @@ export const userActions = {
             },
         });
     },
+
+    csvExport() {
+        dispatcher.dispatch({
+            type: USER_ACTIONS_TYPES.EXPORT_CSV,
+            data: {},
+        });
+    }
 };
