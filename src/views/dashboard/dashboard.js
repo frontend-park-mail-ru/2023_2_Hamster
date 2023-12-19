@@ -152,7 +152,8 @@ export class DashboardView extends BaseComponent {
                 value: v,
                 color: this.getRandomColor(),
             }));
-            console.log(costsByCategory, pieData);
+
+            console.log('costsByCategory', costsByCategory, pieData);
 
             this.#pieCostsByCategory.setState({
                 data: pieData,
