@@ -5,6 +5,7 @@
     justify-content: center;
     align-items: center;
     color: var(--text-main-color);
+    grid-column: span 3;
 
     &__tooltip {
         position: absolute;

@@ -35,7 +35,7 @@ class CategoriesStore extends BaseStore {
             switch (response.status) {
             case STATUS_CODES.OK:
                 this.storage.states = this.transformArray(response.body.transactions);
-                this.transactions = response.body.transactions;
+                this.transactions = Array.from(response.body.transactions);
                 this.account = response.body.transactions.pop().account_income;
 
                 break;

@@ -12,7 +12,7 @@ const DEFAULT_PIE_CHART = {
     inShadowRad: 100,
     outShadowRad: 120,
     shadowColor: '#555',
-    beginOffset: 0,
+    beginOffset: -90,
     sectionSpace: 0.3,
     isPercents: true,
     data: [],
@@ -98,13 +98,14 @@ export class PieChart extends BaseComponent {
         const valuesSum = this.getValuesSum();
 
         if (textCenter){
-            textCenter.textContent = textCenter.textContent.replace(FORMAT_CHAR, String(valuesSum));
+            textCenter.textContent = this.getState().textCenter.replace(FORMAT_CHAR, String(valuesSum));
         } 
         if (textAbove){
-            textAbove.textContent = textAbove.textContent.replace(FORMAT_CHAR, String(valuesSum));
+            console.log('text above ', this.getState().textAbove);
+            textAbove.textContent = this.getState().textAbove.replace(FORMAT_CHAR, String(valuesSum));
         } 
         if (textBelow){
-            textBelow.textContent = textBelow.textContent.replace(FORMAT_CHAR, String(valuesSum));
+            textBelow.textContent = this.getState().textBelow.replace(FORMAT_CHAR, String(valuesSum));
         }
     };
 
