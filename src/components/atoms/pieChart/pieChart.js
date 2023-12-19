@@ -310,8 +310,9 @@ export class PieChart extends BaseComponent {
 
         const { tooltipText } = this.getState();
         tooltip.style.display = 'block';
-        tooltip.style.left = `${e.pageX}px`;
-        tooltip.style.top = `${e.pageY}px`;
+        console.log('e', e, e.pageX, e.pageY, e.x, e.y, e.clientX, e.clientY);
+        tooltip.style.left = `${e.clientX}px`;
+        tooltip.style.top = `${e.clientY}px`;
         tooltip.textContent = tooltipText
             .replace(FORMAT_CHAR, path.getAttribute('data-title'))
             .replace(FORMAT_CHAR, path.getAttribute('data-value'));

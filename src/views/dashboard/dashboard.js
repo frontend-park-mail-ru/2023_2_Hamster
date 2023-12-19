@@ -44,7 +44,7 @@ export class DashboardView extends BaseComponent {
         this.#pieCostsByCategory.setState({
             data: [],
             textAbove: '',
-            textCenter: '',
+            textCenter: 'Траты по\nкатегориям',
             isPercents: false,
         });
     }
