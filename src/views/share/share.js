@@ -44,7 +44,7 @@ export class ShareView extends BaseComponent {
      */
     async render() {
         await accountStore.getAccounts();
-        this.select.setState({ values: accountStore.accountsValues });
+        this.select.setState({ values: accountStore.ownAccountsValues });
 
         const templates = [
             template({

@@ -31,6 +31,7 @@ class AccountStore extends BaseStore {
         elementId: `id${data.id}`,
         name: data.mean_payment,
         balance: data.balance,
+        owner: data.users[0].login !== userStore.storage.user.login ? data.users[0].login : undefined,
     }));
 
     selectAccount = async (data) => {
@@ -51,8 +52,12 @@ class AccountStore extends BaseStore {
 
                 this.accountsValues = this.accounts.map((account) => ({
                     value: account.id,
-                    valueName: account.mean_payment
+                    valueName: account.users[0].login !== userStore.storage.user.login ? `${account.mean_payment} - ${account.users[0].login}` : account.mean_payment
                 }));
+
+                this.ownAccountsValues = this.accounts
+                    .filter((account) => account.users[0].login === userStore.storage.user.login)
+                    .map((account) => ({ value: account.id, valueName: account.mean_payment }));
 
                 this.sharedAccounts = [];
                 this.accounts.forEach((account) => {

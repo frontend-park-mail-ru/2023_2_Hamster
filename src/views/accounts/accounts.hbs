@@ -3,51 +3,67 @@
         <h3 class="font-h3-regular accounts__yours-header">Твои счета</h3>
         <div class="accounts__yours-list">
             {{#if accounts}}
-            {{#each accounts}}
-                <div class="accounts__account
+                {{#each accounts}}
+                    <div class="accounts__account
                 {{#if this.selected}}
                     accounts__account_selected
                 {{/if}}
                 " id="{{this.elementId}}">
-                    <span class="font-base-text accounts__account-name">{{this.name}}</span>
-                    <span class="font-base-text accounts__account-balance">{{this.balance}}</span>
-                </div>
-            {{/each}}
+                        <div class="accounts__account-info">
+                            <span class="font-base-text accounts__account-name">{{this.name}}</span>
+                            {{#if this.owner}}
+                                <span class="font-caption accounts__account-owner">Владелец: {{this.owner}}</span>
+                            {{/if}}
+                        </div>
+                        <span class="font-base-text accounts__account-balance">{{this.balance}}</span>
+                    </div>
+                {{/each}}
             {{/if}}
         </div>
     </div>
     <div class="accounts__configure">
         {{#if isAccountSelected}}
-            <h3 class="font-h3-regular accounts__configure-header">Изменить счет</h3>
-            <div class="accounts__configure-account">
-                <div class="accounts__configure-account-inputs">
-                    <div>
-                        <span class="accounts__name-input-label">Наименование</span>
-                        {{{accountNameInput}}}
-                    </div>
-                    <div>
-                        <span class="accounts__balance-input-label">Сколько там сейчас денег?</span>
-                        {{{accountBalanceInput}}}
+            {{#if owner}}
+                <h3 class="font-h3-regular accounts__configure-header">Совместный счет</h3>
+                <div class="accounts__configure-account">
+                    <div class="accounts__configure-account-buttons">
+                        <div>
+                            {{{unsubscribeButton}}}
+                        </div>
                     </div>
                 </div>
-                <div class="accounts__configure-account-buttons">
-                    <div>
-                        {{{saveAccountButton}}}
+            {{else}}
+                <h3 class="font-h3-regular accounts__configure-header">Изменить счет</h3>
+                <div class="accounts__configure-account">
+                    <div class="accounts__configure-account-inputs">
+                        <div>
+                            <span class="accounts__name-input-label">Наименование</span>
+                            {{{accountNameInput}}}
+                        </div>
+                        <div>
+                            <span class="accounts__balance-input-label">Сколько там сейчас денег?</span>
+                            {{{accountBalanceInput}}}
+                        </div>
                     </div>
-                    <span>или</span>
-                    <div>
-                        {{{cancelAccountButton}}}
-                    </div>
-                    <div class="accounts__delete-account-button">
-                        {{{deleteAccountButton}}}
+                    <div class="accounts__configure-account-buttons">
+                        <div>
+                            {{{saveAccountButton}}}
+                        </div>
+                        <span>или</span>
+                        <div>
+                            {{{cancelAccountButton}}}
+                        </div>
+                        <div class="accounts__delete-account-button">
+                            {{{deleteAccountButton}}}
+                        </div>
                     </div>
                 </div>
-            </div>
+            {{/if}}
         {{else}}
             <h3 class="font-h3-regular accounts__configure-header">Создать счет</h3>
             <div class="accounts__create-account">
                 <div class="accounts__configure-account-inputs">
-                     <div>
+                    <div>
                         <span class="accounts__name-input-label">Наименование</span>
                         {{{accountNameInput}}}
                     </div>

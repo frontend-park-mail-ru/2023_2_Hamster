@@ -36,7 +36,7 @@ class AccountApi {
 
     unsubscribeAccount = async (qString) => {
         const url = API_CONSTANTS.UNSUBSCRIBE_ACCOUNT + qString;
-        return await get(url);
+        return await put(url, null);
     };
 }
 

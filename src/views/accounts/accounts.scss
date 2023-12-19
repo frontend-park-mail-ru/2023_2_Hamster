@@ -36,6 +36,7 @@
         padding: 1.5em;
         display: flex;
         justify-content: space-between;
+        align-items: center;
         gap: 1em;
         border-radius: var(--radius-size-medium);
         transition: background-color 0.3s ease;
@@ -50,7 +51,17 @@
         }
     }
 
+    &__account-info{
+        display: flex;
+        flex-direction: column;
+        gap: var(--small-gap);
+    }
+
     &__account-name {
+    }
+
+    &__account-owner {
+        color: var(--text-muted-color);
     }
 
     &__account-balance {
