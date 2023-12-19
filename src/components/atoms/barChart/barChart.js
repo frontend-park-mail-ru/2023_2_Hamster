@@ -415,7 +415,6 @@ export class BarChart extends BaseComponent {
         }
 
         const rects = path.parentElement.querySelectorAll('rect');
-        console.log('rects', rects, Array(rects)    );
         const values = Array.from(rects).map((r) => r.getAttribute('data-value'));
         const titles = Array.from(rects).map((r) => r.getAttribute('data-title'));
 
@@ -443,7 +442,6 @@ export class BarChart extends BaseComponent {
         if (!this.getState().hasTooltip) {
             return;
         }
-        console.log('this.parent', this.parent);
         const svg = this.parent.querySelector('.bar-chart__chart');
         svg.addEventListener('mousemove', this.moveTooltip);
         svg.addEventListener('mouseleave', this.hideTooltip);
