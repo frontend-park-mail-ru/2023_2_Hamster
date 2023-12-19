@@ -61,6 +61,8 @@ export class ProfileView extends BaseComponent {
         this.#imageInput = new Input(null, PROFILE_STATE.IMAGE_INPUT_STATE, null);
 
         this.#saveButton = new Button(null, PROFILE_STATE.BUTTON_STATE, null);
+
+        this.csvExport = new Button(null, {id: 'export', buttonText: 'Экспорт csv'});
     }
 
     /**
@@ -165,6 +167,7 @@ export class ProfileView extends BaseComponent {
                 avatar: this.#avatar.render(),
                 imageInput: this.#imageInput.render(),
                 saveButton: this.#saveButton.render(),
+                csvExport: this.csvExport.render(),
             }),
         ];
 
@@ -227,6 +230,15 @@ export class ProfileView extends BaseComponent {
             this.#imageInput.setHandler(this.changeImageHandler);
             imageInput.addEventListener('click', this.#imageInput.getHandler());
         }
+
+        const csvExport = document.querySelector('#export');
+        if (csvExport) {
+            csvExport.addEventListener('click', this.exportHandler);
+        }
+    }
+
+    exportHandler = () => {
+        userActions.csvExport();
     }
 
     categoriesButtonHandler = async () => {

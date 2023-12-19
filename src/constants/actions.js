@@ -20,6 +20,8 @@ export const USER_ACTIONS_TYPES = {
 
     UPDATE_PROFILE: 'UPDATE_PROFILE',
     UPDATE_AVATAR: 'UPDATE_AVATAR',
+
+    EXPORT_CSV: 'EXPORT_CSV',
 };
 
 export const CATEGORY_ACTIONS = {
@@ -95,15 +97,17 @@ export const actions = [
         type: USER_ACTIONS_TYPES.ROUTE_REGISTRATION,
         method: userStore.routeRegistration,
     },
-
     {
         type: USER_ACTIONS_TYPES.UPDATE_PROFILE,
         method: userStore.updateProfile,
     },
-
     {
         type: USER_ACTIONS_TYPES.UPDATE_AVATAR,
         method: userStore.updateAvatar,
+    },
+    {
+        type: USER_ACTIONS_TYPES.EXPORT_CSV,
+        method: userStore.csvExport,
     },
 
     {
