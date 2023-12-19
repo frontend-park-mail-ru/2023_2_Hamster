@@ -38,9 +38,11 @@ export class DashboardView extends BaseComponent {
         this.#barCostsByMonth = new BarChart();
 
         this.#pieConsumedBudget.setState({
+            data: [],
             textAbove: 'Бюджет:',
         });
         this.#pieCostsByCategory.setState({
+            data: [],
             textAbove: '',
             textCenter: '',
             isPercents: false,
@@ -113,22 +115,17 @@ export class DashboardView extends BaseComponent {
                 ? this.#cardActualBudget.setState({ cardSubhead: `${parseFloat(actualBudget)} руб.` })
                 : this.#cardActualBudget.setState({ cardSubhead: 'Не можем расчитать фактический бюджет, задайте бюджет в профиле' });
 
-            this.#pieConsumedBudget.setState({
-                data: [{
-                    title: 'Потраченный бюджет',
-                    value: actualBudget / plannedBudget * 100,
-                    color: 'green',
-                }],
-            });
 
-        } else {
-            this.#pieConsumedBudget.setState({
-                data: [{
-                    title: 'Потраченный бюджет',
-                    value: 67,
-                    color: 'green',
-                }],
-            });
+            if (actualBudget && plannedBudget) {
+                const relation = actualBudget / plannedBudget * 100;
+                this.#pieConsumedBudget.setState({
+                    data: [{
+                        title: 'Потраченный бюджет',
+                        value: Math.max(relation, 100),
+                        color: relation > 100 ? 'red' : 'green',
+                    }],
+                });
+            }
         }
 
 
@@ -136,17 +133,14 @@ export class DashboardView extends BaseComponent {
             await transactionsStore.getTransaction();
         }
 
-        console.log('transactionsStore.transactions', transactionsStore.transactions);
-        if (transactionsStore.transactions) {
+        console.log('transactionsStore.storage.states', transactionsStore.storage.states);
+        if (transactionsStore.storage.states) {
             const costsByCategory = {};
-            for (const trans of transactionsStore.transactions) {
-                for (const cat of trans.categories) {
-                    if (!costsByCategory[cat.category_name]) {
-                        costsByCategory[cat.category_name] = 0;
-                    }
-                    costsByCategory[cat.category_name] += trans.income;
-                    costsByCategory[cat.category_name] -= trans.outcome;
+            for (const trans of transactionsStore.storage.states) {
+                if (!costsByCategory[trans.tag]) {
+                    costsByCategory[trans.tag] = 0;
                 }
+                costsByCategory[trans.tag] += trans.value;
             }
 
             const pieData = Object.entries(costsByCategory).map(([k, v]) => ({
@@ -158,7 +152,7 @@ export class DashboardView extends BaseComponent {
             console.log('costsByCategory', costsByCategory, pieData);
 
             this.#pieCostsByCategory.setState({
-                // data: pieData,
+                data: pieData,
             });
         }
         
