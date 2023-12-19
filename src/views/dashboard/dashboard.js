@@ -40,12 +40,15 @@ export class DashboardView extends BaseComponent {
         this.#pieConsumedBudget.setState({
             data: [],
             textAbove: 'Бюджет:',
+            textAboveFormatter: () => 'Бюджет: ',
             hasTooltip: false,
         });
         this.#pieCostsByCategory.setState({
             data: [],
             textAbove: 'Траты по',
             textCenter: 'категориям',
+            textAboveFormatter: () => 'Траты по',
+            textCenterFormatter: () => 'категориям',
             isPercents: false,
             tooltipFormatter: (value, title) => `${title}: ${value}`,
         });
@@ -119,19 +122,18 @@ export class DashboardView extends BaseComponent {
 
 
             if (actualBudget && plannedBudget) {
-                const relation = actualBudget / plannedBudget * 100;
+                const relation = (plannedBudget - actualBudget) / plannedBudget;
+
                 console.log('actualBudget', actualBudget, plannedBudget, relation);
                 this.#pieConsumedBudget.setState({
                     data: [{
                         title: 'Потраченный бюджет',
-                        value: Math.min(relation, 100),
-                        color: relation > 100 ? 'red' : 'green',
+                        value: Math.min(relation, 1) * 100,
+                        color: relation > 1 ? 'red' : 'green',
                     }],
                 });
             }
         }
-
-
 
         if (!transactionsStore.transactions) {
             await transactionsStore.getTransaction();
@@ -152,7 +154,7 @@ export class DashboardView extends BaseComponent {
                 if (value < 0) {
                     pieData.push({
                         title: category,
-                        value: value,
+                        value: Math.abs(value),
                         color: this.getRandomColor(),
                     });
                 }
@@ -165,29 +167,29 @@ export class DashboardView extends BaseComponent {
             });
         }
         
-        // this.#pieCostsByCategory.setState({
-        //     data: [
-        //         {
-        //             title: 'Потраченный бюджет',
-        //             value: 24,
-        //             color: 'green',
-        //         },
-        //         {
-        //             title: 'sdsdadбюджет',
-        //             value: 56,
-        //             color: 'blue',
-        //         },
-        //     ],
-        // });
+        this.#pieCostsByCategory.setState({
+            data: [
+                {
+                    title: 'Потраченный бюджет',
+                    value: 24,
+                    color: 'green',
+                },
+                {
+                    title: 'sdsdadбюджет',
+                    value: 56,
+                    color: 'blue',
+                },
+            ],
+        });
 
         
-        // this.#pieConsumedBudget.setState({
-        //     data: [{
-        //         title: 'Потраченный бюджет',
-        //         value: 98,
-        //         color: 98 > 100 ? 'red' : 'green',
-        //     }],
-        // });
+        this.#pieConsumedBudget.setState({
+            data: [{
+                title: 'Потраченный бюджет',
+                value: 63.980000000000004,
+                color: 'green',
+            }],
+        });
         
         const cardBalanceHTML = this.#cardBalance.render();
         const cardPlannedBudgetHTML = this.#cardPlannedBudget.render();

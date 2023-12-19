@@ -47,9 +47,11 @@
     }
 
     &__chart-section {
-        &:hover {
-            filter: brightness(0.8);
+        &_hoverable {
+            &:hover {
+                filter: brightness(0.8);
+            }
+            transition: filter 0.25s ease;
         }
-        transition: filter 0.25s ease;
     }
 }

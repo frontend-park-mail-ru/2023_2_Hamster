@@ -6,7 +6,10 @@ export const FORMAT_CHAR = '@';
 const DEFAULT_PIE_CHART = {
     textAbove: 'Total:',
     textBelow: '',
-    textCenter: `${FORMAT_CHAR}%`,
+    textCenter: '%',
+    textAboveFormatter: (total) => 'Total:',
+    textBelowFormatter: (total) => '',
+    textCenterFormatter: (total) => `${total.toFixed(1)}%`,
     inRad: 100,
     outRad: 120,
     inShadowRad: 100,
@@ -100,13 +103,13 @@ export class PieChart extends BaseComponent {
         const valuesSum = this.getValuesSum();
 
         if (textCenter){
-            textCenter.textContent = this.getState().textCenter.replace(FORMAT_CHAR, String(valuesSum));
+            textCenter.textContent = this.getState().textCenterFormatter(valuesSum);
         } 
         if (textAbove){
-            textAbove.textContent = this.getState().textAbove.replace(FORMAT_CHAR, String(valuesSum));
+            textAbove.textContent = this.getState().textAboveFormatter(valuesSum);
         } 
         if (textBelow){
-            textBelow.textContent = this.getState().textBelow.replace(FORMAT_CHAR, String(valuesSum));
+            textBelow.textContent = this.getState().textBelowFormatter(valuesSum);
         }
     };
 
@@ -187,6 +190,9 @@ export class PieChart extends BaseComponent {
             path.setAttribute('data-value', data.value);
             path.setAttribute('data-title', data.title);
             path.classList.add('pie-chart__chart-section');
+            if (state.hasTooltip) {
+                path.classList.add('pie-chart__chart-section_hoverable');
+            }
             svg.appendChild(path);
             angleStart = angleEnd + state.sectionSpace;
         });
@@ -313,7 +319,6 @@ export class PieChart extends BaseComponent {
 
         const { tooltipFormatter } = this.getState();
         tooltip.style.display = 'block';
-        console.log('e', e, e.pageX, e.pageY, e.x, e.y, e.clientX, e.clientY);
         tooltip.style.left = `${e.clientX - rekt.x}px`;
         tooltip.style.top = `${e.clientY - rekt.y}px`;
         tooltip.textContent = tooltipFormatter(path.getAttribute('data-value'), path.getAttribute('data-title'));
