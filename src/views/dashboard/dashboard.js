@@ -52,6 +52,11 @@ export class DashboardView extends BaseComponent {
             isPercents: false,
             tooltipFormatter: (value, title) => `${title}: ${value} руб.`,
         });
+        this.#barCostsByMonth.setState({
+            chartWidth: 400,
+            chartHeight: 400,
+            fontSize: 4,
+        });
     }
 
     /**
@@ -135,10 +140,8 @@ export class DashboardView extends BaseComponent {
             }
         }
 
-        if (!transactionsStore.transactions) {
-            await transactionsStore.getTransaction();
-        }
-
+        
+        await transactionsStore.getTransaction();
         console.log('transactionsStore.storage.states', transactionsStore.storage.states);
         if (transactionsStore.storage.states) {
             const costsByCategory = {};
@@ -164,6 +167,42 @@ export class DashboardView extends BaseComponent {
 
             this.#pieCostsByCategory.setState({
                 data: pieData,
+            });
+
+
+            const firstDayOfCurrentMonth = new Date();
+            firstDayOfCurrentMonth.setHours(0, 0, 0, 0);
+            firstDayOfCurrentMonth.setDate(1);
+            const costsByDay = {};
+            let maxDayOfMonth = 0;
+
+            for (const trans of transactionsStore.storage.states) {
+                const transDate = new Date(trans.rawDate);
+                if (transDate.getTime() < firstDayOfCurrentMonth.getTime()) {
+                    continue;
+                }
+                const dayOfMonth = transDate.getDate();
+                if (!costsByDay[dayOfMonth]) {
+                    costsByDay[dayOfMonth] = 0;
+                }
+                maxDayOfMonth = Math.max(maxDayOfMonth, dayOfMonth);
+                costsByDay[dayOfMonth] += trans.value;
+            }
+
+            for (let day = 1; day <= maxDayOfMonth; day++) {
+                if (!costsByDay[day]) {
+                    costsByDay[day] = 0;
+                }
+            }
+
+            const barData = Object.entries(costsByDay).map(([day, spendedMoney]) => ({
+                key: day,
+                values: [spendedMoney],
+                titles: ['Потрачено']
+            }));
+
+            this.#barCostsByMonth.setState({
+                data: barData,
             });
         }
         
@@ -194,12 +233,34 @@ export class DashboardView extends BaseComponent {
         //     totalPercent: Math.max(relation * 100, 100),
         // });
         
+
+        // this.#barCostsByMonth.setState({
+        //     data: [
+        //         {
+        //             key: 1,
+        //             values: [324],
+        //             titles: ['Потрачено']
+        //         },
+        //         {
+        //             key: 2,
+        //             values: [725],
+        //             titles: ['Потрачено']
+        //         },
+        //         {
+        //             key: 3,
+        //             values: [1123],
+        //             titles: ['Потрачено']
+        //         },
+        //     ]
+        // });
+        
         const cardBalanceHTML = this.#cardBalance.render();
         const cardPlannedBudgetHTML = this.#cardPlannedBudget.render();
         const cardActualBudgetHTML = this.#cardActualBudget.render();
 
         const pieConsumedBudgetHTML = this.#pieConsumedBudget.render();
         const pieCostsByCategoryHTML = this.#pieCostsByCategory.render();
+        const barCostsByMonthHTML = this.#barCostsByMonth.render();
 
         const templates = [
             template({
@@ -208,6 +269,7 @@ export class DashboardView extends BaseComponent {
                 actualBudget: cardActualBudgetHTML,
                 pieConsumedBudget: pieConsumedBudgetHTML,
                 pieCostsByCategory: pieCostsByCategoryHTML,
+                barCostsByMonth: barCostsByMonthHTML
             }),
         ];
 
@@ -239,13 +301,14 @@ export class DashboardView extends BaseComponent {
             this.#pieCostsByCategory.parent = pieCostsByCategoryWrapper;
             this.#pieCostsByCategory.setHandlers();
         }
-
-        // this.#barCostsByMonth.parent = thisElement;
-        // this.#barCostsByMonth.setHandlers();
+        const barCostsByMonthWrapper = document.getElementById('bar-cost-by-month');
+        if (barCostsByMonthWrapper) {
+            this.#barCostsByMonth.parent = barCostsByMonthWrapper;
+            this.#barCostsByMonth.setHandlers();
+        }
     }
 
     getRandomColor() {
-        // let letters = '0123456789ABCDEF';
         const letters = '789ABCDEF';
         let color = '#';
         for (let i = 0; i < 6; i++) {
@@ -255,6 +318,8 @@ export class DashboardView extends BaseComponent {
     }
 
     cleanUp() {
-        // TODO
+        this.#pieConsumedBudget.cleanUp();
+        this.#pieCostsByCategory.cleanUp();
+        this.#barCostsByMonth.cleanUp();
     }
 }

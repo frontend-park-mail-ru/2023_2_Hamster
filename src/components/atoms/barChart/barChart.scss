@@ -1,5 +1,4 @@
 .bar-chart {
-    background-color: white;
     position: relative;
     display: flex;
     justify-content: center;
@@ -16,7 +15,7 @@
         white-space: nowrap;
         // white-space: pre-wrap;
 
-        transform: translateX(-50%) translateY(-220%);
+        transform: translateX(-50%) translateY(-150%);
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
         pointer-events: none;
 

@@ -7,19 +7,19 @@ import tooltopTemplate from './tooltip.hbs';
 
 const DEFAULT_BAR_CHART = {
     xAxisWidth: 1,
-    yAxisWidth: 1,
+    yAxisWidth: 0,
     yAxisAdditionalLength: 0,  // костыль
-    xAxisColor: '#000000',
-    yAxisColor: '#000000',
+    xAxisColor: '#ffffff',
+    yAxisColor: '#ffffff',
     levelWidth: 0.5,
-    levelColor: '#000000',
+    levelColor: '#ffffff',
     levelStep: null,
     levelOverhead: 1,
     levelCount: 4,
     levelValueFixedDigits: 1,
     levelValueMargin: 0.5,  // * font-size
     levelValueYShift: 0.5,  // * font-size
-    textColor: '#000000',
+    textColor: '#ffffff',
     fontSize: 2,  // vmax-like variable
     xSubscriptionTopMargin: 0.5,  // * font-size
 
@@ -221,6 +221,7 @@ export class BarChart extends BaseComponent {
                 y: this.calculateY(y - this.#fontSize * state.levelValueYShift),
                 'font-size': this.#fontSize,
                 'text-anchor': 'end',
+                fill: state.textColor,
             });
             levelValue.textContent = (y * maxYValue / this.#calculatedHeight).toFixed(state.levelValueFixedDigits);
             svg.appendChild(levelValue)
@@ -231,6 +232,7 @@ export class BarChart extends BaseComponent {
             y: this.calculateY(0 - this.#fontSize * state.levelValueYShift),
             'font-size': this.#fontSize,
             'text-anchor': 'end',
+            fill: state.textColor,
         });
         levelValue.textContent = (0).toFixed(state.levelValueFixedDigits);
         svg.appendChild(levelValue)
@@ -331,6 +333,7 @@ export class BarChart extends BaseComponent {
                 y: this.calculateY(- this.#fontSize * (state.xSubscriptionTopMargin + 1)),
                 'font-size': this.#fontSize,
                 'text-anchor': 'mid',
+                fill: state.textColor,
             });
             subscriptionText.textContent = data[i].key;
             svg.appendChild(subscriptionText)
@@ -404,6 +407,7 @@ export class BarChart extends BaseComponent {
         const path = e.target;
         const svg = e.currentTarget;
         const tooltip = svg.parentElement.querySelector('.bar-chart__tooltip');
+        const rekt = svg.getBoundingClientRect();
 
         if (!(path instanceof SVGRectElement)) {
             tooltip.style.display = 'none';
@@ -417,8 +421,8 @@ export class BarChart extends BaseComponent {
 
         const { tooltipFormatter } = this.getState();
         tooltip.style.display = 'block';
-        tooltip.style.left = `${e.pageX}px`;
-        tooltip.style.top = `${e.pageY}px`;
+        tooltip.style.left = `${e.pageX - rekt.x}px`;
+        tooltip.style.top = `${e.pageY - rekt.y}px`;
         tooltip.innerHTML = tooltopTemplate({lines: tooltipFormatter(values, titles)});
     };
 
@@ -439,6 +443,7 @@ export class BarChart extends BaseComponent {
         if (!this.getState().hasTooltip) {
             return;
         }
+        console.log('this.parent', this.parent);
         const svg = this.parent.querySelector('.bar-chart__chart');
         svg.addEventListener('mousemove', this.moveTooltip);
         svg.addEventListener('mouseleave', this.hideTooltip);
