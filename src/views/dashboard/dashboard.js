@@ -94,6 +94,7 @@ export class DashboardView extends BaseComponent {
     render = async () => {
         await userStore.feed();
 
+        console.log('userStore.storage.feed', userStore.storage.feed);
         if (userStore.storage.feed) {
             const { accounts } = userStore.storage.feed;
             const { balance } = userStore.storage.feed;
@@ -135,6 +136,7 @@ export class DashboardView extends BaseComponent {
             await transactionsStore.getTransaction();
         }
 
+        console.log('transactionsStore.transactions', transactionsStore.transactions);
         if (transactionsStore.transactions) {
             const costsByCategory = {};
             for (const trans of transactionsStore.transactions) {
@@ -165,16 +167,16 @@ export class DashboardView extends BaseComponent {
         const cardPlannedBudgetHTML = this.#cardPlannedBudget.render();
         const cardActualBudgetHTML = this.#cardActualBudget.render();
 
-        // const pieConsumedBudgetHTML = this.#pieConsumedBudget.render();
-        // const pieCostsByCategoryHTML = this.#pieCostsByCategory.render();
+        const pieConsumedBudgetHTML = this.#pieConsumedBudget.render();
+        const pieCostsByCategoryHTML = this.#pieCostsByCategory.render();
 
         const templates = [
             template({
                 balance: cardBalanceHTML,
                 plannedBudget: cardPlannedBudgetHTML,
                 actualBudget: cardActualBudgetHTML,
-                // pieConsumedBudget: pieConsumedBudgetHTML,
-                // pieCostsByCategory: pieCostsByCategoryHTML,
+                pieConsumedBudget: pieConsumedBudgetHTML,
+                pieCostsByCategory: pieCostsByCategoryHTML,
             }),
         ];
 
