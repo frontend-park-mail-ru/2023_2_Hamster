@@ -1,9 +1,7 @@
-
 const CACHE_NAME = 'hammy-v1';
 const CACHE_NAME_DYNAMIC = 'hammy-dynamic-v1-';
 const CACHE_URLS = ['/'];
-const CACHE_FIRST_AND_UPDATE_REGEX = /.webp|.svg|.jpg|.jpeg|.gif|.png|.css|.js|.ttf|.woff2/
-
+const CACHE_FIRST_AND_UPDATE_REGEX = /.webp|.svg|.jpg|.jpeg|.gif|.png|.css|.js|.ttf|.woff2/;
 
 const deleteOldCaches = async () => {
     const keys = await caches.keys();
@@ -12,19 +10,19 @@ const deleteOldCaches = async () => {
             return caches.delete(key);
         }
     }));
-}
+};
 
 const fromCache = async (key, cacheName) => {
     const cache = await caches.open(cacheName);
     const cachedResponse = await cache.match(key);
     return cachedResponse || Promise.reject('no response in cache');
-}
+};
 
 const update = async (request) => {
     const cache = await caches.open(CACHE_NAME);
     const response = await fetch(request);
     cache.put(request, response);
-}
+};
 
 const cacheFirstAndUpdate = (event) => {
     event.respondWith((async () => {
@@ -36,10 +34,10 @@ const cacheFirstAndUpdate = (event) => {
             const cache = await caches.open(CACHE_NAME);
             const response = await fetch(event.request);
             cache.put(event.request, response.clone());
-            return response
+            return response;
         }
     })());
-}
+};
 
 const networkFirst = (event) => {
     event.respondWith((async () => {
@@ -48,11 +46,11 @@ const networkFirst = (event) => {
             const response = await fetch(event.request);
             cache.put(event.request, response.clone());
             return response;
-        } catch(e) {
+        } catch (e) {
             return fromCache(event.request, CACHE_NAME);
         }
     })());
-}
+};
 
 const nonGetRequestNetworkFirst = (event) => {
     event.respondWith((async () => {
@@ -65,22 +63,18 @@ const nonGetRequestNetworkFirst = (event) => {
             return fromCache(event.request.url, CACHE_NAME_DYNAMIC);
         }
     })());
-}
-
+};
 
 self.addEventListener('install', (e) => {
     self.skipWaiting();
-    
-    e.waitUntil(caches.open(CACHE_NAME).then((cache) => 
-        cache.addAll(CACHE_URLS)
+
+    e.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(CACHE_URLS)
     ));
 });
-
 
 self.addEventListener('activate', (e) => {
     e.waitUntil(deleteOldCaches());
 });
-
 
 self.addEventListener('fetch', (e) => {
     if (e.request.method !== 'GET') {

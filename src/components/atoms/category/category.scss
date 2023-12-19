@@ -11,6 +11,7 @@
     height: 64px;
     width: auto;
     border-radius: var(--radius-size-medium);
+    transition: background-color 0.1s ease;
 
     &:hover{
       background-color: var(--background-secondary-color);
@@ -54,7 +55,7 @@
 .settings{
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-between;
   margin-top: var(--card-padding);
   margin-bottom: var(--card-padding);
 }

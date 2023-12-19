@@ -4,6 +4,20 @@
   border-radius: $border-radius;
 }
 
+.wrapper{
+  position: relative;
+
+  &__with-currency::after {
+    content: 'руб.';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--background-tertiary-color);
+  }
+}
+
 .input {
   color: var(--text-main-color);
   display: flex;
@@ -15,6 +29,10 @@
   transition: border-color 0.3s ease;
 
   &__container {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    gap: var(--small-gap);
   }
 
   /* Chrome, Safari, Edge, Opera */
@@ -45,6 +63,10 @@
     @include input-size(var(--input-padding-large), var(--inputs-minimal-width), var(--radius-size-large));
   }
 
+  &__with-currency {
+    padding-right: 50px;
+  }
+
   &__text-padding-right {
     padding-left: 10px;
   }
@@ -69,6 +91,17 @@
     border: 1px solid var(--error-color);
   }
 
+  &_success {
+    border: 1px solid var(--succes-color);
+    animation: fadeOut 3s ease-in forwards;
+  }
+
+  @keyframes fadeOut {
+    to {
+      border: 1px solid var(--input-border-color);
+    }
+  }
+
   &__icon {
     position: absolute;
     top: 50%;
@@ -86,7 +119,7 @@
   }
 
   &__label {
-    top: 8px;
+    margin-bottom: 4px;
     color: var(--text-muted-color)
   }
 
@@ -99,8 +132,24 @@
   }
 
   &__helper {
+    color: var(--text-halftoned-color);
+
     &_error {
-      color: var(--error-color)
+      color: var(--error-color);
+    }
+
+    &_success {
+      color: var(--succes-color);
+      animation: fadeOutText 3s ease-in forwards;
+    }
+
+    @keyframes fadeOutText {
+      to {
+        color: transparent;
+        visibility: hidden;
+        height: 0;
+        width: 0;
+      }
     }
   }
 }

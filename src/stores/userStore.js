@@ -1,11 +1,14 @@
 import {
     STATUS_CODES, EVENT_TYPES, USER_STORE, ROUTE_CONSTANTS
 } from '@constants/constants';
-import { LOGIN_RULES, PASSWORD_RULES, USERNAME_RULES } from '@constants/validation';
+import {
+    BUDGET_RULES, LOGIN_RULES, NOT_NULL_RULE, PASSWORD_RULES, PROFILE_NAME_RULES, USERNAME_RULES
+} from '@constants/validation';
 import { authApi } from '@api/auth';
 import { userApi } from '@api/user';
 import { router } from '@router';
 import BaseStore from './baseStore.js';
+import { validator } from '../modules/validator.js';
 
 /**
  * UserStore is a class for managing user state of the site. It extends the BaseStore class and
@@ -37,6 +40,7 @@ class UserStore extends BaseStore {
             },
             error: null,
         };
+        this.inputs = {};
     }
 
     /**
@@ -46,10 +50,9 @@ class UserStore extends BaseStore {
      * @function
      */
     checkAuth = async () => {
-        let response;
-
         try {
-            response = await authApi.checkAuth();
+            const response = await authApi.checkAuth();
+            const getUser = await userApi.getUser();
 
             switch (response.status) {
             case STATUS_CODES.OK:
@@ -58,15 +61,15 @@ class UserStore extends BaseStore {
                     username: response.body.username,
                     id: response.body.id,
                     isAuthorised: true,
+                    avatarPath: getUser.body.avatar_url,
                 };
                 this.storage.error = null;
-                this.storeChanged = true;
 
                 break;
 
             case STATUS_CODES.UNAUTHORISED:
                 this.storage.error = 'Не авторизован';
-                this.storeChanged = true;
+
                 break;
 
             default:
@@ -85,8 +88,8 @@ class UserStore extends BaseStore {
      * @param {Object} data - The user's credentials.
      */
     login = async (data) => {
-        if (this.validator(data.login, LOGIN_RULES).isError
-            || this.validator(data.password, PASSWORD_RULES).isError) {
+        if (validator(data.login, LOGIN_RULES).isError
+            || validator(data.password, PASSWORD_RULES).isError) {
 
             this.isLoginValid(data);
             this.isPasswordValid(data);
@@ -96,17 +99,18 @@ class UserStore extends BaseStore {
 
         try {
             const response = await authApi.signIn(data);
+            const getUser = await userApi.getUser();
 
             switch (response.status) {
             case STATUS_CODES.ACCEPTED:
                 this.storage.user = {
-                    login: response.body.login,
+                    login: data.login,
                     username: response.body.username,
                     id: response.body.id,
                     isAuthorised: true,
+                    avatarPath: getUser.body.avatar_url,
                 };
                 this.storage.error = null;
-                this.storeChanged = true;
 
                 await this.emitChange(EVENT_TYPES.LOGIN_SUCCESS);
                 break;
@@ -117,26 +121,21 @@ class UserStore extends BaseStore {
                     loginInputState: {
                         login: data.login,
                         isError: true,
-                        inputHelperText: 'Неверное логин или пароль',
+                        inputHelperText: 'Неверный логин или пароль',
                     },
                 };
-
-                this.storeChanged = true;
 
                 this.emitChange(EVENT_TYPES.LOGIN_ERROR);
                 break;
 
+            case STATUS_CODES.UNAUTHORISED:
+            case STATUS_CODES.CONFLICT:
             case STATUS_CODES.INTERNAL_SERVER_ERROR:
-                this.storage = {
-                    ...this.storage,
-                    loginInputState: {
-                        login: data.login,
-                        isError: true,
-                        inputHelperText: 'Непредвиденная ошибка',
-                    },
+                this.storage.loginInputState = {
+                    login: data.login,
+                    isError: true,
+                    inputHelperText: 'Непредвиденная ошибка',
                 };
-
-                this.storeChanged = true;
 
                 this.emitChange(EVENT_TYPES.LOGIN_ERROR);
                 break;
@@ -157,10 +156,10 @@ class UserStore extends BaseStore {
      * @param {Object} data - The new user's information.
      */
     registration = async (data) => {
-        if (this.validator(data.login, LOGIN_RULES).isError
-            || this.validator(data.password, PASSWORD_RULES).isError
-            || this.validator(data.username, USERNAME_RULES).isError
-            || this.validator(data.passwordRepeat, PASSWORD_RULES).isError) {
+        if (validator(data.login, LOGIN_RULES).isError
+            || validator(data.password, PASSWORD_RULES).isError
+            || validator(data.username, USERNAME_RULES).isError
+            || validator(data.passwordRepeat, PASSWORD_RULES).isError) {
 
             this.isLoginValid(data);
             this.isPasswordValid(data);
@@ -172,24 +171,29 @@ class UserStore extends BaseStore {
 
         try {
             const response = await authApi.signUp(data);
+            const getUser = await userApi.getUser();
 
             switch (response.status) {
-            case STATUS_CODES.ACCEPTED:
+            case STATUS_CODES.CREATED:
                 this.storage.user = {
-                    login: response.body.login,
+                    login: data.login,
                     username: response.body.username,
                     id: response.body.id,
                     isAuthorised: true,
+                    avatarPath: getUser.body.avatar_url,
                 };
                 this.storage.error = null;
-                this.storeChanged = true;
 
                 await this.emitChange(EVENT_TYPES.REGISTRATION_SUCCESS);
                 break;
 
             case STATUS_CODES.UNAUTHORISED:
-                this.storage.error = 'Данное логин пользователя уже занят';
-                this.storeChanged = true;
+            case STATUS_CODES.CONFLICT:
+                this.storage.loginInputState = {
+                    login: data.login,
+                    isError: true,
+                    inputHelperText: 'Данный логин уже занят',
+                };
 
                 this.emitChange(EVENT_TYPES.REGISTRATION_ERROR);
                 break;
@@ -204,8 +208,6 @@ class UserStore extends BaseStore {
                     },
                 };
 
-                this.storeChanged = true;
-
                 this.emitChange(EVENT_TYPES.REGISTRATION_ERROR);
                 break;
 
@@ -219,8 +221,6 @@ class UserStore extends BaseStore {
                     },
                 };
 
-                this.storeChanged = true;
-
                 this.emitChange(EVENT_TYPES.REGISTRATION_ERROR);
                 break;
 
@@ -230,7 +230,7 @@ class UserStore extends BaseStore {
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);
             this.storage.error = 'Непредвиденная ошибка';
-            this.storeChanged = true;
+
             this.emitChange(EVENT_TYPES.REGISTRATION_ERROR);
         }
     };
@@ -255,7 +255,7 @@ class UserStore extends BaseStore {
                     isAuthorised: false,
                 };
                 this.storage.error = null;
-                this.storeChanged = true;
+
                 break;
 
             case STATUS_CODES.BAD_REQUEST:
@@ -263,7 +263,7 @@ class UserStore extends BaseStore {
                     isAuthorised: false,
                 };
                 this.storage.error = response.message;
-                this.storeChanged = true;
+
                 break;
 
             case STATUS_CODES.INTERNAL_SERVER_ERROR:
@@ -271,7 +271,7 @@ class UserStore extends BaseStore {
                     isAuthorised: false,
                 };
                 this.storage.error = 'Ошибка на сервере';
-                this.storeChanged = true;
+
                 break;
 
             default:
@@ -293,19 +293,20 @@ class UserStore extends BaseStore {
     feed = async () => {
         try {
             const response = await userApi.getFeed();
+            const getUser = await userApi.getUser();
 
             switch (response.status) {
             case STATUS_CODES.OK:
-                if (response.body.accounts !== null) {
-                    console.log(response.body);
-                    this.storage.user.feed = {
-                        balance: response.body.balance,
-                        actualBudget: response.body.actual_budget,
-                        plannedBudget: response.body.planned_budget,
-                    };
-                }
+                this.storage.feed = {
+                    accounts: response.body.accounts,
+                    balance: response.body.balance,
+                    actualBudget: response.body.actual_budget,
+                    plannedBudget: response.body.planned_budget,
+                };
+                this.storage.user.avatarPath = getUser.body.avatar_url;
+
                 this.storage.error = null;
-                this.storeChanged = true;
+
                 break;
 
             case STATUS_CODES.BAD_REQUEST:
@@ -313,7 +314,7 @@ class UserStore extends BaseStore {
             case STATUS_CODES.FORBIDDEN:
             case STATUS_CODES.INTERNAL_SERVER_ERROR:
                 this.storage.error = response.message;
-                this.storeChanged = true;
+
                 break;
 
             default:
@@ -325,34 +326,6 @@ class UserStore extends BaseStore {
     };
 
     /**
-     * Validates a data against a set of rules.
-     *
-     * @function
-     * @param {string} data - The data to be validated.
-     * @param {Array.<Object>} rules - The validation rules.
-     * @param {RegExp} rules.regex - The regex to test the data against.
-     * @param {string} rules.message - The message to return if the data fails the validation.
-     * @returns {Object} The validation result.
-     * isError - Indicates if there was an error during validation.
-     * message - The validation message.
-     */
-    validator(data, rules) {
-        const failedRule = rules.find((condition) => !condition.regex.test(data));
-
-        if (failedRule) {
-            return {
-                isError: true,
-                message: failedRule.message,
-            };
-        }
-
-        return {
-            isError: false,
-            message: null,
-        };
-    }
-
-    /**
      * Checks if a login is valid.
      *
      * @function
@@ -360,7 +333,7 @@ class UserStore extends BaseStore {
      * @param {string} data.login - The username to validate.
      */
     isLoginValid = (data) => {
-        const result = this.validator(data.login, LOGIN_RULES);
+        const result = validator(data.login, LOGIN_RULES);
 
         this.storage = {
             ...this.storage,
@@ -370,8 +343,6 @@ class UserStore extends BaseStore {
                 inputHelperText: result.message,
             },
         };
-
-        this.storeChanged = true;
 
         this.emitChange(EVENT_TYPES.RERENDER_LOGIN_INPUT);
     };
@@ -384,7 +355,7 @@ class UserStore extends BaseStore {
      * @param {string} data.username - The username to validate.
      */
     isUsernameValid = (data) => {
-        const result = this.validator(data.username, USERNAME_RULES);
+        const result = validator(data.username, USERNAME_RULES);
 
         this.storage = {
             ...this.storage,
@@ -394,8 +365,6 @@ class UserStore extends BaseStore {
                 inputHelperText: result.message,
             },
         };
-
-        this.storeChanged = true;
 
         this.emitChange(EVENT_TYPES.RERENDER_USERNAME_INPUT);
     };
@@ -408,7 +377,7 @@ class UserStore extends BaseStore {
      * @param {string} data.password - The password to validate.
      */
     isPasswordValid = (data) => {
-        const result = this.validator(data.password, PASSWORD_RULES);
+        const result = validator(data.password, PASSWORD_RULES);
 
         this.storage = {
             ...this.storage,
@@ -418,8 +387,6 @@ class UserStore extends BaseStore {
                 inputHelperText: result.message,
             },
         };
-
-        this.storeChanged = true;
 
         this.emitChange(EVENT_TYPES.RERENDER_PASSWORD_INPUT);
     };
@@ -447,7 +414,6 @@ class UserStore extends BaseStore {
             },
         };
 
-        this.storeChanged = true;
         this.emitChange(EVENT_TYPES.RERENDER_REPEAT_INPUT);
     };
 
@@ -459,14 +425,135 @@ class UserStore extends BaseStore {
      * @param {Object} data - The user's updated information.
      */
     updateProfile = async (data) => {
+        if (!this.profileUpdateError(data)) {
+            try {
+                await userApi.putUpdate({ planned_budget: parseFloat(data.plannedBudget), username: data.username });
+
+                if (data.username !== this.storage.user.username) {
+                    this.inputs.nameInput = { isSuccess: true, inputHelperText: 'Успешно!' };
+                }
+
+                if (parseFloat(data.plannedBudget) !== parseFloat(this.storage.feed.plannedBudget)) {
+                    this.inputs.budgetInput = { isSuccess: true, inputHelperText: 'Успешно!' };
+                }
+
+                this.storage.feed.plannedBudget = data.plannedBudget;
+                this.storage.user.username = data.username;
+            } catch (response) {
+                switch (response.status) {
+                case STATUS_CODES.INTERNAL_SERVER_ERROR:
+                    this.storage.error = response.message;
+
+                    break;
+
+                default:
+                    console.log('Undefined status code', response.status);
+                }
+            }
+        }
+
+        if (!this.passwordUpdateError(data)) {
+            try {
+                await authApi.changePassword({ new_password: data.newPassword, old_password: data.oldPassword });
+
+                this.inputs.oldPasswordInput = { value: '', isSuccess: true };
+                this.inputs.newPasswordInput = { value: '', isSuccess: true };
+                this.inputs.repeatPasswordInput = { value: '', isSuccess: true, inputHelperText: 'Успешно!' };
+            } catch (response) {
+                switch (response.status) {
+                case STATUS_CODES.INTERNAL_SERVER_ERROR:
+                    this.storage.error = response.message;
+
+                    break;
+
+                default:
+                    console.log('Undefined status code', response.status);
+                }
+            }
+        }
+
+        this.emitChange(EVENT_TYPES.RERENDER_PROFILE);
+        this.clearInputsState();
+    };
+
+    profileUpdateError = (data) => {
+        const nameValidation = validator(data.username, PROFILE_NAME_RULES);
+        const budget = validator(data.plannedBudget, BUDGET_RULES);
+
+        this.inputs.nameInput = {
+            value: data.username,
+            isError: nameValidation.isError,
+            isSuccess: false,
+            inputHelperText: nameValidation.message,
+        };
+
+        this.inputs.budgetInput = {
+            value: data.plannedBudget,
+            isError: budget.isError,
+            isSuccess: false,
+            inputHelperText: budget.message,
+        };
+
+        return nameValidation.isError || budget.isError;
+    };
+
+    passwordUpdateError = (data) => {
+        if (!data.oldPassword && !data.newPassword && !data.repeatPassword) {
+            return true;
+        }
+
+        const newPassword = validator(data.newPassword, PASSWORD_RULES);
+        const oldPassword = validator(data.oldPassword, NOT_NULL_RULE);
+
+        this.inputs.oldPasswordInput = {
+            value: data.oldPassword,
+            isError: oldPassword.isError,
+            isSuccess: false,
+            inputHelperText: oldPassword.message,
+        };
+
+        this.inputs.newPasswordInput = {
+            value: data.newPassword,
+            isError: newPassword.isError,
+            isSuccess: false,
+            inputHelperText: newPassword.message,
+        };
+
+        if (data.newPassword !== data.repeatPassword) {
+            this.inputs.repeatPasswordInput = {
+                value: data.repeatPassword,
+                isError: true,
+                isSuccess: false,
+                inputHelperText: 'Пароли не совпадают',
+            };
+        }
+
+        return newPassword.isError || this.inputs.repeatPasswordInput.isError;
+    };
+
+    clearInputsState = () => {
+        this.inputs.nameInput = {
+            isSuccess: false, value: this.storage.user.username, isError: false, inputHelperText: ''
+        };
+        this.inputs.budgetInput = {
+            isSuccess: false, value: this.storage.feed.plannedBudget, isError: false, inputHelperText: ''
+        };
+        this.inputs.oldPasswordInput = { isSuccess: false, isError: false, inputHelperText: '' };
+        this.inputs.newPasswordInput = { isSuccess: false, isError: false, inputHelperText: '' };
+        this.inputs.repeatPasswordInput = { isSuccess: false, isError: false, inputHelperText: '' };
+    };
+
+    updateAvatar = async (data) => {
         try {
-            const response = await userApi.putUpdate(data);
+            const response = await userApi.putAvatar(data.file, this.storage.user.avatarPath);
 
             switch (response.status) {
             case STATUS_CODES.OK:
-                this.storage.user.feed.plannedBudget = data.planned_budget;
+                this.storage.user = {
+                    avatarPath: response.body.path,
+                };
                 this.storage.error = null;
-                this.storeChanged = true;
+
                 break;
 
             case STATUS_CODES.BAD_REQUEST:
@@ -474,7 +561,7 @@ class UserStore extends BaseStore {
             case STATUS_CODES.FORBIDDEN:
             case STATUS_CODES.INTERNAL_SERVER_ERROR:
                 this.storage.error = response.message;
-                this.storeChanged = true;
+
                 break;
 
             default:
@@ -483,6 +570,8 @@ class UserStore extends BaseStore {
         } catch (error) {
             console.log('Unable to connect to the server, error: ', error);
         }
+
+        this.emitChange(EVENT_TYPES.RERENDER_PROFILE);
     };
 }
 

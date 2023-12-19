@@ -2,15 +2,54 @@
     <h3 class="font-h3-regular"> Новая транзакция</h3>
     <div class="transactions__create-container">
         <div class="transactions__inputs">
-            {{{sumInput}}}
-            {{{tagInput}}}
-            {{{accountInput}}}
+            <div class="transactions__filter-column">
+                {{{sumInput}}}
+                {{{payer}}}
+                {{{tagInput}}}
+            </div>
+            <div class="transactions__filter-column">
+                {{{date}}}
+                {{{place}}}
+                {{{description}}}
+                {{{accountInput}}}
+            </div>
         </div>
         <div class="transactions__create-button">
             {{{button}}}
         </div>
     </div>
-    <h3 class="font-h3-regular"> Транзакции</h3>
+    <div class="transactions__name-with-button">
+        <h3 class="font-h3-regular"> Транзакции</h3>
+        <div>
+            {{{filterButton}}}
+        </div>
+    </div>
+    {{# if filterOpen}}
+        <div class="transactions__filter-container">
+            <div class="transactions__filter-column">
+                <div>
+                    <span class="font-caption">Начало периода</span>
+                    {{{startDate}}}
+                </div>
+                {{{tagFilter}}}
+                <div class="transactions__filter-checkboxes">
+                    {{{incomeFilter}}}
+                    {{{outcomeFilter}}}
+                </div>
+            </div>
+            <div class="transactions__filter-column">
+                <div>
+                    <span class="font-caption">Конец периода</span>
+                    {{{endDate}}}
+                </div>
+                {{{accountFilter}}}
+                <div>
+                    {{{submitFilter}}}
+                </div>
+            </div>
+        </div>
+    {{/if}}
+
     <div class="transactions__list">
         {{#each transactionsList}}
             {{{transaction}}}

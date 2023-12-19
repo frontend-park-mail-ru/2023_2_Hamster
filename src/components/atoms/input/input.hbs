@@ -5,43 +5,55 @@
 
     {{#if this.inputImageLeft}}
         <img
-            class="input__icon input__icon-left"
-            src="{{this.inputImageLeft}}"
-            alt="left icon">
+                class="input__icon input__icon-left"
+                src="{{this.inputImageLeft}}"
+                alt="left icon">
     {{/if}}
 
-    <input {{#if id}} id="{{id}}" {{/if}}
-            type="{{typeOfInput}}"
+    <div class="wrapper {{#if units}} wrapper__with-currency {{/if}}">
+        <input type="{{typeOfInput}}" name="{{nameOfField}}" placeholder="{{this.inputPlaceholder}}"
+               class="input font-caption {{this.inputSize}} {{this.inputRadiusSize}}
+                   {{#if this.isError}} input_error {{/if}}
+                   {{#if this.isSuccess}} input_success {{/if}}
+                   {{#if this.inputImageLeft}} input__text-left {{/if}}
+                   {{#if units}} input__with-currency {{/if}}"
             {{#if autocompleteOff}}
-                autocomplete="off"
+               autocomplete="off"
             {{/if}}
-            name="{{nameOfField}}"
-            placeholder="{{this.inputPlaceholder}}"
-            class="input font-caption
-                {{this.inputSize}}
-                {{this.inputRadiusSize}}
-                {{#if this.isError}}
-                    input_error
-                {{/if}}
-                {{#if this.inputImageLeft}}
-                    input__text-left
-                {{/if}}"
-    >
+            {{#if min}}
+               min="{{min}}"
+            {{/if}}
+            {{#if max}}
+               max="{{max}}"
+            {{/if}}
+            {{#if value}}
+               value="{{value}}"
+            {{/if}}
+            {{#if id}}
+               id="{{id}}"
+            {{/if}}
+            {{#if id}}
+               accept="{{accept}}"
+            {{/if}}
+        >
+    </div>
 
     {{#if this.inputImageRight}}
         {{#unless this.inputImageLeft}}
             <img
-                class="input__icon input__icon-right"
-                src="{{this.inputImageRight}}"
-                alt="right icon"
+                    class="input__icon input__icon-right"
+                    src="{{this.inputImageRight}}"
+                    alt="right icon"
             >
         {{/unless}}
     {{/if}}
-
     {{#if this.inputHelperText}}
         <div class="input__helper font-caption
             {{#if this.isError}}
                 input__helper_error
+            {{/if}}
+            {{#if this.isSuccess}}
+                 input__helper_success
             {{/if}}">
             {{this.inputHelperText}}
         </div>

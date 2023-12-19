@@ -1,12 +1,11 @@
 import './index.scss';
 
-import { LoginSignupView, DashboardView, Page404 } from '@views';
+import {
+    LoginSignupView, DashboardView, Page404, ShareView, AccountsView, TransactionsView, CategoriesView, ProfileView
+} from '@views';
 import { router } from '@router';
 import { ROUTE_CONSTANTS } from '@constants/constants';
 import { Layout } from '@organisms/layout/layout';
-import { ProfileView } from '@views/profile/profile';
-import { CategoriesView } from '@views/categories/categories';
-import { TransactionsView } from '@views/transactions/transactions';
 
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./sw.js', { scope: '/' })
@@ -45,6 +44,12 @@ const routes = {
     },
     [ROUTE_CONSTANTS.TRANSACTIONS]: {
         view: new Layout(root, undefined, new TransactionsView(null), 'transactions'),
+    },
+    [ROUTE_CONSTANTS.ACCOUNTS]: {
+        view: new Layout(root, undefined, new AccountsView(null), 'accounts'),
+    },
+    [ROUTE_CONSTANTS.SHARE]: {
+        view: new Layout(root, undefined, new ShareView(null), 'share'),
     },
 };
 

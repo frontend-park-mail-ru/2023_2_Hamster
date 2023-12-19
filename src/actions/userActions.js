@@ -18,8 +18,8 @@ export const userActions = {
 
     async getFeed() {
         await dispatcher.dispatch({
-           type: USER_ACTIONS_TYPES.API_FEED,
-           data: {},
+            type: USER_ACTIONS_TYPES.API_FEED,
+            data: {},
         });
     },
 
@@ -83,13 +83,25 @@ export const userActions = {
         });
     },
 
-    updateProfile(planned_budget, username) {
+    updateProfile(plannedBudget, username, newPassword, oldPassword, repeatPassword) {
         dispatcher.dispatch({
             type: USER_ACTIONS_TYPES.UPDATE_PROFILE,
             data: {
-                planned_budget,
+                plannedBudget,
                 username,
+                oldPassword,
+                newPassword,
+                repeatPassword,
+            }
+        });
+    },
+
+    updateAvatar(filename) {
+        dispatcher.dispatch({
+            type: USER_ACTIONS_TYPES.UPDATE_AVATAR,
+            data: {
+                file: filename,
             },
         });
-    }
+    },
 };

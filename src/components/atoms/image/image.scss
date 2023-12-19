@@ -39,7 +39,7 @@
   }
 
   &_small {
-    @include image-container_size(var(--image-small-1));
+    @include image-container_size(var(--image-small));
     font-size: 0.9em;
   }
 

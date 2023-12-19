@@ -1,0 +1,40 @@
+{
+    "name": "Hammy Wallet",
+    "description": "Hammy Wallet - это приложение для управления финансами, которое помогает вам следить за своими расходами и доходами.",
+    "short_name": "Hammy Wallet",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "theme_color": "#274292",
+    "background_color": "#16161A",
+    "orientation": "portrait",
+    "shortcuts": [
+        {
+          "name": "Profile",
+          "url": "/profile",
+          "description": "Open your profile."
+        },
+        {
+          "name": "Dashboard",
+          "url": "/dashboard",
+          "description": "Open dahsboard."
+        },
+        {
+          "name": "Transactions",
+          "url": "/transactions",
+          "description": "Create a transaction!"
+        }
+    ],
+    "icons": [
+        {
+            "src": "hamster-icon.svg",
+            "sizes": "any",
+            "type": "image/svg+xml"
+        },
+        {
+            "src": "hamster-icon.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}

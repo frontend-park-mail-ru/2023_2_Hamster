@@ -50,7 +50,7 @@ export class BaseComponent {
     }
 
     render(templates) {
-        return this.uniteTemplates(templates)
+        return this.uniteTemplates(templates);
     }
 
     uniteTemplates(templates) {
