@@ -111,7 +111,7 @@ export class DashboardView extends BaseComponent {
     render = async () => {
         await userStore.feed();
 
-        console.log('userStore.storage.feed', userStore.storage.feed);
+        // console.log('userStore.storage.feed', userStore.storage.feed);
         if (userStore.storage.feed) {
             const { accounts } = userStore.storage.feed;
             const { balance } = userStore.storage.feed;
@@ -129,8 +129,36 @@ export class DashboardView extends BaseComponent {
             plannedBudget
                 ? this.#cardActualBudget.setState({ cardSubhead: `${parseFloat(actualBudget)} руб.` })
                 : this.#cardActualBudget.setState({ cardSubhead: 'Не можем расчитать фактический бюджет, задайте бюджет в профиле' });
+        }
+            
+        await this.setupChartsBeforeRender();
+        
+        const cardBalanceHTML = this.#cardBalance.render();
+        const cardPlannedBudgetHTML = this.#cardPlannedBudget.render();
+        const cardActualBudgetHTML = this.#cardActualBudget.render();
 
+        const pieConsumedBudgetHTML = this.#pieConsumedBudget.render();
+        const pieCostsByCategoryHTML = this.#pieCostsByCategory.render();
+        const barCostsByMonthHTML = this.#barCostsByMonth.render();
 
+        const templates = [
+            template({
+                balance: cardBalanceHTML,
+                plannedBudget: cardPlannedBudgetHTML,
+                actualBudget: cardActualBudgetHTML,
+                pieConsumedBudget: pieConsumedBudgetHTML,
+                pieCostsByCategory: pieCostsByCategoryHTML,
+                barCostsByMonth: barCostsByMonthHTML
+            }),
+        ];
+
+        return super.render(templates);
+    };
+
+    setupChartsBeforeRender = async () => {
+        // pie chart with consumed budget
+        if (userStore.storage.feed) {
+            const { plannedBudget, actualBudget } = userStore.storage.feed;
             if (actualBudget && plannedBudget) {
                 const relation = (plannedBudget - actualBudget) / plannedBudget;
 
@@ -145,9 +173,9 @@ export class DashboardView extends BaseComponent {
             }
         }
 
-        
+        // pie chart with costs by categories
         await transactionsStore.getTransaction();
-        console.log('transactionsStore.storage.states', transactionsStore.storage.states);
+        // console.log('transactionsStore.storage.states', transactionsStore.storage.states);
         if (transactionsStore.storage.states) {
             const costsByCategory = {};
             for (const trans of transactionsStore.storage.states) {
@@ -168,13 +196,15 @@ export class DashboardView extends BaseComponent {
                 }
             });
 
-            console.log('costsByCategory', costsByCategory, pieData);
+            // console.log('costsByCategory', costsByCategory, pieData);
 
             this.#pieCostsByCategory.setState({
                 data: pieData,
             });
+        }
 
-
+        // bar chart with costs in a month
+        if (transactionsStore.storage.states) {
             const firstDayOfCurrentMonth = new Date();
             firstDayOfCurrentMonth.setHours(0, 0, 0, 0);
             firstDayOfCurrentMonth.setDate(1);
@@ -207,8 +237,7 @@ export class DashboardView extends BaseComponent {
                 colors: [spendedMoney < 0 ? '#0b62a4' : 'green']
             }));
 
-            console.log('barData', barData, costsByDay);
-            console.log('skipKeys', barData.length > 20 ? 2 : 0);
+            // console.log('barData', barData, costsByDay);
 
             this.#barCostsByMonth.setState({
                 data: barData,
@@ -230,7 +259,6 @@ export class DashboardView extends BaseComponent {
         //         },
         //     ],
         // });
-
         
         // const relation = 1.1;
 
@@ -297,28 +325,7 @@ export class DashboardView extends BaseComponent {
         //         },
         //     ]
         // });
-        
-        const cardBalanceHTML = this.#cardBalance.render();
-        const cardPlannedBudgetHTML = this.#cardPlannedBudget.render();
-        const cardActualBudgetHTML = this.#cardActualBudget.render();
-
-        const pieConsumedBudgetHTML = this.#pieConsumedBudget.render();
-        const pieCostsByCategoryHTML = this.#pieCostsByCategory.render();
-        const barCostsByMonthHTML = this.#barCostsByMonth.render();
-
-        const templates = [
-            template({
-                balance: cardBalanceHTML,
-                plannedBudget: cardPlannedBudgetHTML,
-                actualBudget: cardActualBudgetHTML,
-                pieConsumedBudget: pieConsumedBudgetHTML,
-                pieCostsByCategory: pieCostsByCategoryHTML,
-                barCostsByMonth: barCostsByMonthHTML
-            }),
-        ];
-
-        return super.render(templates);
-    };
+    }
 
     /**
      * Updates the state of the Dashboard component.
