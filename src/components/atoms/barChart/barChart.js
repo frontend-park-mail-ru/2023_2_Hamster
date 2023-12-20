@@ -11,6 +11,7 @@ const DEFAULT_BAR_CHART = {
     yAxisAdditionalLength: 0,  // костыль
     xAxisColor: '#ffffff',
     yAxisColor: '#ffffff',
+    
     levelWidth: 0.5,
     levelColor: '#ffffff',
     levelStep: null,
@@ -19,6 +20,7 @@ const DEFAULT_BAR_CHART = {
     levelValueFixedDigits: 0,
     levelValueMargin: 0.5,  // * font-size
     levelValueYShift: 0.5,  // * font-size
+    
     textColor: '#ffffff',
     fontSize: 2,  // vmax-like variable
     xSubscriptionTopMargin: 0.5,  // * font-size
@@ -29,6 +31,9 @@ const DEFAULT_BAR_CHART = {
     defaultBarColors: [ '#0b62a4', '#7a92a3' ],
     defaultBarTitles: [ 'aa', 'oo' ],
     barWidth: 0.7,  // in bounds [0,1]
+
+    textAbove: 'bar chart',
+    textBelow: '',
 
     chartWidth: 400,
     chartHeight: 200,

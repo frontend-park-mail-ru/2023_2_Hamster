@@ -4,6 +4,13 @@
     justify-content: center;
     align-items: center;
     color: var(--text-main-color);
+    flex-direction: column;
+
+    &__text-above {
+    }
+
+    &__text-below {
+    }
 
     &__tooltip {
         position: absolute;
