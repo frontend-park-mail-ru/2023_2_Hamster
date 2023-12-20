@@ -6,6 +6,7 @@
 }
 .dashboard__bar-chart-wrapper {
     grid-column: span 8;
+    grid-row: span 1;
     background-color: var(--background-secondary-color);
     padding: var(--card-padding);
     border-radius: var(--radius-size-small);

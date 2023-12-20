@@ -23,12 +23,12 @@ const DEFAULT_BAR_CHART = {
     fontSize: 2,  // vmax-like variable
     xSubscriptionTopMargin: 0.5,  // * font-size
     skipKeys: 0,  // skip each N key
-    skipKeysFromFirst: false,
+    skipKeysFromFirst: false,  // start skipping keys from first
 
     stacked: true,
     defaultBarColors: [ '#0b62a4', '#7a92a3' ],
     defaultBarTitles: [ 'aa', 'oo' ],
-    barWidth: 0.7,  // [0,1]
+    barWidth: 0.7,  // in bounds [0,1]
 
     chartWidth: 400,
     chartHeight: 200,
