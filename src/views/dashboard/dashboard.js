@@ -53,6 +53,7 @@ export class DashboardView extends BaseComponent {
             tooltipFormatter: (value, title) => `${title}: ${value} руб.`,
         });
         this.#barCostsByMonth.setState({
+            data: [],
             chartWidth: 800,
             chartHeight: 200,
             chartTopMargin: 50,

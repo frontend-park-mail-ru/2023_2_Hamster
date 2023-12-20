@@ -29,7 +29,7 @@ const DEFAULT_BAR_CHART = {
 
     stacked: true,
     defaultBarColors: [ '#0b62a4', '#7a92a3' ],
-    defaultBarTitles: [ 'aa', 'oo' ],
+    defaultBarTitles: [ 'title 1', 'title 2' ],
     barWidth: 0.7,  // in bounds [0,1]
 
     textAbove: 'bar chart',
