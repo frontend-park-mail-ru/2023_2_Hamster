@@ -203,6 +203,7 @@ export class DashboardView extends BaseComponent {
             }));
 
             console.log('barData', barData, costsByDay);
+            console.log('skipKeys', barData.length > 20 ? 2 : 0);
 
             this.#barCostsByMonth.setState({
                 data: barData,
@@ -239,6 +240,7 @@ export class DashboardView extends BaseComponent {
         
 
         // this.#barCostsByMonth.setState({
+        //     // skipKeys: 2,
         //     data: [
         //         {
         //             key: 1,
