@@ -206,6 +206,7 @@ export class DashboardView extends BaseComponent {
 
             this.#barCostsByMonth.setState({
                 data: barData,
+                skipKeys: barData.length > 20 ? 2 : 0,
             });
         }
         
@@ -239,6 +240,30 @@ export class DashboardView extends BaseComponent {
 
         // this.#barCostsByMonth.setState({
         //     data: [
+        //         {
+        //             key: 1,
+        //             values: [228],
+        //             titles: ['Потрачено'],
+        //             colors: ['#0b62a4']
+        //         },
+        //         {
+        //             key: 2,
+        //             values: [100],
+        //             titles: ['Заработано'],
+        //             colors: ['green']
+        //         },
+        //         {
+        //             key: 2.4,
+        //             values: [823],
+        //             titles: ['Потрачено'],
+        //             colors: ['#0b62a4']
+        //         },
+        //         {
+        //             key: 3,
+        //             values: [1123],
+        //             titles: ['Потрачено'],
+        //             colors: ['#0b62a4']
+        //         },
         //         {
         //             key: 1,
         //             values: [228],

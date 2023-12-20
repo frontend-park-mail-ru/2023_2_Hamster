@@ -22,6 +22,8 @@ const DEFAULT_BAR_CHART = {
     textColor: '#ffffff',
     fontSize: 2,  // vmax-like variable
     xSubscriptionTopMargin: 0.5,  // * font-size
+    skipKeys: 0,  // skip each N key
+    skipKeysFromFirst: false,
 
     stacked: true,
     defaultBarColors: [ '#0b62a4', '#7a92a3' ],
@@ -325,7 +327,7 @@ export class BarChart extends BaseComponent {
         const barGroupWidth = this.#calculatedWidth / data.length;
 
         for (let i = 0; i < data.length; i++) {
-            if (!data[i].key) {
+            if (!data[i].key || ((i + !state.skipKeysFromFirst) % state.skipKeys == 0)) {
                 continue;
             }
             const subscriptionText = this.makeSvgTag('text', {
