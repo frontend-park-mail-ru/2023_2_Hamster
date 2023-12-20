@@ -8,6 +8,21 @@ import { USER_STORE } from '@constants/constants';
 import { transactionsStore } from '@stores/transactionsStore';
 import template from './dashboard.hbs';
 
+const MONTHES = [
+    'январь',
+    'февраль',
+    'март',
+    'апрель',
+    'май',
+    'июнь',
+    'июль',
+    'август',
+    'сентябрь',
+    'октябрь',
+    'ноябрь',
+    'декабрь',
+]
+
 /**
  * Dashboard class extends BaseComponent.
  * @extends {BaseComponent}
@@ -52,6 +67,7 @@ export class DashboardView extends BaseComponent {
             isPercents: false,
             tooltipFormatter: (value, title) => `${title}: ${value} руб.`,
         });
+
         this.#barCostsByMonth.setState({
             data: [],
             chartWidth: 800,
@@ -62,7 +78,7 @@ export class DashboardView extends BaseComponent {
             chartLeftMargin: 50,
             levelCount: 3,
             fontSize: 2,
-            textAbove: 'График расходов за ' + new Date().toLocaleString('default', { month: 'long' }) + '.',
+            textAbove: 'График расходов за ' + MONTHES[new Date().getMonth()],
         });
     }
 
