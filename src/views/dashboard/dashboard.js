@@ -246,86 +246,86 @@ export class DashboardView extends BaseComponent {
             });
         }
         
-        this.#pieCostsByCategory.setState({
-            data: [
-                {
-                    title: 'Потраченный бюджет',
-                    value: 24,
-                    color: 'green',
-                },
-                {
-                    title: 'sdsdadбюджет',
-                    value: 56,
-                    color: 'blue',
-                },
-            ],
-        });
+        // this.#pieCostsByCategory.setState({
+        //     data: [
+        //         {
+        //             title: 'Потраченный бюджет',
+        //             value: 24,
+        //             color: 'green',
+        //         },
+        //         {
+        //             title: 'sdsdadбюджет',
+        //             value: 56,
+        //             color: 'blue',
+        //         },
+        //     ],
+        // });
         
-        const relation = 1.1;
+        // const relation = 1.1;
 
-        this.#pieConsumedBudget.setState({
-            data: [{
-                title: 'Потраченный бюджет',
-                value: relation * 100,
-                color: relation > 1 ? 'red' : 'green',
-            }],
-            totalPercent: Math.max(relation * 100, 100),
-        });
+        // this.#pieConsumedBudget.setState({
+        //     data: [{
+        //         title: 'Потраченный бюджет',
+        //         value: relation * 100,
+        //         color: relation > 1 ? 'red' : 'green',
+        //     }],
+        //     totalPercent: Math.max(relation * 100, 100),
+        // });
         
 
-        this.#barCostsByMonth.setState({
-            // skipKeys: 2,
-            data: [
-                {
-                    key: 1,
-                    values: [228],
-                    titles: ['Потрачено'],
-                    colors: ['#0b62a4']
-                },
-                {
-                    key: 2,
-                    values: [100],
-                    titles: ['Заработано'],
-                    colors: ['green']
-                },
-                {
-                    key: 2.4,
-                    values: [823],
-                    titles: ['Потрачено'],
-                    colors: ['#0b62a4']
-                },
-                {
-                    key: 3,
-                    values: [1123],
-                    titles: ['Потрачено'],
-                    colors: ['#0b62a4']
-                },
-                {
-                    key: 1,
-                    values: [228],
-                    titles: ['Потрачено'],
-                    colors: ['#0b62a4']
-                },
-                {
-                    key: 2,
-                    values: [100],
-                    titles: ['Заработано'],
-                    colors: ['green']
-                },
-                {
-                    key: 2.4,
-                    values: [823],
-                    titles: ['Потрачено'],
-                    colors: ['#0b62a4']
-                },
-                {
-                    key: 3,
-                    values: [1123],
-                    titles: ['Потрачено'],
-                    colors: ['#0b62a4']
-                },
-            ]
-        });
+        // this.#barCostsByMonth.setState({
+        //     // skipKeys: 2,
+        //     data: [
+        //         {
+        //             key: 1,
+        //             values: [228],
+        //             titles: ['Потрачено'],
+        //             colors: ['#0b62a4']
+        //         },
+        //         {
+        //             key: 2,
+        //             values: [100],
+        //             titles: ['Заработано'],
+        //             colors: ['green']
+        //         },
+        //         {
+        //             key: 2.4,
+        //             values: [823],
+        //             titles: ['Потрачено'],
+        //             colors: ['#0b62a4']
+        //         },
+        //         {
+        //             key: 3,
+        //             values: [1123],
+        //             titles: ['Потрачено'],
+        //             colors: ['#0b62a4']
+        //         },
+        //         {
+        //             key: 1,
+        //             values: [228],
+        //             titles: ['Потрачено'],
+        //             colors: ['#0b62a4']
+        //         },
+        //         {
+        //             key: 2,
+        //             values: [100],
+        //             titles: ['Заработано'],
+        //             colors: ['green']
+        //         },
+        //         {
+        //             key: 2.4,
+        //             values: [823],
+        //             titles: ['Потрачено'],
+        //             colors: ['#0b62a4']
+        //         },
+        //         {
+        //             key: 3,
+        //             values: [1123],
+        //             titles: ['Потрачено'],
+        //             colors: ['#0b62a4']
+        //         },
+        //     ]
+        // });
     }
 
     /**
