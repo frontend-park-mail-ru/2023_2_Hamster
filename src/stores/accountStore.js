@@ -210,7 +210,7 @@ class AccountStore extends BaseStore {
                     : this.loginInput.inputHelperText = 'Этот пользователь уже добавлен к этому счету';
                 break;
             case STATUS_CODES.NOT_FOUND:
-                this.loginInput.inputHelperText = 'Такого пользователя нет';
+                this.loginInput.inputHelperText = 'Такого пользователя не существует';
                 break;
             case STATUS_CODES.INTERNAL_SERVER_ERROR:
                 this.loginInput.inputHelperText = 'Непредвиденная ошибка, уже работаем над этим ;)';
@@ -221,6 +221,7 @@ class AccountStore extends BaseStore {
         }
 
         this.emitChange(EVENT_TYPES.RERENDER_SHARE);
+        // this.loginInput = { value: '', isError: false, inputHelperText: '' };
     };
 
     deleteUserInAccount = async (data) => {

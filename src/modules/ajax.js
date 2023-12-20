@@ -54,10 +54,9 @@ export const post = async (url, data) => {
         });
     }
 
-    // if (!response.ok) {
-    //     const errorData = await response.json();
-    //     throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message}`);
-    // }
+    if (!response.ok) {
+        throw response;
+    }
 
     return await response.json();
 };
