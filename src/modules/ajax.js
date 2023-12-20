@@ -167,3 +167,23 @@ export const putMulti = async (url, data) => {
 
     return await response.json();
 };
+
+export const postMulti = async (url, data) => {
+    const csrfToken = await csrfApi.getCsrfToken();
+
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'X-CSRF-Token': csrfToken.body.csrf,
+        },
+        credentials: 'include',
+        body: data,
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message}`);
+    }
+
+    return await response.json();
+};

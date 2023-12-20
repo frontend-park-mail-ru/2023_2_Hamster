@@ -62,7 +62,8 @@ export class ProfileView extends BaseComponent {
 
         this.#saveButton = new Button(null, PROFILE_STATE.BUTTON_STATE, null);
 
-        this.csvExport = new Button(null, {id: 'export', buttonText: 'Экспорт csv'});
+        this.csvExport = new Button(null, {id: 'export', buttonText: 'Экспорт в csv', buttonColor: 'button_secondary-color',});
+        this.csvImport = new Input(null, PROFILE_STATE.CSV_INPUT_STATE, null);
     }
 
     /**
@@ -168,6 +169,7 @@ export class ProfileView extends BaseComponent {
                 imageInput: this.#imageInput.render(),
                 saveButton: this.#saveButton.render(),
                 csvExport: this.csvExport.render(),
+                csvImport: this.csvImport.render(),
             }),
         ];
 
@@ -235,11 +237,34 @@ export class ProfileView extends BaseComponent {
         if (csvExport) {
             csvExport.addEventListener('click', this.exportHandler);
         }
+
+        const csvImport = document.querySelector('#upload-csv');
+        if (csvImport) {
+            csvImport.addEventListener('click', this.importHandler);
+        }
     }
 
     exportHandler = () => {
         userActions.csvExport();
-    }
+    };
+
+    importHandler = () => {
+        const fileInput = document.getElementById('import');
+        fileInput.click();
+        fileInput.onchange = () => {
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const csvData = event.target.result;
+                const lines = csvData.split('\n');
+                lines.shift();
+                const newCsv = lines.join('\n');
+                const newFile = new File([newCsv], 'transactions.csv', { type: 'text/csv' });
+                userActions.csvImport(newFile);
+            };
+            reader.readAsText(file);
+        };
+    };
 
     categoriesButtonHandler = async () => {
         await categoryActions.getCategories();

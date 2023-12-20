@@ -7,6 +7,8 @@ import {
 import { authApi } from '@api/auth';
 import { userApi } from '@api/user';
 import { router } from '@router';
+import { csrfApi } from '@api/csrf';
+import { postMulti } from '@ajax';
 import BaseStore from './baseStore.js';
 import { validator } from '../modules/validator.js';
 
@@ -593,7 +595,14 @@ class UserStore extends BaseStore {
         } catch (error) {
             console.error(error);
         }
-    }
+    };
+
+    csvImport = async (data) => {
+        const formData = new FormData();
+        formData.append('csvFile', data.file);
+
+        await postMulti('/api/transaction/import', formData);
+    };
 }
 
 export const userStore = new UserStore();

@@ -240,6 +240,15 @@ export const PROFILE_STATE = {
         typeOfInput: 'file',
         accept: '.jpg'
     },
+
+    CSV_INPUT_STATE: {
+        isError: '',
+        id: 'import',
+        inputPlaceholder: 'Выбрать картинку',
+        inputSize: 'input_small',
+        typeOfInput: 'file',
+        accept: '.csv'
+    },
 };
 
 export const MONTH_NAMES = [
