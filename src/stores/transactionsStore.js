@@ -55,24 +55,29 @@ class TransactionsStore extends BaseStore {
         }
     };
 
-    transformArray = (arr) => arr.map((data) => {
-        const sharedAccount = accountStore.sharingWith?.find((account) => account.accountId === data.account_income);
-        return {
-            raw: data.id,
-            id: `id${data.id}`,
-            rawDate: data.date,
-            transactionName: data.categories[0].category_name,
-            tag: data.categories[0].id,
-            transactionPlace: data.payer,
-            transactionMessage: data.description,
-            value: data.income - data.outcome,
-            account: accountStore.accounts?.find((account) => account.id === data.account_income).mean_payment,
-            owner: sharedAccount ? sharedAccount.login : undefined,
-            account_income: data.account_income,
-            account_outcome: data.account_outcome,
-            cardId: `card_${data.id}`,
-        };
-    });
+    transformArray = (arr) => {
+        return arr
+            .filter(data => data.categories !== null)
+            .map((data) => {
+                const sharedAccount = accountStore.sharingWith?.find((account) => account.accountId === data.account_income);
+                return {
+                    raw: data.id,
+                    id: `id${data.id}`,
+                    rawDate: data.date,
+                    transactionName: data.categories[0].category_name,
+                    tag: data.categories[0].id,
+                    transactionPlace: data.payer,
+                    transactionMessage: data.description,
+                    value: data.income - data.outcome,
+                    account: accountStore.accounts?.find((account) => account.id === data.account_income).mean_payment,
+                    owner: sharedAccount ? sharedAccount.login : undefined,
+                    account_income: data.account_income,
+                    account_outcome: data.account_outcome,
+                    cardId: `card_${data.id}`,
+                };
+            });
+    };
+
 
     getNameById(id) {
         const obj = categoriesStore.storage.tags.find((item) => item.id === id);
