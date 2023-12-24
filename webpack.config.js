@@ -1,9 +1,16 @@
+/* eslint-disable */
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+
+const mode = process.env.NODE_ENV || 'development';
 
 module.exports = {
+    mode: mode,
     resolve: {
         extensions: ['.js'],
         alias: {
@@ -35,12 +42,12 @@ module.exports = {
     devServer: {
         static: path.resolve(__dirname, 'dist'),
         port: 8000,
-        // compress: true,
+        compress: true,
         historyApiFallback: true,
         allowedHosts: 'all',
         hot: true,
     },
-    devtool: 'source-map',
+    devtool: mode === 'production' ? 'source-map' : 'inline-source-map',
     module: {
         rules: [
             {
@@ -60,6 +67,48 @@ module.exports = {
                 type: 'asset/resource',
             },
         ],
+    },
+    optimization: {
+        minimize: mode === 'production',
+        minimizer: mode === 'production' ? [
+            new CssMinimizerPlugin(),
+            new TerserPlugin({
+                terserOptions: {
+                    compress: { drop_console: true },
+                },
+            }),
+        ] : [],
+        usedExports: true,
+        removeEmptyChunks: true,
+        splitChunks: mode === 'production' ? {
+            cacheGroups: {
+                api: {
+                    name: 'api',
+                    test: /[\\/]api[\\/]/,
+                    chunks: 'all',
+                },
+                actions: {
+                    name: 'actions',
+                    test: /[\\/]actions[\\/]/,
+                    chunks: 'all',
+                },
+                dispatcher: {
+                    name: 'dispatcher',
+                    test: /[\\/]dispatcher[\\/]/,
+                    chunks: 'all',
+                },
+                stores: {
+                    name: 'stores',
+                    test: /[\\/]stores[\\/]/,
+                    chunks: 'all',
+                },
+                views: {
+                    name: 'views',
+                    test: /[\\/]views[\\/]/,
+                    chunks: 'all',
+                },
+            },
+        } : {},
     },
     plugins: [
         new HTMLWebpackPlugin({
@@ -88,5 +137,7 @@ module.exports = {
                 },
             ],
         }),
+        ...(mode === 'production' ? [new CompressionPlugin()] : []),
     ],
 };
+/* eslint-enable */
