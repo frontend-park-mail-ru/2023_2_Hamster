@@ -200,11 +200,28 @@ class AccountStore extends BaseStore {
     addUserInAccount = async (data) => {
         try {
             await accountApi.addUserInAccount(data);
-        } catch (error) {
-            console.log('Unable to connect to the server, error: ', error);
+        } catch (response) {
+            this.loginInput = { value: data.login, isError: true };
+
+            switch (response.status) {
+            case STATUS_CODES.BAD_REQUEST:
+                data.login === userStore.storage.user.login
+                    ? this.loginInput.inputHelperText = 'Нельзя добавить самого себя'
+                    : this.loginInput.inputHelperText = 'Этот пользователь уже добавлен к этому счету';
+                break;
+            case STATUS_CODES.NOT_FOUND:
+                this.loginInput.inputHelperText = 'Такого пользователя не существует';
+                break;
+            case STATUS_CODES.INTERNAL_SERVER_ERROR:
+                this.loginInput.inputHelperText = 'Непредвиденная ошибка, уже работаем над этим ;)';
+                break;
+            default:
+                this.loginInput.inputHelperText = 'Хомяки погрызли провода, мы уже отругали их за это';
+            }
         }
 
         this.emitChange(EVENT_TYPES.RERENDER_SHARE);
+        // this.loginInput = { value: '', isError: false, inputHelperText: '' };
     };
 
     deleteUserInAccount = async (data) => {

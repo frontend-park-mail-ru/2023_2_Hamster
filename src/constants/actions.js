@@ -22,6 +22,7 @@ export const USER_ACTIONS_TYPES = {
     UPDATE_AVATAR: 'UPDATE_AVATAR',
 
     EXPORT_CSV: 'EXPORT_CSV',
+    IMPORT_CSV: 'IMPORT_CSV',
 };
 
 export const CATEGORY_ACTIONS = {
@@ -108,6 +109,10 @@ export const actions = [
     {
         type: USER_ACTIONS_TYPES.EXPORT_CSV,
         method: userStore.csvExport,
+    },
+    {
+        type: USER_ACTIONS_TYPES.IMPORT_CSV,
+        method: userStore.csvImport,
     },
 
     {

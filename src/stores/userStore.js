@@ -7,6 +7,7 @@ import {
 import { authApi } from '@api/auth';
 import { userApi } from '@api/user';
 import { router } from '@router';
+import { transactionsApi } from '@api/transaction';
 import BaseStore from './baseStore.js';
 import { validator } from '../modules/validator.js';
 
@@ -35,9 +36,7 @@ class UserStore extends BaseStore {
         this.storage = {
             loginState: USER_STORE.LOGIN_STATE,
             registrationState: USER_STORE.REGISTRATION_STATE,
-            user: {
-                login: 'Ваш логин',
-            },
+            user: {},
             error: null,
         };
         this.inputs = {};
@@ -52,32 +51,20 @@ class UserStore extends BaseStore {
     checkAuth = async () => {
         try {
             const response = await authApi.checkAuth();
+            this.storage.user = {
+                login: response.body.login,
+                username: response.body.username,
+                id: response.body.id,
+                isAuthorised: true,
+            };
+
             const getUser = await userApi.getUser();
-
-            switch (response.status) {
-            case STATUS_CODES.OK:
-                this.storage.user = {
-                    login: response.body.login,
-                    username: response.body.username,
-                    id: response.body.id,
-                    isAuthorised: true,
-                    avatarPath: getUser.body.avatar_url,
-                };
-                this.storage.error = null;
-
-                break;
-
-            case STATUS_CODES.UNAUTHORISED:
-                this.storage.error = 'Не авторизован';
-
-                break;
-
-            default:
-                console.log('Undefined status code', response.status);
-            }
+            this.storage.user.avatarPath = getUser.body.avatar_url;
         } catch (error) {
-            console.log('Unable to connect to the server, error: ', error);
+            this.storage.user.isAuthorised = false;
         }
+
+        console.log(this.storage.user);
     };
 
     /**
@@ -99,52 +86,32 @@ class UserStore extends BaseStore {
 
         try {
             const response = await authApi.signIn(data);
+            this.storage.user = {
+                login: data.login,
+                username: response.body.username,
+                id: response.body.id,
+                isAuthorised: true,
+            };
+
             const getUser = await userApi.getUser();
+            this.storage.user.avatarPath = getUser.body.avatar_url;
 
-            switch (response.status) {
-            case STATUS_CODES.ACCEPTED:
-                this.storage.user = {
-                    login: data.login,
-                    username: response.body.username,
-                    id: response.body.id,
-                    isAuthorised: true,
-                    avatarPath: getUser.body.avatar_url,
-                };
-                this.storage.error = null;
+            await this.emitChange(EVENT_TYPES.LOGIN_SUCCESS);
+        } catch (error) {
+            this.storage.loginInputState = { login: data.login, isError: true };
 
-                await this.emitChange(EVENT_TYPES.LOGIN_SUCCESS);
-                break;
-
-            case STATUS_CODES.TOO_MANY_REQUESTS:
-                this.storage = {
-                    ...this.storage,
-                    loginInputState: {
-                        login: data.login,
-                        isError: true,
-                        inputHelperText: 'Неверный логин или пароль',
-                    },
-                };
-
-                this.emitChange(EVENT_TYPES.LOGIN_ERROR);
-                break;
-
-            case STATUS_CODES.UNAUTHORISED:
-            case STATUS_CODES.CONFLICT:
-            case STATUS_CODES.INTERNAL_SERVER_ERROR:
-                this.storage.loginInputState = {
-                    login: data.login,
-                    isError: true,
-                    inputHelperText: 'Непредвиденная ошибка',
-                };
-
-                this.emitChange(EVENT_TYPES.LOGIN_ERROR);
+            switch (error.status) {
+            case STATUS_CODES.FORBIDDEN:
+            case STATUS_CODES.NOT_FOUND:
+                this.storage.loginInputState.inputHelperText = 'Неверный логин или пароль';
                 break;
 
             default:
-                console.log('Undefined status code', response.status);
+                console.log('Unable to connect to the server, error: ', error);
+                this.storage.loginInputState.inputHelperText = 'Непредвиденная ошибка';
             }
-        } catch (error) {
-            console.log('Unable to connect to the server, error: ', error);
+
+            this.emitChange(EVENT_TYPES.LOGIN_ERROR);
         }
     };
 
@@ -171,65 +138,35 @@ class UserStore extends BaseStore {
 
         try {
             const response = await authApi.signUp(data);
+            this.storage.user = {
+                login: data.login,
+                username: response.body.username,
+                id: response.body.id,
+                isAuthorised: true,
+            };
+
             const getUser = await userApi.getUser();
+            this.storage.user.avatarPath = getUser.body.avatar_url;
 
-            switch (response.status) {
-            case STATUS_CODES.CREATED:
-                this.storage.user = {
-                    login: data.login,
-                    username: response.body.username,
-                    id: response.body.id,
-                    isAuthorised: true,
-                    avatarPath: getUser.body.avatar_url,
-                };
-                this.storage.error = null;
-
-                await this.emitChange(EVENT_TYPES.REGISTRATION_SUCCESS);
-                break;
-
-            case STATUS_CODES.UNAUTHORISED:
-            case STATUS_CODES.CONFLICT:
-                this.storage.loginInputState = {
-                    login: data.login,
-                    isError: true,
-                    inputHelperText: 'Данный логин уже занят',
-                };
-
-                this.emitChange(EVENT_TYPES.REGISTRATION_ERROR);
-                break;
-
-            case STATUS_CODES.TOO_MANY_REQUESTS:
-                this.storage = {
-                    ...this.storage,
-                    loginInputState: {
-                        login: data.login,
-                        isError: true,
-                        inputHelperText: 'Данный логин уже занят',
-                    },
-                };
-
-                this.emitChange(EVENT_TYPES.REGISTRATION_ERROR);
-                break;
-
-            case STATUS_CODES.INTERNAL_SERVER_ERROR:
-                this.storage = {
-                    ...this.storage,
-                    loginInputState: {
-                        login: data.login,
-                        isError: true,
-                        inputHelperText: 'Непредвиденная ошибка, уже работаем над этим',
-                    },
-                };
-
-                this.emitChange(EVENT_TYPES.REGISTRATION_ERROR);
-                break;
-
-            default:
-                console.log('Undefined status code', response.status);
-            }
+            await this.emitChange(EVENT_TYPES.REGISTRATION_SUCCESS);
         } catch (error) {
-            console.log('Unable to connect to the server, error: ', error);
-            this.storage.error = 'Непредвиденная ошибка';
+            this.storage.loginInputState = { login: data.login, isError: true };
+
+            switch (error.status) {
+            case STATUS_CODES.BAD_REQUEST:
+                this.storage.loginInputState.inputHelperText = 'Неккоректные данные';
+                break;
+            case STATUS_CODES.CONFLICT:
+                this.storage.loginInputState.inputHelperText = 'Данный логин уже занят';
+                break;
+            case STATUS_CODES.TOO_MANY_REQUESTS:
+            case STATUS_CODES.INTERNAL_SERVER_ERROR:
+                this.storage.loginInputState.inputHelperText = 'Непредвиденная ошибка, уже работаем над этим';
+                break;
+            default:
+                console.log('Undefined status code', error.status);
+                this.storage.error = 'Непредвиденная ошибка';
+            }
 
             this.emitChange(EVENT_TYPES.REGISTRATION_ERROR);
         }
@@ -593,7 +530,26 @@ class UserStore extends BaseStore {
         } catch (error) {
             console.error(error);
         }
-    }
+    };
+
+    csvImport = async (data) => {
+        try {
+            await transactionsApi.csvImport(data);
+        } catch (error) {
+            switch (error.status) {
+            case STATUS_CODES.BAD_REQUEST:
+            case STATUS_CODES.UNAUTHORISED:
+            case STATUS_CODES.FORBIDDEN:
+            case STATUS_CODES.INTERNAL_SERVER_ERROR:
+                this.storage.error = error.message;
+                break;
+            default:
+                console.log('Undefined status code', error.status);
+            }
+        }
+
+        this.emitChange(EVENT_TYPES.RERENDER_PROFILE);
+    };
 }
 
 export const userStore = new UserStore();

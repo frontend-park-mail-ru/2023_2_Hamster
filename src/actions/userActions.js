@@ -110,5 +110,14 @@ export const userActions = {
             type: USER_ACTIONS_TYPES.EXPORT_CSV,
             data: {},
         });
-    }
+    },
+
+    csvImport(file) {
+        dispatcher.dispatch({
+            type: USER_ACTIONS_TYPES.IMPORT_CSV,
+            data: {
+                file
+            },
+        });
+    },
 };

@@ -1,6 +1,6 @@
 import { API_CONSTANTS, getTransactionURL } from '@constants/constants';
 import {
-    deleteRequest, get, post, put
+    deleteRequest, get, post, postMulti, put
 } from '@ajax';
 
 class TransactionApi {
@@ -32,6 +32,14 @@ class TransactionApi {
     csvExport = async () => {
         const url = API_CONSTANTS.CSV_EXPORT;
         return await get(url);
+    };
+
+    csvImport = async (data) => {
+        const url = API_CONSTANTS.CSV_IMPORT;
+        const formData = new FormData();
+        formData.append('csvFile', data.file);
+
+        return await postMulti(url, formData);
     };
 }
 

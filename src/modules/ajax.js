@@ -54,10 +54,9 @@ export const post = async (url, data) => {
         });
     }
 
-    // if (!response.ok) {
-    //     const errorData = await response.json();
-    //     throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message}`);
-    // }
+    if (!response.ok) {
+        throw response;
+    }
 
     return await response.json();
 };
@@ -154,6 +153,26 @@ export const putMulti = async (url, data) => {
 
     const response = await fetch(url, {
         method: 'PUT',
+        headers: {
+            'X-CSRF-Token': csrfToken.body.csrf,
+        },
+        credentials: 'include',
+        body: data,
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message}`);
+    }
+
+    return await response.json();
+};
+
+export const postMulti = async (url, data) => {
+    const csrfToken = await csrfApi.getCsrfToken();
+
+    const response = await fetch(url, {
+        method: 'POST',
         headers: {
             'X-CSRF-Token': csrfToken.body.csrf,
         },
