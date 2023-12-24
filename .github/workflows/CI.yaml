@@ -20,7 +20,7 @@ jobs:
           node: [21]
       runs-on: ${{ matrix.os }}
       env:
-        PATH: ${{ github.workspace }}/.env
+        ACTIONS_ALLOW_UNSECURE_COMMANDS: true      
       steps:
         - name: Setup Node.js environment
           uses: actions/setup-node@v1.4.3
