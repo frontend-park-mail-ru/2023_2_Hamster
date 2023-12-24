@@ -255,7 +255,7 @@ export class DashboardView extends BaseComponent {
                 colors: [spendedMoney < 0 ? '#0b62a4' : 'green']
             }));
 
-            // console.log('barData', barData, costsByDay);
+            console.log('barData', barData, costsByDay);
 
             this.#barCostsByMonth.setState({
                 data: barData,
