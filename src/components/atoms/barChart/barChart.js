@@ -133,18 +133,11 @@ export class BarChart extends BaseComponent {
     drawChart = (thisElement) => {
         const svg = thisElement.querySelector('.bar-chart__chart');
 
-        // TODO
         this.setViewBox(svg);
         this.drawAxis(svg);
         this.drawLevels(svg);
         this.drawBars(svg);
         this.drawBarsSubscription(svg);        
-
-        // размер баров рассчитывается из ширины графика, ширина / количество баров
-        // в стейте размер бара задает число [0,1] - размер относительно максимального,
-        // соответственно если менее 1, то остальное пространство пустое.
-        // что делать с текстом? задать ему размер относительно размеров графика, как vh,vw-ы
-
     };
 
     /**
@@ -164,7 +157,7 @@ export class BarChart extends BaseComponent {
     maxStackedSum = () => {
         const state = this.getState();
         return state.data.reduce((acc, cur) => {
-            const stackSum = cur.values.reduce((a, b) => a + b);
+            const stackSum = cur.values.reduce((a, b) => a + b, 0);
             return stackSum > acc ? stackSum : acc;
         }, 0);
     }
