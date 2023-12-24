@@ -3,10 +3,10 @@
     "jsdoc": "jsdoc -c jsdoc.json",
     "lint-check": "npx eslint src",
     "lint-fix": "npx eslint src --fix",
-    "dev-build": "webpack --mode development && getCache.sh",
-    "dev-server": "webpack-dev-server --mode development",
-    "prod-build": "webpack --mode production",
-    "prod-server": "webpack-dev-server --mode production"
+    "dev-build": "NODE_ENV=development webpack --mode development && getCache.sh",
+    "dev-server": "NODE_ENV=development webpack-dev-server --mode development",
+    "prod-build": "NODE_ENV=production webpack --mode production",
+    "prod-server": "NODE_ENV=production webpack-dev-server --mode production"
   },
   "dependencies": {
     "copy-webpack-plugin": "^11.0.0",
@@ -25,7 +25,10 @@
     "webpack-dev-server": "^4.15.1"
   },
   "devDependencies": {
+    "compression-webpack-plugin": "^10.0.0",
+    "css-minimizer-webpack-plugin": "^5.0.1",
     "jsdoc": "^4.0.2",
+    "terser-webpack-plugin": "^5.3.9",
     "webpack-cli": "^5.1.4"
   }
 }
