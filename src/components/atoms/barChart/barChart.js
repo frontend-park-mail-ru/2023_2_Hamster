@@ -302,7 +302,10 @@ export class BarChart extends BaseComponent {
         let previousBarY = 0;
 
         for (let i = 0; i < data.values.length; i++) {
-            const barHeight = data.values[i] * this.#calculatedHeight / maxYValue;
+            let barHeight = data.values[i] * this.#calculatedHeight / maxYValue;
+            if (Number.isNaN(barHeight)) {
+                barHeight = 0;
+            }
 
             const bar = this.makeSvgTag('rect', {
                 x: this.calculateX(barX),

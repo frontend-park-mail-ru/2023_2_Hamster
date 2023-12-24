@@ -255,7 +255,7 @@ export class DashboardView extends BaseComponent {
                 colors: [spendedMoney < 0 ? '#0b62a4' : 'green']
             }));
 
-            console.log('barData', barData, costsByDay);
+            // console.log('barData', barData, costsByDay);
 
             this.#barCostsByMonth.setState({
                 data: barData,
@@ -295,49 +295,49 @@ export class DashboardView extends BaseComponent {
         //     data: [
         //         {
         //             key: 1,
-        //             values: [228],
+        //             values: [0],
         //             titles: ['Потрачено'],
         //             colors: ['#0b62a4']
         //         },
         //         {
         //             key: 2,
-        //             values: [100],
+        //             values: [0],
         //             titles: ['Заработано'],
         //             colors: ['green']
         //         },
         //         {
         //             key: 2.4,
-        //             values: [823],
+        //             values: [0],
         //             titles: ['Потрачено'],
         //             colors: ['#0b62a4']
         //         },
         //         {
         //             key: 3,
-        //             values: [1123],
+        //             values: [0],
         //             titles: ['Потрачено'],
         //             colors: ['#0b62a4']
         //         },
         //         {
         //             key: 1,
-        //             values: [228],
+        //             values: [0],
         //             titles: ['Потрачено'],
         //             colors: ['#0b62a4']
         //         },
         //         {
         //             key: 2,
-        //             values: [100],
+        //             values: [0],
         //             titles: ['Заработано'],
         //             colors: ['green']
         //         },
         //         {
         //             key: 2.4,
-        //             values: [823],
+        //             values: [0],
         //             titles: ['Потрачено'],
         //             colors: ['#0b62a4']
         //         },
         //         {
         //             key: 3,
-        //             values: [1123],
+        //             values: [0],
         //             titles: ['Потрачено'],
         //             colors: ['#0b62a4']
         //         },
