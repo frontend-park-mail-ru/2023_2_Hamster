@@ -19,6 +19,10 @@
   grid-template-rows: repeat(3, 1fr);
   grid-gap: 20px;
   grid-auto-flow: row dense;
+
+  @include small-tablet {
+    margin: 24px;
+  }
 }
 
 .notifier {

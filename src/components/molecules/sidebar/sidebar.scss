@@ -7,6 +7,14 @@
     background-color: var(--background-main-color);
     border-right: 2px solid var(--background-secondary-color);
 
+    @include small-tablet {
+        width: 100px;
+    }
+
+    @include mobile {
+        display: none;
+    }
+
     &__header {
         height: var(--sidebar-header-height);
         min-height: var(--sidebar-header-height);
@@ -89,6 +97,10 @@
         overflow: hidden;
         text-overflow: ellipsis;
         margin-right: var(--sidebar-footer-profile-margin);
+
+        @include small-tablet {
+            display: none;
+        }
     }
 }
 
