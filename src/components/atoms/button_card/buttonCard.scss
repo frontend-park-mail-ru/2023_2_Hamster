@@ -19,9 +19,9 @@
 .button-card {
   display: flex;
   height: auto;
-  width: 100%;
+  width: auto;
   flex-direction: column;
-  flex-grow: 1;
+  flex: 1;
   padding: var(--card-padding);
   border-radius: var(--radius-size-medium);
   word-break: break-word;

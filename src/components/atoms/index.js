@@ -1,3 +1,4 @@
+export * from './barChart/barChart.js';
 export * from './button/button';
 export * from './button_card/buttonCard';
 export * from './category/category';

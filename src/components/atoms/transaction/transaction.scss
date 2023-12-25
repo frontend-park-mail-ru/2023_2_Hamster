@@ -12,6 +12,14 @@
     width: auto;
     border-radius: var(--radius-size-medium);
     filter: brightness(0.5);
+
+    @include tablet {
+      gap: var(--meduim-gap);
+    }
+
+    @include mobile {
+      gap: var(--small-gap)
+    }
   }
 
   &_hoverable {
@@ -29,6 +37,10 @@
     flex-direction: column;
     gap: var(--small-gap);
     width: 10%;
+
+    @include mobile {
+      display: none;
+    }
   }
 
   &__date{
@@ -42,6 +54,10 @@
   &__icon{
     height: 64px;
     width: 64px;
+
+    @include small-mobile {
+      display: none;
+    }
   }
 
   &__category-info{
@@ -50,6 +66,10 @@
     width: 50%;
     height: auto;
     gap: var(--small-gap);
+
+    @include mobile{
+      width: auto;
+    }
   }
 
   &__category{
@@ -74,6 +94,10 @@
     width: 20%;
     height: auto;
     color: var(--text-main-color);
+
+    @include mobile{
+      width: auto;
+    }
   }
 
   &__account{
@@ -82,6 +106,10 @@
     gap: var(--small-gap);
     width: 20%;
     height: auto;
+
+    @include mobile{
+      width: auto;
+    }
 
     &-name{
       color: var(--text-main-color);
@@ -98,6 +126,10 @@
     gap: var(--meduim-gap);
     margin-top: var(--card-padding);
     margin-bottom: var(--card-padding);
+
+    @include mobile{
+      flex-direction: column;
+    }
 
     &-column{
       width: 100%;

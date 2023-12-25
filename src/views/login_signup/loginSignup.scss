@@ -36,6 +36,11 @@
         text-align: left;
         margin-top: auto;
         margin-bottom: auto;
+
+        @include small-tablet {
+            display: flex;
+            justify-content: center;
+        }
     }
 
     &__link-container {
@@ -67,6 +72,23 @@
         &-base {
             font-size: 2vmax;
             margin: 0 10px;
+        }
+
+        @include tablet {
+            &-h1 {
+                font-size: 6vmax;
+                font-weight: bolder;
+                margin-bottom: 5px;
+            }
+
+            &-base {
+                font-size: 3vmax;
+                margin: 0 10px;
+            }
+        }
+
+        @include small-tablet {
+            display: none;
         }
     }
 }

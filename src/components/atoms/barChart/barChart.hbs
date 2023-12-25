@@ -1,0 +1,21 @@
+<div class="bar-chart"
+    {{#if id}} id="{{id}}" {{/if}}
+    >
+    {{#if textAbove}}
+        <span class="font-base-text bar-chart__text-above">{{textAbove}}</span>
+    {{/if}}
+
+    <svg class="bar-chart__chart" xmlns="http://www.w3.org/2000/svg">
+
+    </svg>
+
+    {{#if textBelow}}
+        <span class="font-base-text bar-chart__text-below">{{textBelow}}</span>
+    {{/if}}
+
+    {{#if hasTooltip}}
+        <div class="bar-chart__tooltip">
+            
+        </div>
+    {{/if}}
+</div>

@@ -6,17 +6,21 @@ export const FORMAT_CHAR = '@';
 const DEFAULT_PIE_CHART = {
     textAbove: 'Total:',
     textBelow: '',
-    textCenter: `${FORMAT_CHAR}%`,
+    textCenter: '%',
+    textAboveFormatter: (total) => 'Total:',
+    textBelowFormatter: (total) => '',
+    textCenterFormatter: (total) => `${total.toFixed(1)}%`,
     inRad: 100,
     outRad: 120,
     inShadowRad: 100,
     outShadowRad: 120,
     shadowColor: '#555',
-    beginOffset: 0,
+    beginOffset: -90,
     sectionSpace: 0.3,
     isPercents: true,
     data: [],
-    tooltipText: `${FORMAT_CHAR}: ${FORMAT_CHAR}%`,
+    tooltipFormatter: (value, title) => `${title}: ${value}%`,
+    hasTooltip: true,
 };
 
 const FULL_CIRCLE_DEGREES = 360;
@@ -41,7 +45,7 @@ const TOTAL_PERCENT = 100;
 export class PieChart extends BaseComponent {
 
     /**
-     * Creates an instance of Button.
+     * Creates an instance of Pie chart.
      * @constructor
      * @param {HTMLElement} parent - The parent element where the pie chart will be rendered.
      * @param {Object} [state = DEFAULT_PIE_CHART] - The initial state of the pie chart component. (optional)
@@ -49,7 +53,8 @@ export class PieChart extends BaseComponent {
      * @param {string} state.textAbove - The text inside above the textCenter, the '@' char will be replaced with sum of values.
      * @param {string} state.textBelow - The text inside below the textCenter, the '@' char will be replaced with sum of values.
      * @param {string} state.id - The id of pie chart element.
-     * @param {string} state.tooltipText - Text of tooltip, the first '@' char will be replaced with 'title' of section and second with 'value' of section.
+     * @param {Function} state.tooltipFormatter -
+     * @param {boolean} state.hasTooltip -
      * @param {number} state.inRad - Inner radius of chart.
      * @param {number} state.outRad - Outer radius of chart.
      * @param {number} state.inShadowRad - Inner radius of background chart shadow.
@@ -97,14 +102,14 @@ export class PieChart extends BaseComponent {
         const textBelow = thisElement.querySelector('.pie-chart__inner-text-below');
         const valuesSum = this.getValuesSum();
 
-        if (textCenter) {
-            textCenter.textContent = textCenter.textContent.replace(FORMAT_CHAR, String(valuesSum));
-        }
-        if (textAbove) {
-            textAbove.textContent = textAbove.textContent.replace(FORMAT_CHAR, String(valuesSum));
-        }
-        if (textBelow) {
-            textBelow.textContent = textBelow.textContent.replace(FORMAT_CHAR, String(valuesSum));
+        if (textCenter){
+            textCenter.textContent = this.getState().textCenterFormatter(valuesSum);
+        } 
+        if (textAbove){
+            textAbove.textContent = this.getState().textAboveFormatter(valuesSum);
+        } 
+        if (textBelow){
+            textBelow.textContent = this.getState().textBelowFormatter(valuesSum);
         }
     };
 
@@ -141,6 +146,7 @@ export class PieChart extends BaseComponent {
             r: state.inShadowRad + (state.outShadowRad - state.inShadowRad) / 2,
             stroke: state.shadowColor,
             'stroke-width': state.outShadowRad - state.inShadowRad,
+            fill: 'transparent',
         });
         svg.appendChild(circle);
     };
@@ -150,7 +156,7 @@ export class PieChart extends BaseComponent {
      */
     getTotal = () => {
         const state = this.getState();
-        return state.isPercents ? TOTAL_PERCENT : this.getValuesSum();
+        return state.isPercents ? (state.totalPercent ? state.totalPercent : TOTAL_PERCENT) : this.getValuesSum();
     };
 
     /**
@@ -184,6 +190,9 @@ export class PieChart extends BaseComponent {
             path.setAttribute('data-value', data.value);
             path.setAttribute('data-title', data.title);
             path.classList.add('pie-chart__chart-section');
+            if (state.hasTooltip) {
+                path.classList.add('pie-chart__chart-section_hoverable');
+            }
             svg.appendChild(path);
             angleStart = angleEnd + state.sectionSpace;
         });
@@ -283,14 +292,14 @@ export class PieChart extends BaseComponent {
 
     /**
      * Creates element from string.
-     * @param {string} htmlString - Representing a single element.
+     * @param {string} html - Representing a single element.
      * @return {HTMLElement} - Element from given string.
      */
     htmlToElement = (htmlString) => {
-        const htmlTemplateElement = document.createElement('template');
+        const template = document.createElement('template');
         htmlString = htmlString.trim();
-        htmlTemplateElement.innerHTML = htmlString;
-        return htmlTemplateElement.content.firstChild;
+        template.innerHTML = htmlString;
+        return template.content.firstChild;
     };
 
     /**
@@ -301,19 +310,18 @@ export class PieChart extends BaseComponent {
         const path = e.target;
         const svg = e.currentTarget;
         const tooltip = svg.parentElement.querySelector('.pie-chart__tooltip');
+        const rekt = svg.getBoundingClientRect();
 
         if (!(path instanceof SVGPathElement)) {
             tooltip.style.display = 'none';
             return;
         }
 
-        const { tooltipText } = this.getState();
+        const { tooltipFormatter } = this.getState();
         tooltip.style.display = 'block';
-        tooltip.style.left = `${e.pageX}px`;
-        tooltip.style.top = `${e.pageY}px`;
-        tooltip.textContent = tooltipText
-            .replace(FORMAT_CHAR, path.getAttribute('data-title'))
-            .replace(FORMAT_CHAR, path.getAttribute('data-value'));
+        tooltip.style.left = `${e.clientX - rekt.x}px`;
+        tooltip.style.top = `${e.clientY - rekt.y}px`;
+        tooltip.textContent = tooltipFormatter(path.getAttribute('data-value'), path.getAttribute('data-title'));
     };
 
     /**
@@ -330,7 +338,7 @@ export class PieChart extends BaseComponent {
      * Setup handlers.
      */
     setHandlers() {
-        if (!this.getState().tooltipText) {
+        if (!this.getState().hasTooltip) {
             return;
         }
         const svg = this.parent.querySelector('.pie-chart__chart');

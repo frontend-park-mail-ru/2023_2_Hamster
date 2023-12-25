@@ -3,13 +3,29 @@
     color: var(--text-main-color);
     grid-column: span 12;
     gap: var(--big-gap);
-    width: 100%;
+    width: auto;
+
+    @include tablet {
+        flex-direction: column-reverse;
+    }
+
+    &__buttons-row{
+        display: flex;
+        flex-direction: row;
+        gap: var(--meduim-gap);
+        justify-content: space-between;
+        flex-grow: 1;
+    }
 
     &__yours {
         display: flex;
         flex-direction: column;
-        width: 70%;
+        flex: 0.7;
         row-gap: var(--meduim-gap);
+
+        @include tablet {
+            width: auto;
+        }
     }
 
     &__yours-list {
@@ -70,8 +86,12 @@
     &__configure {
         display: flex;
         gap: var(--meduim-gap);
-        width: 30%;
+        flex: 0.3;
         flex-direction: column;
+
+        @include tablet {
+            width: auto;
+        }
     }
 
     &__configure-account {
@@ -84,6 +104,11 @@
             display: flex;
             flex-direction: row;
             align-items: center;
+
+            @include desktop{
+                justify-content: space-between;
+                flex-wrap: wrap;
+            }
         }
 
         &-inputs {
@@ -95,6 +120,11 @@
 
     &__create-button{
         margin-left: auto;
+
+        @include mobile {
+            margin: 0;
+            width: auto;
+        }
     }
 
     &__delete-account-button {
@@ -106,5 +136,13 @@
         display: flex;
         flex-direction: column;
         gap: var(--big-gap);
+
+        @include tablet {
+            flex-direction: row;
+        }
+
+        @include mobile {
+            flex-direction: column;
+        }
     }
 }

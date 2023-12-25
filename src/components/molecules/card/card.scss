@@ -1,13 +1,17 @@
 .card {
     background: var(--background-secondary-color);
     padding: var(--card-padding);
+    display: flex;
+    flex-direction: column;
 
     &__content {
-        overflow: hidden;
+        width: 80%;
+        margin: 0 auto;
     }
 
     &__heading {
-        overflow: hidden;
+        word-break: break-word;
+        margin-bottom: var(--meduim-gap);
 
         &-text-container {
             display: flex;
@@ -20,6 +24,7 @@
 
     &__headline-text {
         color: var(--text-main-color);
+        margin-bottom: var(--small-gap);
     }
 
     &__subhead-text {
@@ -59,6 +64,10 @@
     &_medium-horizontal {
         grid-column: span 8;
         border-radius: var(--radius-size-small);
+
+        @include mobile {
+            grid-column: span 4;
+        }
     }
 
     &_big {
