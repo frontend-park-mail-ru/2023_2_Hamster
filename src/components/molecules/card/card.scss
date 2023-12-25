@@ -64,6 +64,10 @@
     &_medium-horizontal {
         grid-column: span 8;
         border-radius: var(--radius-size-small);
+
+        @include mobile {
+            grid-column: span 4;
+        }
     }
 
     &_big {

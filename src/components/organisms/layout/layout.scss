@@ -20,8 +20,13 @@
   grid-gap: 20px;
   grid-auto-flow: row dense;
 
-  @include small-tablet {
+  @include tablet {
+    grid-template-columns: repeat(8, 1fr);
     margin: 24px;
+  }
+
+  @include mobile {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 

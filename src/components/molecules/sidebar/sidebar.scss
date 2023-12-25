@@ -7,7 +7,7 @@
     background-color: var(--background-main-color);
     border-right: 2px solid var(--background-secondary-color);
 
-    @include small-tablet {
+    @include tablet {
         width: 100px;
     }
 

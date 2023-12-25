@@ -22,6 +22,10 @@
     height: 64px;
     width: 64px;
     margin-right: 40px;
+
+    @include small-mobile {
+      margin-right: 0;
+    }
   }
 
   &__text{
@@ -56,6 +60,6 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-top: var(--card-padding);
-  margin-bottom: var(--card-padding);
+  margin-top: 12px;
+  margin-bottom: 48px;
 }

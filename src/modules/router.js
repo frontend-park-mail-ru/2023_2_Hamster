@@ -81,7 +81,7 @@ class Router {
 
         let view = this.routes[routeResult];
 
-        if (!view) {
+        if (!this.routes[routeTrimmed]) {
             view = this.routes[ROUTE_CONSTANTS.NOT_FOUND];
         }
 
