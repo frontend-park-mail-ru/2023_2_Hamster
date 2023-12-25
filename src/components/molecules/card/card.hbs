@@ -1,4 +1,4 @@
-<div class="card {{this.cardSize}}">
+<div class="card {{this.cardSize}}" id="{{id}}">
     <div class="card__heading">
         <div class="card__heading-text-container">
             {{#if this.units}}
@@ -14,7 +14,7 @@
             <div class="card__status {{this.cardStatus}}"></div>
         {{/if}}
     </div>
-    <ul class="list">
-        {{{list}}}
-    </ul>
+    <div class="card__content">
+        {{{content}}}
+    </div>
 </div>

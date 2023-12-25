@@ -19,6 +19,15 @@
   grid-template-rows: repeat(3, 1fr);
   grid-gap: 20px;
   grid-auto-flow: row dense;
+
+  @include tablet {
+    grid-template-columns: repeat(8, 1fr);
+    margin: 24px;
+  }
+
+  @include mobile {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 .notifier {

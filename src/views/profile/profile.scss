@@ -8,11 +8,19 @@
   &__cards-container {
     display: flex;
     gap: var(--meduim-gap);
+
+    @include tablet {
+      flex-direction: column-reverse;
+    }
   }
 
   &__edit-container {
     display: flex;
     justify-content: space-between;
+
+    @include tablet {
+      flex-direction: column-reverse;
+    }
   }
 
   &__button-container {}
@@ -27,12 +35,23 @@
     flex-direction: column;
     gap: var(--big-gap);
     width: 50%;
+
+    @include tablet {
+      margin-top: var(--big-gap);
+      width: auto;
+    }
   }
 
   &__avatar{
     display: flex;
     justify-content: center;
     align-items: center;
+    max-width: var(--image-large);
+    max-height: var(--image-large);
+
+    @include tablet {
+      margin: 0 auto;
+    }
   }
 
   &__avatar-container {
@@ -40,6 +59,10 @@
     display: flex;
     flex-direction: column;
     gap: var(--meduim-gap);
+
+    @include tablet {
+      width: auto;
+    }
   }
 
   &__avatar-heading {

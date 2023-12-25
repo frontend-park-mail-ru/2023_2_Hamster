@@ -1,10 +1,27 @@
 import { BaseComponent } from '@components/baseComponent.js';
 import { Card } from '@molecules';
+import { PieChart, BarChart } from '@atoms';
 import { userStore } from '@stores/userStore';
 import { userActions } from '@actions/userActions';
 
 import { USER_STORE } from '@constants/constants';
+import { transactionsStore } from '@stores/transactionsStore';
 import template from './dashboard.hbs';
+
+const MONTHS = [
+    'январь',
+    'февраль',
+    'март',
+    'апрель',
+    'май',
+    'июнь',
+    'июль',
+    'август',
+    'сентябрь',
+    'октябрь',
+    'ноябрь',
+    'декабрь',
+];
 
 /**
  * Dashboard class extends BaseComponent.
@@ -14,56 +31,56 @@ export class DashboardView extends BaseComponent {
 
     #cardBalance;
 
-    #cardPlannedBudget;
+    #cardBudget;
 
-    #cardActualBudget;
+    #cardPieTransactions;
+
+    #pieCostsByCategory;
+
+    #pieConsumedBudget;
+
+    #barCostsByMonth;
 
     constructor(parent) {
         super(USER_STORE.FEED_STATE, template, parent);
 
         this.#cardBalance = new Card(USER_STORE.FEED_STATE.cardBalance);
-        this.#cardPlannedBudget = new Card(USER_STORE.FEED_STATE.cardPlannedBudget);
-        this.#cardActualBudget = new Card(USER_STORE.FEED_STATE.cardActualBudget);
+        this.#cardBudget = new Card(USER_STORE.FEED_STATE.cardPlannedBudget);
+        this.#cardPieTransactions = new Card({ cardSize: 'card_small', cardHeadline: 'Траты по категориям', id: 'pie-cost-by-category-wrapper' });
+
+        this.#pieCostsByCategory = new PieChart({ textAbove: null });
+        this.#pieConsumedBudget = new PieChart();
+        this.#barCostsByMonth = new BarChart();
+
+        this.#pieConsumedBudget.setState({
+            data: [],
+            textAbove: 'Использовано',
+            textAboveFormatter: () => 'Использовано',
+            hasTooltip: false
+        });
+        this.#pieCostsByCategory.setState({
+            data: [],
+            textAbove: 'Сумма',
+            textCenter: 'за месяц',
+            textAboveFormatter: () => 'Сумма',
+            textCenterFormatter: () => 'за месяц',
+            isPercents: false,
+            tooltipFormatter: (value, title) => `${title}: ${value} руб.`,
+        });
+
+        this.#barCostsByMonth.setState({
+            data: [],
+            chartWidth: 800,
+            chartHeight: 200,
+            chartTopMargin: 50,
+            chartBottomMargin: 50,
+            chartRightMargin: 50,
+            chartLeftMargin: 50,
+            levelCount: 3,
+            fontSize: 2,
+            textAbove: `График расходов за ${MONTHS[new Date().getMonth()]}`,
+        });
     }
-
-    /**
-     * Renders the Dashboard template to the parent element.
-     * This method is responsible for rendering the card balance list, cards for planned and actual budget,
-     * and then mapping these rendered HTML strings to their corresponding state keys.
-     */
-    renderTemplateToParent = () => {
-        userActions.getFeed();
-
-        const { balance } = userStore.storage.user;
-        const { plannedBudget } = userStore.storage.user;
-        const { actualBudget } = userStore.storage.user;
-
-        if (balance) {
-            this.#cardBalance.setState({ cardSubhead: balance });
-        }
-
-        if (plannedBudget) {
-            this.#cardPlannedBudget.setState({ cardSubhead: plannedBudget });
-        }
-
-        if (actualBudget) {
-            this.#cardActualBudget.setState({ cardSubhead: actualBudget });
-        }
-
-        const cardBalanceHTML = this.#cardBalance.render();
-        const cardPlannedBudgetHTML = this.#cardPlannedBudget.render();
-        const cardActualBudgetHTML = this.#cardActualBudget.render();
-
-        const templates = [
-            template({
-                balance: cardBalanceHTML,
-                plannedBudget: cardPlannedBudgetHTML,
-                actualBudget: cardActualBudgetHTML,
-            }),
-        ];
-
-        super.renderTemplateToParent(templates);
-    };
 
     /**
      * Renders the Dashboard template and returns the rendered HTML.
@@ -71,6 +88,8 @@ export class DashboardView extends BaseComponent {
      */
     render = async () => {
         await userStore.feed();
+
+        await this.setupChartsBeforeRender();
 
         if (userStore.storage.feed) {
             const { accounts } = userStore.storage.feed;
@@ -83,27 +102,108 @@ export class DashboardView extends BaseComponent {
                 : this.#cardBalance.setState({ cardSubhead: 'У вас нет счетов, добавьте их, чтобы видеть свой баланс' });
 
             plannedBudget
-                ? this.#cardPlannedBudget.setState({ cardSubhead: `${parseFloat(plannedBudget)} руб.` })
-                : this.#cardPlannedBudget.setState({ cardSubhead: 'Ваш бюджет не запланирован, вы можете сделать это в профиле' });
-
-            plannedBudget
-                ? this.#cardActualBudget.setState({ cardSubhead: `${parseFloat(actualBudget)} руб.` })
-                : this.#cardActualBudget.setState({ cardSubhead: 'Не можем расчитать фактический бюджет, задайте бюджет в профиле' });
+                ? this.#cardBudget.setState({ cardSubhead: `${parseFloat(actualBudget)} / ${parseFloat(plannedBudget)} руб.`, content: this.#pieConsumedBudget.render() })
+                : this.#cardBudget.setState({ cardSubhead: 'Ваш бюджет не запланирован, вы можете сделать это в профиле' });
         }
 
-        const cardBalanceHTML = this.#cardBalance.render();
-        const cardPlannedBudgetHTML = this.#cardPlannedBudget.render();
-        const cardActualBudgetHTML = this.#cardActualBudget.render();
+        this.#cardPieTransactions.setState({ content: this.#pieCostsByCategory.render() });
 
         const templates = [
             template({
-                balance: cardBalanceHTML,
-                plannedBudget: cardPlannedBudgetHTML,
-                actualBudget: cardActualBudgetHTML,
+                balance: this.#cardBalance.render(),
+                budget: this.#cardBudget.render(),
+                pieTransactions: this.#cardPieTransactions.render(),
+                barCostsByMonth: this.#barCostsByMonth.render()
             }),
         ];
 
         return super.render(templates);
+    };
+
+    setupChartsBeforeRender = async () => {
+        // pie chart with consumed budget
+        if (userStore.storage.feed) {
+            const { plannedBudget, actualBudget } = userStore.storage.feed;
+            if (actualBudget && plannedBudget) {
+                const relation = (plannedBudget - actualBudget) / plannedBudget;
+
+                this.#pieConsumedBudget.setState({
+                    data: [{
+                        title: 'Потраченный бюджет',
+                        value: relation * 100,
+                        color: relation > 1 ? 'red' : 'green',
+                    }],
+                    totalPercent: Math.max(relation * 100, 100),
+                });
+            }
+        }
+
+        // pie chart with costs by categories
+        await transactionsStore.getTransaction();
+        if (transactionsStore.storage.states) {
+            const costsByCategory = {};
+            for (const trans of transactionsStore.storage.states) {
+                if (!costsByCategory[trans.transactionName]) {
+                    costsByCategory[trans.transactionName] = 0;
+                }
+                costsByCategory[trans.transactionName] += parseFloat(trans.value.replace(/\s/g, ''));
+            }
+
+            const pieData = [];
+            Object.entries(costsByCategory).map(([category, value]) => {
+                if (value < 0) {
+                    pieData.push({
+                        title: category,
+                        value: Math.abs(parseFloat(value)),
+                        color: this.getRandomColor(),
+                    });
+                }
+            });
+
+            this.#pieCostsByCategory.setState({
+                data: pieData,
+            });
+        }
+
+        // bar chart with costs in a month
+        if (transactionsStore.storage.states) {
+            const firstDayOfCurrentMonth = new Date();
+            firstDayOfCurrentMonth.setHours(0, 0, 0, 0);
+            firstDayOfCurrentMonth.setDate(1);
+            const costsByDay = {};
+            let maxDayOfMonth = 0;
+
+            for (const trans of transactionsStore.storage.states) {
+                const transDate = new Date(trans.rawDate);
+                if (transDate.getTime() < firstDayOfCurrentMonth.getTime()) {
+                    continue;
+                }
+                const dayOfMonth = transDate.getDate();
+                if (!costsByDay[dayOfMonth]) {
+                    costsByDay[dayOfMonth] = 0;
+                }
+                maxDayOfMonth = Math.max(maxDayOfMonth, dayOfMonth);
+                costsByDay[dayOfMonth] += parseFloat(trans.value.replace(/\s/g, ''));
+            }
+
+            for (let day = 1; day <= maxDayOfMonth; day++) {
+                if (!costsByDay[day]) {
+                    costsByDay[day] = 0;
+                }
+            }
+
+            const barData = Object.entries(costsByDay).map(([day, spendedMoney]) => ({
+                key: day,
+                values: [Math.abs(parseFloat(spendedMoney))],
+                titles: [parseFloat(spendedMoney) < 0 ? 'Потрачено' : 'Заработано'],
+                colors: [parseFloat(spendedMoney) < 0 ? '#0b62a4' : 'green']
+            }));
+
+            this.#barCostsByMonth.setState({
+                data: barData,
+                skipKeys: barData.length > 20 ? 2 : 0,
+            });
+        }
     };
 
     /**
@@ -115,8 +215,40 @@ export class DashboardView extends BaseComponent {
 
         if (newState) {
             this.#cardBalance.setState(newState.cardBalance);
-            this.#cardPlannedBudget.setState(newState.cardPlannedBudget);
-            this.#cardActualBudget.setState(newState.cardActualBudget);
+            this.#cardBudget.setState(newState.cardPlannedBudget);
         }
+    }
+
+    setHandlers() {
+        const pieConsumedBudgetWrapper = document.getElementById('pie-conusmed-budget-wrapper');
+        if (pieConsumedBudgetWrapper) {
+            this.#pieConsumedBudget.parent = pieConsumedBudgetWrapper;
+            this.#pieConsumedBudget.setHandlers();
+        }
+        const pieCostsByCategoryWrapper = document.getElementById('pie-cost-by-category-wrapper');
+        if (pieCostsByCategoryWrapper) {
+            this.#pieCostsByCategory.parent = pieCostsByCategoryWrapper;
+            this.#pieCostsByCategory.setHandlers();
+        }
+        const barCostsByMonthWrapper = document.getElementById('bar-cost-by-month');
+        if (barCostsByMonthWrapper) {
+            this.#barCostsByMonth.parent = barCostsByMonthWrapper;
+            this.#barCostsByMonth.setHandlers();
+        }
+    }
+
+    getRandomColor() {
+        const letters = '789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * letters.length)];
+        }
+        return color;
+    }
+
+    cleanUp() {
+        this.#pieConsumedBudget.cleanUp();
+        this.#pieCostsByCategory.cleanUp();
+        this.#barCostsByMonth.cleanUp();
     }
 }

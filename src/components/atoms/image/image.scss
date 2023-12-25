@@ -1,6 +1,7 @@
 @mixin image-container_size($radius) {
   height: $radius;
   width: $radius;
+  ;
 }
 
 @mixin icon_size($length) {

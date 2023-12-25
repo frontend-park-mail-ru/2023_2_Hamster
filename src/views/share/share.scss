@@ -11,6 +11,10 @@
     gap: var(--meduim-gap);
     margin-top: var(--meduim-gap);
     margin-bottom: var(--big-gap);
+
+    @include tablet {
+      flex-direction: column;
+    }
   }
 
   &__shared-accounts {
