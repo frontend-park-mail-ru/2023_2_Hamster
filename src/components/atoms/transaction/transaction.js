@@ -8,14 +8,14 @@ import template from './transaction.hbs';
 
 const DEFAULT_TRANSACTION = {
     id: 'tag1',
-    transactionName: 'Хомячье',
+    transactionName: 'Хомячья заглушка',
     value: 0,
-    account: 'Хомачьи щечки',
+    account: 'Заглушка',
     deleteId: 'tag1_delete',
     cardId: 'tag1_card',
     rawDate: '0001-01-01T00:00:00.000000Z',
     transactionPlace: 'HammyWallet',
-    transactionMessage: 'Не бойтесь, хомяки сами заберут эту транзакцию, когда вы добавите новую'
+    transactionMessage: 'Эта заглушка появляется, когда хомяки не смогли ничего найти, они заберут ее, когда ты создашь свою транзакцию'
 };
 
 const ICON = {

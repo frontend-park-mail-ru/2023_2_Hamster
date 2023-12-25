@@ -16,6 +16,7 @@ module.exports = {
             '@ajax': path.resolve(__dirname, 'src/modules/ajax.js'),
             '@api': path.resolve(__dirname, 'src/api'),
             '@router': path.resolve(__dirname, 'src/modules/router.js'),
+            '@utils': path.resolve(__dirname, 'src/modules/utils.js'),
             '@views': path.resolve(__dirname, 'src/views'),
             '@actions': path.resolve(__dirname, 'src/actions'),
             '@stores': path.resolve(__dirname, 'src/stores'),
@@ -24,7 +25,6 @@ module.exports = {
     },
     entry: {
         app: ['./src/index.js'],
-        // 'service-worker': './src/sw.js',
     },
     output: {
         path: path.resolve(__dirname, 'dist'),

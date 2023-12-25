@@ -83,12 +83,20 @@ export const userActions = {
         });
     },
 
-    updateProfile(plannedBudget, username, newPassword, oldPassword, repeatPassword) {
+    updateProfile(plannedBudget, username) {
         dispatcher.dispatch({
             type: USER_ACTIONS_TYPES.UPDATE_PROFILE,
             data: {
                 plannedBudget,
                 username,
+            }
+        });
+    },
+
+    updatePassword(newPassword, oldPassword, repeatPassword) {
+        dispatcher.dispatch({
+            type: USER_ACTIONS_TYPES.UPDATE_PASSWORD,
+            data: {
                 oldPassword,
                 newPassword,
                 repeatPassword,

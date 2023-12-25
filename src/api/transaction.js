@@ -31,7 +31,13 @@ class TransactionApi {
 
     csvExport = async () => {
         const url = API_CONSTANTS.CSV_EXPORT;
-        return await get(url);
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        return response;
     };
 
     csvImport = async (data) => {
@@ -39,7 +45,7 @@ class TransactionApi {
         const formData = new FormData();
         formData.append('csvFile', data.file);
 
-        return await postMulti(url, formData);
+        return postMulti(url, formData);
     };
 }
 

@@ -1,6 +1,6 @@
 <div class="accounts">
     <div class="accounts__yours">
-        <h3 class="font-h3-regular accounts__yours-header">Твои счета</h3>
+        <h3 class="font-h3-regular accounts__yours-header">Счета</h3>
         <div class="accounts__yours-list">
             {{#if accounts}}
                 {{#each accounts}}
@@ -72,7 +72,7 @@
                         {{{accountBalanceInput}}}
                     </div>
                 </div>
-                <div>
+                <div class="accounts__create-button">
                     {{{createAccountButton}}}
                 </div>
             </div>

@@ -47,7 +47,6 @@ export class ShareView extends BaseComponent {
         this.select.setState({ values: accountStore.ownAccountsValues });
 
         if (accountStore.loginInput) {
-            console.log(accountStore.loginInput);
             this.input.setState(accountStore.loginInput);
         }
 

@@ -69,7 +69,7 @@ class Router {
         let routeResult;
 
         // TODO: 1) Need to make better check of authenticated routes; 2) Make private routes (for subscription :D)
-        if (routeTrimmed === ROUTE_CONSTANTS.HOME_ROUTE /*|| routeTrimmed === ROUTE_CONSTANTS.DASHBOARD_ROUTE*/ || routeTrimmed === ROUTE_CONSTANTS.PROFILE || routeTrimmed === ROUTE_CONSTANTS.CATEGORIES || routeTrimmed === ROUTE_CONSTANTS.TRANSACTIONS || routeTrimmed === ROUTE_CONSTANTS.ACCOUNTS || routeTrimmed === ROUTE_CONSTANTS.SHARE) {
+        if (routeTrimmed === ROUTE_CONSTANTS.HOME_ROUTE || routeTrimmed === ROUTE_CONSTANTS.DASHBOARD_ROUTE || routeTrimmed === ROUTE_CONSTANTS.PROFILE || routeTrimmed === ROUTE_CONSTANTS.CATEGORIES || routeTrimmed === ROUTE_CONSTANTS.TRANSACTIONS || routeTrimmed === ROUTE_CONSTANTS.ACCOUNTS || routeTrimmed === ROUTE_CONSTANTS.SHARE) {
             routeResult = userStore.storage.user.isAuthorised
                 ? routeTrimmed
                 : ROUTE_CONSTANTS.LOGIN_ROUTE;

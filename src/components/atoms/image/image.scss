@@ -17,19 +17,6 @@
   background-size: cover;
   border-radius: 50%;
   font-size: 17px;
-  background-color: var(--accent-color);
-
-  &__color_gray {
-    background-color: var(--background-secondary-color);
-  }
-
-  &__color_blue {
-    background-color: var(--primary-color);
-  }
-
-  &__color_light-blue {
-    background-color: var(--primary-color-lighter);
-  }
 
   &__border {
     border: var(--image-border-line-width) solid var(--image-border-color);

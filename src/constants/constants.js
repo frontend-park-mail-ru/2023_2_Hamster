@@ -70,9 +70,10 @@ export const STATUS_CODES = {
     NO_CONTENT: 204,
     BAD_REQUEST: 400,
     UNAUTHORISED: 401,
-    CONFLICT: 409,
     FORBIDDEN: 403,
     NOT_FOUND: 404,
+    CONFLICT: 409,
+    CONTENT_TOO_LARGE: 413,
     TOO_MANY_REQUESTS: 429,
     INTERNAL_SERVER_ERROR: 500,
 };
@@ -227,7 +228,15 @@ export const PROFILE_STATE = {
 
     BUTTON_STATE: {
         id: 'save_profile_button',
-        buttonText: 'Сохранить изменения',
+        buttonText: 'Обновить профиль',
+        buttonColor: 'button_primary-color',
+        buttonSize: 'button_small',
+        buttonType: 'button',
+    },
+
+    SAVE_PASSWORD: {
+        id: 'save_password_button',
+        buttonText: 'Обновить пароль',
         buttonColor: 'button_primary-color',
         buttonSize: 'button_small',
         buttonType: 'button',

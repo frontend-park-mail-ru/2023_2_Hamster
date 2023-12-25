@@ -5,6 +5,7 @@ import {
 import { ACCOUNT_NAME_RULES, BUDGET_RULES } from '@constants/validation';
 import { userStore } from '@stores/userStore';
 import { Button, Image } from '@atoms';
+import { numberWithSpaces } from '@utils';
 import BaseStore from './baseStore.js';
 import { validator } from '../modules/validator';
 
@@ -30,7 +31,7 @@ class AccountStore extends BaseStore {
         raw: data.id,
         elementId: `id${data.id}`,
         name: data.mean_payment,
-        balance: data.balance,
+        balance: numberWithSpaces(data.balance),
         owner: data.users[0].login !== userStore.storage.user.login ? data.users[0].login : undefined,
     }));
 
@@ -124,10 +125,12 @@ class AccountStore extends BaseStore {
                     raw: response.body.account_id,
                     elementId: `id${response.body.account_id}`,
                     name: data.mean_payment,
-                    balance: data.balance,
+                    balance: numberWithSpaces(data.balance),
                 });
+
+                this.notify = { success: true, notifierText: 'Счет создан' };
             } catch (error) {
-                console.log('Unable to connect to the server, error: ', error);
+                this.notify = { error: true, notifierText: 'Возникла непредвиденная ошибка' };
             }
         }
 
@@ -144,10 +147,12 @@ class AccountStore extends BaseStore {
                 this.storage.selectedAccount = null;
             }
 
-            this.emitChange(EVENT_TYPES.RERENDER_ACCOUNTS);
+            this.notify = { success: true, notifierText: 'Счет удален' };
         } catch (error) {
-            console.log('Unable to connect to the server, error: ', error);
+            this.notify = { error: true, notifierText: 'Возникла непредвиденная ошибка' };
         }
+
+        this.emitChange(EVENT_TYPES.RERENDER_ACCOUNTS);
     };
 
     updateAccount = async (data) => {
@@ -155,8 +160,8 @@ class AccountStore extends BaseStore {
             try {
                 await accountApi.updateAccount({ ...data, balance: parseFloat(data.balance) });
 
-                this.nameInput = { isError: false, inputHelperText: '' };
-                this.balanceInput = { isError: false, inputHelperText: '' };
+                this.nameInput = { isError: false, inputHelperText: '', value: data.mean_payment };
+                this.balanceInput = { isError: false, inputHelperText: '', value: data.balance };
 
                 this.storage.states = this.storage.states.map((item) => {
                     if (item.raw !== data.id) {
@@ -170,8 +175,9 @@ class AccountStore extends BaseStore {
                     };
                 });
 
+                this.notify = { success: true, notifierText: 'Счет обновлен' };
             } catch (error) {
-                console.log('Unable to connect to the server, error: ', error);
+                this.notify = { error: true, notifierText: 'Возникла непредвиденная ошибка' };
             }
         }
 
@@ -189,7 +195,7 @@ class AccountStore extends BaseStore {
         };
 
         this.balanceInput = {
-            value: data.balance,
+            value: data.balance.replace(/\s/g, ''),
             isError: balance.isError,
             inputHelperText: balance.message,
         };
@@ -221,14 +227,16 @@ class AccountStore extends BaseStore {
         }
 
         this.emitChange(EVENT_TYPES.RERENDER_SHARE);
-        // this.loginInput = { value: '', isError: false, inputHelperText: '' };
+        this.loginInput = { value: '', isError: false, inputHelperText: '' };
     };
 
     deleteUserInAccount = async (data) => {
         try {
             await accountApi.deleteUserInAccount(data);
+
+            this.notify = { success: true, notifierText: 'Пользователь удален' };
         } catch (error) {
-            console.log('Unable to connect to the server, error: ', error);
+            this.notify = { error: true, notifierText: 'Возникла непредвиденная ошибка' };
         }
 
         this.emitChange(EVENT_TYPES.RERENDER_SHARE);
@@ -237,8 +245,15 @@ class AccountStore extends BaseStore {
     unsubscribeAccount = async (data) => {
         try {
             await accountApi.unsubscribeAccount(data.account_id);
+            this.notify = { success: true, notifierText: 'Вы отписались от раздельного счета' };
+
+            this.storage.states = this.storage.states.filter((item) => item.raw !== data.account_id);
+
+            if (this.storage.selectedAccount === `id${data.account_id}`) {
+                this.storage.selectedAccount = null;
+            }
         } catch (error) {
-            console.log('Unable to connect to the server, error: ', error);
+            this.notify = { error: true, notifierText: 'Возникла непредвиденная ошибка' };
         }
 
         this.emitChange(EVENT_TYPES.RERENDER_ACCOUNTS);

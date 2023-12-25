@@ -196,7 +196,7 @@ export class AccountsView extends BaseComponent {
 
     accountClickHandler = async (account, event) => {
         this.nameInput.setState({ inputPlaceholder: account.name, value: account.name });
-        this.balanceInput.setState({ inputPlaceholder: account.balance, value: String(account.balance) });
+        this.balanceInput.setState({ inputPlaceholder: account.balance, value: String(account.balance.replace(/\s/g, '')) });
         await accountActions.selectAccount(account.elementId);
     };
 

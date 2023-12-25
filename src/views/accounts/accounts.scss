@@ -8,8 +8,8 @@
     &__yours {
         display: flex;
         flex-direction: column;
-        width: 50%;
-        row-gap: var(--big-gap);
+        width: 70%;
+        row-gap: var(--meduim-gap);
     }
 
     &__yours-list {
@@ -69,8 +69,8 @@
 
     &__configure {
         display: flex;
-        gap: var(--big-gap);
-        width: 50%;
+        gap: var(--meduim-gap);
+        width: 30%;
         flex-direction: column;
     }
 
@@ -90,8 +90,11 @@
             display: flex;
             flex-direction: column;
             gap: var(--meduim-gap);
-            width: 45%;
         }
+    }
+
+    &__create-button{
+        margin-left: auto;
     }
 
     &__delete-account-button {

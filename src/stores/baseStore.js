@@ -1,3 +1,4 @@
+import { NULL } from 'sass';
 import { eventBus } from '../modules/eventBus';
 
 /**
@@ -16,6 +17,12 @@ export default class BaseStore {
      */
     constructor() {
         this.storage = {};
+        this.notify = {
+            notifierText: null,
+            error: null,
+            warning: null,
+            success: null,
+        };
     }
 
     /**

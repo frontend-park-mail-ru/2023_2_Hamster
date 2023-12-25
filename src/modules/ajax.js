@@ -13,8 +13,7 @@ export const get = async (url) => {
     const response = await fetch(url, { credentials: 'include' });
 
     if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message}`);
+        throw response;
     }
 
     return await response.json();
@@ -84,8 +83,7 @@ export const patch = async (url, data) => {
     });
 
     if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message}`);
+        throw response;
     }
 
     return await response.json();
@@ -113,7 +111,7 @@ export const deleteRequest = async (url, data) => {
     });
 
     if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw response;
     }
 
     return await response.json();
@@ -161,8 +159,7 @@ export const putMulti = async (url, data) => {
     });
 
     if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message}`);
+        throw response;
     }
 
     return await response.json();
@@ -181,8 +178,7 @@ export const postMulti = async (url, data) => {
     });
 
     if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message}`);
+        throw response;
     }
 
     return await response.json();

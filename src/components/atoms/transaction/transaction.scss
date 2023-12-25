@@ -11,10 +11,12 @@
     padding: 12px;
     width: auto;
     border-radius: var(--radius-size-medium);
+    filter: brightness(0.5);
   }
 
   &_hoverable {
     transition: background-color 0.1s ease;
+    filter: brightness(1);
 
     &:hover{
       background-color: var(--background-secondary-color);

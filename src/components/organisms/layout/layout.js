@@ -13,6 +13,7 @@ import { userActions } from '@actions/userActions';
 import LOG_OUT_IMAGE from '@icons/logout.svg';
 
 import sidebarTemplate from '@molecules/sidebar/sidebar.hbs';
+import { transactionsStore } from '@stores/transactionsStore';
 import layoutTemplate from './layout.hbs';
 
 /**
@@ -125,25 +126,32 @@ export class Layout extends BaseComponent {
 
         this.#sidebar = new Sidebar(parent, this.getState().sidebar);
 
+        this.notifier = {};
+
         switch (context) {
         case 'categories':
             categoriesStore.registerListener(EVENT_TYPES.RERENDER_CATEGORIES, this.renderTemplateToParent.bind(this));
+            this.notifier = categoriesStore;
             break;
 
         case 'transactions':
-            categoriesStore.registerListener(EVENT_TYPES.RERENDER_TRANSACTIONS, this.renderTemplateToParent.bind(this));
+            transactionsStore.registerListener(EVENT_TYPES.RERENDER_TRANSACTIONS, this.renderTemplateToParent.bind(this));
+            this.notifier = transactionsStore;
             break;
 
         case 'accounts':
             accountStore.registerListener(EVENT_TYPES.RERENDER_ACCOUNTS, this.renderTemplateToParent.bind(this));
+            this.notifier = accountStore;
             break;
 
         case 'profile':
             userStore.registerListener(EVENT_TYPES.RERENDER_PROFILE, this.renderTemplateToParent.bind(this));
+            this.notifier = userStore;
             break;
 
         case 'share':
             userStore.registerListener(EVENT_TYPES.RERENDER_SHARE, this.renderTemplateToParent.bind(this));
+            this.notifier = userStore;
             break;
 
         default:
@@ -179,8 +187,16 @@ export class Layout extends BaseComponent {
                     sidebarAvatar: this.#avatar.render(),
                 }),
                 content: contentHTML,
+                ...this.notifier.notify,
             }),
         ];
+
+        this.notifier.notify = {
+            notifierText: null,
+            error: null,
+            warning: null,
+            success: null,
+        };
 
         return await super.renderTemplateToParent(templatesToStateMap);
     }

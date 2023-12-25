@@ -18,24 +18,6 @@
                     </div>
                 </dd>
             </dl>
-                        <dl class="form-group">
-                            <dt class="form-group__heading">
-                                <h2 class="font-h2-medium">
-                                    Безопасность
-                                </h2>
-                            </dt>
-                            <dd class="form-group__input">
-                                <div id="current_password_input_container">
-                                    {{{currentPasswordInput}}}
-                                </div>
-                                <div id="new_password_input_container">
-                                    {{{newPasswordInput}}}
-                                </div>
-                                <div id="repeat_password_input_container">
-                                    {{{repeatPasswordInput}}}
-                                </div>
-                            </dd>
-                        </dl>
             <dl class="form-group">
                 <dt class="form-group__heading">
                     <h2 class="font-h2-medium">
@@ -48,6 +30,30 @@
                     </div>
                 </dd>
             </dl>
+            <div class="profile__button-container">
+                {{{saveProfileButton}}}
+            </div>
+            <dl class="form-group">
+                <dt class="form-group__heading">
+                    <h2 class="font-h2-medium">
+                        Безопасность
+                    </h2>
+                </dt>
+                <dd class="form-group__input">
+                    <div id="current_password_input_container">
+                        {{{currentPasswordInput}}}
+                    </div>
+                    <div id="new_password_input_container">
+                        {{{newPasswordInput}}}
+                    </div>
+                    <div id="repeat_password_input_container">
+                        {{{repeatPasswordInput}}}
+                    </div>
+                </dd>
+            </dl>
+            <div class="profile__button-container">
+                {{{savePasswordButton}}}
+            </div>
         </form>
         <div class="profile__avatar-container">
             <h2 class="font-h2-medium profile__avatar-heading">
@@ -73,8 +79,5 @@
                 <div class="upload-form__input">{{{csvImport}}}</div>
             </div>
         </div>
-    </div>
-    <div class="profile__button-container">
-        {{{saveButton}}}
     </div>
 </div>

@@ -19,6 +19,7 @@ export const USER_ACTIONS_TYPES = {
     ROUTE_REGISTRATION: 'ROUTE_REGISTRATION',
 
     UPDATE_PROFILE: 'UPDATE_PROFILE',
+    UPDATE_PASSWORD: 'UPDATE_PASSWORD',
     UPDATE_AVATAR: 'UPDATE_AVATAR',
 
     EXPORT_CSV: 'EXPORT_CSV',
@@ -101,6 +102,10 @@ export const actions = [
     {
         type: USER_ACTIONS_TYPES.UPDATE_PROFILE,
         method: userStore.updateProfile,
+    },
+    {
+        type: USER_ACTIONS_TYPES.UPDATE_PASSWORD,
+        method: userStore.updatePassword,
     },
     {
         type: USER_ACTIONS_TYPES.UPDATE_AVATAR,
