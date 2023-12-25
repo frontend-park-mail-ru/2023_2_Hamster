@@ -1,6 +1,11 @@
 import { accountApi } from '@api/account';
-import { EVENT_TYPES, STATUS_CODES } from '@constants/constants';
+import {
+    DEFAULT_AVATAR, EVENT_TYPES, NULL_UUID, STATUS_CODES
+} from '@constants/constants';
 import { ACCOUNT_NAME_RULES, BUDGET_RULES } from '@constants/validation';
+import { userStore } from '@stores/userStore';
+import { Button, Image } from '@atoms';
+import { numberWithSpaces } from '@utils';
 import BaseStore from './baseStore.js';
 import { validator } from '../modules/validator';
 
@@ -26,7 +31,8 @@ class AccountStore extends BaseStore {
         raw: data.id,
         elementId: `id${data.id}`,
         name: data.mean_payment,
-        balance: data.balance,
+        balance: numberWithSpaces(data.balance),
+        owner: data.users[0].login !== userStore.storage.user.login ? data.users[0].login : undefined,
     }));
 
     selectAccount = async (data) => {
@@ -47,8 +53,50 @@ class AccountStore extends BaseStore {
 
                 this.accountsValues = this.accounts.map((account) => ({
                     value: account.id,
-                    valueName: account.mean_payment
+                    valueName: account.users[0].login !== userStore.storage.user.login ? `${account.mean_payment} - ${account.users[0].login}` : account.mean_payment
                 }));
+
+                this.ownAccountsValues = this.accounts
+                    .filter((account) => account.sharing_id === userStore.storage.user.id)
+                    .map((account) => ({ value: account.id, valueName: account.mean_payment }));
+
+                this.sharedAccounts = [];
+                this.sharingWith = [];
+                this.accounts.forEach((account) => {
+                    account.users.filter((user) => {
+                        if (user.id !== userStore.storage.user.id) {
+                            if (user.id !== account.sharing_id) {
+                                let avatarSrc;
+                                user.avatar_url === NULL_UUID
+                                    ? avatarSrc = DEFAULT_AVATAR
+                                    : avatarSrc = `../images/${user.avatar_url}.jpg`;
+                                const avatar = new Image(null, {
+                                    avatar: avatarSrc,
+                                    imageSize: 'image-container_medium',
+                                    withBorder: true
+                                });
+                                const button = new Button(null, {
+                                    id: `delete${account.id}`,
+                                    buttonText: 'Удалить',
+                                    buttonColor: 'button_delete'
+                                });
+                                this.sharedAccounts.push({
+                                    accountId: account.id,
+                                    userId: user.id,
+                                    avatar: avatar.render(),
+                                    login: user.login,
+                                    account: account.mean_payment,
+                                    delete: button.render(),
+                                });
+                            } else {
+                                this.sharingWith.push({
+                                    accountId: account.id,
+                                    login: user.login,
+                                });
+                            }
+                        }
+                    });
+                });
 
                 break;
 
@@ -77,7 +125,7 @@ class AccountStore extends BaseStore {
                     raw: response.body.account_id,
                     elementId: `id${response.body.account_id}`,
                     name: data.mean_payment,
-                    balance: data.balance,
+                    balance: numberWithSpaces(data.balance),
                 });
             } catch (error) {
                 console.log('Unable to connect to the server, error: ', error);
@@ -142,7 +190,7 @@ class AccountStore extends BaseStore {
         };
 
         this.balanceInput = {
-            value: data.balance,
+            value: data.balance.replace(/\s/g, ""),
             isError: balance.isError,
             inputHelperText: balance.message,
         };
@@ -150,6 +198,54 @@ class AccountStore extends BaseStore {
         return nameValidation.isError || balance.isError;
     };
 
+    addUserInAccount = async (data) => {
+        try {
+            await accountApi.addUserInAccount(data);
+        } catch (response) {
+            this.loginInput = { value: data.login, isError: true };
+
+            switch (response.status) {
+            case STATUS_CODES.BAD_REQUEST:
+                data.login === userStore.storage.user.login
+                    ? this.loginInput.inputHelperText = 'Нельзя добавить самого себя'
+                    : this.loginInput.inputHelperText = 'Этот пользователь уже добавлен к этому счету';
+                break;
+            case STATUS_CODES.NOT_FOUND:
+                this.loginInput.inputHelperText = 'Такого пользователя не существует';
+                break;
+            case STATUS_CODES.INTERNAL_SERVER_ERROR:
+                this.loginInput.inputHelperText = 'Непредвиденная ошибка, уже работаем над этим ;)';
+                break;
+            default:
+                this.loginInput.inputHelperText = 'Хомяки погрызли провода, мы уже отругали их за это';
+            }
+        }
+
+        this.emitChange(EVENT_TYPES.RERENDER_SHARE);
+        this.loginInput = { value: '', isError: false, inputHelperText: '' };
+    };
+
+    deleteUserInAccount = async (data) => {
+        try {
+            await accountApi.deleteUserInAccount(data);
+        } catch (error) {
+            console.log('Unable to connect to the server, error: ', error);
+        }
+
+        this.emitChange(EVENT_TYPES.RERENDER_SHARE);
+    };
+
+    unsubscribeAccount = async (data) => {
+        try {
+            await accountApi.unsubscribeAccount(data.account_id);
+
+            this.storage.states.filter((item) => item.raw !== data.account_id);
+        } catch (error) {
+            console.log('Unable to connect to the server, error: ', error);
+        }
+
+        this.emitChange(EVENT_TYPES.RERENDER_ACCOUNTS);
+    };
 }
 
 export const accountStore = new AccountStore();

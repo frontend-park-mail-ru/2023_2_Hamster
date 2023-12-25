@@ -13,6 +13,7 @@ import { userActions } from '@actions/userActions';
 import LOG_OUT_IMAGE from '@icons/logout.svg';
 
 import sidebarTemplate from '@molecules/sidebar/sidebar.hbs';
+import { transactionsStore } from '@stores/transactionsStore';
 import layoutTemplate from './layout.hbs';
 
 /**
@@ -69,7 +70,6 @@ const IMAGE_STATE = {
     imageSize: 'image-container_big',
     withBorder: true,
     isClickable: true,
-    avatar: '../images/homyak.png',
 };
 
 /**
@@ -126,20 +126,35 @@ export class Layout extends BaseComponent {
 
         this.#sidebar = new Sidebar(parent, this.getState().sidebar);
 
-        if (context === 'categories') {
+        this.notifier = {};
+
+        switch (context) {
+        case 'categories':
             categoriesStore.registerListener(EVENT_TYPES.RERENDER_CATEGORIES, this.renderTemplateToParent.bind(this));
-        }
+            this.notifier = categoriesStore;
+            break;
 
-        if (context === 'transactions') {
-            categoriesStore.registerListener(EVENT_TYPES.RERENDER_TRANSACTIONS, this.renderTemplateToParent.bind(this));
-        }
+        case 'transactions':
+            transactionsStore.registerListener(EVENT_TYPES.RERENDER_TRANSACTIONS, this.renderTemplateToParent.bind(this));
+            this.notifier = transactionsStore;
+            break;
 
-        if (context === 'accounts') {
+        case 'accounts':
             accountStore.registerListener(EVENT_TYPES.RERENDER_ACCOUNTS, this.renderTemplateToParent.bind(this));
-        }
+            this.notifier = accountStore;
+            break;
 
-        if (context === 'profile') {
+        case 'profile':
             userStore.registerListener(EVENT_TYPES.RERENDER_PROFILE, this.renderTemplateToParent.bind(this));
+            this.notifier = userStore;
+            break;
+
+        case 'share':
+            userStore.registerListener(EVENT_TYPES.RERENDER_SHARE, this.renderTemplateToParent.bind(this));
+            this.notifier = userStore;
+            break;
+
+        default:
         }
     }
 
@@ -155,8 +170,7 @@ export class Layout extends BaseComponent {
             this.#avatar.setState({ avatar: `../images/${avatarPath}.jpg` });
         }
 
-        const { username } = userStore.storage.user;
-        this.setState({ sidebar: { profileName: username || 'Имя профиля' } });
+        this.setState({ sidebar: { profileName: userStore.storage.user.username } });
 
         const contentHTML = await this.#contentElement.render();
 
@@ -173,8 +187,16 @@ export class Layout extends BaseComponent {
                     sidebarAvatar: this.#avatar.render(),
                 }),
                 content: contentHTML,
+                ...this.notifier.notify,
             }),
         ];
+
+        this.notifier.notify = {
+            notifierText: null,
+            error: null,
+            warning: null,
+            success: null,
+        };
 
         return await super.renderTemplateToParent(templatesToStateMap);
     }

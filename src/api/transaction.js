@@ -17,7 +17,6 @@ class TransactionApi {
         }
         const url = API_CONSTANTS.GET_TRANSACTIONS + qString;
         return await get(url);
-
     };
 
     deleteTransaction = async (transactionId) => {

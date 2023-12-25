@@ -1,0 +1,25 @@
+<div class="share">
+    <h3 class="font-h3-regular share__text">Добавить к счету</h3>
+    <div class="share__add-form">
+        {{{input}}}
+        {{{select}}}
+        <div>
+            {{{button}}}
+        </div>
+    </div>
+    <h3 class="font-h3-regular share__text">Добавлены к счетам</h3>
+    <div class="share__shared-accounts">
+        {{#each accounts}}
+            <div class="share__card" id="{{this.elementId}}">
+                <div class="share__avatar">
+                    {{{this.avatar}}}
+                </div>
+                <span class="font-base-text share__user-login">{{this.login}}</span>
+                <span class="font-base-text share__shared-account">{{this.account}}</span>
+                <div class="share__delete-button">
+                    {{{this.delete}}}
+                </div>
+            </div>
+        {{/each}}
+    </div>
+</div>
