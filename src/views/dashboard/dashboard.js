@@ -8,7 +8,7 @@ import { USER_STORE } from '@constants/constants';
 import { transactionsStore } from '@stores/transactionsStore';
 import template from './dashboard.hbs';
 
-const MONTHES = [
+const MONTHS = [
     'январь',
     'февраль',
     'март',
@@ -21,7 +21,7 @@ const MONTHES = [
     'октябрь',
     'ноябрь',
     'декабрь',
-]
+];
 
 /**
  * Dashboard class extends BaseComponent.
@@ -31,9 +31,9 @@ export class DashboardView extends BaseComponent {
 
     #cardBalance;
 
-    #cardPlannedBudget;
+    #cardBudget;
 
-    #cardActualBudget;
+    #cardPieTransactions;
 
     #pieCostsByCategory;
 
@@ -45,25 +45,25 @@ export class DashboardView extends BaseComponent {
         super(USER_STORE.FEED_STATE, template, parent);
 
         this.#cardBalance = new Card(USER_STORE.FEED_STATE.cardBalance);
-        this.#cardPlannedBudget = new Card(USER_STORE.FEED_STATE.cardPlannedBudget);
-        this.#cardActualBudget = new Card(USER_STORE.FEED_STATE.cardActualBudget);
+        this.#cardBudget = new Card(USER_STORE.FEED_STATE.cardPlannedBudget);
+        this.#cardPieTransactions = new Card({ cardSize: 'card_small', cardHeadline: 'Траты по категориям', id: 'pie-cost-by-category-wrapper' });
 
-        this.#pieCostsByCategory = new PieChart();
+        this.#pieCostsByCategory = new PieChart({ textAbove: null });
         this.#pieConsumedBudget = new PieChart();
         this.#barCostsByMonth = new BarChart();
 
         this.#pieConsumedBudget.setState({
             data: [],
-            textAbove: 'Бюджет:',
-            textAboveFormatter: () => 'Бюджет: ',
-            hasTooltip: false,
+            textAbove: 'Использовано',
+            textAboveFormatter: () => 'Использовано',
+            hasTooltip: false
         });
         this.#pieCostsByCategory.setState({
             data: [],
-            textAbove: 'Траты по',
-            textCenter: 'категориям',
-            textAboveFormatter: () => 'Траты по',
-            textCenterFormatter: () => 'категориям',
+            textAbove: 'Сумма',
+            textCenter: 'за месяц',
+            textAboveFormatter: () => 'Сумма',
+            textCenterFormatter: () => 'за месяц',
             isPercents: false,
             tooltipFormatter: (value, title) => `${title}: ${value} руб.`,
         });
@@ -78,49 +78,9 @@ export class DashboardView extends BaseComponent {
             chartLeftMargin: 50,
             levelCount: 3,
             fontSize: 2,
-            textAbove: 'График расходов за ' + MONTHES[new Date().getMonth()],
+            textAbove: `График расходов за ${MONTHS[new Date().getMonth()]}`,
         });
     }
-
-    /**
-     * Renders the Dashboard template to the parent element.
-     * This method is responsible for rendering the card balance list, cards for planned and actual budget,
-     * and then mapping these rendered HTML strings to their corresponding state keys.
-     */
-    renderTemplateToParent = () => {
-        userActions.getFeed();
-
-        const { balance } = userStore.storage.user;
-        const { plannedBudget } = userStore.storage.user;
-        const { actualBudget } = userStore.storage.user;
-
-        if (balance) {
-            this.#cardBalance.setState({ cardSubhead: balance });
-        }
-
-        if (plannedBudget) {
-            this.#cardPlannedBudget.setState({ cardSubhead: plannedBudget });
-        }
-
-        if (actualBudget) {
-            this.#cardActualBudget.setState({ cardSubhead: actualBudget });
-        }
-
-        const cardBalanceHTML = this.#cardBalance.render();
-        const cardPlannedBudgetHTML = this.#cardPlannedBudget.render();
-        const cardActualBudgetHTML = this.#cardActualBudget.render();
-
-        const templates = [
-            template({
-                balance: cardBalanceHTML,
-                plannedBudget: cardPlannedBudgetHTML,
-                actualBudget: cardActualBudgetHTML,
-                pieConsumedBudget: pieConsumedBudgetHTML,
-            }),
-        ];
-
-        super.renderTemplateToParent(templates);
-    };
 
     /**
      * Renders the Dashboard template and returns the rendered HTML.
@@ -129,7 +89,8 @@ export class DashboardView extends BaseComponent {
     render = async () => {
         await userStore.feed();
 
-        // console.log('userStore.storage.feed', userStore.storage.feed);
+        await this.setupChartsBeforeRender();
+
         if (userStore.storage.feed) {
             const { accounts } = userStore.storage.feed;
             const { balance } = userStore.storage.feed;
@@ -141,32 +102,18 @@ export class DashboardView extends BaseComponent {
                 : this.#cardBalance.setState({ cardSubhead: 'У вас нет счетов, добавьте их, чтобы видеть свой баланс' });
 
             plannedBudget
-                ? this.#cardPlannedBudget.setState({ cardSubhead: `${parseFloat(plannedBudget)} руб.` })
-                : this.#cardPlannedBudget.setState({ cardSubhead: 'Ваш бюджет не запланирован, вы можете сделать это в профиле' });
-
-            plannedBudget
-                ? this.#cardActualBudget.setState({ cardSubhead: `${parseFloat(actualBudget)} руб.` })
-                : this.#cardActualBudget.setState({ cardSubhead: 'Не можем расчитать фактический бюджет, задайте бюджет в профиле' });
+                ? this.#cardBudget.setState({ cardSubhead: `${parseFloat(actualBudget)} / ${parseFloat(plannedBudget)} руб.`, content: this.#pieConsumedBudget.render() })
+                : this.#cardBudget.setState({ cardSubhead: 'Ваш бюджет не запланирован, вы можете сделать это в профиле' });
         }
-            
-        await this.setupChartsBeforeRender();
-        
-        const cardBalanceHTML = this.#cardBalance.render();
-        const cardPlannedBudgetHTML = this.#cardPlannedBudget.render();
-        const cardActualBudgetHTML = this.#cardActualBudget.render();
 
-        const pieConsumedBudgetHTML = this.#pieConsumedBudget.render();
-        const pieCostsByCategoryHTML = this.#pieCostsByCategory.render();
-        const barCostsByMonthHTML = this.#barCostsByMonth.render();
+        this.#cardPieTransactions.setState({ content: this.#pieCostsByCategory.render() });
 
         const templates = [
             template({
-                balance: cardBalanceHTML,
-                plannedBudget: cardPlannedBudgetHTML,
-                actualBudget: cardActualBudgetHTML,
-                pieConsumedBudget: pieConsumedBudgetHTML,
-                pieCostsByCategory: pieCostsByCategoryHTML,
-                barCostsByMonth: barCostsByMonthHTML
+                balance: this.#cardBalance.render(),
+                budget: this.#cardBudget.render(),
+                pieTransactions: this.#cardPieTransactions.render(),
+                barCostsByMonth: this.#barCostsByMonth.render()
             }),
         ];
 
@@ -193,14 +140,13 @@ export class DashboardView extends BaseComponent {
 
         // pie chart with costs by categories
         await transactionsStore.getTransaction();
-        // console.log('transactionsStore.storage.states', transactionsStore.storage.states);
         if (transactionsStore.storage.states) {
             const costsByCategory = {};
             for (const trans of transactionsStore.storage.states) {
                 if (!costsByCategory[trans.transactionName]) {
                     costsByCategory[trans.transactionName] = 0;
                 }
-                costsByCategory[trans.transactionName] += trans.value;
+                costsByCategory[trans.transactionName] += parseFloat(trans.value.replace(/\s/g, ''));
             }
 
             const pieData = [];
@@ -208,13 +154,11 @@ export class DashboardView extends BaseComponent {
                 if (value < 0) {
                     pieData.push({
                         title: category,
-                        value: Math.abs(value),
+                        value: Math.abs(parseFloat(value)),
                         color: this.getRandomColor(),
                     });
                 }
             });
-
-            // console.log('costsByCategory', costsByCategory, pieData);
 
             this.#pieCostsByCategory.setState({
                 data: pieData,
@@ -239,7 +183,7 @@ export class DashboardView extends BaseComponent {
                     costsByDay[dayOfMonth] = 0;
                 }
                 maxDayOfMonth = Math.max(maxDayOfMonth, dayOfMonth);
-                costsByDay[dayOfMonth] += trans.value;
+                costsByDay[dayOfMonth] += parseFloat(trans.value.replace(/\s/g, ''));
             }
 
             for (let day = 1; day <= maxDayOfMonth; day++) {
@@ -250,100 +194,17 @@ export class DashboardView extends BaseComponent {
 
             const barData = Object.entries(costsByDay).map(([day, spendedMoney]) => ({
                 key: day,
-                values: [Math.abs(spendedMoney)],
-                titles: [spendedMoney < 0 ? 'Потрачено' : 'Заработано'],
-                colors: [spendedMoney < 0 ? '#0b62a4' : 'green']
+                values: [Math.abs(parseFloat(spendedMoney))],
+                titles: [parseFloat(spendedMoney) < 0 ? 'Потрачено' : 'Заработано'],
+                colors: [parseFloat(spendedMoney) < 0 ? '#0b62a4' : 'green']
             }));
-
-            // console.log('barData', barData, costsByDay);
 
             this.#barCostsByMonth.setState({
                 data: barData,
                 skipKeys: barData.length > 20 ? 2 : 0,
             });
         }
-        
-        // this.#pieCostsByCategory.setState({
-        //     data: [
-        //         {
-        //             title: 'Потраченный бюджет',
-        //             value: 24,
-        //             color: 'green',
-        //         },
-        //         {
-        //             title: 'sdsdadбюджет',
-        //             value: 56,
-        //             color: 'blue',
-        //         },
-        //     ],
-        // });
-        
-        // const relation = 1.1;
-
-        // this.#pieConsumedBudget.setState({
-        //     data: [{
-        //         title: 'Потраченный бюджет',
-        //         value: relation * 100,
-        //         color: relation > 1 ? 'red' : 'green',
-        //     }],
-        //     totalPercent: Math.max(relation * 100, 100),
-        // });
-        
-
-        // this.#barCostsByMonth.setState({
-        //     // skipKeys: 2,
-        //     data: [
-        //         {
-        //             key: 1,
-        //             values: [0],
-        //             titles: ['Потрачено'],
-        //             colors: ['#0b62a4']
-        //         },
-        //         {
-        //             key: 2,
-        //             values: [0],
-        //             titles: ['Заработано'],
-        //             colors: ['green']
-        //         },
-        //         {
-        //             key: 2.4,
-        //             values: [0],
-        //             titles: ['Потрачено'],
-        //             colors: ['#0b62a4']
-        //         },
-        //         {
-        //             key: 3,
-        //             values: [0],
-        //             titles: ['Потрачено'],
-        //             colors: ['#0b62a4']
-        //         },
-        //         {
-        //             key: 1,
-        //             values: [0],
-        //             titles: ['Потрачено'],
-        //             colors: ['#0b62a4']
-        //         },
-        //         {
-        //             key: 2,
-        //             values: [0],
-        //             titles: ['Заработано'],
-        //             colors: ['green']
-        //         },
-        //         {
-        //             key: 2.4,
-        //             values: [0],
-        //             titles: ['Потрачено'],
-        //             colors: ['#0b62a4']
-        //         },
-        //         {
-        //             key: 3,
-        //             values: [0],
-        //             titles: ['Потрачено'],
-        //             colors: ['#0b62a4']
-        //         },
-        //     ]
-        // });
-    }
+    };
 
     /**
      * Updates the state of the Dashboard component.
@@ -354,8 +215,7 @@ export class DashboardView extends BaseComponent {
 
         if (newState) {
             this.#cardBalance.setState(newState.cardBalance);
-            this.#cardPlannedBudget.setState(newState.cardPlannedBudget);
-            this.#cardActualBudget.setState(newState.cardActualBudget);
+            this.#cardBudget.setState(newState.cardPlannedBudget);
         }
     }
 

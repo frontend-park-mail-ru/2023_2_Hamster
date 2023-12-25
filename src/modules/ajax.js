@@ -1,4 +1,4 @@
-import { API_CONSTANTS } from '@constants/constants.js';
+import { API_CONSTANTS, STATUS_CODES } from '@constants/constants.js';
 import { csrfApi } from '@api/csrf';
 
 /**
@@ -16,7 +16,7 @@ export const get = async (url) => {
         throw response;
     }
 
-    return await response.json();
+    return response.status === STATUS_CODES.NO_CONTENT ? [] : await response.json();
 };
 
 /**
@@ -57,7 +57,7 @@ export const post = async (url, data) => {
         throw response;
     }
 
-    return await response.json();
+    return response.status === STATUS_CODES.NO_CONTENT ? [] : await response.json();
 };
 
 /**
@@ -86,7 +86,7 @@ export const patch = async (url, data) => {
         throw response;
     }
 
-    return await response.json();
+    return response.status === STATUS_CODES.NO_CONTENT ? [] : await response.json();
 };
 
 /**
@@ -114,7 +114,7 @@ export const deleteRequest = async (url, data) => {
         throw response;
     }
 
-    return await response.json();
+    return response.status === STATUS_CODES.NO_CONTENT ? [] : await response.json();
 };
 
 /**
@@ -143,7 +143,7 @@ export const put = async (url, data) => {
         throw response;
     }
 
-    return await response.json();
+    return response.status === STATUS_CODES.NO_CONTENT ? [] : await response.json();
 };
 
 export const putMulti = async (url, data) => {
@@ -162,7 +162,7 @@ export const putMulti = async (url, data) => {
         throw response;
     }
 
-    return await response.json();
+    return response.status === STATUS_CODES.NO_CONTENT ? [] : await response.json();
 };
 
 export const postMulti = async (url, data) => {
@@ -181,5 +181,5 @@ export const postMulti = async (url, data) => {
         throw response;
     }
 
-    return await response.json();
+    return response.status === STATUS_CODES.NO_CONTENT ? [] : await response.json();
 };

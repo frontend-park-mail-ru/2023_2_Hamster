@@ -1,13 +1,17 @@
 .card {
     background: var(--background-secondary-color);
     padding: var(--card-padding);
+    display: flex;
+    flex-direction: column;
 
     &__content {
-        overflow: hidden;
+        width: 80%;
+        margin: 0 auto;
     }
 
     &__heading {
-        overflow: hidden;
+        word-break: break-word;
+        margin-bottom: var(--meduim-gap);
 
         &-text-container {
             display: flex;

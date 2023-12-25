@@ -141,14 +141,10 @@ export const USER_STORE = {
             cardSubhead: 'У вас нет счетов, добавьте их, чтобы видеть свой баланс',
         },
         cardPlannedBudget: {
+            id: 'pie-conusmed-budget-wrapper',
             cardSize: 'card_small',
-            cardHeadline: 'Запланированный бюджет',
+            cardHeadline: 'Бюджет',
             cardSubhead: 'У вас не запланирован бюджет',
-        },
-        cardActualBudget: {
-            cardSize: 'card_small',
-            cardHeadline: 'Фактический бюджет',
-            cardSubhead: 'Не можем расчитать фактический бюджет, задайте бюджет в настройках',
         },
     },
 };
