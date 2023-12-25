@@ -7,6 +7,7 @@ import {
 import { authApi } from '@api/auth';
 import { userApi } from '@api/user';
 import { router } from '@router';
+import { transactionsApi } from '@api/transaction';
 import BaseStore from './baseStore.js';
 import { validator } from '../modules/validator.js';
 
@@ -437,21 +438,20 @@ class UserStore extends BaseStore {
                     this.inputs.budgetInput = { isSuccess: true, inputHelperText: 'Успешно!' };
                 }
 
+                this.notify = { success: true, notifierText: 'Профиль обновлен' };
+
                 this.storage.feed.plannedBudget = data.plannedBudget;
                 this.storage.user.username = data.username;
             } catch (response) {
-                switch (response.status) {
-                case STATUS_CODES.INTERNAL_SERVER_ERROR:
-                    this.storage.error = response.message;
-
-                    break;
-
-                default:
-                    console.log('Undefined status code', response.status);
-                }
+                this.notify = { error: true, notifierText: 'Возникла непредвиденная ошибка, не смогли обновить профиль' };
             }
         }
 
+        this.emitChange(EVENT_TYPES.RERENDER_PROFILE);
+        this.clearInputsState();
+    };
+
+    updatePassword = async (data) => {
         if (!this.passwordUpdateError(data)) {
             try {
                 await authApi.changePassword({ new_password: data.newPassword, old_password: data.oldPassword });
@@ -459,16 +459,10 @@ class UserStore extends BaseStore {
                 this.inputs.oldPasswordInput = { value: '', isSuccess: true };
                 this.inputs.newPasswordInput = { value: '', isSuccess: true };
                 this.inputs.repeatPasswordInput = { value: '', isSuccess: true, inputHelperText: 'Успешно!' };
+
+                this.notify = { success: true, notifierText: 'Пароль изменен' };
             } catch (response) {
-                switch (response.status) {
-                case STATUS_CODES.INTERNAL_SERVER_ERROR:
-                    this.storage.error = response.message;
-
-                    break;
-
-                default:
-                    console.log('Undefined status code', response.status);
-                }
+                this.notify = { error: true, notifierText: 'Возникла непредвиденная ошибка, не смогли сменить пароль' };
             }
         }
 
@@ -498,10 +492,6 @@ class UserStore extends BaseStore {
     };
 
     passwordUpdateError = (data) => {
-        if (!data.oldPassword && !data.newPassword && !data.repeatPassword) {
-            return true;
-        }
-
         const newPassword = validator(data.newPassword, PASSWORD_RULES);
         const oldPassword = validator(data.oldPassword, NOT_NULL_RULE);
 
@@ -547,28 +537,59 @@ class UserStore extends BaseStore {
         try {
             const response = await userApi.putAvatar(data.file, this.storage.user.avatarPath);
 
-            switch (response.status) {
-            case STATUS_CODES.OK:
-                this.storage.user = {
-                    avatarPath: response.body.path,
-                };
-                this.storage.error = null;
+            this.storage.user = {
+                avatarPath: response.body.path,
+            };
+            this.storage.error = null;
 
-                break;
-
-            case STATUS_CODES.BAD_REQUEST:
-            case STATUS_CODES.UNAUTHORISED:
-            case STATUS_CODES.FORBIDDEN:
-            case STATUS_CODES.INTERNAL_SERVER_ERROR:
-                this.storage.error = response.message;
-
-                break;
-
-            default:
-                console.log('Undefined status code', response.status);
-            }
+            this.notify = { success: true, notifierText: 'Аватар сменился' };
         } catch (error) {
-            console.log('Unable to connect to the server, error: ', error);
+            this.notify = { error: true, notifierText: 'Возникла непредвиденная ошибка, не смогли установить аватар' };
+        }
+
+        this.emitChange(EVENT_TYPES.RERENDER_PROFILE);
+    };
+
+    csvExport = async () => {
+        try {
+            const response = await transactionsApi.csvExport();
+
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'transactions.csv');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            this.notify = { success: true, notifierText: 'CSV файл был экспортирован!' };
+        } catch (error) {
+            this.notify = { error: true, notifierText: 'Не получается скачать CSV файл, возникла ошибка на сервере' };
+        }
+    };
+
+    csvImport = async (data) => {
+        try {
+            await transactionsApi.csvImport(data);
+
+            this.notify = { success: true, notifierText: 'CSV файл успешно импортирвоан!' };
+        } catch (error) {
+            this.notify.error = true;
+
+            switch (error.status) {
+            case STATUS_CODES.BAD_REQUEST:
+                this.notify.notifierText = 'Не корректный формат данных, не смогли импортировать файл';
+                break;
+            case STATUS_CODES.CONTENT_TOO_LARGE:
+                this.notify.notifierText = 'Файл слишком большой, не смогли импортировать файл';
+                break;
+            case STATUS_CODES.INTERNAL_SERVER_ERROR:
+                this.notify.notifierText = 'Сервер не доступен';
+                break;
+            default:
+                this.notify.notifierText = 'Возникла непредвиденная ошибка, не смогли импортировать файл';
+            }
         }
 
         this.emitChange(EVENT_TYPES.RERENDER_PROFILE);

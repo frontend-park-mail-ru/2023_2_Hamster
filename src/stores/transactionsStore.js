@@ -1,7 +1,9 @@
 import { transactionsApi } from '@api/transaction';
 import { EVENT_TYPES, STATUS_CODES } from '@constants/constants';
 import { categoriesStore } from '@stores/categoriesStore';
-import {DATE_RULES, DESCRIPTION_RULES, MONEY_RULES, PAYER_RULES} from '@constants/validation';
+import {
+    DATE_RULES, DESCRIPTION_RULES, MONEY_RULES, PAYER_RULES
+} from '@constants/validation';
 import { accountStore } from '@stores/accountStore';
 import { userStore } from '@stores/userStore';
 
@@ -161,6 +163,8 @@ class TransactionsStore extends BaseStore {
         }
 
         this.emitChange(EVENT_TYPES.RERENDER_TRANSACTIONS);
+
+        this.storage.error = null;
     };
 
     deleteTransaction = async (data) => {
