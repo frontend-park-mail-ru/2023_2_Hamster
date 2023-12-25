@@ -1,0 +1,46 @@
+# Name your workflow
+name: CI
+
+on:
+  push:
+    branches: 
+        - main
+        - dev/HM-41
+  pull_request:
+    branches: 
+        - main 
+        - develop*
+
+
+jobs:
+    integration:
+      strategy:
+        matrix:
+          os: [ubuntu-latest, macos-latest, windows-latest]
+          node: [21]
+      runs-on: ${{ matrix.os }}
+      env:
+        ACTIONS_ALLOW_UNSECURE_COMMANDS: true      
+      steps:
+        - name: Setup Node.js environment
+          uses: actions/setup-node@v1.4.3
+          with:
+            node-version: ${{ matrix.node }}
+  
+        - name: Checkout master branch
+          uses: actions/checkout@v4
+        
+        - name: Cache node_modules
+          uses: actions/cache@v2.1.0
+          with:
+            # A list of files, directories, and wildcard patterns to cache and restore
+            path: node_modules
+            # An explicit key for restoring and saving the cache
+            key: ${{ matrix.os }}-node-v${{ matrix.node }}-deps-${{ hashFiles(format('{0}{1}', github.workspace, '/package-lock.json')) }}
+  
+        - name: Install dependencies
+          if: steps.cache.outputs.cache-hit != 'true'
+          run: npm install
+        
+        - name: Run ESLint
+          run: npm run lint-check
