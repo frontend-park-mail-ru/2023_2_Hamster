@@ -103,6 +103,7 @@ class TransactionsStore extends BaseStore {
         try {
             // eslint-disable-next-line no-unused-vars
             data.categories = data.categories[0].id ? data.categories : null;
+            // eslint-disable-next-line
             const { money, ...newData } = data;
             const response = await transactionsApi.createTransaction(newData);
 
@@ -194,6 +195,7 @@ class TransactionsStore extends BaseStore {
         try {
             // eslint-disable-next-line no-unused-vars
             data.categories = data.categories[0].id ? data.categories : null;
+            // eslint-disable-next-line
             const { money, ...newData } = data;
             await transactionsApi.updateTransaction(newData);
 

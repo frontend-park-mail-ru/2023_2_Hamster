@@ -1,8 +1,9 @@
 import { categoryApi } from '@api/category';
 import { EVENT_TYPES } from '@constants/constants';
 import { CATEGORY_NAME_RULES } from '@constants/validation';
-import BaseStore from './baseStore.js';
 import { validator } from '../modules/validator';
+
+import BaseStore from './baseStore.js';
 
 /**
  *

@@ -3,34 +3,32 @@ import { BaseComponent } from '@components/baseComponent.js';
 import template from './barChart.hbs';
 import tooltopTemplate from './tooltip.hbs';
 
-
-
 const DEFAULT_BAR_CHART = {
     xAxisWidth: 1,
     yAxisWidth: 0,
-    yAxisAdditionalLength: 0,  // костыль
+    yAxisAdditionalLength: 0, // костыль
     xAxisColor: '#ffffff',
     yAxisColor: '#ffffff',
-    
+
     levelWidth: 0.5,
     levelColor: '#ffffff',
     levelStep: null,
     levelOverhead: 1,
     levelCount: 4,
     levelValueFixedDigits: 0,
-    levelValueMargin: 0.5,  // * font-size
-    levelValueYShift: 0.5,  // * font-size
-    
+    levelValueMargin: 0.5, // * font-size
+    levelValueYShift: 0.5, // * font-size
+
     textColor: '#ffffff',
-    fontSize: 2,  // vmax-like variable
-    xSubscriptionTopMargin: 0.5,  // * font-size
-    skipKeys: 0,  // skip each N key
-    skipKeysFromFirst: false,  // start skipping keys from first
+    fontSize: 2, // vmax-like variable
+    xSubscriptionTopMargin: 0.5, // * font-size
+    skipKeys: 0, // skip each N key
+    skipKeysFromFirst: false, // start skipping keys from first
 
     stacked: true,
-    defaultBarColors: [ '#0b62a4', '#7a92a3' ],
-    defaultBarTitles: [ 'title 1', 'title 2' ],
-    barWidth: 0.7,  // in bounds [0,1]
+    defaultBarColors: ['#0b62a4', '#7a92a3'],
+    defaultBarTitles: ['title 1', 'title 2'],
+    barWidth: 0.7, // in bounds [0,1]
 
     textAbove: 'bar chart',
     textBelow: '',
@@ -43,11 +41,7 @@ const DEFAULT_BAR_CHART = {
     chartLeftMargin: 50,
 
     hasTooltip: true,
-    tooltipFormatter: (values, titles) => {
-        return titles.map((title, i) => {
-            return `${title}: ${values[i]}`
-        });
-    },
+    tooltipFormatter: (values, titles) => titles.map((title, i) => `${title}: ${values[i]}`),
 
     data: [
         {
@@ -58,7 +52,7 @@ const DEFAULT_BAR_CHART = {
         },
         {
             key: 20,
-            values: [3,4],
+            values: [3, 4],
         },
         {
             key: 20,
@@ -67,17 +61,19 @@ const DEFAULT_BAR_CHART = {
     ]
 };
 
-
 export class BarChart extends BaseComponent {
 
-    #calculatedWidth
-    #calculatedHeight
-    
-    #barWidth
-    #fontSize
+    #calculatedWidth;
 
-    #actualWidth
-    #actualHeight
+    #calculatedHeight;
+
+    #barWidth;
+
+    #fontSize;
+
+    #actualWidth;
+
+    #actualHeight;
 
     /**
      * Creates an instance of Bar chart.
@@ -137,18 +133,16 @@ export class BarChart extends BaseComponent {
         this.drawAxis(svg);
         this.drawLevels(svg);
         this.drawBars(svg);
-        this.drawBarsSubscription(svg);        
+        this.drawBarsSubscription(svg);
     };
 
     /**
-     * Setup the viewBox attribute of svg 
+     * Setup the viewBox attribute of svg
      * @param {SVGElement} svg - Svg element of bar chart.
      */
     setViewBox = (svg) => {
-        const state = this.getState();
         svg.setAttribute('viewBox', `0 0 ${this.#actualWidth} ${this.#actualHeight}`);
     };
-
 
     /**
      * Calculates the max bar value when bar chart is stacked
@@ -160,21 +154,20 @@ export class BarChart extends BaseComponent {
             const stackSum = cur.values.reduce((a, b) => a + b, 0);
             return stackSum > acc ? stackSum : acc;
         }, 0);
-    }
-    
-    
-    calculateSizes = () => {
-        const state = this.getState();
-        
-        this.#calculatedWidth = state.chartWidth;
-        this.#calculatedHeight = state.chartHeight;
-        
-        this.#actualWidth = state.chartWidth + state.chartLeftMargin + state.chartRightMargin;
-        this.#actualHeight = state.chartHeight + state.chartTopMargin + state.chartBottomMargin;
-    
-        this.#fontSize = state.fontSize / 100 * Math.max(this.#calculatedWidth, this.#calculatedHeight);
     };
 
+    calculateSizes = () => {
+        const state = this.getState();
+
+        this.#calculatedWidth = state.chartWidth;
+        this.#calculatedHeight = state.chartHeight;
+
+        this.#actualWidth = state.chartWidth + state.chartLeftMargin + state.chartRightMargin;
+        this.#actualHeight = state.chartHeight + state.chartTopMargin + state.chartBottomMargin;
+
+        // eslint-disable-next-line
+        this.#fontSize = state.fontSize / 100 * Math.max(this.#calculatedWidth, this.#calculatedHeight);
+    };
 
     /**
      * Creates element from string.
@@ -182,12 +175,11 @@ export class BarChart extends BaseComponent {
      * @return {HTMLElement} - Element from given string.
      */
     htmlToElement = (htmlString) => {
-        const template = document.createElement('template');
+        const htmlTemplate = document.createElement('template');
         htmlString = htmlString.trim();
-        template.innerHTML = htmlString;
-        return template.content.firstChild;
+        htmlTemplate.innerHTML = htmlString;
+        return htmlTemplate.content.firstChild;
     };
-
 
     /**
      * Levels parallel to X axis of chart
@@ -203,7 +195,7 @@ export class BarChart extends BaseComponent {
         const levels = state.levelCount ? state.levelCount : (maxYValue / state.levelStep);
         const step = this.#calculatedHeight / levels;
         const overhead = state.levelStep ? state.levelOverhead : 0;
-        
+
         for (let y = step; y <= this.#calculatedHeight + overhead * step + 0.001; y += step) {
             const level = this.makeSvgTag('line', {
                 x1: this.calculateX(0),
@@ -217,34 +209,35 @@ export class BarChart extends BaseComponent {
             svg.appendChild(level);
 
             const levelValue = this.makeSvgTag('text', {
-                x: this.calculateX(- this.#fontSize * state.levelValueMargin),
+                x: this.calculateX(-this.#fontSize * state.levelValueMargin),
                 y: this.calculateY(y - this.#fontSize * state.levelValueYShift),
                 'font-size': this.#fontSize,
                 'text-anchor': 'end',
                 fill: state.textColor,
             });
+            // eslint-disable-next-line
             levelValue.textContent = (y * maxYValue / this.#calculatedHeight).toFixed(state.levelValueFixedDigits);
-            svg.appendChild(levelValue)
+            svg.appendChild(levelValue);
         }
 
         const levelValue = this.makeSvgTag('text', {
-            x: this.calculateX(- this.#fontSize * state.levelValueMargin),
+            x: this.calculateX(-this.#fontSize * state.levelValueMargin),
             y: this.calculateY(0 - this.#fontSize * state.levelValueYShift),
             'font-size': this.#fontSize,
             'text-anchor': 'end',
             fill: state.textColor,
         });
         levelValue.textContent = (0).toFixed(state.levelValueFixedDigits);
-        svg.appendChild(levelValue)
-    }
-    
+        svg.appendChild(levelValue);
+    };
+
     /**
      * Draws X and Y axis of chart.
      * @param {SVGElement} svg - Svg element of bar chart.
      */
     drawAxis = (svg) => {
         const state = this.getState();
-        
+
         if (state.xAxisWidth > 0) {
             const xAxis = this.makeSvgTag('line', {
                 x1: this.calculateX(0),
@@ -273,7 +266,6 @@ export class BarChart extends BaseComponent {
 
     };
 
-    
     /**
      * Draws bars of bar chart
      * @param {SVGElement} svg - Svg element of bar chart.
@@ -281,27 +273,29 @@ export class BarChart extends BaseComponent {
     drawBars = (svg) => {
         const state = this.getState();
         const barsCount = state.data.length;
-        const groupWidth = this.#calculatedWidth / barsCount
+        const groupWidth = this.#calculatedWidth / barsCount;
         const barWidth = state.barWidth * groupWidth;
         const maxYValue = this.maxStackedSum();
 
+        // eslint-disable-next-line
         for (let x = 0; x < barsCount; x++) {
-            const group = this.makeSvgTag('g', {'class': 'bar-chart__chart-stack'});
+            const group = this.makeSvgTag('g', { class: 'bar-chart__chart-stack' });
             this.drawBarStack(group, state, x, groupWidth, barWidth, maxYValue);
             svg.appendChild(group);
         }
     };
 
-
     drawBarStack = (group, state, x, groupWidth, barWidth, maxYValue) => {
         const data = state.data[x];
         const titles = data.titles ? data.titles : state.defaultBarTitles;
         const colors = data.colors ? data.colors : state.defaultBarColors;
-       
+
         const barX = x * groupWidth + groupWidth / 2 - barWidth / 2;
         let previousBarY = 0;
 
+        // eslint-disable-next-line
         for (let i = 0; i < data.values.length; i++) {
+            // eslint-disable-next-line
             let barHeight = data.values[i] * this.#calculatedHeight / maxYValue;
             if (Number.isNaN(barHeight)) {
                 barHeight = 0;
@@ -319,48 +313,44 @@ export class BarChart extends BaseComponent {
             previousBarY += barHeight;
             group.appendChild(bar);
         }
-    } 
-    
+    };
 
     drawBarsSubscription = (svg) => {
-        const state = this.getState()
-        const data = state.data;
+        const state = this.getState();
+        const { data } = state;
         const barGroupWidth = this.#calculatedWidth / data.length;
 
+        // eslint-disable-next-line
         for (let i = 0; i < data.length; i++) {
-            if (!data[i].key || ((i + !state.skipKeysFromFirst) % state.skipKeys == 0)) {
+            if (!data[i].key || ((i + !state.skipKeysFromFirst) % state.skipKeys === 0)) {
+                // eslint-disable-next-line
                 continue;
             }
             const subscriptionText = this.makeSvgTag('text', {
                 x: this.calculateX(i * barGroupWidth + barGroupWidth / 2),
-                y: this.calculateY(- this.#fontSize * (state.xSubscriptionTopMargin + 1)),
+                y: this.calculateY(-this.#fontSize * (state.xSubscriptionTopMargin + 1)),
                 'font-size': this.#fontSize,
                 'text-anchor': 'mid',
                 fill: state.textColor,
             });
             subscriptionText.textContent = data[i].key;
-            svg.appendChild(subscriptionText)
+            svg.appendChild(subscriptionText);
         }
-    };        
+    };
 
-    
     /**
      * calculates X coordinate inside svg element space based on padding
-     * @param {number} x 
+     * @param {number} x
      * @returns x coordinate in svg space, can be used to draw
      */
-    calculateX = (x) => {
-        return x + this.getState().chartLeftMargin;
-    };
-    
+    calculateX = (x) => x + this.getState().chartLeftMargin;
+
     /**
      * calculates Y coordinate inside svg element space based on padding and inverted axis
      * @param {number} y
      * @returns Y coordinate in svg space, can be used to draw
      */
-    calculateY = (y) => {
-        return this.#actualHeight - y - this.getState().chartBottomMargin;
-    };
+    calculateY = (y) => this.#actualHeight - y - this.getState().chartBottomMargin;
 
     /**
      * calculates X and Y coordinates inside svg element space based on padding and inverted axis
@@ -368,10 +358,7 @@ export class BarChart extends BaseComponent {
      * @param {number} y y coordinate in human-like space
      * @returns array of two transoformed coordinates X and Y
      */
-    calculateXY = (x, y) => {
-        return [ calculateX(x), calculateY(y) ];
-    }
-    
+    calculateXY = (x, y) => [this.calculateX(x), this.calculateY(y)];
 
     /**
      * Creates and returns element of svg namespace.
@@ -398,6 +385,7 @@ export class BarChart extends BaseComponent {
      */
     makeSvgPathCommand = (com, ...args) => {
         let resultCommand = String(com);
+        // eslint-disable-next-line
         args.forEach((a) => resultCommand += `${String(a)} `);
         return `${resultCommand}\n`;
     };
@@ -425,7 +413,7 @@ export class BarChart extends BaseComponent {
         tooltip.style.display = 'block';
         tooltip.style.left = `${e.pageX - rekt.x}px`;
         tooltip.style.top = `${e.pageY - rekt.y}px`;
-        tooltip.innerHTML = tooltopTemplate({lines: tooltipFormatter(values, titles)});
+        tooltip.innerHTML = tooltopTemplate({ lines: tooltipFormatter(values, titles) });
     };
 
     /**
@@ -461,5 +449,5 @@ export class BarChart extends BaseComponent {
         svg.removeEventListener('mousemove', this.moveTooltip);
         svg.removeEventListener('mouseleave', this.hideTooltip);
     }
-    
-};
+
+}

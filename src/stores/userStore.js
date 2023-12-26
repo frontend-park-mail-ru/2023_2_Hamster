@@ -8,8 +8,9 @@ import { authApi } from '@api/auth';
 import { userApi } from '@api/user';
 import { router } from '@router';
 import { transactionsApi } from '@api/transaction';
-import BaseStore from './baseStore.js';
 import { validator } from '../modules/validator.js';
+
+import BaseStore from './baseStore.js';
 
 /**
  * UserStore is a class for managing user state of the site. It extends the BaseStore class and
@@ -525,46 +526,6 @@ class UserStore extends BaseStore {
                 break;
             default:
                 this.notify.notifierText = 'Возникла непредвиденная ошибка, не смогли импортировать файл';
-            }
-        }
-
-        this.emitChange(EVENT_TYPES.RERENDER_PROFILE);
-    };
-
-    csvExport = async () => {
-        try {
-            const response = await fetch('/api/transaction/export');
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const blob = await response.blob();
-            const url = window.URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', 'transactions.csv');
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    csvImport = async (data) => {
-        try {
-            await transactionsApi.csvImport(data);
-        } catch (error) {
-            switch (error.status) {
-            case STATUS_CODES.BAD_REQUEST:
-            case STATUS_CODES.UNAUTHORISED:
-            case STATUS_CODES.FORBIDDEN:
-            case STATUS_CODES.INTERNAL_SERVER_ERROR:
-                this.storage.error = error.message;
-                break;
-            default:
-                console.log('Undefined status code', error.status);
             }
         }
 
