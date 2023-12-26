@@ -138,12 +138,21 @@ export class DashboardView extends BaseComponent {
             }
         }
 
+        const firstDayOfCurrentMonth = new Date();
+        firstDayOfCurrentMonth.setHours(0, 0, 0, 0);
+        firstDayOfCurrentMonth.setDate(1);
+
         // pie chart with costs by categories
         await transactionsStore.getTransaction();
         if (transactionsStore.storage.states) {
             const costsByCategory = {};
             // eslint-disable-next-line
             for (const trans of transactionsStore.storage.states) {
+                const transDate = new Date(trans.rawDate);
+                if (transDate.getTime() < firstDayOfCurrentMonth.getTime()) {
+                    // eslint-disable-next-line
+                    continue;
+                }
                 if (!costsByCategory[trans.transactionName]) {
                     costsByCategory[trans.transactionName] = 0;
                 }
@@ -169,9 +178,6 @@ export class DashboardView extends BaseComponent {
 
         // bar chart with costs in a month
         if (transactionsStore.storage.states) {
-            const firstDayOfCurrentMonth = new Date();
-            firstDayOfCurrentMonth.setHours(0, 0, 0, 0);
-            firstDayOfCurrentMonth.setDate(1);
             const costsByDay = {};
             let maxDayOfMonth = 0;
 
