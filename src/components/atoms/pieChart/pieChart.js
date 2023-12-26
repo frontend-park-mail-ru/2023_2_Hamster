@@ -14,7 +14,7 @@ const DEFAULT_PIE_CHART = {
     outRad: 120,
     inShadowRad: 100,
     outShadowRad: 120,
-    shadowColor: '#555',
+    shadowColor: '#333437',
     beginOffset: -90,
     sectionSpace: 0.3,
     isPercents: true,
@@ -102,13 +102,13 @@ export class PieChart extends BaseComponent {
         const textBelow = thisElement.querySelector('.pie-chart__inner-text-below');
         const valuesSum = this.getValuesSum();
 
-        if (textCenter){
+        if (textCenter) {
             textCenter.textContent = this.getState().textCenterFormatter(valuesSum);
-        } 
-        if (textAbove){
+        }
+        if (textAbove) {
             textAbove.textContent = this.getState().textAboveFormatter(valuesSum);
-        } 
-        if (textBelow){
+        }
+        if (textBelow) {
             textBelow.textContent = this.getState().textBelowFormatter(valuesSum);
         }
     };
@@ -156,7 +156,12 @@ export class PieChart extends BaseComponent {
      */
     getTotal = () => {
         const state = this.getState();
-        return state.isPercents ? (state.totalPercent ? state.totalPercent : TOTAL_PERCENT) : this.getValuesSum();
+
+        if (state.isPercents) {
+            return state.totalPercent ? state.totalPercent : TOTAL_PERCENT;
+        }
+
+        return this.getValuesSum();
     };
 
     /**
@@ -183,6 +188,7 @@ export class PieChart extends BaseComponent {
         let angleStart = state.beginOffset;
         state.data.forEach((data) => {
             const path = this.makeSvgTag('path');
+            // eslint-disable-next-line no-mixed-operators
             const angleEnd = angleStart + data.value / total * FULL_CIRCLE_DEGREES - state.sectionSpace;
             const d = this.circleSegmentPathD(state.inRad, state.outRad, angleStart, angleEnd, CENTER_X, CENTER_Y);
             path.setAttribute('d', d);
@@ -222,6 +228,7 @@ export class PieChart extends BaseComponent {
      * @returns {Object} - Object with 'x' and 'y' properties.
      */
     polarToAfine = (rad, ang) => {
+        // eslint-disable-next-line no-mixed-operators
         ang = ang / FULL_CIRCLE_DEGREES * 2 * Math.PI;
         return { x: rad * Math.cos(ang), y: rad * Math.sin(ang) };
     };
@@ -234,6 +241,7 @@ export class PieChart extends BaseComponent {
      */
     makeSvgPathCommand = (com, ...args) => {
         let resultCommand = String(com);
+        // eslint-disable-next-line no-return-assign
         args.forEach((a) => resultCommand += `${String(a)} `);
         return `${resultCommand}\n`;
     };
@@ -292,14 +300,14 @@ export class PieChart extends BaseComponent {
 
     /**
      * Creates element from string.
-     * @param {string} html - Representing a single element.
+     * @param {string} htmlString - Representing a single element.
      * @return {HTMLElement} - Element from given string.
      */
     htmlToElement = (htmlString) => {
-        const template = document.createElement('template');
+        const htmlTemplate = document.createElement('template');
         htmlString = htmlString.trim();
-        template.innerHTML = htmlString;
-        return template.content.firstChild;
+        htmlTemplate.innerHTML = htmlString;
+        return htmlTemplate.content.firstChild;
     };
 
     /**

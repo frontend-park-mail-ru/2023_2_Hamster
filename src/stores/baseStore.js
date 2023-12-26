@@ -1,4 +1,3 @@
-import { NULL } from 'sass';
 import { eventBus } from '../modules/eventBus';
 
 /**

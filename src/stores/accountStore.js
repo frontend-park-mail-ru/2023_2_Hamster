@@ -6,8 +6,9 @@ import { ACCOUNT_NAME_RULES, BUDGET_RULES } from '@constants/validation';
 import { userStore } from '@stores/userStore';
 import { Button, Image } from '@atoms';
 import { numberWithSpaces } from '@utils';
-import BaseStore from './baseStore.js';
 import { validator } from '../modules/validator';
+
+import BaseStore from './baseStore.js';
 
 /**
  *
@@ -63,10 +64,12 @@ class AccountStore extends BaseStore {
                 this.sharedAccounts = [];
                 this.sharingWith = [];
                 this.accounts.forEach((account) => {
+                    // eslint-disable-next-line
                     account.users.filter((user) => {
                         if (user.id !== userStore.storage.user.id) {
                             if (user.id !== account.sharing_id) {
                                 let avatarSrc;
+                                // eslint-disable-next-line
                                 user.avatar_url === NULL_UUID
                                     ? avatarSrc = DEFAULT_AVATAR
                                     : avatarSrc = `../images/${user.avatar_url}.jpg`;
@@ -211,6 +214,7 @@ class AccountStore extends BaseStore {
 
             switch (response.status) {
             case STATUS_CODES.BAD_REQUEST:
+                // eslint-disable-next-line
                 data.login === userStore.storage.user.login
                     ? this.loginInput.inputHelperText = 'Нельзя добавить самого себя'
                     : this.loginInput.inputHelperText = 'Этот пользователь уже добавлен к этому счету';

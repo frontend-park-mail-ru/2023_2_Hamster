@@ -5,6 +5,7 @@ const CACHE_FIRST_AND_UPDATE_REGEX = /.webp|.svg|.jpg|.jpeg|.gif|.png|.css|.js|.
 
 const deleteOldCaches = async () => {
     const keys = await caches.keys();
+    // eslint-disable-next-line
     await Promise.all(keys.map((key) => {
         if (key !== CACHE_NAME && key !== CACHE_NAME_DYNAMIC) {
             return caches.delete(key);
@@ -15,6 +16,7 @@ const deleteOldCaches = async () => {
 const fromCache = async (key, cacheName) => {
     const cache = await caches.open(cacheName);
     const cachedResponse = await cache.match(key);
+    // eslint-disable-next-line
     return cachedResponse || Promise.reject('no response in cache');
 };
 
@@ -65,17 +67,21 @@ const nonGetRequestNetworkFirst = (event) => {
     })());
 };
 
+// eslint-disable-next-line
 self.addEventListener('install', (e) => {
+    // eslint-disable-next-line
     self.skipWaiting();
 
     e.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(CACHE_URLS)
     ));
 });
 
+// eslint-disable-next-line
 self.addEventListener('activate', (e) => {
     e.waitUntil(deleteOldCaches());
 });
 
+// eslint-disable-next-line
 self.addEventListener('fetch', (e) => {
     if (e.request.method !== 'GET') {
         nonGetRequestNetworkFirst(e);

@@ -2,7 +2,6 @@ import { BaseComponent } from '@components/baseComponent.js';
 import { Card } from '@molecules';
 import { PieChart, BarChart } from '@atoms';
 import { userStore } from '@stores/userStore';
-import { userActions } from '@actions/userActions';
 
 import { USER_STORE } from '@constants/constants';
 import { transactionsStore } from '@stores/transactionsStore';
@@ -97,10 +96,11 @@ export class DashboardView extends BaseComponent {
             const { plannedBudget } = userStore.storage.feed;
             const { actualBudget } = userStore.storage.feed;
 
+            // eslint-disable-next-line
             accounts
                 ? this.#cardBalance.setState({ cardSubhead: `${parseFloat(balance)} руб.` })
                 : this.#cardBalance.setState({ cardSubhead: 'У вас нет счетов, добавьте их, чтобы видеть свой баланс' });
-
+            // eslint-disable-next-line
             plannedBudget
                 ? this.#cardBudget.setState({ cardSubhead: `${parseFloat(actualBudget)} / ${parseFloat(plannedBudget)} руб.`, content: this.#pieConsumedBudget.render() })
                 : this.#cardBudget.setState({ cardSubhead: 'Ваш бюджет не запланирован, вы можете сделать это в профиле' });
@@ -142,6 +142,7 @@ export class DashboardView extends BaseComponent {
         await transactionsStore.getTransaction();
         if (transactionsStore.storage.states) {
             const costsByCategory = {};
+            // eslint-disable-next-line
             for (const trans of transactionsStore.storage.states) {
                 if (!costsByCategory[trans.transactionName]) {
                     costsByCategory[trans.transactionName] = 0;
@@ -150,6 +151,7 @@ export class DashboardView extends BaseComponent {
             }
 
             const pieData = [];
+            // eslint-disable-next-line array-callback-return
             Object.entries(costsByCategory).map(([category, value]) => {
                 if (value < 0) {
                     pieData.push({
@@ -173,9 +175,11 @@ export class DashboardView extends BaseComponent {
             const costsByDay = {};
             let maxDayOfMonth = 0;
 
+            // eslint-disable-next-line
             for (const trans of transactionsStore.storage.states) {
                 const transDate = new Date(trans.rawDate);
                 if (transDate.getTime() < firstDayOfCurrentMonth.getTime()) {
+                    // eslint-disable-next-line
                     continue;
                 }
                 const dayOfMonth = transDate.getDate();
@@ -186,6 +190,7 @@ export class DashboardView extends BaseComponent {
                 costsByDay[dayOfMonth] += parseFloat(trans.value.replace(/\s/g, ''));
             }
 
+            // eslint-disable-next-line no-plusplus
             for (let day = 1; day <= maxDayOfMonth; day++) {
                 if (!costsByDay[day]) {
                     costsByDay[day] = 0;
@@ -240,6 +245,7 @@ export class DashboardView extends BaseComponent {
     getRandomColor() {
         const letters = '789ABCDEF';
         let color = '#';
+        // eslint-disable-next-line no-plusplus
         for (let i = 0; i < 6; i++) {
             color += letters[Math.floor(Math.random() * letters.length)];
         }

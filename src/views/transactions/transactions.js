@@ -213,8 +213,11 @@ export class TransactionsView extends BaseComponent {
             } = transactionsStore.storage.error;
 
             const clearError = (data) => {
+                // eslint-disable-next-line no-unused-expressions
                 data.message ? data.message = '' : null;
+                // eslint-disable-next-line no-unused-expressions
                 data.isError ? data.isError = false : null;
+                // eslint-disable-next-line no-unused-expressions
                 data.value ? data.value = '' : null;
             };
 

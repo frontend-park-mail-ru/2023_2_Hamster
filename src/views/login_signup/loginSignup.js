@@ -194,6 +194,7 @@ export class LoginSignupView extends BaseComponent {
      * @function
      */
     switchLoginSignup = async () => {
+        // eslint-disable-next-line no-unused-expressions
         this.#isLogin ? await router.navigateTo(ROUTE_CONSTANTS.REGISTRATION_ROUTE, false) : await router.navigateTo(ROUTE_CONSTANTS.LOGIN_ROUTE, false);
     };
 
