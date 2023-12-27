@@ -5,6 +5,10 @@
   height: 100%;
   color: var(--text-main-color);
 
+  &__list {
+    padding-bottom: 80px;
+  }
+
   &__create-container{
     margin: 24px 0 48px 0;
     display: flex;
