@@ -2,6 +2,7 @@ import { BaseComponent } from '@components/baseComponent.js';
 
 import { Button, Image, Input } from '@atoms';
 import { SVG_ICONS } from '@icons/icons';
+import { IconChooser } from '@molecules';
 import template from './category.hbs';
 
 const DEFAULT_CATEGORY = {
@@ -61,30 +62,14 @@ export class Category extends BaseComponent {
         const inputState = { ...INPUT_STATE, id: `input_${state.id}`, value: state.categoryName };
         const buttonState = { ...BUTTON_STATE, id: `button_${state.id}` };
 
-        this.icon = new Image(null, ICON, undefined);
+        this.icon = new Image(null, { ...ICON, svg: state.path }, undefined);
         this.input = new Input(null, inputState, undefined);
+        this.iconChooser = new IconChooser(null, { id: `id_${state.raw}`, openId: `open_${state.raw}`, closeId: `close_${state.raw}` });
         this.button = new Button(null, buttonState, undefined);
 
         if (typeof clickHandler === 'function') {
             this.#clickHandler = clickHandler;
         }
-    }
-
-    /**
-     * Renders the category component and inserts into parent.
-     *
-     * @returns {string} - The rendered HTML template of the category.
-     * @function
-     */
-    async renderTemplateToParent() {
-        return await super.renderTemplateToParent([template(
-            {
-                ...this.getState(),
-                icon: this.icon.render(),
-                input: this.input.render(),
-                button: this.button.render(),
-            },
-        )]);
     }
 
     /**
@@ -98,6 +83,7 @@ export class Category extends BaseComponent {
             {
                 ...this.getState(),
                 icon: this.icon.render(),
+                iconChooser: this.iconChooser.render(),
                 input: this.input.render(),
                 button: this.button.render(),
             },
@@ -121,6 +107,7 @@ export class Category extends BaseComponent {
      * @function
      */
     setHandlers() {
+        this.iconChooser.setHandlers();
     }
 
     /**

@@ -41,11 +41,11 @@
   background-color: var(--background-secondary-color);
   border: 1 solid var(--background-tertiary-color);
   border-radius: var(--radius-size-small);
+  cursor: pointer;
 
   &_size{
     display: flex;
     aspect-ratio: 1 / 1;
-    height: 100%;
     justify-content: center;
     align-items: center;
   }

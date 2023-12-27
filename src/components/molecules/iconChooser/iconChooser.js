@@ -9,12 +9,6 @@ const DEFAULT = {
     id: 'default',
     openId: 'defaultOpen',
     closeId: 'defaultClose',
-    preview: SVG_ICONS.defaultIcon.path,
-    icons: Object.values(SVG_ICONS).map(({ id, path }) => ({
-        id,
-        path,
-        iconId: `icon${id}`,
-    })),
 };
 
 /**
@@ -44,8 +38,16 @@ export class IconChooser extends BaseComponent {
             this.#handler = handler;
         }
 
+        this.getState().preview = SVG_ICONS.defaultIcon.path;
+
+        this.getState().icons = Object.values(SVG_ICONS).map(({ id, path }) => ({
+            id,
+            path,
+            iconId: `icon_${this.getState().id}_${id}`,
+        }));
+
         this.closeButton = new Button(null, {
-            id: state.closeId,
+            id: this.getState().closeId,
             buttonColor: 'button_primary-color',
             buttonText: 'Закрыть'
         });

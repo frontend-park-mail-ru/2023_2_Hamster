@@ -45,7 +45,7 @@ export class CategoriesView extends BaseComponent {
 
         this.name = new Input(null, INPUT_STATE);
         this.button = new Button(null, BUTTON_STATE);
-        this.icon = new IconChooser(null);
+        this.icon = new IconChooser(null, { id: 'createIconId', openId: 'openIconId', closeId: 'closeIconID' });
         this.incomeCheckbox = new Checkbox(null, INCOME, null);
         this.outcomeCheckbox = new Checkbox(null, OUTCOME, null);
     }
@@ -121,6 +121,8 @@ export class CategoriesView extends BaseComponent {
                 if (deleteButton) {
                     deleteButton.addEventListener('click', this.deleteButtonHandler.bind(this, category));
                 }
+
+                category.setHandlers();
             });
         }
 
@@ -150,7 +152,9 @@ export class CategoriesView extends BaseComponent {
     updateButtonHandler = async (category) => {
         const inputValue = document.querySelector(`#${category.input.getState().id}`).value;
         if (inputValue) {
-            await categoryActions.updateCategory(category.getState().id.slice(2), inputValue, userStore.storage.user.id);
+            const id = category.getState().id.slice(2);
+            const icon = Number(category.iconChooser.value);
+            await categoryActions.updateCategory(id, inputValue, userStore.storage.user.id, icon);
         }
     };
 
@@ -161,7 +165,7 @@ export class CategoriesView extends BaseComponent {
     createButtonHandler = async () => {
         const inputValue = document.querySelector(this.name.getState().id).value;
         if (inputValue) {
-            await categoryActions.createCategory(inputValue, userStore.storage.user.id);
+            await categoryActions.createCategory(inputValue, userStore.storage.user.id, Number(this.icon.value));
         }
     };
 }

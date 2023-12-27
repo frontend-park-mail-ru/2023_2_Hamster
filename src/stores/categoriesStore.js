@@ -4,6 +4,7 @@ import { CATEGORY_NAME_RULES } from '@constants/validation';
 import { validator } from '../modules/validator';
 
 import BaseStore from './baseStore.js';
+import {SVG_ICONS} from "@icons/icons";
 
 /**
  *
@@ -56,6 +57,7 @@ class CategoriesStore extends BaseStore {
         categoryName: data.name,
         deleteId: `delete_${data.id}`,
         cardId: `card_${data.id}`,
+        path: Object.values(SVG_ICONS)[data.image_id].path,
     }));
 
     createTag = async (data) => {
@@ -69,6 +71,7 @@ class CategoriesStore extends BaseStore {
                     categoryName: data.name,
                     deleteId: `delete_${response.body.category_id}`,
                     cardId: `card_${response.body.category_id}`,
+                    path: Object.values(SVG_ICONS)[data.image_id].path,
                 });
             } catch (error) {
                 console.log('Unable to connect to the server, error: ', error);
@@ -104,11 +107,11 @@ class CategoriesStore extends BaseStore {
                             categoryName: response.body.name,
                             deleteId: `delete_${response.body.id}`,
                             cardId: `card_${response.body.id}`,
+                            path: Object.values(SVG_ICONS)[data.image_id].path,
                         };
                     }
                     return item;
                 });
-                this.updated = true;
             } catch (error) {
                 console.log('Unable to connect to the server, error: ', error);
             }

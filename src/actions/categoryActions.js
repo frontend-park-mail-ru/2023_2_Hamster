@@ -10,7 +10,7 @@ export const categoryActions = {
         });
     },
 
-    async createCategory(name, userId) {
+    async createCategory(name, userId, imageId) {
         await dispatcher.dispatch({
             type: CATEGORY_ACTIONS.CREATE_CATEGORY,
             data: {
@@ -20,11 +20,12 @@ export const categoryActions = {
                 show_income: true,
                 show_outcome: true,
                 user_id: userId,
+                image_id: imageId,
             },
         });
     },
 
-    async updateCategory(id, name, userId) {
+    async updateCategory(id, name, userId, imageId) {
         await dispatcher.dispatch({
             type: CATEGORY_ACTIONS.UPDATE_CATEGORY,
             data: {
@@ -35,6 +36,7 @@ export const categoryActions = {
                 show_income: true,
                 show_outcome: true,
                 user_id: userId,
+                image_id: imageId,
             },
         });
     },
