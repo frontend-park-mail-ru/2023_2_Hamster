@@ -53,21 +53,25 @@
     &_small {
         grid-column: span 4;
         border-radius: var(--radius-size-small);
+
+        @include mobile {
+            grid-column: span 8;
+        }
     }
 
     &_medium-vertical {
         grid-row: span 2;
         grid-column: span 4;
         border-radius: var(--radius-size-small);
+
+        @include mobile {
+            grid-column: span 4;
+        }
     }
 
     &_medium-horizontal {
         grid-column: span 8;
         border-radius: var(--radius-size-small);
-
-        @include mobile {
-            grid-column: span 4;
-        }
     }
 
     &_big {
