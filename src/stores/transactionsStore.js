@@ -28,7 +28,9 @@ class TransactionsStore extends BaseStore {
      */
     constructor() {
         super();
-        this.storage = {};
+        this.storage = {
+            states: [],
+        };
     }
 
     /**
@@ -109,7 +111,7 @@ class TransactionsStore extends BaseStore {
 
             this.notify = { success: true, notifierText: `Транзакция на сумму ${data.money} успешно создана!` };
 
-            const index = this.storage.states.findIndex((obj) => new Date(obj.rawDate) <= new Date(data.date));
+            const index = this.storage.states?.findIndex((obj) => new Date(obj.rawDate) <= new Date(data.date));
 
             this.storage.states.splice(index, 0, {
                 raw: response.body.transaction_id,
