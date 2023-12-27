@@ -159,8 +159,6 @@ class TransactionsStore extends BaseStore {
         }
 
         this.emitChange(EVENT_TYPES.RERENDER_TRANSACTIONS);
-
-        this.storage.error = null;
     };
 
     deleteTransaction = async (data) => {
