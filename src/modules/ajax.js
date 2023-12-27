@@ -16,7 +16,7 @@ export const get = async (url) => {
         throw response;
     }
 
-    return response.status === STATUS_CODES.NO_CONTENT ? [] : await response.json();
+    return response.status === STATUS_CODES.NO_CONTENT ? null : await response.json();
 };
 
 /**

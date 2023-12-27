@@ -28,7 +28,9 @@ class TransactionsStore extends BaseStore {
      */
     constructor() {
         super();
-        this.storage = {};
+        this.storage = {
+            states: [],
+        };
     }
 
     /**
@@ -41,19 +43,8 @@ class TransactionsStore extends BaseStore {
         try {
             const response = await transactionsApi.getTransaction(qString);
 
-            switch (response.status) {
-            case STATUS_CODES.OK:
-                this.storage.states = this.transformArray(response.body.transactions);
-                this.transactions = response.body.transactions;
-                break;
-
-            case STATUS_CODES.NO_CONTENT:
-                this.storage.states = null;
-                break;
-
-            default:
-                console.log('Undefined status code', response.status);
-            }
+            this.storage.states = response ? this.transformArray(response.body.transactions) : null;
+            this.transactions = response?.body.transactions;
         } catch (error) {
             switch (error.status) {
             case STATUS_CODES.NO_CONTENT:
@@ -109,7 +100,11 @@ class TransactionsStore extends BaseStore {
 
             this.notify = { success: true, notifierText: `Транзакция на сумму ${data.money} успешно создана!` };
 
-            const index = this.storage.states.findIndex((obj) => new Date(obj.rawDate) <= new Date(data.date));
+            if (!this.storage.states) {
+                this.storage.states = [];
+            }
+
+            const index = this.storage.states?.findIndex((obj) => new Date(obj.rawDate) <= new Date(data.date));
 
             this.storage.states.splice(index, 0, {
                 raw: response.body.transaction_id,
