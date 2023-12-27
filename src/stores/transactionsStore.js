@@ -1,5 +1,5 @@
 import { transactionsApi } from '@api/transaction';
-import { EVENT_TYPES, STATUS_CODES } from '@constants/constants';
+import { API_CONSTANTS, EVENT_TYPES, STATUS_CODES } from '@constants/constants';
 import { categoriesStore } from '@stores/categoriesStore';
 import {
     DATE_RULES, DESCRIPTION_RULES, MONEY_RULES, PAYER_RULES
@@ -8,6 +8,8 @@ import { accountStore } from '@stores/accountStore';
 import { userStore } from '@stores/userStore';
 
 import { numberWithSpaces } from '@utils';
+import { SVG_ICONS } from '@icons/icons';
+import { get } from '@ajax';
 import { validator } from '../modules/validator';
 
 import BaseStore from './baseStore.js';
@@ -44,7 +46,11 @@ class TransactionsStore extends BaseStore {
             const response = await transactionsApi.getTransaction(qString);
 
             this.storage.states = response ? this.transformArray(response.body.transactions) : null;
-            this.transactions = response?.body.transactions;
+            if (qString) {
+                this.transactions = response ? response.body.transactions : [];
+            } else {
+                this.transactions = response?.body.transactions;
+            }
         } catch (error) {
             switch (error.status) {
             case STATUS_CODES.NO_CONTENT:
@@ -63,6 +69,7 @@ class TransactionsStore extends BaseStore {
             id: `id${data.id}`,
             rawDate: data.date,
             transactionName: data.categories ? data.categories[0].category_name : 'Без категории',
+            path: data.categories ? Object.values(SVG_ICONS)[data.categories[0].image_id].path : SVG_ICONS.defaultIcon.path,
             tag: data.categories ? data.categories[0].id : null,
             transactionPlace: data.payer,
             transactionMessage: data.description,
@@ -78,6 +85,12 @@ class TransactionsStore extends BaseStore {
         const obj = categoriesStore.storage.tags.find((item) => item.id === id);
 
         return obj ? obj.name : null;
+    }
+
+    getIconPathById(id) {
+        const obj = categoriesStore.storage.tags.find((item) => item.id === id);
+
+        return obj ? Object.values(SVG_ICONS)[obj.image_id].path : SVG_ICONS.defaultIcon.path;
     }
 
     createTransaction = async (data) => {
@@ -117,6 +130,7 @@ class TransactionsStore extends BaseStore {
                 account: accountStore.accounts.find((account) => account.id === data.account_income).mean_payment,
                 deleteId: `delete_${response.transaction_id}`,
                 cardId: `card_${response.transaction_id}`,
+                path: data.categories ? this.getIconPathById(data.categories[0].id) : SVG_ICONS.defaultIcon.path,
             });
         } catch (error) {
             this.notify = { error: true, notifierText: 'Возникла непредвиденная ошибка, не смогли создать транзакцию' };
@@ -207,6 +221,7 @@ class TransactionsStore extends BaseStore {
                         transactionMessage: data.description,
                         deleteId: `delete_${data.transaction_id}`,
                         cardId: `card_${data.transaction_id}`,
+                        path: data.categories ? this.getIconPathById(data.categories[0].id) : SVG_ICONS.defaultIcon.path,
                     };
                 }
                 return item;

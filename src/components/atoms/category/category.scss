@@ -60,7 +60,8 @@
 .settings{
   display: none;
   flex-direction: row;
-  justify-content: space-between;
   margin-top: 12px;
   margin-bottom: 48px;
+  gap: var(--meduim-gap);
+  flex-wrap: wrap;
 }

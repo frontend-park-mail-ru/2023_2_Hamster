@@ -13,6 +13,7 @@
     margin: 24px 0 48px 0;
     display: flex;
     flex-direction: row;
-    gap: var(--meduim-gap)
+    gap: var(--meduim-gap);
+    flex-wrap: wrap;
   }
 }

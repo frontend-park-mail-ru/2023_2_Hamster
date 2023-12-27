@@ -20,7 +20,7 @@ const DEFAULT_TRANSACTION = {
 
 const ICON = {
     imageColor: 'image-container__color_light-blue',
-    svg: SVG_ICONS.handCoins.path,
+    svg: SVG_ICONS.defaultIcon.path,
     iconSize: 'icon_big',
     imageSize: 'image-container_big',
 };
@@ -95,7 +95,7 @@ export class Transaction extends BaseComponent {
         super(state, null, parent);
 
         this.date = state.rawDate;
-        this.icon = new Image(null, ICON, undefined);
+        this.icon = new Image(null, { ...ICON, svg: state.path }, undefined);
         this.dateInput = new Input(null, { ...DATE, id: `date_${state.id}`, value: state.rawDate.split('T')[0] });
         this.sumInput = new Input(null, { ...SUM_INPUT_STATE, id: `sum_${state.id}` });
         this.tagInput = new Select(null, { id: `tag_${state.id}` });

@@ -14,7 +14,7 @@ const DEFAULT_CATEGORY = {
 
 const ICON = {
     imageColor: 'image-container__color_light-blue',
-    svg: SVG_ICONS.handCoins.path,
+    svg: SVG_ICONS.defaultIcon.path,
     iconSize: 'icon_big',
     imageSize: 'image-container_big',
 };
