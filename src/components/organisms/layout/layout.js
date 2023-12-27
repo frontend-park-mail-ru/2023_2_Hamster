@@ -163,14 +163,12 @@ export class Layout extends BaseComponent {
      * @async
      */
     async renderTemplateToParent() {
-        const { avatarPath } = userStore.storage.user;
+        const { avatarPath, username } = userStore.storage.user;
         if (avatarPath === NULL_UUID) {
             this.#avatar.setState({ avatar: DEFAULT_AVATAR });
         } else {
             this.#avatar.setState({ avatar: `../images/${avatarPath}.jpg` });
         }
-
-        this.setState({ sidebar: { profileName: userStore.storage.user.username } });
 
         const contentHTML = await this.#contentElement.render();
 
@@ -182,6 +180,7 @@ export class Layout extends BaseComponent {
             layoutTemplate({
                 sidebar: sidebarTemplate({
                     ...this.getState().sidebar,
+                    profileName: username,
                     menu: menuHTML,
                     logoutButton: logoutButtonHTML,
                     sidebarAvatar: this.#avatar.render(),

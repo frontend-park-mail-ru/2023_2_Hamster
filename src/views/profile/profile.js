@@ -157,7 +157,6 @@ export class ProfileView extends BaseComponent {
             Object.keys(inputMapping).forEach((inputElement) => {
                 if (userStore.inputs[inputElement]) {
                     inputMapping[inputElement].setState(userStore.inputs[inputElement]);
-                    console.log(userStore.inputs[inputElement]);
                 }
             });
         }

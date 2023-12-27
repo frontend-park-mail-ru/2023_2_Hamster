@@ -244,7 +244,7 @@ export const PROFILE_STATE = {
         inputPlaceholder: 'Выбрать картинку',
         inputSize: 'input_small',
         typeOfInput: 'file',
-        accept: '.jpg'
+        accept: '.jpg, .png'
     },
 
     CSV_INPUT_STATE: {

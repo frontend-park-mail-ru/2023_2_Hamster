@@ -64,8 +64,6 @@ class UserStore extends BaseStore {
         } catch (error) {
             this.storage.user.isAuthorised = false;
         }
-
-        console.log(this.storage.user);
     };
 
     /**
@@ -474,9 +472,7 @@ class UserStore extends BaseStore {
         try {
             const response = await userApi.putAvatar(data.file, this.storage.user.avatarPath);
 
-            this.storage.user = {
-                avatarPath: response.body.path,
-            };
+            this.storage.user.avatarPath = response.body.path;
             this.storage.error = null;
 
             this.notify = { success: true, notifierText: 'Аватар сменился' };
