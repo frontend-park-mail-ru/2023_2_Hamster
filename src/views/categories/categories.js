@@ -5,6 +5,7 @@ import { categoriesStore } from '@stores/categoriesStore';
 import { categoryActions } from '@actions/categoryActions';
 import { userStore } from '@stores/userStore';
 import { Checkbox } from '@atoms/checkbox/checkbox';
+import { IconChooser } from '@molecules';
 import template from './categories.hbs';
 
 const BUTTON_STATE = {
@@ -44,6 +45,7 @@ export class CategoriesView extends BaseComponent {
 
         this.name = new Input(null, INPUT_STATE);
         this.button = new Button(null, BUTTON_STATE);
+        this.icon = new IconChooser(null);
         this.incomeCheckbox = new Checkbox(null, INCOME, null);
         this.outcomeCheckbox = new Checkbox(null, OUTCOME, null);
     }
@@ -75,6 +77,7 @@ export class CategoriesView extends BaseComponent {
             template({
                 name: this.name.render(),
                 button: this.button.render(),
+                icon: this.icon.render(),
                 // income: this.incomeCheckbox.render(),
                 // outcome: this.outcomeCheckbox.render(),
                 categoriesList: this.renderedCategories,
@@ -125,6 +128,8 @@ export class CategoriesView extends BaseComponent {
         if (createButton) {
             createButton.addEventListener('click', this.createButtonHandler.bind(this));
         }
+
+        this.icon.setHandlers();
     }
 
     handleCardClick = (category, event) => {
