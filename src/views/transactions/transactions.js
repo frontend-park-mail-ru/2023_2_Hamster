@@ -429,17 +429,14 @@ export class TransactionsView extends BaseComponent {
     };
 
     handleCardClick = (transaction, event) => {
-        if (event.target.classList.contains('transaction__delete')) {
-            return;
+        if (event.target.closest(`#${transaction.getState().id}`)) {
+            const settingsElement = event.target.closest('.transaction').querySelector('.transaction__settings');
+            if (settingsElement.style.display === 'none' || !settingsElement.style.display) {
+                settingsElement.style.display = 'flex';
+            } else {
+                settingsElement.style.display = 'none';
+            }
         }
-
-        const isSettingsOpen = transaction.getState().settingsOpen;
-        transaction.setState({ settingsOpen: !isSettingsOpen });
-
-        const transactionCard = document.querySelector(`#${transaction.getState().id}`);
-        transactionCard.outerHTML = transaction.render();
-
-        this.setHandlers();
     };
 
     updateButtonHandler = async (transaction) => {

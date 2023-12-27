@@ -56,26 +56,24 @@
             {{/if}}
         </div>
     </div>
-    {{#if settingsOpen}}
-        <div class="transaction__settings">
-            <div class="transaction__settings-column">
-                {{{dateInput}}}
-                {{{payer}}}
-                {{{tagInput}}}
+    <div class="transaction__settings">
+        <div class="transaction__settings-column">
+            {{{dateInput}}}
+            {{{payer}}}
+            {{{tagInput}}}
+        </div>
+        <div class="transaction__settings-column">
+            {{{sumInput}}}
+            {{{description}}}
+            {{{accountInput}}}
+        </div>
+        <div class="transaction__settings-column">
+            <div>
+                {{{button}}}
             </div>
-            <div class="transaction__settings-column">
-                {{{sumInput}}}
-                {{{description}}}
-                {{{accountInput}}}
-            </div>
-            <div class="transaction__settings-column">
-                <div>
-                    {{{button}}}
-                </div>
-                <div>
-                    {{{delete}}}
-                </div>
+            <div>
+                {{{delete}}}
             </div>
         </div>
-    {{/if}}
+    </div>
 </div>

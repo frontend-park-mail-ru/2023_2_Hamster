@@ -121,7 +121,7 @@
   }
 
   &__settings{
-    display: flex;
+    display: none;
     flex-direction: row;
     gap: var(--meduim-gap);
     margin-top: var(--card-padding);

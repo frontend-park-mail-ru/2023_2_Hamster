@@ -132,13 +132,14 @@ export class CategoriesView extends BaseComponent {
             return;
         }
 
-        const isSettingsOpen = category.getState().settingsOpen;
-        category.setState({ settingsOpen: !isSettingsOpen });
-
-        const categoryCard = document.querySelector(`#${category.getState().id}`);
-        categoryCard.outerHTML = category.render();
-
-        this.setHandlers();
+        if (event.target.closest(`#${category.getState().id}`)) {
+            const settingsElement = event.target.closest('.category').querySelector('.settings');
+            if (settingsElement.style.display === 'none' || !settingsElement.style.display) {
+                settingsElement.style.display = 'flex';
+            } else {
+                settingsElement.style.display = 'none';
+            }
+        }
     };
 
     updateButtonHandler = async (category) => {
