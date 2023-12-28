@@ -8,7 +8,7 @@ const DEFAULT_LIST = {
             menuSectionHeading: 'Heading',
             menuItems: [
                 {
-                    menuItemIcon: '',
+                    menuItemIconPath: '',
                     menuItemAlt: '',
                     menuItemText: 'Menu button',
                     menuItemID: '',

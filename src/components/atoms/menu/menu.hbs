@@ -5,8 +5,10 @@
     <ul class="menu__list font-caption">
         {{#each this.menuItems}}
             <li class="menu__item menu__item_color" id="{{this.menuItemID}}">
-                {{#if this.menuItemIcon}}
-                    <img class="menu__item-icon" src="{{this.menuItemIcon}}" alt="{{this.menuItemAlt}}">
+                {{#if this.menuItemIconPath}}
+                    <svg class="menu__item-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        {{{menuItemIconPath}}}
+                    </svg>
                 {{/if}}
                 <span class="menu__item-text">
                     {{this.menuItemText}}
