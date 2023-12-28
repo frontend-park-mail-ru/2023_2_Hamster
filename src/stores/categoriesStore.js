@@ -43,8 +43,6 @@ class CategoriesStore extends BaseStore {
                     value: item.id,
                     valueName: item.name,
                 }));
-
-                this.categoriesValues.push({ value: null, valueName: 'Без категории' });
             }
         } catch (error) {
             this.notify = { error: true, notifierText: 'Возникла непредвиденная ошибка, категории не были загружены' };
