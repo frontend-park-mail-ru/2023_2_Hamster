@@ -74,7 +74,7 @@ export class DashboardView extends BaseComponent {
             chartTopMargin: 50,
             chartBottomMargin: 50,
             chartRightMargin: 50,
-            chartLeftMargin: 100,
+            chartLeftMargin: 80,
             levelCount: 3,
             fontSize: 2,
             textAbove: `График расходов за ${MONTHS[new Date().getMonth()]}`,
@@ -102,7 +102,7 @@ export class DashboardView extends BaseComponent {
                 : this.#cardBalance.setState({ cardSubhead: 'У вас нет счетов, добавьте их, чтобы видеть свой баланс' });
             // eslint-disable-next-line
             plannedBudget
-                ? this.#cardBudget.setState({ cardSubhead: `${parseFloat(actualBudget).toFixed(2)} / ${parseFloat(plannedBudget).toFixed(2)} руб.`, content: this.#pieConsumedBudget.render() })
+                ? this.#cardBudget.setState({ cardSubhead: `${parseFloat(actualBudget.toFixed(2))} / ${parseFloat(plannedBudget.toFixed(2))} руб.`, content: this.#pieConsumedBudget.render() })
                 : this.#cardBudget.setState({ cardSubhead: 'Ваш бюджет не запланирован, вы можете сделать это в профиле' });
         }
 
