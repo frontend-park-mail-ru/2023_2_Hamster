@@ -38,7 +38,7 @@ const DEFAULT_BAR_CHART = {
     chartTopMargin: 50,
     chartBottomMargin: 50,
     chartRightMargin: 50,
-    chartLeftMargin: 50,
+    chartLeftMargin: 150,
 
     hasTooltip: true,
     tooltipFormatter: (values, titles) => titles.map((title, i) => `${title}: ${values[i]}`),

@@ -59,10 +59,10 @@ export class DashboardView extends BaseComponent {
         });
         this.#pieCostsByCategory.setState({
             data: [],
-            textAbove: 'Сумма',
-            textCenter: 'за месяц',
-            textAboveFormatter: () => 'Сумма',
-            textCenterFormatter: () => 'за месяц',
+            textAbove: 'Категорий',
+            textCenter: '0',
+            textAboveFormatter: () => 'Категорий',
+            textCenterFormatter: () => '0',
             isPercents: false,
             tooltipFormatter: (value, title) => `${title}: ${value} руб.`,
         });
@@ -74,7 +74,7 @@ export class DashboardView extends BaseComponent {
             chartTopMargin: 50,
             chartBottomMargin: 50,
             chartRightMargin: 50,
-            chartLeftMargin: 50,
+            chartLeftMargin: 100,
             levelCount: 3,
             fontSize: 2,
             textAbove: `График расходов за ${MONTHS[new Date().getMonth()]}`,
@@ -102,7 +102,7 @@ export class DashboardView extends BaseComponent {
                 : this.#cardBalance.setState({ cardSubhead: 'У вас нет счетов, добавьте их, чтобы видеть свой баланс' });
             // eslint-disable-next-line
             plannedBudget
-                ? this.#cardBudget.setState({ cardSubhead: `${parseFloat(actualBudget)} / ${parseFloat(plannedBudget)} руб.`, content: this.#pieConsumedBudget.render() })
+                ? this.#cardBudget.setState({ cardSubhead: `${parseFloat(actualBudget).toFixed(2)} / ${parseFloat(plannedBudget).toFixed(2)} руб.`, content: this.#pieConsumedBudget.render() })
                 : this.#cardBudget.setState({ cardSubhead: 'Ваш бюджет не запланирован, вы можете сделать это в профиле' });
         }
 
@@ -171,8 +171,13 @@ export class DashboardView extends BaseComponent {
                 }
             });
 
+            const numberOfTags = Object.values(costsByCategory).filter((value) => value < 0).length;
             this.#pieCostsByCategory.setState({
                 data: pieData,
+                textAbove: 'Категорий',
+                textCenter: numberOfTags,
+                textAboveFormatter: () => 'Категорий',
+                textCenterFormatter: () => numberOfTags,
             });
         }
 

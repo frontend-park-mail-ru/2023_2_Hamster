@@ -37,9 +37,9 @@
   }
 
   .blob {
-    background: white linear-gradient(to right, #687BB3, #233b83);
-    height: 400%;
-    aspect-ratio: 1;
+    background: white linear-gradient(to right, #7488c2, #1a3585);
+    height: 300%;
+    width: 200%;
     position: absolute;
     left: 50%;
     top: 50%;
@@ -57,7 +57,8 @@
       left: 50%;
       opacity: .8;
       top: 50%;
-      border-radius: inherit;
+      border-radius: var(--radius-size-small);
+      border: 1px solid var(--primary-color-lighter);
     }
   }
 
