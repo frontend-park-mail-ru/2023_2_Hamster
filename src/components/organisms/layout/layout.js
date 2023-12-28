@@ -8,9 +8,6 @@ import { router } from '@router';
 import { userStore } from '@stores/userStore';
 import { accountStore } from '@stores/accountStore';
 import { categoriesStore } from '@stores/categoriesStore';
-import { userActions } from '@actions/userActions';
-
-import LOG_OUT_IMAGE from '@icons/logout.svg';
 
 import sidebarTemplate from '@molecules/sidebar/sidebar.hbs';
 import { transactionsStore } from '@stores/transactionsStore';
@@ -64,13 +61,6 @@ const DEFAULT_STATE = {
         },
     },
 };
-const BUTTON_STATE = {
-    id: 'logout_button',
-    buttonSize: 'button_small',
-    buttonColor: 'button_secondary-color',
-    buttonImageLeft: LOG_OUT_IMAGE,
-    buttonText: '',
-};
 
 const IMAGE_STATE = {
     id: 'sidebar_avatar',
@@ -84,13 +74,6 @@ const IMAGE_STATE = {
  * @extends BaseComponent
  */
 export class Layout extends BaseComponent {
-    /**
-     * Logout button.
-     * @private
-     * @type {Button}
-     */
-    #button;
-
     /**
      * The Menu element of the sidebar.
      * @private
@@ -124,8 +107,6 @@ export class Layout extends BaseComponent {
         super(state, layoutTemplate, parent);
 
         this.#menuElement = new Menu(this.getState().sidebar.menu);
-
-        this.#button = new Button(null, BUTTON_STATE, this.onLogout);
 
         this.#contentElement = contentElement;
 
@@ -181,15 +162,12 @@ export class Layout extends BaseComponent {
 
         const menuHTML = this.#menuElement.render();
 
-        const logoutButtonHTML = this.#button.render();
-
         const templatesToStateMap = [
             layoutTemplate({
                 sidebar: sidebarTemplate({
                     ...this.getState().sidebar,
                     profileName: username,
                     menu: menuHTML,
-                    logoutButton: logoutButtonHTML,
                     sidebarAvatar: this.#avatar.render(),
                 }),
                 content: contentHTML,
@@ -207,31 +185,10 @@ export class Layout extends BaseComponent {
         return await super.renderTemplateToParent(templatesToStateMap);
     }
 
-    cleanUp() {
-        super.cleanUp();
-
-        const button = document.querySelector('#logout_button');
-        if (button) {
-            button.removeEventListener('click', this.#button.getHandler());
-        }
-    }
-
-    /**
-     * Handle logout event.
-     */
-    onLogout = async () => {
-        userActions.logout();
-    };
-
     /**
      * Set event handlers for the Layout component.
      */
     setHandlers() {
-        const button = document.querySelector('#logout_button');
-        if (button) {
-            button.addEventListener('click', this.#button.getHandler());
-        }
-
         const menuHome = document.querySelector('#home');
         if (menuHome) {
             menuHome.addEventListener('click', this.navigateHome);

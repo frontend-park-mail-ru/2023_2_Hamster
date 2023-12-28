@@ -29,12 +29,13 @@
 
 .button {
   flex: 1;
-  display: inline-block;
+  display: flex;
   width: auto;
   border: none;
   outline: none;
-  text-align: center;
   transition: 0.2s;
+  justify-content: center;
+  align-items: center;
 
   &__text {
     font-family: Rubik, sans-serif;

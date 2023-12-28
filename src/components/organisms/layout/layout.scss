@@ -24,10 +24,6 @@
     grid-template-columns: repeat(8, 1fr);
     margin: 24px;
   }
-
-  @include mobile {
-    grid-template-columns: repeat(4, 1fr);
-  }
 }
 
 .notifier {

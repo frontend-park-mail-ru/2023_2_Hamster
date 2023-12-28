@@ -10,7 +10,15 @@ import {
 } from '@constants/constants';
 import { categoryActions } from '@actions/categoryActions';
 import { router } from '@router';
+
 import template from './profile.hbs';
+
+const BUTTON_STATE = {
+    id: 'logout_button',
+    buttonSize: 'button_small',
+    buttonColor: 'button_delete',
+    buttonText: 'Выйти из аккаунта',
+};
 
 /**
  * ProfileView class extends BaseComponent.
@@ -43,6 +51,8 @@ export class ProfileView extends BaseComponent {
 
     #savePasswordButton;
 
+    #exitButton;
+
     constructor(parent) {
         super(undefined, template, parent);
 
@@ -67,6 +77,8 @@ export class ProfileView extends BaseComponent {
 
         this.csvExport = new Button(null, { id: 'export', buttonText: 'Экспорт в csv', buttonColor: 'button_secondary-color' });
         this.csvImport = new Input(null, PROFILE_STATE.CSV_INPUT_STATE, null);
+
+        this.#exitButton = new Button(null, BUTTON_STATE, this.onLogout);
     }
 
     /**
@@ -84,21 +96,6 @@ export class ProfileView extends BaseComponent {
         if (profileNameInput) {
             profileNameInput.removeEventListener('blur', this.#profileNameInput.getHandler());
         }
-
-        // const currentPasswordInput = document.querySelector('#current_password_input');
-        // if (currentPasswordInput) {
-        //     currentPasswordInput.removeEventListener('blur', this.#currentPasswordInput.getHandler);
-        // }
-        //
-        // const newPasswordInput = document.querySelector('#new_password_input');
-        // if (newPasswordInput) {
-        //     newPasswordInput.removeEventListener('blur', this.#newPasswordInput.getHandler);
-        // }
-        //
-        // const repeatPasswordInput = document.querySelector('#repeat_password_input');
-        // if (repeatPasswordInput) {
-        //     repeatPasswordInput.removeEventListener('blur', this.#repeatPasswordInput.getHandler);
-        // }
 
         const budgetInput = document.querySelector('#budget_input');
         if (budgetInput) {
@@ -118,6 +115,11 @@ export class ProfileView extends BaseComponent {
         const imageInput = document.querySelector('#image_profile_input');
         if (imageInput) {
             imageInput.removeEventListener('blur', this.#imageInput.getHandler());
+        }
+
+        const button = document.querySelector('#logout_button');
+        if (button) {
+            button.removeEventListener('click', this.#exitButton.getHandler());
         }
     }
 
@@ -178,6 +180,7 @@ export class ProfileView extends BaseComponent {
                 savePasswordButton: this.#savePasswordButton.render(),
                 csvExport: this.csvExport.render(),
                 csvImport: this.csvImport.render(),
+                exit: this.#exitButton.render(),
             }),
         ];
 
@@ -205,23 +208,10 @@ export class ProfileView extends BaseComponent {
             profileNameInput.addEventListener('blur', this.#profileNameInput.getHandler());
         }
 
-        // const currentPasswordInput = document.querySelector('#current_password_input');
-        // if (currentPasswordInput) {
-        //     this.#currentPasswordInput.setHandlers();
-        //     currentPasswordInput.addEventListener('blur', this.#currentPasswordInput.getHandler);
-        // }
-        //
-        // const newPasswordInput = document.querySelector('#new_password_input');
-        // if (newPasswordInput) {
-        //     this.#newPasswordInput.setHandler();
-        //     newPasswordInput.addEventListener('blur', this.#newPasswordInput.getHandler);
-        // }
-        //
-        // const repeatPasswordInput = document.querySelector('#repeat_password_input');
-        // if (repeatPasswordInput) {
-        //     this.#repeatPasswordInput.setHandler();
-        //     repeatPasswordInput.addEventListener('blur', this.#repeatPasswordInput.getHandler);
-        // }
+        const button = document.querySelector('#logout_button');
+        if (button) {
+            button.addEventListener('click', this.#exitButton.getHandler());
+        }
 
         const budgetInput = document.querySelector('#budget_input');
         if (budgetInput) {
@@ -313,5 +303,12 @@ export class ProfileView extends BaseComponent {
             selectName.innerHTML = file.name;
             userActions.updateAvatar(file);
         };
+    };
+
+    /**
+     * Handle logout event.
+     */
+    onLogout = async () => {
+        userActions.logout();
     };
 }

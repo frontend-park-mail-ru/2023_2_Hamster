@@ -17,9 +17,11 @@
   &__edit-container {
     display: flex;
     justify-content: space-between;
+    padding-bottom: 80px;
 
     @include tablet {
       flex-direction: column-reverse;
+      padding-bottom: 24px;
     }
   }
 
