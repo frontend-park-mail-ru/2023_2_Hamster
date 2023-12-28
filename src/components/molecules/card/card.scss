@@ -1,8 +1,21 @@
 .card {
     background: var(--background-secondary-color);
+    border: 1px solid var(--background-tertiary-color);
     padding: var(--card-padding);
     display: flex;
     flex-direction: column;
+
+    &__new-year{
+        background-image: url('@images/Slide 405.png');
+        grid-column: span 4;
+        border-radius: var(--radius-size-small);
+        border: 1px solid var(--primary-color-lighter);
+        color: var(--text-main-color);
+
+        @include small-tablet {
+            grid-column: span 8;
+        }
+    }
 
     &__content {
         width: 80%;

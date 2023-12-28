@@ -1,6 +1,7 @@
 .dashboard__chart-wrapper {
     grid-column: span 4;
     background-color: var(--background-secondary-color);
+    border: 1px solid var(--background-tertiary-color);
     padding: var(--card-padding);
     border-radius: var(--radius-size-small);
 }
