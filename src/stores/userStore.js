@@ -500,6 +500,8 @@ class UserStore extends BaseStore {
         } catch (error) {
             this.notify = { error: true, notifierText: 'Не получается скачать CSV файл, возникла ошибка на сервере' };
         }
+
+        this.emitChange(EVENT_TYPES.RERENDER_PROFILE);
     };
 
     csvImport = async (data) => {
