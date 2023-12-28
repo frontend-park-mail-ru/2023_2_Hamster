@@ -112,6 +112,7 @@ class AccountStore extends BaseStore {
                 console.log('Undefined status code', response.status);
             }
         } catch (error) {
+            this.notify = { error: true, notifierText: 'Возникла непредвиденная ошибка, счета не были загружены' };
             console.log('Unable to connect to the server, error: ', error);
         }
     };

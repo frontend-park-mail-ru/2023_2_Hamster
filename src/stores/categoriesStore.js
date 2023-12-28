@@ -47,7 +47,7 @@ class CategoriesStore extends BaseStore {
                 this.categoriesValues.push({ value: null, valueName: 'Без категории' });
             }
         } catch (error) {
-            console.log('Unable to connect to the server, error: ', error);
+            this.notify = { error: true, notifierText: 'Возникла непредвиденная ошибка, категории не были загружены' };
         }
     };
 
@@ -73,8 +73,10 @@ class CategoriesStore extends BaseStore {
                     cardId: `card_${response.body.category_id}`,
                     path: Object.values(SVG_ICONS)[data.image_id].path,
                 });
+
+                this.notify = { success: true, notifierText: 'Категория была создана' };
             } catch (error) {
-                console.log('Unable to connect to the server, error: ', error);
+                this.notify = { error: true, notifierText: 'Возникла непредвиденная ошибка, не удалось создать категорию' };
             }
         }
 
@@ -88,10 +90,12 @@ class CategoriesStore extends BaseStore {
 
             this.storage.states = this.storage.states.filter((item) => item.raw !== data.id);
 
-            this.emitChange(EVENT_TYPES.RERENDER_CATEGORIES);
+            this.notify = { success: true, notifierText: 'Категория удалена' };
         } catch (error) {
-            console.log('Unable to connect to the server, error: ', error);
+            this.notify = { error: true, notifierText: 'Возникла непредвиденная ошибка, не удалось удалить категорию' };
         }
+
+        this.emitChange(EVENT_TYPES.RERENDER_CATEGORIES);
     };
 
     updateTag = async (data) => {
@@ -113,8 +117,9 @@ class CategoriesStore extends BaseStore {
                     return item;
                 });
                 this.updated = true;
+                this.notify = { success: true, notifierText: 'Категория изменена' };
             } catch (error) {
-                console.log('Unable to connect to the server, error: ', error);
+                this.notify = { error: true, notifierText: 'Возникла непредвиденная ошибка, не удалось обновить категорию' };
             }
         }
 
