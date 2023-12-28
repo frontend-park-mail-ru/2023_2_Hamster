@@ -1,95 +1,138 @@
 .card {
-    background: var(--background-secondary-color);
-    border: 1px solid var(--background-tertiary-color);
-    padding: var(--card-padding);
-    display: flex;
-    flex-direction: column;
+  background: var(--background-secondary-color);
+  border: 1px solid var(--background-tertiary-color);
+  padding: var(--card-padding);
+  display: flex;
+  flex-direction: column;
 
-    &__new-year{
-        background-image: url('@images/Slide 405.png');
-        grid-column: span 4;
-        border-radius: var(--radius-size-small);
-        border: 1px solid var(--primary-color-lighter);
-        color: var(--text-main-color);
+  &__new-year {
+    position: relative;
+    //background-image: url('@images/Slide 405.png');
+    grid-column: span 4;
+    border-radius: var(--radius-size-small);
+    border: 1px solid var(--primary-color-lighter);
 
-        @include small-tablet {
-            grid-column: span 8;
-        }
+    @include small-tablet {
+      grid-column: span 8;
     }
 
-    &__content {
-        width: 80%;
-        margin: auto auto 0;
+    &-text {
+      color: var(--text-main-color);
+      z-index: 1;
+    }
+  }
+
+  @keyframes rotate {
+    from {
+      rotate: 0deg;
     }
 
-    &__heading {
-        word-break: break-word;
-        margin-bottom: var(--meduim-gap);
-
-        &-text-container {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            overflow: hidden;
-            float: left;
-        }
+    50% {
+      scale: 1 1.5;
     }
 
-    &__headline-text {
-        color: var(--text-main-color);
-        margin-bottom: var(--small-gap);
+    to {
+      rotate: 360deg;
+    }
+  }
+
+  .blob {
+    background: white linear-gradient(to right, #687BB3, #233b83);
+    height: 400%;
+    aspect-ratio: 1;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    border-radius: 50%;
+    animation: rotate 20s infinite;
+    opacity: 0.8;
+
+    &__wrapper {
+      overflow: hidden;
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      translate: -50% -50%;
+      left: 50%;
+      opacity: .8;
+      top: 50%;
+      border-radius: inherit;
+    }
+  }
+
+  &__content {
+    width: 80%;
+    margin: auto auto 0;
+  }
+
+  &__heading {
+    word-break: break-word;
+
+    &-text-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      float: left;
+    }
+  }
+
+  &__headline-text {
+    color: var(--text-main-color);
+    margin-bottom: var(--small-gap);
+  }
+
+  &__subhead-text {
+    color: var(--text-muted-color);
+  }
+
+  &__status {
+    float: right;
+    height: var(--card-status-height);
+    width: var(--card-status-width);
+    border-radius: 100%;
+
+    &_good {
+      background-color: var(--succes-color);
     }
 
-    &__subhead-text {
-        color: var(--text-muted-color);
+    &_warning {
+      background-color: var(--warning-color);
     }
 
-    &__status {
-        float: right;
-        height: var(--card-status-height);
-        width: var(--card-status-width);
-        border-radius: 100%;
-
-        &_good {
-            background-color: var(--succes-color);
-        }
-
-        &_warning {
-            background-color: var(--warning-color);
-        }
-
-        &_bad {
-            background-color: var(--error-color);
-        }
+    &_bad {
+      background-color: var(--error-color);
     }
+  }
 
-    &_small {
-        grid-column: span 4;
-        border-radius: var(--radius-size-small);
+  &_small {
+    grid-column: span 4;
+    border-radius: var(--radius-size-small);
 
-        @include small-tablet {
-            grid-column: span 8;
-        }
+    @include small-tablet {
+      grid-column: span 8;
     }
+  }
 
-    &_medium-vertical {
-        grid-row: span 2;
-        grid-column: span 4;
-        border-radius: var(--radius-size-small);
+  &_medium-vertical {
+    grid-row: span 2;
+    grid-column: span 4;
+    border-radius: var(--radius-size-small);
 
-        @include mobile {
-            grid-column: span 4;
-        }
+    @include mobile {
+      grid-column: span 4;
     }
+  }
 
-    &_medium-horizontal {
-        grid-column: span 8;
-        border-radius: var(--radius-size-small);
-    }
+  &_medium-horizontal {
+    grid-column: span 8;
+    border-radius: var(--radius-size-small);
+  }
 
-    &_big {
-        grid-row: span 2;
-        grid-column: span 8;
-        border-radius: var(--radius-size-small);
-    }
+  &_big {
+    grid-row: span 2;
+    grid-column: span 8;
+    border-radius: var(--radius-size-small);
+  }
 }
