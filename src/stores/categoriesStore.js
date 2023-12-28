@@ -1,10 +1,10 @@
 import { categoryApi } from '@api/category';
 import { EVENT_TYPES } from '@constants/constants';
 import { CATEGORY_NAME_RULES } from '@constants/validation';
+import { SVG_ICONS } from '@icons/icons';
 import { validator } from '../modules/validator';
 
 import BaseStore from './baseStore.js';
-import {SVG_ICONS} from "@icons/icons";
 
 /**
  *
@@ -112,6 +112,7 @@ class CategoriesStore extends BaseStore {
                     }
                     return item;
                 });
+                this.updated = true;
             } catch (error) {
                 console.log('Unable to connect to the server, error: ', error);
             }
