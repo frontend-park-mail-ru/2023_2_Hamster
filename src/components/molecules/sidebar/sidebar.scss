@@ -8,11 +8,15 @@
     border-right: 2px solid var(--background-secondary-color);
 
     @include desktop {
-        width: 100px;
+        width: auto;
     }
 
     @include mobile {
-        display: none;
+        width: auto;
+        height: auto;
+        flex-direction: row;
+        justify-content: center;
+        border-top: 2px solid var(--background-tertiary-color);
     }
 
     &__header {
@@ -22,6 +26,10 @@
         align-items: center;
         padding: var(--sidebar-header-padding);
         border-bottom: 2px solid var(--background-secondary-color);
+
+        @include desktop {
+            display: none;
+        }
     }
 
     &__header-container {
@@ -47,6 +55,10 @@
         text-align: center;
         overflow: hidden;
         text-overflow: ellipsis;
+
+        @include desktop {
+            display: none;
+        }
     }
 
     &__container {
@@ -54,12 +66,21 @@
         flex-grow: 1;
         padding: var(--sidebar-container-padding);
         flex-direction: column;
+
+        @include mobile {
+            flex-direction: row;
+            justify-content: center;
+        }
     }
 
     &__footer {
         display: flex;
         flex-direction: column;
         margin-top: auto;
+
+        @include mobile {
+            display: none;
+        }
     }
 
     &__footer-reminder {
@@ -81,15 +102,19 @@
         text-overflow: ellipsis;
         display: flex;
         border-top: 2px solid var(--background-secondary-color);
+
+        @include desktop {
+            padding: 16px;
+        }
     }
 
     &__footer-profile-img {
         display: flex;
-        min-height: var(--sidebar-footer-profile-size);
-        min-width: var(--sidebar-footer-profile-size);
-        height: var(--sidebar-footer-profile-size);
-        width: var(--sidebar-footer-profile-size);
         margin-right: var(--sidebar-footer-profile-margin);
+
+        @include desktop {
+            margin: 0;
+        }
     }
 
     &__footer-profile-name {
@@ -98,7 +123,13 @@
         text-overflow: ellipsis;
         margin-right: var(--sidebar-footer-profile-margin);
 
-        @include small-tablet {
+        @include desktop {
+            display: none;
+        }
+    }
+
+    &__footer-profile-exit{
+        @include desktop {
             display: none;
         }
     }

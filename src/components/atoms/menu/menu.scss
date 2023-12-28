@@ -1,13 +1,34 @@
 .menu {
+
+  @include mobile {
+    display: flex;
+  }
+
   &__header {
     padding: var(--sidebar-menu-header-padding);
     color: var(--text-halftoned-color);
+
+    @include desktop {
+      display: none;
+    }
   }
 
   &__list {
     padding: var(--sidebar-menu-header-list-padding);
     margin: 0;
     list-style-type: none;
+
+    @include desktop {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0;
+    }
+
+    @include mobile {
+      display: flex;
+      flex-direction: row;
+    }
   }
 
   &__item {
@@ -19,10 +40,55 @@
     user-select: none;
     color: var(--text-muted-color);
 
+    @include desktop {
+      padding: 16px;
+    }
+
+    @include mobile {
+      flex-direction: column;
+      margin: 0;
+      padding: 4px 8px;
+    }
+
+    @include small-mobile {
+      margin: 4px 16px;
+      padding: 4px;
+    }
+
+    &-text {
+      @include desktop {
+        display: none;
+      }
+
+      @include mobile {
+        display: block;
+      }
+
+      @include small-mobile{
+        display: none;
+      }
+    }
+
     &-icon {
       width: var(--menu-icon-size);
       height: var(--menu-icon-size);
       margin-right: var(--menu-icon-margin);
+
+      @include desktop{
+        width: 32px;
+        height: 32px;
+        margin: 0;
+      }
+
+      @include mobile {
+        width: 24px;
+        height: 24px;
+      }
+
+      @include small-mobile{
+        width: 32px;
+        height: 32px;
+      }
     }
 
     &:hover {
