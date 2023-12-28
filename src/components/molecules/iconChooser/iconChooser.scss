@@ -43,10 +43,23 @@
   border-radius: var(--radius-size-small);
   cursor: pointer;
 
+  &:hover {
+    background: var(--button-card-default-hover-color);
+  }
+
+  &:focus{
+    background: var(--background-main-color);
+  }
+
+  &:active {
+    background: var(--background-main-color);
+  }
+
   &_size{
     display: flex;
     aspect-ratio: 1 / 1;
     justify-content: center;
     align-items: center;
+    width: 47px;
   }
 }
